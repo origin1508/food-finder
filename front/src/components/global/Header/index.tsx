@@ -24,7 +24,7 @@ const HeaderContainer = styled.nav`
   position: fixed;
   top: 0;
   padding: 0 8%;
-  background-color: ${(props) => props.theme.themeColor};
+  background-color: ${({ theme }) => theme.themeColor};
   background: none;
   z-index: 50;
 `;
@@ -33,7 +33,7 @@ const ContentContainer = styled.div`
   width: 100%;
   height: 7rem;
 
-  ${(props) => props.theme.mixins.flexBox('row', 'center', 'space-between')}
+  ${({ theme }) => theme.mixins.flexBox('row', 'center', 'space-between')}
 `;
 
 const Div = styled.div``;

@@ -17,44 +17,44 @@ const Container = styled.div`
   width: 100%;
   height: 100vh;
   padding: 0 8%;
-  ${(props) => props.theme.mixins.flexBox('column', 'start', 'center')}
-  background-image: url(${(props) => props.itemProp});
+  ${({ theme }) => theme.mixins.flexBox('column', 'start', 'center')}
+  background-image: url(${({ itemProp }) => itemProp});
   background-size: cover;
   letter-spacing: 0.2rem;
 `;
 
 const AboutTitle = styled.div`
-  font-size: ${(props) => props.theme.fontLargest};
-  color: ${(props) => props.theme.mainWhite};
-  font-weight: ${(props) => props.theme.weightSemiBold};
+  font-size: ${({ theme }) => theme.fontLargest};
+  color:{theme}) => props.theme.mainWhite};
+  font-weight: ${({ theme }) => theme.weightSemiBold};
   margin-bottom: 2vh;
 `;
 
 const AboutSubTitle = styled.div`
-  font-size: ${(props) => props.theme.fontLarge};
-  color: ${(props) => props.theme.lightGrey};
-  font-weight: ${(props) => props.theme.weightRegular};
+  font-size: ${({ theme }) => theme.fontLarge};
+  color: ${({ theme }) => theme.lightGrey};
+  font-weight: ${({ theme }) => theme.weightRegular};
   margin-bottom: 5vh;
 `;
 
 const TextOne = styled.p`
-  font-size: ${(props) => props.theme.fontMedium};
-  color: ${(props) => props.theme.lightGrey};
-  font-weight: ${(props) => props.theme.weightRegular};
+  font-size: ${({ theme }) => theme.fontMedium};
+  color: ${({ theme }) => theme.lightGrey};
+  font-weight: ${({ theme }) => theme.weightRegular};
   margin-bottom: 5vh;
 `;
 
 const ServiceButton = styled.button`
-  background-color: ${(props) => props.theme.mainBlack};
-  color: ${(props) => props.theme.lightGrey};
+  background-color: ${({ theme }) => theme.mainBlack};
+  color: ${({ theme }) => theme.lightGrey};
   cursor: pointer;
   padding: 2rem 4rem;
   border-radius: 1rem;
   boder: 'none';
-  font-size: ${(props) => props.theme.fontSemiMedium};
+  font-size: ${({ theme }) => theme.fontSemiMedium};
   transition: all 0.2s;
   &:hover {
-    background-color: ${(props) => props.theme.darkGrey};
+    background-color: ${({ theme }) => theme.darkGrey};
   }
 `;
 export default Home;

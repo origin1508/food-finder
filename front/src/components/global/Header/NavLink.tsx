@@ -31,32 +31,32 @@ function NavLink() {
 }
 
 const NavContainer = styled.ul`
-  ${(props) => props.theme.mixins.flexBox()}
+  ${({ theme }) => theme.mixins.flexBox()}
   gap:4rem;
 `;
 const Li = styled.li``;
 const Nav = styled.div`
   cursor: pointer;
-  color: ${(props) => props.theme.mainWhite};
+  color: ${({ theme }) => theme.mainWhite};
   transition: all 0.5s;
   &:hover {
-    color: ${(props) => props.theme.mainBlack};
+    color: ${({ theme }) => theme.mainBlack};
   }
 `;
 const Login = styled.div`
   width: 7rem;
   height: 4rem;
   cursor: pointer;
-  font-weight: ${(props) => props.theme.weightBold};
+  font-weight: ${({ theme }) => theme.weightBold};
   padding: 1rem 1rem;
-  background-color: ${(props) => props.theme.themeColor};
-  color: ${(props) => props.theme.mainWhite};
+  background-color: ${({ theme }) => theme.themeColor};
+  color: ${({ theme }) => theme.mainWhite};
   border-radius: 3rem;
   transition: all 0.5s;
-  ${(props) => props.theme.mixins.flexBox()}
+  ${({ theme }) => theme.mixins.flexBox()}
 
   &:hover {
-    background-color: ${(props) => props.theme.darkGrey};
+    background-color: ${({ theme }) => theme.darkGrey};
   }
 `;
 export default NavLink;
