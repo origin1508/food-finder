@@ -25,6 +25,12 @@ export const theme = {
   weightSemiBold: 600,
   weightRegular: 400,
 
+  spacingLarge: '5rem',
+  spacingMedium: '3rem',
+  spacingSemiMedium: '2rem',
+  spacingRegular: '1rem',
+  spacingSmall: '0.5',
+
   absoluteCenter: css`
     position: absolute;
     top: 50%;
