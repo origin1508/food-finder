@@ -7,7 +7,7 @@ function NavLinkDropDown() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   return (
     <>
-      <DropDownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+      <DropDownButton onClick={() => setIsDropdownOpen((prev) => !prev)}>
         <UserImg src={basicProfileImg} />
         <Nickname>들자구</Nickname>
         <CustomIcon name="toggleDown" size="17" color="inherit"></CustomIcon>
@@ -26,15 +26,15 @@ function NavLinkDropDown() {
 
 const DropDownButton = styled.button`
   position: relative;
-  ${(props) => props.theme.mixins.flexBox}
-  color:${(props) => props.theme.mainWhite};
+  ${({ theme }) => theme.mixins.flexBox}
+  color:${({ theme }) => theme.mainWhite};
   gap: 1rem;
   &:hover {
-    color: ${(props) => props.theme.mainBlack};
+    color: ${({ theme }) => theme.mainBlack};
   }
 `;
 const Nickname = styled.div`
-  font-weight: ${(props) => props.theme.weightSemiBold};
+  font-weight: ${({ theme }) => theme.weightSemiBold};
 `;
 const UserImg = styled.img`
   width: 3.3rem;
@@ -43,16 +43,15 @@ const UserImg = styled.img`
 `;
 const DropDownContainer = styled.div`
   position: absolute;
-  ${(props) =>
-    props.theme.mixins.flexBox('column', 'flex-start', 'space-around')}
+  ${({ theme }) => theme.mixins.flexBox('column', 'flex-start', 'space-around')}
   top:7rem;
-  color: ${(props) => props.theme.darkGrey};
+  color: ${({ theme }) => theme.darkGrey};
   right: 7%;
-  font-weight: ${(props) => props.theme.weightSemiBold};
+  font-weight: ${({ theme }) => theme.weightSemiBold};
   gap: 0.1rem;
   width: 20rem;
   height: 20vh;
-  background-color: ${(props) => props.theme.lightDarkGrey};
+  background-color: ${({ theme }) => theme.lightDarkGrey};
   ${(props) =>
     props.itemScope
       ? `visibility: visible;
@@ -60,44 +59,44 @@ const DropDownContainer = styled.div`
       : `visibility: hidden;
   `}
 
-  border: ${(props) => props.theme.lightDarkGrey} 1px solid;
+  border: ${({ theme }) => theme.lightDarkGrey} 1px solid;
   border-radius: 0.5rem;
   overflow: hidden; ;
 `;
 const UserInfo = styled.div`
-  ${(props) => props.theme.mixins.flexBox('column', 'center', 'center')}
+  ${({ theme }) => theme.mixins.flexBox('column', 'center', 'center')}
   width: 100%;
   height: 40%;
-  background-color: ${(props) => props.theme.mainWhite};
+  background-color: ${({ theme }) => theme.mainWhite};
 `;
 const UserInfoContent = styled.div`
-  font-size: ${(props) => props.theme.fontMicro};
+  font-size: ${({ theme }) => theme.fontMicro};
   line-height: 1.5;
 `;
 const Profile = styled.div`
-  ${(props) => props.theme.mixins.flexBox}
-  font-size: ${(props) => props.theme.fontSmall};
+  ${({ theme }) => theme.mixins.flexBox}
+  font-size: ${({ theme }) => theme.fontSmall};
   line-height: 1.5;
   cursor: pointer;
   width: 100%;
   height: 30%;
-  background-color: ${(props) => props.theme.mainWhite};
+  background-color: ${({ theme }) => theme.mainWhite};
   &:hover {
-    color: ${(props) => props.theme.mainBlack};
-    background-color: ${(props) => props.theme.lightDarkGrey};
+    color: ${({ theme }) => theme.mainBlack};
+    background-color: ${({ theme }) => theme.lightDarkGrey};
   }
 `;
 const Logout = styled.div`
-  ${(props) => props.theme.mixins.flexBox}
-  font-size: ${(props) => props.theme.fontSmall};
+  ${({ theme }) => theme.mixins.flexBox}
+  font-size: ${({ theme }) => theme.fontSmall};
   line-height: 1.5;
   cursor: pointer;
   width: 100%;
   height: 30%;
-  background-color: ${(props) => props.theme.mainWhite};
+  background-color: ${({ theme }) => theme.mainWhite};
   &:hover {
-    color: ${(props) => props.theme.mainBlack};
-    background-color: ${(props) => props.theme.lightDarkGrey};
+    color: ${({ theme }) => theme.mainBlack};
+    background-color: ${({ theme }) => theme.lightDarkGrey};
   }
 `;
 export default NavLinkDropDown;
