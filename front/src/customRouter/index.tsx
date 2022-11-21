@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 const Main = React.lazy(() => import('../pages/index'));
-const Login = React.lazy(() => import('../pages/login'));
+const Login = React.lazy(() => import('../pages/Login'));
 const Register = React.lazy(() => import('../pages/Register'));
 const NotFound = React.lazy(() => import('../components/global/NotFound'));
 
