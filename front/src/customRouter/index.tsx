@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from '../components/global/Header';
 
 const Main = React.lazy(() => import('../pages/index'));
 const Login = React.lazy(() => import('../pages/login'));
@@ -10,6 +11,7 @@ const CustomRouter = () => {
   return (
     <React.Fragment>
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
