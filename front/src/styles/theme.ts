@@ -13,7 +13,9 @@ export const theme = {
 
   fontLogo: "'Song Myung', serif",
 
+  fontLargest: '5rem',
   fontLarge: '4rem',
+  fontMoreMeium: '3.5rem',
   fontMedium: '2.8rem',
   fontSemiMedium: '2.0rem',
   fontRegular: '1.6rem',

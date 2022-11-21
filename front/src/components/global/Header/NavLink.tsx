@@ -17,6 +17,9 @@ function NavLink() {
             <Nav>Create Recipe</Nav>
           </Li>
           <Li>
+            <Nav>Collect Recipes</Nav>
+          </Li>
+          <Li>
             <NavLinkDropDown />
           </Li>
         </NavContainer>
@@ -29,7 +32,7 @@ function NavLink() {
 
 const NavContainer = styled.ul`
   ${(props) => props.theme.mixins.flexBox()}
-  gap:2rem;
+  gap:4rem;
 `;
 const Li = styled.li``;
 const Nav = styled.div`

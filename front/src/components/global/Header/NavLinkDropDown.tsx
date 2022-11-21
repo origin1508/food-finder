@@ -47,7 +47,7 @@ const DropDownContainer = styled.div`
     props.theme.mixins.flexBox('column', 'flex-start', 'space-around')}
   top:7rem;
   color: ${(props) => props.theme.darkGrey};
-  right: 2rem;
+  right: 7%;
   font-weight: ${(props) => props.theme.weightSemiBold};
   gap: 0.1rem;
   width: 20rem;
