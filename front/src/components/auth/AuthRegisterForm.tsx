@@ -1,4 +1,10 @@
 import styled from 'styled-components';
+import {
+  AuthButton,
+  AuthButtonContainer,
+  AuthInput,
+  AuthInputContainer,
+} from '../../styles/authStyle';
 
 const AuthRegisterForm = () => {
   return (
@@ -15,10 +21,10 @@ const AuthRegisterForm = () => {
       <AuthInputContainer>
         <AuthInput placeholder="Confirm Password" type="password" />
       </AuthInputContainer>
-      <AuthButtonConatiner>
+      <AuthButtonContainer>
         <AuthButton>Registration</AuthButton>
         <AuthLink href="/login">Sign in</AuthLink>
-      </AuthButtonConatiner>
+      </AuthButtonContainer>
     </AuthRegisterFormContainer>
   );
 };
@@ -30,45 +36,6 @@ const AuthRegisterFormContainer = styled.form`
 
   width: 90%;
   height: 100%;
-`;
-
-const AuthInputContainer = styled.div`
-  width: 100%;
-  margin-bottom: ${(props) => props.theme.spacingMedium};
-`;
-
-const AuthInput = styled.input`
-  width: 100%;
-  height: 5.5rem;
-  font-size: 1.5rem;
-  padding: ${(props) => props.theme.spacingSemiMedium};
-  margin-bottom: ${(props) => props.theme.spacingRegular};
-  border: none;
-  border-radius: 0.5rem;
-  box-shadow: 2px 2px 5px ${(props) => props.theme.lightDarkGrey};
-`;
-
-const AuthButtonConatiner = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 100%;
-  height: 15rem;
-`;
-
-const AuthButton = styled.button`
-  width: 100%;
-  height: 5.5rem;
-  font-size: 1.5rem;
-  margin-bottom: ${(props) => props.theme.spacingSemiMedium};
-  border-radius: 0.5rem;
-  background-color: #2e83f5;
-  color: ${(props) => props.theme.mainWhite};
-
-  &:active {
-    transform: scale(0.98);
-  }
 `;
 
 const AuthLink = styled.a`
