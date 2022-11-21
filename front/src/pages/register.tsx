@@ -4,7 +4,7 @@ import BasePageComponent from '../hoc/BasePageComponent';
 const Register = () => {
   return (
     <BasePageComponent>
-      <AuthRegister></AuthRegister>
+      <AuthRegister />
     </BasePageComponent>
   );
 };
