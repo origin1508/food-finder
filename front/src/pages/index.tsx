@@ -25,7 +25,7 @@ const Container = styled.div`
 
 const AboutTitle = styled.div`
   font-size: ${({ theme }) => theme.fontLargest};
-  color:{theme}) => props.theme.mainWhite};
+  color: ${({ theme }) => theme.mainWhite};
   font-weight: ${({ theme }) => theme.weightSemiBold};
   margin-bottom: 2vh;
 `;
