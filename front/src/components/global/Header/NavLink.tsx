@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import NavLinkDropDown from './NavLinkDropDown';
+import { PATH } from '../../../customRouter';
 
 function NavLink() {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,7 +12,7 @@ function NavLink() {
       {isLogin ? (
         <NavContainer>
           <Li>
-            <Nav onClick={() => navigate('/recipe')}>Recipe</Nav>
+            <Nav onClick={() => navigate(PATH.RECIPE)}>Recipe</Nav>
           </Li>
           <Li>
             <Nav>Create Recipe</Nav>
@@ -24,7 +25,7 @@ function NavLink() {
           </Li>
         </NavContainer>
       ) : (
-        <Login onClick={() => navigate('/login')}>Login</Login>
+        <Login onClick={() => navigate(PATH.LOGIN)}>Login</Login>
       )}
     </>
   );
