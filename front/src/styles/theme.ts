@@ -43,4 +43,38 @@ export const mixins = {
     align-items: ${align};
     justify-content: ${justify};
   `,
+
+  title: (size = '2rem', weight = '400', color = '#222', mb = '0') => `
+    font-size: ${size};
+    font-weight: ${weight};
+    color: ${color};
+    margin-bottom: ${mb};
+  `,
+
+  button: (
+    size = '2rem',
+    bgColor = '400',
+    color = '#2E83F5',
+    padding = '1rem 2rem',
+    radius = '0.5rem',
+    border = 'none',
+  ) => `
+    font-size: ${size};  
+    background-color: ${bgColor};
+    color: ${color};
+    cursor: pointer;
+    padding: ${padding};
+    border-radius: ${radius};
+    border:${border};
+    
+  `,
+  bigButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
+    font-size: ${theme.fontLargest};  
+    background-color: ${bgColor};
+    color: ${color};
+    cursor: pointer;
+    padding: 2rem 4rem;
+    border-radius: 1rem;
+    border:${border};
+  `,
 };
