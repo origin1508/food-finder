@@ -6,14 +6,7 @@ export const AuthInputContainer = styled.div`
 `;
 
 export const AuthInput = styled.input`
-  width: 100%;
-  height: 5.5rem;
-  font-size: 1.5rem;
-  padding: ${(props) => props.theme.spacingSemiMedium};
-  margin-bottom: ${(props) => props.theme.spacingRegular};
-  border: none;
-  border-radius: 0.5rem;
-  box-shadow: 2px 2px 5px ${(props) => props.theme.lightDarkGrey};
+  ${({ theme }) => theme.mixins.input()};
 `;
 
 export const AuthButtonContainer = styled.div`
@@ -27,7 +20,7 @@ export const AuthButtonContainer = styled.div`
 
 export const AuthButton = styled.button`
   width: 100%;
-  height: 5.5rem;
+  height: 5rem;
   font-size: 1.5rem;
   margin-bottom: ${(props) => props.theme.spacingSemiMedium};
   border-radius: 0.5rem;
