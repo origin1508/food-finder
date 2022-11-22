@@ -19,8 +19,9 @@ export const theme = {
   fontMedium: '2.8rem',
   fontSemiMedium: '2.0rem',
   fontRegular: '1.6rem',
-  fontSmall: '1.4rem',
-  fontMicro: '1.2rem',
+  fontSemiRegular: '1.4rem',
+  fontSmall: '1.2rem',
+  fontMicro: '1.0rem',
   fontSmallest: '0.8rem',
 
   weightBold: 700,
@@ -68,13 +69,34 @@ export const mixins = {
     border:${border};
     
   `,
+
   bigButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
-    font-size: ${theme.fontLargest};  
+    font-size: ${theme.fontSemiMedium};  
     background-color: ${bgColor};
     color: ${color};
     cursor: pointer;
     padding: 2rem 4rem;
     border-radius: 1rem;
+    border:${border};
+  `,
+
+  mediumButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
+    font-size: ${theme.fontRegular};  
+    background-color: ${bgColor};
+    color: ${color};
+    cursor: pointer;
+    padding: 1.5rem 3rem;
+    border-radius: 0.7rem;
+    border:${border};
+  `,
+
+  smallButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
+    font-size: ${theme.fontMicro};  
+    background-color: ${bgColor};
+    color: ${color};
+    cursor: pointer;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
     border:${border};
   `,
 };
