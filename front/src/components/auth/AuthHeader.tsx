@@ -19,12 +19,12 @@ const AuthHeaderContainer = styled.div`
   flex-shrink: 0;
 
   width: 100%;
-  height: 10rem;
-  margin-bottom: ${(props) => props.theme.spacingMedium};
-  border-bottom: 1px solid ${(props) => props.theme.lightDarkGrey};
+  height: 8rem;
+  margin-bottom: ${({ theme }) => theme.spacingLarge};
+  border-bottom: 1px solid ${({ theme }) => theme.lightDarkGrey};
 `;
 
 const AuthHeaderTitle = styled.h2`
-  font-weight: ${(props) => props.theme.weightBold};
-  font-size: ${(props) => props.theme.fontLarge};
+  font-weight: ${({ theme }) => theme.weightBold};
+  font-size: ${({ theme }) => theme.fontLarge};
 `;
