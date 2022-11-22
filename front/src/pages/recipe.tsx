@@ -1,8 +1,6 @@
-import React from 'react';
-import RecipeCard from '../components/recipe/RecipeCard';
-import mainImg from '../assets/mainImg.png';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { theme } from '../styles/theme';
+import RecipeCard from '../components/recipe/RecipeCard';
 
 const Recipe = () => {
   const sampleData = {
@@ -15,6 +13,7 @@ const Recipe = () => {
     onMoreClick: () => console.log('onMoreClick'),
     index: 3,
   };
+
   return (
     <Container>
       <RecipeCard
