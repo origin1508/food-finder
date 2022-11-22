@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from '../components/global/Header';
 
 const Main = React.lazy(() => import('../pages/index'));
-const Login = React.lazy(() => import('../pages/login'));
-const Register = React.lazy(() => import('../pages/register'));
+const Login = React.lazy(() => import('../pages/Login'));
+const Register = React.lazy(() => import('../pages/Register'));
 const NotFound = React.lazy(() => import('../components/global/NotFound'));
 
 const CustomRouter = () => {
@@ -12,12 +12,14 @@ const CustomRouter = () => {
     <React.Fragment>
       <Router>
         <Header />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </Router>
     </React.Fragment>
   );
