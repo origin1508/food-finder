@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import {
   AuthButton,
   AuthButtonContainer,
@@ -23,7 +24,7 @@ const AuthRegisterForm = () => {
       </AuthInputContainer>
       <AuthButtonContainer>
         <AuthButton>Registration</AuthButton>
-        <AuthLink href="/login">Sign in</AuthLink>
+        <AuthLink to="/login">Sign in</AuthLink>
       </AuthButtonContainer>
     </AuthRegisterFormContainer>
   );
@@ -38,7 +39,7 @@ const AuthRegisterFormContainer = styled.form`
   height: 100%;
 `;
 
-const AuthLink = styled.a`
+const AuthLink = styled(Link)`
   width: 100%;
   height: 5rem;
   line-height: 5rem;
