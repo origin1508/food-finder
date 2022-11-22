@@ -68,12 +68,33 @@ export const mixins = {
     border:${border};
     
   `,
+
   bigButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
-    font-size: ${theme.fontLargest};  
+    font-size: ${theme.fontSemiMedium};  
     background-color: ${bgColor};
     color: ${color};
     cursor: pointer;
     padding: 2rem 4rem;
+    border-radius: 1rem;
+    border:${border};
+  `,
+
+  mediumButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
+    font-size: ${theme.fontRegular};  
+    background-color: ${bgColor};
+    color: ${color};
+    cursor: pointer;
+    padding: 1.5rem 3rem;
+    border-radius: 1rem;
+    border:${border};
+  `,
+
+  smallButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
+    font-size: ${theme.fontMicro};  
+    background-color: ${bgColor};
+    color: ${color};
+    cursor: pointer;
+    padding: 1rem 2rem;
     border-radius: 1rem;
     border:${border};
   `,
