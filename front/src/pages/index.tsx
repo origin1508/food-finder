@@ -24,34 +24,44 @@ const Container = styled.div`
 `;
 
 const AboutTitle = styled.div`
-  font-size: ${({ theme }) => theme.fontLargest};
-  color: ${({ theme }) => theme.mainWhite};
-  font-weight: ${({ theme }) => theme.weightSemiBold};
-  margin-bottom: 2vh;
+  ${({ theme }) =>
+    theme.mixins.title(
+      theme.fontLargest,
+      theme.weightSemiBold,
+      theme.mainWhite,
+      '2vh',
+    )}
 `;
 
 const AboutSubTitle = styled.div`
-  font-size: ${({ theme }) => theme.fontLarge};
-  color: ${({ theme }) => theme.lightGrey};
-  font-weight: ${({ theme }) => theme.weightRegular};
-  margin-bottom: 5vh;
+  ${({ theme }) =>
+    theme.mixins.title(
+      theme.fontLarge,
+      theme.weightRegular,
+      theme.lightGrey,
+      '5vh',
+    )}
 `;
 
 const TextOne = styled.p`
-  font-size: ${({ theme }) => theme.fontMedium};
-  color: ${({ theme }) => theme.lightGrey};
-  font-weight: ${({ theme }) => theme.weightRegular};
-  margin-bottom: 5vh;
+  ${({ theme }) =>
+    theme.mixins.title(
+      theme.fontMedium,
+      theme.weightRegular,
+      theme.lightGrey,
+      '5vh',
+    )}
 `;
 
 const ServiceButton = styled.button`
-  background-color: ${({ theme }) => theme.mainBlack};
-  color: ${({ theme }) => theme.lightGrey};
-  cursor: pointer;
-  padding: 2rem 4rem;
-  border-radius: 1rem;
-  boder: 'none';
-  font-size: ${({ theme }) => theme.fontSemiMedium};
+  ${({ theme }) =>
+    theme.mixins.button(
+      theme.fontSemiMedium,
+      theme.mainBlack,
+      theme.lightGrey,
+      '2rem 4rem',
+      '1rem',
+    )}
   transition: all 0.2s;
   &:hover {
     background-color: ${({ theme }) => theme.darkGrey};
