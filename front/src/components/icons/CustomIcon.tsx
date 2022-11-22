@@ -36,7 +36,7 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
       case 'toggleUp':
         return <VscTriangleUp size={size} color={color}></VscTriangleUp>;
 
-      case 'SeachIcon':
+      case 'searchIcon':
         return <BsSearch size={size} color={color}></BsSearch>;
 
       case 'like':
