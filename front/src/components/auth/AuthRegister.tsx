@@ -16,19 +16,19 @@ const AuthRegister = () => {
 export default AuthRegister;
 
 const AuthRegisterWrapper = styled.div`
-  ${(props) => props.theme.mixins.flexBox}
+  ${({ theme }) => theme.mixins.flexBox}
 
   width: 100%;
   height: 100%;
 `;
 
 const AuthRegisterContainer = styled.div`
-  ${(props) => props.theme.mixins.flexBox('column')}
+  ${({ theme }) => theme.mixins.flexBox('column')}
 
   width: 60rem;
-  height: 75rem;
-  padding: ${(props) => props.theme.spacingLarge};
+  height: 65rem;
+  padding: ${({ theme }) => theme.spacingLarge};
   border-radius: 0.5rem;
-  box-shadow: 2px 2px 5px ${(props) => props.theme.lightDarkGrey};
-  background-color: ${(props) => props.theme.mainWhite};
+  box-shadow: 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
+  background-color: ${({ theme }) => theme.mainWhite};
 `;
