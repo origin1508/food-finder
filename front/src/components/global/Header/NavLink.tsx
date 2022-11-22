@@ -11,7 +11,7 @@ function NavLink() {
       {isLogin ? (
         <NavContainer>
           <Li>
-            <Nav>Recipe</Nav>
+            <Nav onClick={() => navigate('/recipe')}>Recipe</Nav>
           </Li>
           <Li>
             <Nav>Create Recipe</Nav>
