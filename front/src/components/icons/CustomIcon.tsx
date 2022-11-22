@@ -41,16 +41,22 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
 
       case 'like':
         return <BsSuitHeartFill size={size} color={color}></BsSuitHeartFill>;
+
       case 'bell':
         return <BsFillBellFill size={size} color={color}></BsFillBellFill>;
+
       case 'send':
         return <FiSend size={size} color={color}></FiSend>;
+
       case 'crown':
         return <FaCrown size={size} color={color}></FaCrown>;
+
       case 'upload':
         return <BiCloudUpload size={size} color={color}></BiCloudUpload>;
+
       case 'refresh':
         return <BiRefresh size={size} color={color}></BiRefresh>;
+
       default:
         console.log('Not implemented!');
         return;

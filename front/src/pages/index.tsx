@@ -54,14 +54,7 @@ const TextOne = styled.p`
 `;
 
 const ServiceButton = styled.button`
-  ${({ theme }) =>
-    theme.mixins.button(
-      theme.fontSemiMedium,
-      theme.mainBlack,
-      theme.lightGrey,
-      '2rem 4rem',
-      '1rem',
-    )}
+  ${({ theme }) => theme.mixins.bigButton(theme.mainBlack, theme.lightGrey)}
   transition: all 0.2s;
   &:hover {
     background-color: ${({ theme }) => theme.darkGrey};
