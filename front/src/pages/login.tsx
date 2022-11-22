@@ -1,10 +1,11 @@
-import React from 'react';
+import AuthLogin from '../components/auth/AuthLogin';
+import BasePageComponent from '../hoc/BasePageComponent';
 
 const Login = () => {
   return (
-    <div>
-      <h2>Login Page</h2>
-    </div>
+    <BasePageComponent>
+      <AuthLogin />
+    </BasePageComponent>
   );
 };
 

@@ -28,6 +28,13 @@ export const theme = {
   weightSemiBold: 600,
   weightRegular: 400,
 
+  spacingLargest: '5rem',
+  spacingLarge: '3rem',
+  spacingMedium: '2rem',
+  spacingSemiMedium: '1.5rem',
+  spacingRegular: '1rem',
+  spacingSmall: '0.5rem',
+
   absoluteCenter: css`
     position: absolute;
     top: 50%;
@@ -98,5 +105,20 @@ export const mixins = {
     padding: 1rem 2rem;
     border-radius: 0.5rem;
     border:${border};
+    `,
+  input: (
+    width = '100%',
+    height = '5rem',
+    size = theme.fontRegular,
+    mb = theme.spacingRegular,
+  ) => `
+    width: ${width};
+    height: ${height};
+    font-size: ${size};
+    padding: ${theme.spacingSemiMedium};
+    margin-bottom: ${mb};
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 2px 2px 5px ${theme.lightDarkGrey};
   `,
 };
