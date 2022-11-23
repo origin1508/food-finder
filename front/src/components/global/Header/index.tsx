@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 // import Search from './Search';
 import NavLink from './NavLink';
 import Logo from './Logo';
+import Search from '../../common/Search';
 
 function Header() {
-  const navigate = useNavigate();
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const updateScroll = () => {
+    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', updateScroll);
+  });
   return (
-    <HeaderContainer>
+    <HeaderContainer itemProp={scrollPosition < 20 ? 'origin' : 'change'}>
       <ContentContainer>
         <Logo />
+        <Search display={scrollPosition < 20 ? 'none' : 'block'} />
         <NavLink />
       </ContentContainer>
     </HeaderContainer>
@@ -20,13 +28,15 @@ function Header() {
 export default Header;
 
 const HeaderContainer = styled.nav`
-  width: 100%;
   position: fixed;
   top: 0;
+  width: 100%;
   padding: 0 8%;
-  background-color: ${({ theme }) => theme.themeColor};
-  background: none;
-  z-index: 50;
+  background: transparent;
+  background-color: ${({ itemProp, theme }) =>
+    itemProp === 'change' ? theme.themeColor : 'none'};
+  z-index: 10;
+  transition: all 0.5s;
 `;
 
 const ContentContainer = styled.div`
