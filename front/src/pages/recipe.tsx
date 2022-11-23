@@ -1,37 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import RecipeCard from '../components/recipe/RecipeCard';
+import SuggestionRecipe from '../components/recipe/SuggestionRecipe';
+import searchImg from '../assets/searchImg.png';
+import { MediumTitle } from '../styles/commonStyle';
+import Search from '../components/common/Search';
 
 const Recipe = () => {
-  const sampleData = {
-    img: 'https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/8add/f8a5ea5841a7e12f2b24d72d33778a6c1ad2d62900007df7c1ee2160a540.jpg',
-    title: '김치찌개',
-    channelUuid: '12321',
-    views: '123',
-    likes: '23',
-    creator: '들자구',
-    onMoreClick: () => console.log('onMoreClick'),
-    index: 3,
-  };
-
   return (
     <Container>
-      <RecipeCard
-        img={sampleData.img}
-        title={sampleData.title}
-        channelUuid={sampleData.channelUuid}
-        views={sampleData.views}
-        likes={sampleData.likes}
-        creator={sampleData.creator}
-        onMoreClick={sampleData.onMoreClick}
-        index={sampleData.index}
-      ></RecipeCard>
+      <SearchContainer>
+        <SearchTitle>
+          400가지 이상의 다양한 한식레시피를 검색해보세요!
+        </SearchTitle>
+        <Search />
+      </SearchContainer>
+      <RecipeContainer>
+        <SuggestionRecipe />
+      </RecipeContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
-  height: 100vh;
-  ${({ theme }) => theme.mixins.flexBox()};
+  ${({ theme }) => theme.mixins.flexBox('column', 'start', 'start')};
+  height: 200vh;
 `;
+const SearchContainer = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('column')}
+  gap: 3vh;
+  height: 40vh;
+  width: 100%;
+  background-image: url(${searchImg});
+  background-size: cover;
+  background-position: center;
+`;
+const SearchTitle = styled.h2`
+  ${MediumTitle}
+`;
+const RecipeContainer = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('column')}
+  width: 100%;
+  gap: 2vh;
+  padding: 3% 8%;
+`;
+
 export default Recipe;
