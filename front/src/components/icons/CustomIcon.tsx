@@ -11,6 +11,8 @@ import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import { FaCrown } from 'react-icons/fa';
 import { FiSend } from 'react-icons/fi';
 import { BiCloudUpload, BiRefresh } from 'react-icons/bi';
+import { GrFormPrevious } from 'react-icons/gr';
+import { GrFormNext } from 'react-icons/gr';
 
 interface CustomIconProps {
   name: string;
@@ -56,6 +58,12 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
 
       case 'refresh':
         return <BiRefresh size={size} color={color}></BiRefresh>;
+
+      case 'prev':
+        return <GrFormPrevious size={size} color={color}></GrFormPrevious>;
+
+      case 'next':
+        return <GrFormNext size={size} color={color}></GrFormNext>;
 
       default:
         console.log('Not implemented!');

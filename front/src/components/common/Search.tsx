@@ -2,9 +2,12 @@ import styled from 'styled-components';
 import CustomIcon from '../icons/CustomIcon';
 import { theme } from '../../styles/theme';
 
-const Search = () => {
+interface SearchType {
+  display?: string;
+}
+const Search = ({ display }: SearchType) => {
   return (
-    <SearchContainer>
+    <SearchContainer itemProp={display}>
       <SearchInput placeholder="음식, 재료, 태그, 사진검색" type="search" />
       <SearchIcon>
         <CustomIcon name="searchIcon" size="17" color={theme.darkGrey} />
@@ -17,6 +20,7 @@ export default Search;
 
 const SearchContainer = styled.div`
   position: relative;
+  display: ${({ itemProp }) => itemProp};
   width: 40rem;
 `;
 

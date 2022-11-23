@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { SmallTitle, SmallSubTitle } from '../../styles/commonStyle';
 
@@ -13,6 +15,13 @@ interface RecipeCardPropsType {
   index?: number;
 }
 
+interface Todo {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
 function RecipeCard({
   img,
   title,
@@ -23,12 +32,20 @@ function RecipeCard({
   onMoreClick,
   index,
 }: RecipeCardPropsType) {
+  // const { data: todos } = useQuery('todos', async () => {
+  //   const { data } = await axios.get<Todo[]>(
+  //     'https://jsonplaceholder.typicode.com/todos2',
+  //   );
+
+  //   return data;
+  // });
   return (
     <CardContainer
       onClick={() => {
         onMoreClick(channelUuid, index);
       }}
     >
+      {/* {todos?.map((todo) => todo.title)} */}
       <CardImg src={img} />
       <CardContent>
         <CardTitle>{title}</CardTitle>
@@ -47,8 +64,8 @@ function RecipeCard({
 }
 
 const CardContainer = styled.div`
-  width: 25vh;
-  height: 25vh;
+  width: 28vh;
+  height: 28vh;
   border-radius: 0.7rem;
   display: flex;
   flex-direction: column;
