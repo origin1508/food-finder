@@ -4,7 +4,7 @@ import errorMiddleware from './middlewares/error';
 
 const app = express();
 
-app.use(errorMiddleware);
+
 
 app.get("/", (req, res) => {
   res.send("food-finder");
@@ -15,5 +15,7 @@ app.get("/", (req, res) => {
 //   res.send(req.file);
 // });
 
+// 에러 처리 미들웨어
+app.use(errorMiddleware);
 
 export { app };

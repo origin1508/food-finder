@@ -1,6 +1,6 @@
 import ApiError from "../utils/ApiError";
 
-export default (err, req, res) => {
+export default (err, req, res, next) => {
   if (err instanceof ApiError) {
     res.status(err.status).json({
       success: false,
