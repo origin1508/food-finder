@@ -1,6 +1,10 @@
 import express from "express";
 
+import errorMiddleware from './middlewares/error';
+
 const app = express();
+
+app.use(errorMiddleware);
 
 app.get("/", (req, res) => {
   res.send("food-finder");
@@ -10,5 +14,6 @@ app.get("/", (req, res) => {
 // app.post("/", userProfileImageUpload.single("image"), (req, res) => {
 //   res.send(req.file);
 // });
+
 
 export { app };
