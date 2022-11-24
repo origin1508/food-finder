@@ -64,11 +64,12 @@ function RecipeCard({
 }
 
 const CardContainer = styled.div`
-  width: 28vh;
-  height: 28vh;
-  border-radius: 0.7rem;
   display: flex;
   flex-direction: column;
+  flex: none;
+  width: 24vh;
+  height: 24vh;
+  border-radius: 0.7rem;
   overflow: hidden;
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
