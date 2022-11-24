@@ -1,14 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '../customRouter';
 import mainImg from '../assets/mainImg.png';
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <Container itemProp={mainImg}>
       <AboutTitle>레시피 검색 플랫폼</AboutTitle>
       <AboutSubTitle>Food Finder</AboutSubTitle>
       <TextOne>다양한 레시피를 검색하고 공유해보세요 !</TextOne>
-      <ServiceButton>서비스 이용하기</ServiceButton>
+      <ServiceButton onClick={() => navigate(PATH.RECIPE)}>
+        서비스 이용하기
+      </ServiceButton>
     </Container>
   );
 };
