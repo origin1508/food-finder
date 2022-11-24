@@ -15,7 +15,8 @@ const Recipe = () => {
         <Search />
       </SearchContainer>
       <RecipeContainer>
-        <SuggestionRecipe />
+        <SuggestionRecipe>오늘의 추천 RECIPE!</SuggestionRecipe>
+        <SuggestionRecipe>맛있고 다양한 한식 RECIPE!</SuggestionRecipe>
       </RecipeContainer>
     </Container>
   );
@@ -23,7 +24,6 @@ const Recipe = () => {
 
 const Container = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'start', 'start')};
-  height: 200vh;
 `;
 const SearchContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
@@ -40,7 +40,7 @@ const SearchTitle = styled.h2`
 const RecipeContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
-  gap: 2vh;
+  gap: 10vh;
   padding: 3% 8%;
 `;
 
