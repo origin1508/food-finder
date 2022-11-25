@@ -5,18 +5,9 @@ import { MediumTitle } from '../../styles/commonStyle';
 import CustomIcon from '../../components/icons/CustomIcon';
 import { theme } from '../../styles/theme';
 import { BaseComponentType } from '../../types/common/baseComponentType';
-
+import mockData from '../../util/mockData';
 const SuggestionRecipe = ({ children }: BaseComponentType) => {
-  const sampleData = {
-    img: 'https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/8add/f8a5ea5841a7e12f2b24d72d33778a6c1ad2d62900007df7c1ee2160a540.jpg',
-    title: '김치찌개',
-    channelUuid: '12321',
-    views: '123',
-    likes: '23',
-    creator: '들자구',
-    onMoreClick: () => console.log('onMoreClick'),
-    index: 3,
-  };
+  const { recipeDatas } = mockData;
   const [slidePx, setSlidePx] = useState(0);
 
   const toPrev = () => {
@@ -32,106 +23,20 @@ const SuggestionRecipe = ({ children }: BaseComponentType) => {
       <Title>{children}</Title>
       <RecipeCards>
         <Wrap results={slidePx}>
-          <RecipeCard
-            img={sampleData.img}
-            title="김치찌개1"
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
-          <RecipeCard
-            img={sampleData.img}
-            title={sampleData.title}
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
-          <RecipeCard
-            img={sampleData.img}
-            title={sampleData.title}
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
-          <RecipeCard
-            img={sampleData.img}
-            title={sampleData.title}
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
-          <RecipeCard
-            img={sampleData.img}
-            title={sampleData.title}
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
-          <RecipeCard
-            img={sampleData.img}
-            title={sampleData.title}
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
-          <RecipeCard
-            img={sampleData.img}
-            title={sampleData.title}
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
-          <RecipeCard
-            img={sampleData.img}
-            title={sampleData.title}
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
-          <RecipeCard
-            img={sampleData.img}
-            title={sampleData.title}
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
-          <RecipeCard
-            img={sampleData.img}
-            title={sampleData.title}
-            channelUuid={sampleData.channelUuid}
-            views={sampleData.views}
-            likes={sampleData.likes}
-            creator={sampleData.creator}
-            onMoreClick={sampleData.onMoreClick}
-            index={sampleData.index}
-          ></RecipeCard>
+          {recipeDatas.map((recipe) => {
+            return (
+              <RecipeCard
+                img={recipe.img}
+                title={recipe.title}
+                channelUuid={recipe.channelUuid}
+                views={recipe.views}
+                likes={recipe.likes}
+                creator={recipe.creator}
+                onMoreClick={recipe.onMoreClick}
+                index={recipe.index}
+              ></RecipeCard>
+            );
+          })}
         </Wrap>
       </RecipeCards>
       <PrevButton onClick={() => toPrev()}>
@@ -192,4 +97,5 @@ const NextButton = styled.div`
   border-radius: 2rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
+
 export default SuggestionRecipe;
