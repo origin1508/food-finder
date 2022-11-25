@@ -11,21 +11,15 @@ const Register = React.lazy(() => import('../pages/register'));
 const NotFound = React.lazy(() => import('../components/global/NotFound'));
 const Recipe = React.lazy(() => import('../pages/recipe'));
 const CreateRecipe = React.lazy(() => import('../pages/createRecipe'));
+const CollectRecipes = React.lazy(() => import('../pages/collectRecipes'));
 
 export const PATH = {
   MAIN: '/',
   LOGIN: '/login',
   REGISTER: '/register',
   RECIPE: '/recipe',
-  CREATERECIPE: '/recipe/create',
-  NOT_FOUND: '/*',
-};
-
-export const PATH = {
-  MAIN: '/',
-  LOGIN: '/login',
-  REGISTER: '/register',
-  RECIPE: '/recipe',
+  CREATE_RECIPE: '/recipe/create',
+  COLLECT_RECIPES: '/collectRecipes',
   NOT_FOUND: '/*',
 };
 
@@ -40,7 +34,8 @@ const CustomRouter = () => {
             <Route path={PATH.LOGIN} element={<Login />} />
             <Route path={PATH.REGISTER} element={<Register />} />
             <Route path={PATH.RECIPE} element={<Recipe />} />
-            <Route path={PATH.CREATERECIPE} element={<CreateRecipe />} />
+            <Route path={PATH.CREATE_RECIPE} element={<CreateRecipe />} />
+            <Route path={PATH.COLLECT_RECIPES} element={<CollectRecipes />} />
             <Route path={PATH.NOT_FOUND} element={<NotFound />} />
           </Routes>
         </Suspense>
