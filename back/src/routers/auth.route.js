@@ -1,5 +1,4 @@
 import express from "express";
-
 import authService from "../services/auth.service";
 
 const router = express.Router();
@@ -8,7 +7,6 @@ router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const user = await authService.checkUser(email, password);
-
     const accessToken = await authService.generateAccessToken(user.user_id);
     const refreshToken = await authService.generateRefreshToken();
 
@@ -25,3 +23,20 @@ router.post("/login", async (req, res, next) => {
     next(err);
   }
 });
+
+router.post("/register", async (req, res, next) => {
+  const { email, password, nickname } = req.body;
+
+  try {
+    await authService.registerInfo(email, password, nickname);
+
+    res.status(201).json({
+      success: true,
+      message: "회원가입 성공",
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+export default router;

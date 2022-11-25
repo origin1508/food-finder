@@ -10,6 +10,6 @@ export default (err, req, res, next) => {
   }
   res.status(500).json({
     success: false,
-    message: "알 수 없는 에러",
+    message: err.message,
   });
 };

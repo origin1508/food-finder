@@ -21,6 +21,10 @@ class ApiError extends Error {
     return new ApiError(404, message);
   }
 
+  static setConflict(message) {
+    return new ApiError(409, message);
+  }
+
   static setInternalServerError(message) {
     return new ApiError(500, message);
   }
