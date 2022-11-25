@@ -7,6 +7,7 @@ const Login = React.lazy(() => import('../pages/login'));
 const Register = React.lazy(() => import('../pages/register'));
 const NotFound = React.lazy(() => import('../components/global/NotFound'));
 const Recipe = React.lazy(() => import('../pages/recipe'));
+const CreateRecipe = React.lazy(() => import('../pages/createRecipe'));
 
 const CustomRouter = () => {
   return (
@@ -19,6 +20,7 @@ const CustomRouter = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/recipe" element={<Recipe />} />
+            <Route path="/createRecipe" element={<CreateRecipe />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
