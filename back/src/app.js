@@ -5,6 +5,7 @@ import errorMiddleware from "./middlewares/error";
 const app = express();
 
 sequelize.sync({ sync: false });
+// sequelize.sync({ alter: true });
 
 app.get("/", (req, res) => {
   res.send("food-finder");
