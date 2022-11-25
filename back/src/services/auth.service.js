@@ -6,21 +6,28 @@ import userModel from "../db/model/user.model";
 
 export default {
   async checkUser(email, password) {
-    const user = userModel.findByEmail(email);
-
+    const user = await userModel.findByEmail(email);
     if (!user) {
-      ApiError.setUnauthorized('존재하지 않는 이메일입니다.');
+      throw ApiError.setUnauthorized("존재하지 않는 이메일입니다.");
     }
 
     const isCorrectPassword = await bcrypt.compare(password, user.password);
     if (!isCorrectPassword) {
-      ApiError.setUnauthorized('비밀번호가 일치하지 않습니다.');
+      throw ApiError.setUnauthorized("비밀번호가 일치하지 않습니다.");
     }
+
+    return {
+      userId: user.user_id,
+      email: user.email,
+      nickname: user.nickname,
+      profileUrl: user.profile_url,
+    };
   },
 
   async generateAccessToken(userId) {
     const payload = { userId };
     const secretKey = process.env.JWT_SECRET_KEY;
+    console.log(secretKey);
     const options = {
       expiresIn: "1h",
       issuer: "FoodFinderAdmin",
