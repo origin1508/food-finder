@@ -1,4 +1,3 @@
-import React from 'react';
 import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { FallbackProps } from './ErrorBoundary';

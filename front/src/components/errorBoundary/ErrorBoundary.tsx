@@ -1,4 +1,4 @@
-import React, { Component, PropsWithChildren } from 'react';
+import { Component, PropsWithChildren } from 'react';
 
 export interface FallbackProps {
   error: Error;

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useQuery } from 'react-query';
+// import { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { SmallTitle, SmallSubTitle } from '../../styles/commonStyle';
 
@@ -15,12 +15,12 @@ interface RecipeCardPropsType {
   index?: number;
 }
 
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-}
+// interface Todo {
+//   userId: number;
+//   id: number;
+//   title: string;
+//   completed: boolean;
+// }
 
 const RecipeCard = ({
   img,

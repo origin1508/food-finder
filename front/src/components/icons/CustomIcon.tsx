@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   BsPeopleFill,
   BsMapFill,
@@ -70,7 +69,7 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
         return;
     }
   }
-  return <React.Fragment>{getIconComponent()}</React.Fragment>;
+  return <>{getIconComponent()}</>;
 };
 
 export default CustomIcon;

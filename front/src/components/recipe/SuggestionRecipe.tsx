@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import RecipeCard from '../../components/recipe/RecipeCard';
 import { MediumTitle } from '../../styles/commonStyle';
 import CustomIcon from '../../components/icons/CustomIcon';
 import { theme } from '../../styles/theme';
-import { BaseComponentType } from '../../util/TypeScript';
+import { BaseComponentType } from '../../types/common/baseComponentType';
 
 const SuggestionRecipe = ({ children }: BaseComponentType) => {
   const sampleData = {
