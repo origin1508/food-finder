@@ -18,7 +18,9 @@ const NavLink = () => {
             <Nav>Create Recipe</Nav>
           </Li>
           <Li>
-            <Nav>Collect Recipes</Nav>
+            <Nav onClick={() => navigate(PATH.COLLECT_RECIPES)}>
+              Collect Recipes
+            </Nav>
           </Li>
           <Li>
             <NavLinkDropDown />
