@@ -1,16 +1,20 @@
 import styled from 'styled-components';
+import BasePageComponent from '../hoc/BasePageComponent';
+import CreateRecipeForm from '../components/createRecipe/CreateRecipeForm';
 
 const CreateRecipe = () => {
-  return;
+  return (
+    <BasePageComponent>
+      <CreateRecipeContainer>
+        <CreateRecipeForm />
+      </CreateRecipeContainer>
+    </BasePageComponent>
+  );
 };
 
-const Container = styled.div`
-  magin: 1.3rem 0;
-  min-height: 100vh;
-`;
+export default CreateRecipe;
 
-const Content = styled.div`
-  width: 100%;
-  max-width: 102.4rem;
+const CreateRecipeContainer = styled.div`
+  width: 110rem;
   margin: auto;
 `;

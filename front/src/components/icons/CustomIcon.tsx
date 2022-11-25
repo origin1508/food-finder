@@ -5,6 +5,7 @@ import {
   BsSearch,
   BsFillBellFill,
   BsSuitHeartFill,
+  BsPlusLg,
 } from 'react-icons/bs';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import { FaCrown } from 'react-icons/fa';
@@ -12,11 +13,12 @@ import { FiSend } from 'react-icons/fi';
 import { BiCloudUpload, BiRefresh } from 'react-icons/bi';
 import { GrFormPrevious } from 'react-icons/gr';
 import { GrFormNext } from 'react-icons/gr';
+import { FcPlus } from 'react-icons/fc';
 
 interface CustomIconProps {
   name: string;
   size: string;
-  color: string;
+  color?: string;
 }
 
 const CustomIcon = ({ name, size, color }: CustomIconProps) => {
@@ -57,6 +59,18 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
 
       case 'refresh':
         return <BiRefresh size={size} color={color}></BiRefresh>;
+
+      case 'plus':
+        return <BsPlusLg size={size} color={color}></BsPlusLg>;
+
+      case 'plusCircle':
+        return (
+          <FcPlus
+            size={size}
+            color={color}
+            style={{ display: 'inline-box', verticalAlign: 'top' }}
+          ></FcPlus>
+        );
 
       case 'prev':
         return <GrFormPrevious size={size} color={color}></GrFormPrevious>;

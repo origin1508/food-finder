@@ -16,9 +16,8 @@ const AuthLogin = () => {
 export default AuthLogin;
 
 const AuthLoginWrapper = styled.div`
-  ${({ theme }) => theme.mixins.flexBox}
+  ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
-  height: 100%;
 `;
 
 const AuthLoginContainer = styled.div`

@@ -12,6 +12,5 @@ export default BasePageComponent;
 
 const BasePageComponentContainer = styled.div`
   width: 100%;
-  height: 100vh;
   padding-top: 7rem;
 `;
