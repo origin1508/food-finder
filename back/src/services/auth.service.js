@@ -9,12 +9,12 @@ export default {
     const user = userModel.findByEmail(email);
 
     if (!user) {
-      //에러 처리
+      ApiError.setUnauthorized('존재하지 않는 이메일입니다.');
     }
 
     const isCorrectPassword = await bcrypt.compare(password, user.password);
     if (!isCorrectPassword) {
-      //에러 처리
+      ApiError.setUnauthorized('비밀번호가 일치하지 않습니다.');
     }
   },
 
@@ -49,12 +49,12 @@ export default {
     const exUserByEmail = await userModel.findByEmail(email);
     console.log(exUserByEmail);
     if (exUserByEmail) {
-      throw ApiError.setForbidden("이미 존재하는 이메일입니다.");
+      throw ApiError.setConflict("이미 존재하는 이메일입니다.");
     }
 
     const exUserByNickname = await userModel.findByNickname(nickname);
     if (exUserByNickname) {
-      throw ApiError.setForbidden("이미 존재하는 닉네임입니다.");
+      throw ApiError.setConflict("이미 존재하는 닉네임입니다.");
     }
 
     const encryptedPassword = await bcrypt.hash(password, 12);
