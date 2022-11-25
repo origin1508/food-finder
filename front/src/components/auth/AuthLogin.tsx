@@ -17,14 +17,12 @@ export default AuthLogin;
 
 const AuthLoginWrapper = styled.div`
   ${({ theme }) => theme.mixins.flexBox}
-
   width: 100%;
   height: 100%;
 `;
 
 const AuthLoginContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
-
   width: 60rem;
   height: 50rem;
   padding: ${({ theme }) => theme.spacingLarge};

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import NavLinkDropDown from './NavLinkDropDown';
 import { PATH } from '../../../customRouter';
 
-function NavLink() {
+const NavLink = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
   return (
@@ -29,7 +29,7 @@ function NavLink() {
       )}
     </>
   );
-}
+};
 
 const NavContainer = styled.ul`
   ${({ theme }) => theme.mixins.flexBox()}

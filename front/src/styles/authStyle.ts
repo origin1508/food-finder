@@ -13,7 +13,6 @@ export const AuthButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   width: 100%;
   height: 15rem;
 `;
@@ -26,7 +25,6 @@ export const AuthButton = styled.button`
   border-radius: 0.5rem;
   background-color: #2e83f5;
   color: ${({ theme }) => theme.mainWhite};
-
   &:active {
     transform: scale(0.98);
   }

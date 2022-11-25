@@ -22,7 +22,7 @@ interface Todo {
   completed: boolean;
 }
 
-function RecipeCard({
+const RecipeCard = ({
   img,
   title,
   channelUuid,
@@ -31,7 +31,7 @@ function RecipeCard({
   creator,
   onMoreClick,
   index,
-}: RecipeCardPropsType) {
+}: RecipeCardPropsType) => {
   // const { data: todos } = useQuery('todos', async () => {
   //   const { data } = await axios.get<Todo[]>(
   //     'https://jsonplaceholder.typicode.com/todos2',
@@ -61,7 +61,7 @@ function RecipeCard({
       </CardContent>
     </CardContainer>
   );
-}
+};
 
 const CardContainer = styled.div`
   display: flex;
