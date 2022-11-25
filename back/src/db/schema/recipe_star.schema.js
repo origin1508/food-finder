@@ -2,7 +2,7 @@ import sequelize from "../../configs/sequelize";
 import { DataTypes } from "sequelize";
 
 const RecipeStar = sequelize.define(
-  "Step",
+  "RecipeStar",
   {
     star_id: {
       type: DataTypes.INTEGER,

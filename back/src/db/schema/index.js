@@ -7,6 +7,7 @@ import Recipe from "./recipe.schema";
 import Step from "./step.schema";
 import RecipeComment from "./recipe_comment.schema";
 import RecipeStar from "./recipe_star.schema";
+import RecipeLike from "./recipe_like.schema";
 import Restaurant from "./resturant.schema";
 
 /**
@@ -47,5 +48,10 @@ RecipeComment.belongsTo(Recipe, {
 });
 
 //RecipeLike
+User.hasMany(RecipeLike, { foreignKey: "user_id", sourceKey: "user_id" });
+RecipeLike.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
+
+Recipe.hasMany(RecipeLike, { foreignKey: "dish_id", sourceKey: "dish_id" });
+RecipeLike.belongsTo(Recipe, { foreignKey: "dish_id", targetKey: "dish_id" });
 
 export { User };
