@@ -11,13 +11,12 @@ const Header = () => {
 
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
-    console.log('scroll', scrollPosition);
   };
 
   useEffect(() => {
     const timer = setInterval(() => {
       window.addEventListener('scroll', updateScroll);
-    }, 100);
+    }, 50);
     return () => {
       clearInterval(timer);
       window.removeEventListener('scroll', updateScroll);
