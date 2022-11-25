@@ -1,10 +1,10 @@
 import express from "express";
-
-import errorMiddleware from './middlewares/error';
+import sequelize from "./configs/sequelize";
+import errorMiddleware from "./middlewares/error";
 
 const app = express();
 
-
+sequelize.sync({ sync: false });
 
 app.get("/", (req, res) => {
   res.send("food-finder");
