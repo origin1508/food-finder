@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 // import Search from './Search';
@@ -6,14 +6,24 @@ import NavLink from './NavLink';
 import Logo from './Logo';
 import Search from '../../common/Search';
 
-function Header() {
+const Header = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
+
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+    console.log('scroll', scrollPosition);
   };
+
   useEffect(() => {
-    window.addEventListener('scroll', updateScroll);
-  });
+    const timer = setInterval(() => {
+      window.addEventListener('scroll', updateScroll);
+    }, 100);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('scroll', updateScroll);
+    };
+  }, [scrollPosition]);
+
   return (
     <HeaderContainer itemProp={scrollPosition < 20 ? 'origin' : 'change'}>
       <ContentContainer>
@@ -23,7 +33,7 @@ function Header() {
       </ContentContainer>
     </HeaderContainer>
   );
-}
+};
 
 export default Header;
 

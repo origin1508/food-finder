@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 interface AuthHeaderProps {
@@ -17,7 +16,6 @@ export default AuthHeader;
 
 const AuthHeaderContainer = styled.div`
   flex-shrink: 0;
-
   width: 100%;
   height: 8rem;
   margin-bottom: ${({ theme }) => theme.spacingLarge};

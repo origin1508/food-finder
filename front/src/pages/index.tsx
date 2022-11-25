@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../customRouter';
@@ -19,10 +18,10 @@ const Home = () => {
 };
 
 const Container = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('column', 'start', 'center')}
   width: 100%;
   height: 100vh;
   padding: 0 8%;
-  ${({ theme }) => theme.mixins.flexBox('column', 'start', 'center')}
   background-image: url(${({ itemProp }) => itemProp});
   background-size: cover;
   letter-spacing: 0.2rem;

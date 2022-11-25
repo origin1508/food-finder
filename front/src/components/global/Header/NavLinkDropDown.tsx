@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import CustomIcon from '../../icons/CustomIcon';
 import basicProfileImg from '../../../assets/basicProfileImg.png';
 
-function NavLinkDropDown() {
+const NavLinkDropDown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   return (
     <>
@@ -22,7 +22,7 @@ function NavLinkDropDown() {
       </DropDownContainer>
     </>
   );
-}
+};
 
 const DropDownButton = styled.button`
   position: relative;
