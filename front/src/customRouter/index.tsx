@@ -21,22 +21,20 @@ export const PATH = {
 
 const CustomRouter = () => {
   return (
-    <React.Fragment>
-      <Router>
-        <ErrorBoundary fallback={({ error }) => <ErrorAlert error={error} />}>
-          <Header />
-          <Suspense fallback={<LoadingCycle />}>
-            <Routes>
-              <Route path={PATH.MAIN} element={<Main />} />
-              <Route path={PATH.LOGIN} element={<Login />} />
-              <Route path={PATH.REGISTER} element={<Register />} />
-              <Route path={PATH.RECIPE} element={<Recipe />} />
-              <Route path={PATH.NOT_FOUND} element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </ErrorBoundary>
-      </Router>
-    </React.Fragment>
+    <Router>
+      <ErrorBoundary fallback={({ error }) => <ErrorAlert error={error} />}>
+        <Header />
+        <Suspense fallback={<LoadingCycle />}>
+          <Routes>
+            <Route path={PATH.MAIN} element={<Main />} />
+            <Route path={PATH.LOGIN} element={<Login />} />
+            <Route path={PATH.REGISTER} element={<Register />} />
+            <Route path={PATH.RECIPE} element={<Recipe />} />
+            <Route path={PATH.NOT_FOUND} element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
+    </Router>
   );
 };
 
