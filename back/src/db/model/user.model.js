@@ -13,7 +13,6 @@ export default {
 
   async findByNickname(nickname) {
     const user = await User.findOne({
-      attributes: ["user_id", "email", "nickname", "profile_url"],
       where: {
         nickname,
       },
