@@ -29,4 +29,9 @@ export default {
       throw ApiError.setBadRequest("일치하지 않는 비밀번호입니다.");
     }
   },
+
+  async modifyProfileImage(userId, location) {
+    await userModel.updateProfileImage(userId, location);
+    
+  }
 };
