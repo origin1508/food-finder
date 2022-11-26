@@ -48,4 +48,15 @@ export default {
 
     return user;
   },
+
+  async updatePassword(userId, password) {
+    await User.update(
+      { password },
+      {
+        where: {
+          user_id: userId,
+        },
+      }
+    );
+  },
 };
