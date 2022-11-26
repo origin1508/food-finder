@@ -4,9 +4,15 @@ import ApiError from "../utils/ApiError";
 
 export default {
   async modifyNickname(userId, nickname) {
-    const user = await userModel.updateNickname(userId, nickname);
+    await userModel.updateNickname(userId, nickname);
+    const user = await userModel.findById(userId);
 
-    return user;
+    return {
+      userId: user.user_id,
+      email: user.email,
+      nickname: user.nickname,
+      profileUrl: user.profile_url,
+    };
   },
 
   async checkDuplicatedNickname(nickname) {
@@ -19,6 +25,15 @@ export default {
   async modifyPassword(userId, password) {
     const encryptedPassword = await bcrypt.hash(password, 12);
     await userModel.updatePassword(userId, encryptedPassword);
+
+    const user = await userModel.findById(userId);
+
+    return {
+      userId: user.user_id,
+      email: user.email,
+      nickname: user.nickname,
+      profileUrl: user.profile_url,
+    };
   },
 
   async checkCorrectPassword(userId, password) {
@@ -32,6 +47,13 @@ export default {
 
   async modifyProfileImage(userId, location) {
     await userModel.updateProfileImage(userId, location);
-    
-  }
+    const user = await userModel.findById(userId);
+
+    return {
+      userId: user.user_id,
+      email: user.email,
+      nickname: user.nickname,
+      profileUrl: user.profile_url,
+    };
+  },
 };
