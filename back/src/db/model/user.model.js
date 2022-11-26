@@ -58,4 +58,17 @@ export default {
       }
     );
   },
+
+  async updateProfileImage(userId, location) {
+    await User.update(
+      {
+        profile_url: location,
+      },
+      {
+        where: {
+          user_id: userId,
+        },
+      }
+    );
+  },
 };
