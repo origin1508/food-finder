@@ -22,11 +22,30 @@ export default {
     return user;
   },
 
+  async findById(userId) {
+    const user = await User.findByPk(userId);
+
+    return user;
+  },
+
   async create(email, password, nickname) {
     await User.create({
       email,
       password,
       nickname,
     });
+  },
+
+  async updateNickname(userId, nickname) {
+    const user = await User.update(
+      { nickname },
+      {
+        where: {
+          user_id: userId,
+        },
+      }
+    );
+
+    return user;
   },
 };
