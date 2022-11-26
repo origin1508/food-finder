@@ -27,7 +27,6 @@ export default {
   async generateAccessToken(userId) {
     const payload = { userId };
     const secretKey = process.env.JWT_SECRET_KEY;
-    console.log(secretKey);
     const options = {
       expiresIn: "1h",
       issuer: "FoodFinderAdmin",
@@ -54,7 +53,7 @@ export default {
   async registerInfo(email, password, nickname) {
     // 아래 로직 좀 더 다듬기
     const exUserByEmail = await userModel.findByEmail(email);
-    console.log(exUserByEmail);
+    
     if (exUserByEmail) {
       throw ApiError.setConflict("이미 존재하는 이메일입니다.");
     }
