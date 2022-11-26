@@ -5,7 +5,7 @@ import errorMiddleware from "./middlewares/error";
 
 // 라우터 모듈
 import authRouter from "./routers/auth.route";
-import recipeSearchRouter from "./routers/recipeSearch.route";
+import recipeSearch from "./routers/recipeSearch.route";
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", authRouter);
-app.use("/recipe", recipeSearchRouter);
+app.use("/recipe", recipeSearch);
 
 app.get("/", (req, res) => {
   res.send("food-finder");
