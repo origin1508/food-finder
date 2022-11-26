@@ -54,4 +54,12 @@ RecipeLike.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
 Recipe.hasMany(RecipeLike, { foreignKey: "dish_id", sourceKey: "dish_id" });
 RecipeLike.belongsTo(Recipe, { foreignKey: "dish_id", targetKey: "dish_id" });
 
-export { User };
+export {
+  User,
+  Recipe,
+  RecipeLike,
+  RecipeComment,
+  RecipeStar,
+  Restaurant,
+  Step,
+};

@@ -6,7 +6,7 @@ dotenv.config();
 // 맛집 즐겨찾기 추가?
 
 export default {
-  async RestaurantSearchApiCall(searchKeyword) {
+  async restaurantSearchApiCall(searchKeyword) {
     const ApiSearchResult = await axios.get(
       "https://openapi.naver.com/v1/search/local.json",
       {
@@ -19,7 +19,7 @@ export default {
     );
 
     const restaurant = ApiSearchResult.data.items;
-    console.log("response ====>", restaurant);
+    // console.log("response ====>", restaurant);
 
     return restaurant;
   },
