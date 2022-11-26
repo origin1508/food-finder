@@ -9,6 +9,13 @@ export default {
     return user;
   },
 
+  async checkDuplicatedNickname(nickname) {
+    const duplicatedUser = await userModel.findByNickname(nickname);
+    if (duplicatedUser) {
+      throw ApiError.setBadRequest("중복된 닉네임이 존재합니다.");
+    }
+  },
+
   async modifyPassword(userId, password) {
     const encryptedPassword = await bcrypt.hash(password, 12);
     await userModel.updatePassword(userId, encryptedPassword);
