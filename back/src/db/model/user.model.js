@@ -13,11 +13,16 @@ export default {
 
   async findByNickname(nickname) {
     const user = await User.findOne({
-      attributes: ["user_id", "email", "nickname", "profile_url"],
       where: {
         nickname,
       },
     });
+
+    return user;
+  },
+
+  async findById(userId) {
+    const user = await User.findByPk(userId);
 
     return user;
   },
@@ -28,5 +33,42 @@ export default {
       password,
       nickname,
     });
+  },
+
+  async updateNickname(userId, nickname) {
+    const user = await User.update(
+      { nickname },
+      {
+        where: {
+          user_id: userId,
+        },
+      }
+    );
+
+    return user;
+  },
+
+  async updatePassword(userId, password) {
+    await User.update(
+      { password },
+      {
+        where: {
+          user_id: userId,
+        },
+      }
+    );
+  },
+
+  async updateProfileImage(userId, location) {
+    await User.update(
+      {
+        profile_url: location,
+      },
+      {
+        where: {
+          user_id: userId,
+        },
+      }
+    );
   },
 };
