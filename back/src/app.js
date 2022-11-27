@@ -4,9 +4,8 @@ import sequelize from "./configs/sequelize";
 import errorMiddleware from "./middlewares/error";
 
 // 라우터 모듈
-import authRouter from './routers/auth.route';
-import userRouter from './routers/user.route';
 import authRouter from "./routers/auth.route";
+import userRouter from "./routers/user.route";
 import recipeSearch from "./routers/recipeSearch.route";
 
 const app = express();
@@ -19,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", authRouter);
-app.use('/users', userRouter);
+app.use("/users", userRouter);
 app.use("/recipe", recipeSearch);
 
 app.get("/", (req, res) => {
