@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CustomIcon from '../../icons/CustomIcon';
 import basicProfileImg from '../../../assets/basicProfileImg.png';
+import { PATH } from '../../../customRouter';
 
 const NavLinkDropDown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <>
       <DropDownButton onClick={() => setIsDropdownOpen((prev) => !prev)}>
@@ -17,7 +20,7 @@ const NavLinkDropDown = () => {
           <UserInfoContent>들자구</UserInfoContent>
           <UserInfoContent>eodnsdlekd@naver.com</UserInfoContent>
         </UserInfo>
-        <Profile>Profile</Profile>
+        <Profile onClick={() => navigate(PATH.PROFILE)}>Profile</Profile>
         <Logout>Logout</Logout>
       </DropDownContainer>
     </>
