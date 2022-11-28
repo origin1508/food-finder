@@ -14,4 +14,24 @@ export default {
       url: link,
     });
   },
+
+  async deleteLike(userId, title) {
+    await Restaurant.destroy({
+      where: {
+        user_id: userId,
+        title: title,
+      },
+    });
+  },
+
+  async findByTitle(userId, title) {
+    const restaurant = await Restaurant.findOne({
+      where: {
+        user_id: userId,
+        title: title,
+      },
+    });
+
+    return restaurant;
+  },
 };

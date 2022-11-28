@@ -1,10 +1,9 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import ApiError from "../utils/ApiError";
 import restaurantModel from "../db/model/restaurant.model";
 
 dotenv.config();
-
-// 맛집 즐겨찾기 추가?
 
 export default {
   async restaurantSearchApiCall(searchKeyword) {
@@ -20,12 +19,32 @@ export default {
     );
 
     const restaurant = ApiSearchResult.data.items;
-    // console.log("response ====>", restaurant);
 
     return restaurant;
   },
 
   async restaurantLike(userId, restaurantInfo) {
+    const { title } = restaurantInfo;
+    const checkRestaurantLikeList = await restaurantModel.findByTitle(
+      userId,
+      title
+    );
+    if (checkRestaurantLikeList) {
+      throw ApiError.setBadRequest("중복된 즐겨찾기가 존재합니다.");
+    }
+
     await restaurantModel.creatLike(userId, restaurantInfo);
+  },
+
+  async restaurantUnlike(userId, title) {
+    const checkRestaurantLikeList = await restaurantModel.findByTitle(
+      userId,
+      title
+    );
+    if (!checkRestaurantLikeList) {
+      throw ApiError.setBadRequest("존재하지 않는 즐겨찾기입니다.");
+    }
+
+    await restaurantModel.deleteLike(userId, title);
   },
 };
