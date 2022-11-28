@@ -13,6 +13,7 @@ interface RecipeCardProps {
   creator: string;
   onMoreClick: (channelUuid: string, index?: number) => void;
   index?: number;
+  size?: string;
 }
 
 // interface Todo {
@@ -31,6 +32,7 @@ const RecipeCard = ({
   creator,
   onMoreClick,
   index,
+  size,
 }: RecipeCardProps) => {
   // const { data: todos } = useQuery('todos', async () => {
   //   const { data } = await axios.get<Todo[]>(
@@ -41,6 +43,7 @@ const RecipeCard = ({
   // });
   return (
     <CardContainer
+      itemProp={size}
       onClick={() => {
         onMoreClick(channelUuid, index);
       }}
@@ -67,8 +70,8 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: none;
-  width: 24vh;
-  height: 24vh;
+  width: ${({ itemProp }) => (itemProp ? `${itemProp}vh` : '24vh')};
+  height: ${({ itemProp }) => (itemProp ? `${itemProp}vh` : '24vh')};
   border-radius: 0.7rem;
   overflow: hidden;
   cursor: pointer;
