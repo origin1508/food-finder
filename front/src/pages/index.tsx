@@ -17,7 +17,7 @@ const Home = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.article`
   ${({ theme }) => theme.mixins.flexBox('column', 'start', 'center')}
   width: 100%;
   height: 100vh;

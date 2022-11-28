@@ -1,17 +1,17 @@
-import React, { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from '../components/global/Header';
 import ErrorAlert from '../components/errorBoundary/ErrorAlert';
 import ErrorBoundary from '../components/errorBoundary/ErrorBoundary';
 import LoadingCycle from '../components/loading/LoadingCycle';
 
-const Main = React.lazy(() => import('../pages/index'));
-const Login = React.lazy(() => import('../pages/login'));
-const Register = React.lazy(() => import('../pages/register'));
-const NotFound = React.lazy(() => import('../components/global/NotFound'));
-const Recipe = React.lazy(() => import('../pages/recipe'));
-const CreateRecipe = React.lazy(() => import('../pages/createRecipe'));
-const CollectRecipes = React.lazy(() => import('../pages/collectRecipes'));
+const Main = lazy(() => import('../pages/index'));
+const Login = lazy(() => import('../pages/login'));
+const Register = lazy(() => import('../pages/register'));
+const NotFound = lazy(() => import('../components/global/NotFound'));
+const Recipe = lazy(() => import('../pages/recipe'));
+const CreateRecipe = lazy(() => import('../pages/createRecipe'));
+const CollectRecipes = lazy(() => import('../pages/collectRecipes'));
 
 export const PATH = {
   MAIN: '/',
