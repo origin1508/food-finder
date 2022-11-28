@@ -6,6 +6,7 @@ import { MediumTitle, SmallTitle } from '../styles/commonStyle';
 import RecipeCard from '../components/recipe/RecipeCard';
 import mockData from '../util/mockData';
 import CustomIcon from '../components/icons/CustomIcon';
+import HeaderBgTheme from '../components/global/Header/HeaderBgTheme';
 import { theme } from '../styles/theme';
 import { PATH } from '../customRouter';
 
@@ -16,7 +17,7 @@ const CollectRecipes = () => {
   const { recipeDatas, filterByType, filterByMethod } = mockData;
   return (
     <>
-      <HeaderStyle></HeaderStyle>
+      <HeaderBgTheme></HeaderBgTheme>
       <BasePageComponent>
         <CollectRecipesContainer>
           <Title>맛있고 다양한 레시피 !</Title>
@@ -79,13 +80,6 @@ const CollectRecipes = () => {
   );
 };
 
-const HeaderStyle = styled.div`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 7rem;
-  background-color: ${({ theme }) => theme.themeColor};
-`;
 const CollectRecipesContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
   position:relative;
