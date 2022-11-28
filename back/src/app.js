@@ -6,7 +6,8 @@ import errorMiddleware from "./middlewares/error";
 // 라우터 모듈
 import authRouter from "./routers/auth.route";
 import userRouter from "./routers/user.route";
-import recipeSearch from "./routers/recipeSearch.route";
+import recipeSearchRouter from "./routers/recipeSearch.route";
+import restaurantRouter from "./routers/restaurant.route";
 
 const app = express();
 
@@ -15,11 +16,12 @@ sequelize.sync({ sync: false });
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
-app.use("/recipe", recipeSearch);
+app.use("/recipe", recipeSearchRouter);
+app.use("/restaurant", restaurantRouter);
 
 app.get("/", (req, res) => {
   res.send("food-finder");

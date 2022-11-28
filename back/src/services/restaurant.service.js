@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import restaurantModel from "../db/model/restaurant.model";
 
 dotenv.config();
 
@@ -22,5 +23,9 @@ export default {
     // console.log("response ====>", restaurant);
 
     return restaurant;
+  },
+
+  async restaurantLike(userId, restaurantInfo) {
+    await restaurantModel.creatLike(userId, restaurantInfo);
   },
 };
