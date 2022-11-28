@@ -28,6 +28,8 @@ export const theme = {
   weightSemiBold: 600,
   weightRegular: 400,
 
+  maxWidth5xl: '102.4rem', // 1024px
+
   spacingLargest: '5rem',
   spacingLarge: '3rem',
   spacingMedium: '2rem',
@@ -77,7 +79,11 @@ export const mixins = {
     
   `,
 
-  bigButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
+  bigButton: (
+    bgColor = theme.themeColor,
+    color = theme.mainWhite,
+    border = 'none',
+  ) => `
     font-size: ${theme.fontSemiMedium};  
     background-color: ${bgColor};
     color: ${color};
@@ -87,7 +93,11 @@ export const mixins = {
     border:${border};
   `,
 
-  mediumButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
+  mediumButton: (
+    bgColor = theme.themeColor,
+    color = theme.mainWhite,
+    border = 'none',
+  ) => `
     font-size: ${theme.fontRegular};  
     background-color: ${bgColor};
     color: ${color};
@@ -97,7 +107,11 @@ export const mixins = {
     border:${border};
   `,
 
-  smallButton: (bgColor = '400', color = '#2E83F5', border = 'none') => `
+  smallButton: (
+    bgColor = theme.themeColor,
+    color = theme.mainWhite,
+    border = 'none',
+  ) => `
     font-size: ${theme.fontMicro};  
     background-color: ${bgColor};
     color: ${color};
