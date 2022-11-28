@@ -8,9 +8,10 @@ import Search from '../../common/Search';
 
 const Header = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const MIN_SCROLL_Y = 20;
 
   const updateScroll = () => {
-    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+    setScrollPosition(window.scrollY ?? document.documentElement.scrollTop);
   };
 
   useEffect(() => {
@@ -24,10 +25,12 @@ const Header = () => {
   }, [scrollPosition]);
 
   return (
-    <HeaderContainer itemProp={scrollPosition < 20 ? 'origin' : 'change'}>
+    <HeaderContainer
+      itemProp={scrollPosition < MIN_SCROLL_Y ? 'origin' : 'change'}
+    >
       <ContentContainer>
         <Logo />
-        <Search display={scrollPosition < 20 ? 'none' : 'block'} />
+        <Search display={scrollPosition < MIN_SCROLL_Y ? 'none' : 'block'} />
         <NavLink />
       </ContentContainer>
     </HeaderContainer>
@@ -36,7 +39,7 @@ const Header = () => {
 
 export default Header;
 
-const HeaderContainer = styled.nav`
+const HeaderContainer = styled.header`
   position: fixed;
   top: 0;
   width: 100%;
@@ -48,11 +51,9 @@ const HeaderContainer = styled.nav`
   transition: all 0.5s;
 `;
 
-const ContentContainer = styled.div`
+const ContentContainer = styled.nav`
   width: 100%;
   height: 7rem;
 
   ${({ theme }) => theme.mixins.flexBox('row', 'center', 'space-between')}
 `;
-
-const Div = styled.div``;

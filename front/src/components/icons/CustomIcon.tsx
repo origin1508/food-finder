@@ -11,8 +11,7 @@ import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import { FaCrown } from 'react-icons/fa';
 import { FiSend } from 'react-icons/fi';
 import { BiCloudUpload, BiRefresh } from 'react-icons/bi';
-import { GrFormPrevious } from 'react-icons/gr';
-import { GrFormNext } from 'react-icons/gr';
+import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 import { FcPlus } from 'react-icons/fc';
 
 interface CustomIconProps {
@@ -34,34 +33,33 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
         return <BsCalendarDateFill size={size} color={color} />;
 
       case 'toggleDown':
-        return <VscTriangleDown size={size} color={color}></VscTriangleDown>;
+        return <VscTriangleDown size={size} color={color} />;
 
       case 'toggleUp':
-        return <VscTriangleUp size={size} color={color}></VscTriangleUp>;
+        return <VscTriangleUp size={size} color={color} />;
 
       case 'searchIcon':
-        return <BsSearch size={size} color={color}></BsSearch>;
+        return <BsSearch size={size} color={color} />;
 
       case 'like':
-        return <BsSuitHeartFill size={size} color={color}></BsSuitHeartFill>;
-
+        return <BsSuitHeartFill size={size} color={color} />;
       case 'bell':
-        return <BsFillBellFill size={size} color={color}></BsFillBellFill>;
+        return <BsFillBellFill size={size} color={color} />;
 
       case 'send':
-        return <FiSend size={size} color={color}></FiSend>;
+        return <FiSend size={size} color={color} />;
 
       case 'crown':
-        return <FaCrown size={size} color={color}></FaCrown>;
+        return <FaCrown size={size} color={color} />;
 
       case 'upload':
-        return <BiCloudUpload size={size} color={color}></BiCloudUpload>;
+        return <BiCloudUpload size={size} color={color} />;
 
       case 'refresh':
-        return <BiRefresh size={size} color={color}></BiRefresh>;
+        return <BiRefresh size={size} color={color} />;
 
       case 'plus':
-        return <BsPlusLg size={size} color={color}></BsPlusLg>;
+        return <BsPlusLg size={size} color={color} />;
 
       case 'plusCircle':
         return (
@@ -69,14 +67,14 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
             size={size}
             color={color}
             style={{ display: 'inline-box', verticalAlign: 'top' }}
-          ></FcPlus>
+          />
         );
 
       case 'prev':
-        return <GrFormPrevious size={size} color={color}></GrFormPrevious>;
+        return <GrFormPrevious size={size} color={color} />;
 
       case 'next':
-        return <GrFormNext size={size} color={color}></GrFormNext>;
+        return <GrFormNext size={size} color={color} />;
 
       default:
         console.log('Not implemented!');

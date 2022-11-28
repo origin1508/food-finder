@@ -4,7 +4,7 @@
 import styled from 'styled-components';
 import { SmallTitle, SmallSubTitle } from '../../styles/commonStyle';
 
-interface RecipeCardPropsType {
+interface RecipeCardProps {
   img: string;
   title: string;
   channelUuid: string;
@@ -31,7 +31,7 @@ const RecipeCard = ({
   creator,
   onMoreClick,
   index,
-}: RecipeCardPropsType) => {
+}: RecipeCardProps) => {
   // const { data: todos } = useQuery('todos', async () => {
   //   const { data } = await axios.get<Todo[]>(
   //     'https://jsonplaceholder.typicode.com/todos2',
