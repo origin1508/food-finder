@@ -4,7 +4,18 @@ import { Op, Sequelize } from "sequelize";
 export default {
   async findByKeyword(searchKeyword) {
     const recipe = await Recipe.findAll({
-      attributes: ["dish_id", "name", "views", "image_url1", "image_url2"],
+      logging: console.log,
+      attributes: [
+        "dish_id",
+        "name",
+        "views",
+        "image_url1",
+        "image_url2",
+        [
+          Sequelize.fn("COUNT", Sequelize.col("`RecipeLikes`.`dish_id`")),
+          "likes",
+        ],
+      ],
       where: {
         name: {
           [Op.like]: `%${searchKeyword}%`,
@@ -14,7 +25,7 @@ export default {
       include: [
         {
           model: RecipeLike,
-          attributes: [[Sequelize.fn("COUNT", Sequelize.col("*")), "likes"]],
+          attributes: [],
           required: false,
         },
       ],
