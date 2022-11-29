@@ -1,21 +1,15 @@
-import BasePageComponent from '../hoc/BasePageComponent';
 import styled from 'styled-components';
-import HeaderBgTheme from '../components/global/Header/HeaderBgTheme';
-import { MediumTitle } from '../styles/commonStyle';
+
 import CurrentUserProfile from '../components/profile/CurrentUserProfile';
 import UserRecipe from '../components/profile/UserRecipe';
 const Profile = () => {
   return (
-    <>
-      <HeaderBgTheme></HeaderBgTheme>
-
-      <Container>
-        <ContentContainer>
-          <CurrentUserProfile></CurrentUserProfile>
-          <UserRecipe></UserRecipe>
-        </ContentContainer>
-      </Container>
-    </>
+    <Container>
+      <ContentContainer>
+        <CurrentUserProfile></CurrentUserProfile>
+        <UserRecipe></UserRecipe>
+      </ContentContainer>
+    </Container>
   );
 };
 
