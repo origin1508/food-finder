@@ -4,12 +4,18 @@ import { theme } from '../../styles/theme';
 
 interface SearchType {
   display?: string;
+  onSearchClick: () => void;
+  placeholder?: string;
 }
-const Search = ({ display }: SearchType) => {
+const Search = ({
+  display,
+  onSearchClick,
+  placeholder = '음식, 재료, 태그, 사진검색',
+}: SearchType) => {
   return (
     <SearchContainer itemProp={display}>
-      <SearchInput placeholder="음식, 재료, 태그, 사진검색" type="search" />
-      <SearchIcon>
+      <SearchInput placeholder={placeholder} type="search" />
+      <SearchIcon onClick={onSearchClick}>
         <CustomIcon name="searchIcon" size="17" color={theme.darkGrey} />
       </SearchIcon>
     </SearchContainer>
