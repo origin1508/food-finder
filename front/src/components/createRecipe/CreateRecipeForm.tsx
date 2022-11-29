@@ -26,7 +26,7 @@ const CreateRecipeFormConatiner = styled.form`
   gap: ${({ theme }) => theme.spacingRegular};
 `;
 
-const CreateRecipeFormButtonContainer = styled.div`
+const CreateRecipeFormButtonContainer = styled.section`
   ${CreateRecipeContainerStyle};
   ${({ theme }) => theme.mixins.flexBox()};
   gap: ${({ theme }) => theme.spacingLarge};

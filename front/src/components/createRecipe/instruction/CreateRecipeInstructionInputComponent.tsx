@@ -29,7 +29,7 @@ const CreateRecipeInstructionInputComponent = ({
 
 export default CreateRecipeInstructionInputComponent;
 
-const CreateRecipeInstructionInputContainer = styled.div`
+const CreateRecipeInstructionInputContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox()}
   width: 80rem;
 `;

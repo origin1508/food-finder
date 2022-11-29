@@ -27,7 +27,7 @@ const CreateRecipeInstruction = () => {
 
 export default CreateRecipeInstruction;
 
-const CreateRecipeInstructionContainer = styled.div`
+const CreateRecipeInstructionContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
   padding: ${({ theme }) => theme.spacingLarge};
@@ -38,7 +38,7 @@ const CreateRecipeInstructionContainer = styled.div`
 
 const CreateRecipeInstructionHeader = styled(CreateRecipeHeader)``;
 
-const CreateRecipeInstructionTitle = styled.span`
+const CreateRecipeInstructionTitle = styled.h2`
   ${MediumTitle}
   color: ${({ theme }) => theme.mainBlack}
 `;
