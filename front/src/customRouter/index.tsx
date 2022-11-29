@@ -13,6 +13,7 @@ const Recipe = lazy(() => import('../pages/recipe'));
 const CreateRecipe = lazy(() => import('../pages/createRecipe'));
 const CollectRecipes = lazy(() => import('../pages/collectRecipes'));
 const Profile = lazy(() => import('../pages/profile'));
+const Map = lazy(() => import('../components/map/LandingPage'));
 
 export const PATH = {
   MAIN: '/',
@@ -22,6 +23,7 @@ export const PATH = {
   CREATE_RECIPE: '/recipe/create',
   COLLECT_RECIPES: '/collectRecipes',
   PROFILE: '/profile',
+  MAP: '/map',
   NOT_FOUND: '/*',
 };
 
@@ -40,6 +42,7 @@ const CustomRouter = () => {
             <Route path={PATH.COLLECT_RECIPES} element={<CollectRecipes />} />
             <Route path={PATH.PROFILE} element={<Profile />} />
             <Route path={PATH.NOT_FOUND} element={<NotFound />} />
+            <Route path={PATH.MAP} element={<Map />} />
           </Routes>
         </Suspense>
       </ErrorBoundary>
