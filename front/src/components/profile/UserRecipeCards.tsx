@@ -7,10 +7,10 @@ import { theme } from '../../styles/theme';
 import { BaseComponentType } from '../../types/common/baseComponentType';
 import mockData from '../../util/mockData';
 const UserRecipeCards = ({ children }: BaseComponentType) => {
-  const CARD_WIDTH_SIZE = 23.4;
-  const CARDS_WIDTH_SIZE = 132;
   const { recipeDatas } = mockData;
   const [slidePx, setSlidePx] = useState(0);
+  const CARD_WIDTH_SIZE = 23;
+  const CARDS_WIDTH_SIZE = 68;
 
   const toPrev = () => {
     slidePx < 0 && setSlidePx(slidePx + CARD_WIDTH_SIZE);
@@ -64,7 +64,7 @@ const Title = styled.h2`
 `;
 
 const RecipeCards = styled.div`
-  max-width: 67vh;
+  max-width: 68vh;
   height: 21vh;
   overflow: hidden;
 `;
