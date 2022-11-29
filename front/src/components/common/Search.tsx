@@ -4,13 +4,13 @@ import { theme } from '../../styles/theme';
 
 interface SearchType {
   display?: string;
-  onSearchClick: () => void;
   placeholder?: string;
+  onSearchClick: () => void;
 }
 const Search = ({
   display,
-  onSearchClick,
   placeholder = '음식, 재료, 태그, 사진검색',
+  onSearchClick,
 }: SearchType) => {
   return (
     <SearchContainer itemProp={display}>
