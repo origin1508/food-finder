@@ -43,6 +43,7 @@ const Error = styled.p`
     theme.mixins.title(theme.fontMedium, theme.weightSemiBold, theme.mainBlack)}
 `;
 const Button = styled.button`
-  ${({ theme }) => theme.mixins.mediumButton}
+  ${({ theme }) => theme.mixins.mediumButton()}
+  width: 20%;
 `;
 export default ErrorAlert;
