@@ -1,4 +1,4 @@
-import { Recipe, RecipeLike } from "../schema";
+import { Recipe, RecipeLike, User } from "../schema";
 import { Op, Sequelize } from "sequelize";
 
 export default {
@@ -15,6 +15,7 @@ export default {
           Sequelize.fn("COUNT", Sequelize.col("`RecipeLikes`.`dish_id`")),
           "likes",
         ],
+        [Sequelize.col("`User`.`nickname`"), "nickname"],
       ],
       where: {
         name: {
@@ -25,6 +26,11 @@ export default {
       include: [
         {
           model: RecipeLike,
+          attributes: [],
+          required: false,
+        },
+        {
+          model: User,
           attributes: [],
           required: false,
         },
