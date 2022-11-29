@@ -3,6 +3,12 @@ import { Op, Sequelize } from "sequelize";
 
 export default {
   async findByKeyword(searchKeyword) {
+    const likes = Sequelize.fn(
+      "COUNT",
+      Sequelize.col("`RecipeLikes`.`dish_id`")
+    );
+    const nickname = Sequelize.col("`User`.`nickname`");
+
     const recipe = await Recipe.findAll({
       logging: console.log,
       attributes: [
@@ -11,11 +17,8 @@ export default {
         "views",
         "image_url1",
         "image_url2",
-        [
-          Sequelize.fn("COUNT", Sequelize.col("`RecipeLikes`.`dish_id`")),
-          "likes",
-        ],
-        [Sequelize.col("`User`.`nickname`"), "nickname"],
+        [likes, "likes"],
+        [nickname, "nickname"],
       ],
       where: {
         name: {
@@ -41,6 +44,17 @@ export default {
   },
 
   async RecipeRanking() {
+    const datediff = Sequelize.fn(
+      "datediff",
+      Sequelize.fn("NOW"),
+      Sequelize.col("`RecipeInformation`.`createdAt`")
+    );
+    const likes = Sequelize.fn(
+      "COUNT",
+      Sequelize.col("`RecipeLikes`.`dish_id`")
+    );
+    const nickname = Sequelize.col("`User`.`nickname`");
+
     const ranking = await Recipe.findAll({
       logging: console.log,
       attributes: [
@@ -49,19 +63,9 @@ export default {
         "views",
         "image_url1",
         "image_url2",
-        [
-          Sequelize.fn("COUNT", Sequelize.col("`RecipeLikes`.`dish_id`")),
-          "likes",
-        ],
-        [Sequelize.col("`User`.`nickname`"), "nickname"],
-        [
-          Sequelize.fn(
-            "datediff",
-            Sequelize.fn("NOW"),
-            Sequelize.col("`RecipeInformation`.`createdAt`")
-          ),
-          "now-diff",
-        ],
+        [likes, "likes"],
+        [nickname, "nickname"],
+        [datediff, "now-diff"],
       ],
       group: ["dish_id"],
       include: [
@@ -88,14 +92,7 @@ export default {
         //     ),
         //   "DESC",
         // ],
-        [
-          Sequelize.fn(
-            "datediff",
-            Sequelize.fn("NOW"),
-            Sequelize.col("`RecipeInformation`.`createdAt`")
-          ),
-          "ASC",
-        ],
+        [datediff, "ASC"],
       ],
     });
 
