@@ -36,6 +36,7 @@ export const theme = {
   spacingSemiMedium: '1.5rem',
   spacingRegular: '1rem',
   spacingSmall: '0.5rem',
+  spacingSmallest: '0.3rem',
 
   absoluteCenter: css`
     position: absolute;
