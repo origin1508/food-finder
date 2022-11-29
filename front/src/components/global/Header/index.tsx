@@ -19,6 +19,7 @@ const Header = () => {
 
   useEffect(() => {
     if (pathname === PATH.RECIPE) {
+      setIsBackground(false);
       const timer = setInterval(() => {
         window.addEventListener('scroll', updateScroll);
       }, 50);
