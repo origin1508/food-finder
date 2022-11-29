@@ -8,6 +8,7 @@ import {
 } from '../../styles/authStyle';
 
 const AuthLoginForm = () => {
+  const REGISTER_PATH = '/register';
   return (
     <AuthLoginFormContainer>
       <AuthInputContainer>
@@ -18,7 +19,7 @@ const AuthLoginForm = () => {
       </AuthInputContainer>
       <AuthButtonContainer>
         <AuthButton>Login</AuthButton>
-        <AuthLink to="/register">Sign up</AuthLink>
+        <AuthLink to={REGISTER_PATH}>Sign up</AuthLink>
       </AuthButtonContainer>
     </AuthLoginFormContainer>
   );
@@ -28,7 +29,6 @@ export default AuthLoginForm;
 
 const AuthLoginFormContainer = styled.form`
   ${(props) => props.theme.mixins.flexBox('column')}
-
   width: 90%;
   height: 100%;
 `;

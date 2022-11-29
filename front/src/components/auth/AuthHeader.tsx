@@ -14,7 +14,7 @@ const AuthHeader = ({ children }: AuthHeaderProps) => {
 
 export default AuthHeader;
 
-const AuthHeaderContainer = styled.div`
+const AuthHeaderContainer = styled.section`
   flex-shrink: 0;
   width: 100%;
   height: 8rem;

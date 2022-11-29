@@ -8,6 +8,7 @@ import {
 } from '../../styles/authStyle';
 
 const AuthRegisterForm = () => {
+  const LOGIN_PATH = '/login';
   return (
     <AuthRegisterFormContainer>
       <AuthInputContainer>
@@ -24,7 +25,7 @@ const AuthRegisterForm = () => {
       </AuthInputContainer>
       <AuthButtonContainer>
         <AuthButton>Registration</AuthButton>
-        <AuthLink to="/login">Sign in</AuthLink>
+        <AuthLink to={LOGIN_PATH}>Sign in</AuthLink>
       </AuthButtonContainer>
     </AuthRegisterFormContainer>
   );
@@ -34,7 +35,6 @@ export default AuthRegisterForm;
 
 const AuthRegisterFormContainer = styled.form`
   ${(props) => props.theme.mixins.flexBox('column')}
-
   width: 90%;
   height: 100%;
 `;
@@ -44,6 +44,6 @@ const AuthLink = styled(Link)`
   height: 5rem;
   line-height: 5rem;
   text-align: center;
-  color: #2e83f5;
+  color: ${({ theme }) => theme.themeColor};
   cursor: pointer;
 `;

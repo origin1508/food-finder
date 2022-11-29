@@ -15,12 +15,12 @@ const AuthLogin = () => {
 
 export default AuthLogin;
 
-const AuthLoginWrapper = styled.div`
+const AuthLoginWrapper = styled.article`
   ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
 `;
 
-const AuthLoginContainer = styled.div`
+const AuthLoginContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 60rem;
   height: 50rem;
