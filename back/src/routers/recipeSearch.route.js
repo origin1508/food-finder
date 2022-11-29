@@ -24,4 +24,18 @@ router.get("/:searchKeyword", async (req, res, next) => {
   }
 });
 
+router.get("/list/rank", async (req, res, next) => {
+  try {
+    const recipeRanking = await recipeSearchService.getRecipeRanking();
+
+    res.status(200).json({
+      success: true,
+      message: "레시피 랭킹 불러오기 성공",
+      result: recipeRanking,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;

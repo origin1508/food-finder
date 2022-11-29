@@ -7,4 +7,10 @@ export default {
 
     return searchedRecipe;
   },
+
+  async getRecipeRanking() {
+    const recipeRanking = await RecipeModel.RecipeRanking();
+
+    return recipeRanking;
+  },
 };
