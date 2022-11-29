@@ -7,15 +7,17 @@ import { theme } from '../../styles/theme';
 import { BaseComponentType } from '../../types/common/baseComponentType';
 import mockData from '../../util/mockData';
 const SuggestionRecipe = ({ children }: BaseComponentType) => {
+  const CARD_WIDTH_SIZE = 27;
+  const CARDS_WIDTH_SIZE = 132;
   const { recipeDatas } = mockData;
   const [slidePx, setSlidePx] = useState(0);
 
   const toPrev = () => {
-    slidePx < 0 && setSlidePx(slidePx + 27);
+    slidePx < 0 && setSlidePx(slidePx + CARD_WIDTH_SIZE);
   };
 
   const toNext = () => {
-    slidePx > -132 && setSlidePx(slidePx - 27);
+    slidePx > -CARDS_WIDTH_SIZE && setSlidePx(slidePx - CARD_WIDTH_SIZE);
   };
 
   return (

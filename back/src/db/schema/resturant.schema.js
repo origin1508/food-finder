@@ -31,7 +31,7 @@ const Restaurant = sequelize.define(
     },
     url: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
