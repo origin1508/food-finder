@@ -38,4 +38,18 @@ router.get("/list/week", async (req, res, next) => {
   }
 });
 
+router.get("/list/random", async (req, res, next) => {
+  try {
+    const randomRecipe = await recipeSearchService.getRandomRecipe();
+
+    res.status(200).json({
+      success: true,
+      message: "레시피 불러오기 성공",
+      result: randomRecipe,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;

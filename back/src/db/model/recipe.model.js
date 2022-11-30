@@ -100,4 +100,42 @@ export default {
 
     return ranking;
   },
+
+  async getRandomRecipe() {
+    const likes = Sequelize.fn(
+      "COUNT",
+      Sequelize.col("`RecipeLikes`.`dish_id`")
+    );
+    const nickname = Sequelize.col("`User`.`nickname`");
+
+    const randomRecipe = await Recipe.findAll({
+      limit: 10,
+      subQuery: false,
+      attributes: [
+        "dish_id",
+        "name",
+        "views",
+        "image_url1",
+        "image_url2",
+        [likes, "likes"],
+        [nickname, "nickname"],
+      ],
+      group: ["dish_id"],
+      include: [
+        {
+          model: RecipeLike,
+          attributes: [],
+          required: false,
+        },
+        {
+          model: User,
+          attributes: [],
+          required: false,
+        },
+      ],
+      order: Sequelize.literal("rand()"),
+    });
+
+    return randomRecipe;
+  },
 };
