@@ -22,11 +22,11 @@ const Restaurant = sequelize.define(
       allowNull: false,
     },
     map_x: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     map_y: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     url: {
