@@ -15,77 +15,67 @@ const CollectRecipes = () => {
   const [selectMethod, setSelectMethod] = useState('전체');
   const { recipeDatas, filterByType, filterByMethod } = mockData;
   return (
-    <>
-      <HeaderStyle></HeaderStyle>
-      <BasePageComponent>
-        <CollectRecipesContainer>
-          <Title>맛있고 다양한 레시피 !</Title>
-          <PrevButton onClick={() => navigate(PATH.MAIN)}>
-            <CustomIcon name="prev" size="50" color={theme.mainBlack} />
-          </PrevButton>
-          <FilterContainer>
-            <Filter>
-              <FilterTitle>종류별</FilterTitle>
-              <SelectContainer>
-                {filterByType.map((type) => (
-                  <SelectType
-                    itemProp={selectKind}
-                    itemType={type}
-                    name={type}
-                    onClick={() => setSelectKind(type)}
-                  >
-                    {type}
-                  </SelectType>
-                ))}
-              </SelectContainer>
-            </Filter>
-            <Filter>
-              <FilterTitle>조리방법별</FilterTitle>
-              <SelectContainer>
-                {filterByMethod.map((type) => (
-                  <SelectMethod
-                    itemProp={selectMethod}
-                    itemType={type}
-                    name={type}
-                    onClick={() => setSelectMethod(type)}
-                  >
-                    {type}
-                  </SelectMethod>
-                ))}
-              </SelectContainer>
-            </Filter>
-          </FilterContainer>
-          <RecipeCards>
-            <Wrap>
-              {recipeDatas.map((recipe) => {
-                return (
-                  <RecipeCard
-                    img={recipe.img}
-                    title={recipe.title}
-                    channelUuid={recipe.channelUuid}
-                    views={recipe.views}
-                    likes={recipe.likes}
-                    creator={recipe.creator}
-                    onMoreClick={recipe.onMoreClick}
-                    index={recipe.index}
-                  ></RecipeCard>
-                );
-              })}
-            </Wrap>
-          </RecipeCards>
-        </CollectRecipesContainer>
-      </BasePageComponent>
-    </>
+    <BasePageComponent>
+      <CollectRecipesContainer>
+        <Title>맛있고 다양한 레시피 !</Title>
+        <PrevButton onClick={() => navigate(PATH.MAIN)}>
+          <CustomIcon name="prev" size="50" color={theme.mainBlack} />
+        </PrevButton>
+        <FilterContainer>
+          <Filter>
+            <FilterTitle>종류별</FilterTitle>
+            <SelectContainer>
+              {filterByType.map((type) => (
+                <SelectType
+                  itemProp={selectKind}
+                  itemType={type}
+                  name={type}
+                  onClick={() => setSelectKind(type)}
+                >
+                  {type}
+                </SelectType>
+              ))}
+            </SelectContainer>
+          </Filter>
+          <Filter>
+            <FilterTitle>조리방법별</FilterTitle>
+            <SelectContainer>
+              {filterByMethod.map((type) => (
+                <SelectMethod
+                  itemProp={selectMethod}
+                  itemType={type}
+                  name={type}
+                  onClick={() => setSelectMethod(type)}
+                >
+                  {type}
+                </SelectMethod>
+              ))}
+            </SelectContainer>
+          </Filter>
+        </FilterContainer>
+        <RecipeCards>
+          <Wrap>
+            {recipeDatas.map((recipe) => {
+              return (
+                <RecipeCard
+                  img={recipe.img}
+                  title={recipe.title}
+                  channelUuid={recipe.channelUuid}
+                  views={recipe.views}
+                  likes={recipe.likes}
+                  creator={recipe.creator}
+                  onMoreClick={recipe.onMoreClick}
+                  index={recipe.index}
+                ></RecipeCard>
+              );
+            })}
+          </Wrap>
+        </RecipeCards>
+      </CollectRecipesContainer>
+    </BasePageComponent>
   );
 };
 
-const HeaderStyle = styled.div`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 7rem;
-  background-color: ${({ theme }) => theme.themeColor};
-`;
 const CollectRecipesContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
   position:relative;

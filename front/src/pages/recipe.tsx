@@ -22,10 +22,10 @@ const Recipe = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.article`
   ${({ theme }) => theme.mixins.flexBox('column', 'start', 'start')};
 `;
-const SearchContainer = styled.div`
+const SearchContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   gap: 3vh;
   height: 40vh;
@@ -37,7 +37,7 @@ const SearchContainer = styled.div`
 const SearchTitle = styled.h2`
   ${MediumTitle}
 `;
-const RecipeContainer = styled.div`
+const RecipeContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
   gap: 10vh;

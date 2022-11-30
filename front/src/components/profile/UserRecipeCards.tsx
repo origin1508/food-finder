@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import RecipeCard from '../../components/recipe/RecipeCard';
+import RecipeCard from '../recipe/RecipeCard';
 import { MediumTitle } from '../../styles/commonStyle';
-import CustomIcon from '../../components/icons/CustomIcon';
+import CustomIcon from '../icons/CustomIcon';
 import { theme } from '../../styles/theme';
 import { BaseComponentType } from '../../types/common/baseComponentType';
 import mockData from '../../util/mockData';
-const SuggestionRecipe = ({ children }: BaseComponentType) => {
-  const CARD_WIDTH_SIZE = 27;
-  const CARDS_WIDTH_SIZE = 132;
+const UserRecipeCards = ({ children }: BaseComponentType) => {
   const { recipeDatas } = mockData;
   const [slidePx, setSlidePx] = useState(0);
+  const CARD_WIDTH_SIZE = 23;
+  const CARDS_WIDTH_SIZE = 68;
 
   const toPrev = () => {
     slidePx < 0 && setSlidePx(slidePx + CARD_WIDTH_SIZE);
@@ -21,7 +21,7 @@ const SuggestionRecipe = ({ children }: BaseComponentType) => {
   };
 
   return (
-    <SuggestionRecipeContainer>
+    <UserRecipeCardsContainer>
       <Title>{children}</Title>
       <RecipeCards>
         <Wrap results={slidePx}>
@@ -36,6 +36,7 @@ const SuggestionRecipe = ({ children }: BaseComponentType) => {
                 creator={recipe.creator}
                 onMoreClick={recipe.onMoreClick}
                 index={recipe.index}
+                size="20"
               ></RecipeCard>
             );
           })}
@@ -47,14 +48,14 @@ const SuggestionRecipe = ({ children }: BaseComponentType) => {
       <NextButton onClick={() => toNext()}>
         <CustomIcon name="next" size="2.5vh" color={theme.mainBlack} />
       </NextButton>
-    </SuggestionRecipeContainer>
+    </UserRecipeCardsContainer>
   );
 };
 
-const SuggestionRecipeContainer = styled.div`
+const UserRecipeCardsContainer = styled.div`
   position: relative;
   ${({ theme }) => theme.mixins.flexBox('column')};
-  gap: 2vh;
+  gap: 4vh;
 `;
 
 const Title = styled.h2`
@@ -63,8 +64,8 @@ const Title = styled.h2`
 `;
 
 const RecipeCards = styled.div`
-  max-width: 132vh;
-  height: 25vh;
+  max-width: 68vh;
+  height: 21vh;
   overflow: hidden;
 `;
 const Wrap = styled.div`
@@ -79,7 +80,7 @@ const PrevButton = styled.div`
   position: absolute;
   cursor: pointer;
   top: 50%;
-  left: -1.3%;
+  left: -2.5%;
   background-color: ${({ theme }) => theme.mainWhite};
   width: 4vh;
   height: 4vh;
@@ -92,7 +93,7 @@ const NextButton = styled.div`
   position: absolute;
   cursor: pointer;
   top: 50%;
-  right: -1.3%;
+  right: -2.5%;
   background-color: ${({ theme }) => theme.mainWhite};
   width: 4vh;
   height: 4vh;
@@ -100,4 +101,4 @@ const NextButton = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
-export default SuggestionRecipe;
+export default UserRecipeCards;

@@ -3,10 +3,11 @@ import express from "express";
 import userService from "../services/user.service";
 import { userProfileImageUpload } from "../middlewares/multer";
 import ApiError from "../utils/ApiError";
+import authorizeJWT from "../middlewares/JWTauthorization";
 
 const router = express.Router();
 
-router.put("/:userId/nickname", async (req, res, next) => {
+router.put("/:userId/nickname", authorizeJWT, async (req, res, next) => {
   const { userId } = req.params;
   const { nickname } = req.body;
 
@@ -24,7 +25,7 @@ router.put("/:userId/nickname", async (req, res, next) => {
   }
 });
 
-router.put("/:userId/password", async (req, res, next) => {
+router.put("/:userId/password", authorizeJWT, async (req, res, next) => {
   const { userId } = req.params;
   const { password, newPassword } = req.body;
 
@@ -44,6 +45,7 @@ router.put("/:userId/password", async (req, res, next) => {
 
 router.put(
   "/:userId/profileImage",
+  authorizeJWT,
   userProfileImageUpload.single("profileImage"),
   async (req, res, next) => {
     if (!req.file) {

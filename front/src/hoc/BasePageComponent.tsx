@@ -10,7 +10,7 @@ const BasePageComponent = ({ children }: BasePageComponentProps) => {
 
 export default BasePageComponent;
 
-const BasePageComponentContainer = styled.article`
+const BasePageComponentContainer = styled.main`
   width: 100%;
   height: 100vh;
   padding-top: 7rem;

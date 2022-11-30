@@ -103,6 +103,11 @@ const mockData = {
   ],
   filterByType: ['전체', '밥', '반찬', '후식', '국 & 찌개'],
   filterByMethod: ['전체', '볶기', '찌기', '튀기기', '끓이기', '굽기', '기타'],
+
+  auth: {
+    name: 'dlzagu',
+    email: 'eodnsdlekd@naver.com',
+  },
 };
 
 export default mockData;
