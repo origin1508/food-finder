@@ -8,6 +8,7 @@ import authRouter from "./routers/auth.route";
 import userRouter from "./routers/user.route";
 import recipeSearchRouter from "./routers/recipeSearch.route";
 import restaurantRouter from "./routers/restaurant.route";
+import errorRouter from "./routers/error.route";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/recipe", recipeSearchRouter);
 app.use("/restaurant", restaurantRouter);
+app.use("/error", errorRouter);
 
 app.get("/", (req, res) => {
   res.send("food-finder");
