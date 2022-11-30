@@ -2,6 +2,19 @@ import { Recipe, RecipeLike, User } from "../schema";
 import { Op, Sequelize } from "sequelize";
 
 export default {
+  async findAll() {
+    const recipes = await Recipe.findAll({
+      attributes: [
+        ["dish_id", "dishId"],
+        "name",
+        ["image_url1", "smallThumbnailUrl"],
+        ["image_url2", "largeThumbnailUrl"],
+        "views",
+      ],
+    });
+
+    return recipes;
+  },
   async findByKeyword(searchKeyword) {
     const recipe = await Recipe.findAll({
       logging: console.log,
