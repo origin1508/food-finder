@@ -6,6 +6,7 @@ import {
   BsFillBellFill,
   BsSuitHeartFill,
   BsPlusLg,
+  BsImage,
 } from 'react-icons/bs';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import { FaCrown } from 'react-icons/fa';
@@ -13,6 +14,7 @@ import { FiSend } from 'react-icons/fi';
 import { BiCloudUpload, BiRefresh } from 'react-icons/bi';
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 import { FcPlus } from 'react-icons/fc';
+import { AiOutlineUpload } from 'react-icons/ai';
 
 interface CustomIconProps {
   name: string;
@@ -52,9 +54,6 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
       case 'crown':
         return <FaCrown size={size} color={color} />;
 
-      case 'upload':
-        return <BiCloudUpload size={size} color={color} />;
-
       case 'refresh':
         return <BiRefresh size={size} color={color} />;
 
@@ -75,6 +74,12 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
 
       case 'next':
         return <GrFormNext size={size} color={color} />;
+
+      case 'upload':
+        return <AiOutlineUpload size={size} color={color} />;
+
+      case 'imageUpload':
+        return <BsImage size={size} color={color} />;
 
       default:
         console.log('Not implemented!');
