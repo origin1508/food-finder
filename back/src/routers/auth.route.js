@@ -7,7 +7,7 @@ router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const user = await authService.checkUser(email, password);
-    const accessToken = await authService.generateAccessToken(user.user_id);
+    const accessToken = await authService.generateAccessToken(user.userId);
     const refreshToken = await authService.generateRefreshToken();
 
     res.status(200).json({

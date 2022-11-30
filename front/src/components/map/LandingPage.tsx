@@ -13,7 +13,7 @@ const LandingPage = (): JSX.Element => {
   // 입력 폼 변화 감지하여 입력 값 관리
   const [Value, setValue] = useState('');
   // 제출한 검색어 관리
-  const [Keyword, setKeyword] = useState('');
+  const [Keyword, setKeyword] = useState('강남 김치찌개 맛집');
 
   // 입력 폼 변화 감지하여 입력 값을 state에 담아주는 함수
   const keywordChange = (e: {
