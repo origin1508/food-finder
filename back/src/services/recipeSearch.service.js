@@ -8,7 +8,7 @@ export default {
     return searchedRecipe;
   },
 
-  async getRecipeRanking() {
+  async recipeRankingOn7days() {
     const recipeRanking = await RecipeModel.RecipeRanking();
 
     return recipeRanking;

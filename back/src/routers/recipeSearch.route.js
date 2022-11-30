@@ -24,9 +24,9 @@ router.get("/:searchKeyword", async (req, res, next) => {
   }
 });
 
-router.get("/list/rank", async (req, res, next) => {
+router.get("/list/week", async (req, res, next) => {
   try {
-    const recipeRanking = await recipeSearchService.getRecipeRanking();
+    const recipeRanking = await recipeSearchService.recipeRankingOn7days();
 
     res.status(200).json({
       success: true,
