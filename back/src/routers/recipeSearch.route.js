@@ -24,4 +24,18 @@ router.get("/:searchKeyword", async (req, res, next) => {
   }
 });
 
+router.get("/list/week", async (req, res, next) => {
+  try {
+    const recipeRanking = await recipeSearchService.recipeRankingOn7days();
+
+    res.status(200).json({
+      success: true,
+      message: "레시피 불러오기 성공",
+      result: recipeRanking,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;
