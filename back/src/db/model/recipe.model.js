@@ -43,6 +43,25 @@ export default {
     return recipe;
   },
 
+  async findAllByUserId(userId) {
+    const recieps = await Recipe.findAll({
+      attributes: [
+        'dish_id',
+        'name',
+        'method',
+        'category',
+        'image_url2',
+        'views',
+        'createdAt'
+      ],
+      where: {
+        user_id: userId,
+      },
+    });
+
+    return recieps;
+  },
+
   async rankingOn7days() {
     const likes = Sequelize.fn(
       "COUNT",

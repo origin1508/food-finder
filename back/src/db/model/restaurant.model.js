@@ -34,4 +34,14 @@ export default {
 
     return restaurant;
   },
+
+  async findAllByUserId(userId) {
+    const restaurants = await Restaurant.findAll({
+      where: {
+        user_id: userId,
+      },
+    });
+
+    return restaurants
+  },
 };

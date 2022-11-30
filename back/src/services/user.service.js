@@ -1,6 +1,8 @@
 import userModel from "../db/model/user.model";
 import bcrypt from "bcrypt";
 import ApiError from "../utils/ApiError";
+import recipeModel from "../db/model/recipe.model";
+import restaurantModel from '../db/model/restaurant.model';
 
 export default {
   async modifyNickname(userId, nickname) {
@@ -56,4 +58,22 @@ export default {
       profileUrl: user.profile_url,
     };
   },
+  
+  // 아래 서비스는
+  // 페이지네이션 상의 후에 코드 수정
+  async getRecipes(userId) {
+    const recipes = await recipeModel.findAllByUserId(userId);
+
+    return recipes;
+  },
+
+  // async getLikeRecipes(userId) {
+  //   const recipes = await recipeModel.
+  // },
+
+  async getRestaurants(userId) {
+    const restaurants = await restaurantModel.findAllByUserId(userId);
+
+    return restaurants;
+  }
 };
