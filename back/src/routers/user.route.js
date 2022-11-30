@@ -69,4 +69,44 @@ router.put(
   }
 );
 
+router.get("/:userId/recipes", authorizeJWT, async (req, res, next) => {
+  const { userId } = req.params;
+
+  try {
+    const recipes = await userService.getRecipes(userId);
+
+    res.status(200).json({
+      success: true,
+      message: "내가 작성한 레시피 목록 조회 성공",
+      result: recipes,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// router.get("/:userId/like/recipes", async (req, res, next) => {
+//   const {userId} = req.params;
+
+//   try {
+//     const recipes = await userService
+//   }
+// });
+
+router.get("/:userId/like/restaurant", async (req, res, next) => {
+  const { userId } = req.params;
+
+  try {
+    const restaurants = await userService.getRestaurants(userId);
+
+    res.status(200).json({
+      success: true,
+      message: "북마크한 맛집 목록 조회 성공",
+      result: restaurants,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;
