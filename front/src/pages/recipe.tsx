@@ -12,7 +12,7 @@ const Recipe = () => {
         <SearchTitle>
           400가지 이상의 다양한 한식레시피를 검색해보세요!
         </SearchTitle>
-        <Search />
+        <Search onSearchClick={() => {}} />
       </SearchContainer>
       <RecipeContainer>
         <SuggestionRecipe>오늘의 추천 RECIPE!</SuggestionRecipe>

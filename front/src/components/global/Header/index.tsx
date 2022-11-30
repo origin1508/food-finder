@@ -46,6 +46,7 @@ const Header = () => {
           display={
             isBackground || scrollPosition > MIN_SCROLL_Y ? 'block' : 'none'
           }
+          onSearchClick={() => {}}
         />
         <NavLink />
       </ContentContainer>
