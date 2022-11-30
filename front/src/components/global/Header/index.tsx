@@ -27,7 +27,10 @@ const Header = () => {
     <HeaderContainer itemProp={scrollPosition < 20 ? 'origin' : 'change'}>
       <ContentContainer>
         <Logo />
-        <Search display={scrollPosition < 20 ? 'none' : 'block'} />
+        <Search
+          display={scrollPosition < 20 ? 'none' : 'block'}
+          onSearchClick={() => {}}
+        />
         <NavLink />
       </ContentContainer>
     </HeaderContainer>
