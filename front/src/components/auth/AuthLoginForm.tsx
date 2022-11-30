@@ -6,9 +6,9 @@ import {
   AuthInput,
   AuthInputContainer,
 } from '../../styles/authStyle';
+import { PATH } from '../../customRouter';
 
 const AuthLoginForm = () => {
-  const REGISTER_PATH = '/register';
   return (
     <AuthLoginFormContainer>
       <AuthInputContainer>
@@ -19,7 +19,7 @@ const AuthLoginForm = () => {
       </AuthInputContainer>
       <AuthButtonContainer>
         <AuthButton>Login</AuthButton>
-        <AuthLink to={REGISTER_PATH}>Sign up</AuthLink>
+        <AuthLink to={PATH.REGISTER}>Sign up</AuthLink>
       </AuthButtonContainer>
     </AuthLoginFormContainer>
   );
