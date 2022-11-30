@@ -30,7 +30,7 @@ router.get("/list/week", async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "레시피 랭킹 불러오기 성공",
+      message: "레시피 불러오기 성공",
       result: recipeRanking,
     });
   } catch (err) {

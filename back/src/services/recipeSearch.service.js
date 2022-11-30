@@ -9,7 +9,7 @@ export default {
   },
 
   async recipeRankingOn7days() {
-    const recipeRanking = await RecipeModel.RecipeRanking();
+    const recipeRanking = await RecipeModel.rankingOn7days();
 
     return recipeRanking;
   },
