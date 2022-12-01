@@ -13,4 +13,10 @@ export default {
 
     return recipeRanking;
   },
+
+  async getRandomRecipe() {
+    const randomRecipe = await RecipeModel.getRandomRecipe();
+
+    return randomRecipe;
+  },
 };

@@ -7,9 +7,9 @@ const router = express.Router();
 router.get("/:searchKeyword", async (req, res, next) => {
   const searchKeyword = req.params.searchKeyword;
   try {
-    const restaurant = await restaurantService.restaurantSearchApiCall(
-      searchKeyword
-    );
+    // const restaurant = await restaurantService.restaurantSearchApiCall(
+    //   searchKeyword
+    // );
     const searchedRecipe = await recipeSearchService.searchRecipe(
       searchKeyword
     );
@@ -17,7 +17,7 @@ router.get("/:searchKeyword", async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "레시피 검색 성공",
-      result: { searchedRecipe, restaurant },
+      result: searchedRecipe,
     });
   } catch (err) {
     next(err);
@@ -32,6 +32,20 @@ router.get("/list/week", async (req, res, next) => {
       success: true,
       message: "레시피 불러오기 성공",
       result: recipeRanking,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/list/random", async (req, res, next) => {
+  try {
+    const randomRecipe = await recipeSearchService.getRandomRecipe();
+
+    res.status(200).json({
+      success: true,
+      message: "레시피 불러오기 성공",
+      result: randomRecipe,
     });
   } catch (err) {
     next(err);

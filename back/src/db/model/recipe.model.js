@@ -28,15 +28,29 @@ export default {
       group: ["dish_id"],
       include: [
         {
+          model: User,
+          attributes: [],
+          required: false,
+        },
+        {
           model: RecipeLike,
           attributes: [],
           required: false,
         },
         {
-          model: User,
+          model: RecipeStar,
           attributes: [],
           required: false,
+          where: { user_id: "`User`.`user_id`" },
         },
+      ],
+      order: [
+        [
+          Sequelize.literal(
+            "((`RecipeInformation`.`views` * 1.5) + (COUNT(`RecipeLikes`.`dish_id`) * 1.5) + (IFNULL(AVG(`RecipeStars`.`score`),0) * 1.5)) / ((DATEDIFF(NOW(), `RecipeInformation`.`createdAt`)+1) * 1)"
+          ),
+          "DESC",
+        ],
       ],
     });
 
@@ -91,12 +105,12 @@ export default {
       group: ["dish_id"],
       include: [
         {
-          model: RecipeLike,
+          model: User,
           attributes: [],
           required: false,
         },
         {
-          model: User,
+          model: RecipeLike,
           attributes: [],
           required: false,
         },
@@ -104,6 +118,7 @@ export default {
           model: RecipeStar,
           attributes: [],
           required: false,
+          where: { user_id: "`User`.`user_id`" },
         },
       ],
       // (조회수 * 가중치 + 좋아요 * 가중치 + 별점 * 가중치) / (지난날짜 * 가중치)
@@ -118,5 +133,43 @@ export default {
     });
 
     return ranking;
+  },
+
+  async getRandomRecipe() {
+    const likes = Sequelize.fn(
+      "COUNT",
+      Sequelize.col("`RecipeLikes`.`dish_id`")
+    );
+    const nickname = Sequelize.col("`User`.`nickname`");
+
+    const randomRecipe = await Recipe.findAll({
+      limit: 10,
+      subQuery: false,
+      attributes: [
+        "dish_id",
+        "name",
+        "views",
+        "image_url1",
+        "image_url2",
+        [likes, "likes"],
+        [nickname, "nickname"],
+      ],
+      group: ["dish_id"],
+      include: [
+        {
+          model: RecipeLike,
+          attributes: [],
+          required: false,
+        },
+        {
+          model: User,
+          attributes: [],
+          required: false,
+        },
+      ],
+      order: Sequelize.literal("rand()"),
+    });
+
+    return randomRecipe;
   },
 };
