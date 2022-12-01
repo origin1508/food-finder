@@ -1,18 +1,26 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import useSearchForm from '../../hooks/useSearchForm';
 import useKakaoMap from '../../hooks/useKakaoMap';
 import Search from '../common/Search';
 
 const KakaoMap = () => {
-  const serachResult = '김치찌개';
+  const searchResult = '김치찌개';
+  const scrollRef = useRef<HTMLDivElement>(null);
   const { register, handleSubmit } = useSearchForm();
-  const { kakaoMap, mapRef, placesResult, handlePlacesSearch } =
-    useKakaoMap(serachResult);
+  const {
+    kakaoMap,
+    mapRef,
+    placesResult,
+    currentPage,
+    pages,
+    gotoPage,
+    handlePlacesSearch,
+  } = useKakaoMap(searchResult);
 
   useEffect(() => {
-    handlePlacesSearch({ keyword: '김치찌개' });
-  }, []);
+    handlePlacesSearch({ keyword: searchResult });
+  }, [searchResult]);
 
   return (
     <KakaoMapContainer>
@@ -20,9 +28,9 @@ const KakaoMap = () => {
         <Search
           register={register}
           onSubmit={handleSubmit(handlePlacesSearch)}
-          placeholder="지역을 입력해주세요"
+          placeholder="지역 키워드를 입력해주세요."
         />
-        <ScrollWrapper>
+        <ScrollWrapper ref={scrollRef}>
           <PlacesList>
             {placesResult?.map((result, index) => {
               return (
@@ -39,6 +47,22 @@ const KakaoMap = () => {
             })}
           </PlacesList>
         </ScrollWrapper>
+        <Pagination>
+          {pages.map((page) => {
+            return (
+              <Page
+                key={page}
+                onClick={() => {
+                  gotoPage(page);
+                  scrollRef.current?.scrollTo(0, 0);
+                }}
+                isOn={currentPage === page ? true : false}
+              >
+                {page}
+              </Page>
+            );
+          })}
+        </Pagination>
       </PlacesListContainer>
       <Map ref={mapRef}></Map>
     </KakaoMapContainer>
@@ -47,44 +71,52 @@ const KakaoMap = () => {
 
 export default KakaoMap;
 
-const KakaoMapContainer = styled.section`
-  ${({ theme }) => theme.mixins.flexBox()}
+const KakaoMapContainer = styled.article`
+  ${({ theme }) => theme.mixins.flexBox()};
   width: 100%;
   height: 100%;
   border-radius: 0.5rem;
-  overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
 const PlacesListContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column', 'center', 'start')};
   justify-content: 
-  width: 40%;
+  width: 35%;
   height: 100%;
   padding: ${({ theme }) => theme.spacingSemiMedium};
+  flex-grow: 1;
+  flex-shrink: 0;
+`;
+
+const Map = styled.div`
+  width: 65%;
+  height: 100%;
 `;
 
 const ScrollWrapper = styled.div`
   width: 100%;
   height: 100%;
-  margin-top: ${({ theme }) => theme.spacingSemiMedium};
+  margin: ${({ theme }) => theme.spacingSemiMedium} 0;
   border-radius: 0.8rem;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: inset rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: auto;
-  background-color: white;
 `;
 
 const PlacesList = styled.ul`
   width: 100%;
   height: 100%;
+  padding: ${({ theme }) => theme.spacingRegular};
 `;
 
 const PlaceItem = styled.li`
   ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
-  height: 15%;
+  height: 18%;
   padding: ${({ theme }) => theme.spacingRegular};
-  border-bottom: 1px solid ${({ theme }) => theme.darkGrey};
+  margin-bottom: ${({ theme }) => theme.spacingSemiMedium};
+  border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
 const PlaceMarker = styled.div`
@@ -114,7 +146,16 @@ const PlaceTelNumber = styled.span`
   color: ${({ theme }) => theme.themeColor};
 `;
 
-const Map = styled.div`
+const Pagination = styled.div`
+  ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
-  height: 100%;
+  height: 3rem;
+  gap: ${({ theme }) => theme.spacingSemiMedium};
+  color: ${({ theme }) => theme.darkGrey};
+`;
+
+const Page = styled.button<{ isOn: boolean }>`
+  width: 2rem;
+  font-size: ${({ theme }) => theme.fontSemiMedium};
+  color: ${({ isOn, theme }) => isOn && theme.themeColor};
 `;
