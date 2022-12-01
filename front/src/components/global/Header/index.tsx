@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-// import Search from './Search';
+import useSearchForm from '../../../hooks/useSearchForm';
 import NavLink from './NavLink';
 import Logo from './Logo';
 import Search from '../../common/Search';
@@ -11,6 +11,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isBackground, setIsBackground] = useState(false);
+  const { register, handleSubmit } = useSearchForm();
   const MIN_SCROLL_Y = 20;
 
   const updateScroll = () => {
@@ -46,7 +47,8 @@ const Header = () => {
           display={
             isBackground || scrollPosition > MIN_SCROLL_Y ? 'block' : 'none'
           }
-          onSearchClick={() => {}}
+          register={register}
+          onSubmit={handleSubmit(() => {})}
         />
         <NavLink />
       </ContentContainer>

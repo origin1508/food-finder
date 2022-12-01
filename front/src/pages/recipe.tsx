@@ -1,18 +1,20 @@
 // import  { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useSearchForm from '../hooks/useSearchForm';
 import SuggestionRecipe from '../components/recipe/SuggestionRecipe';
 import searchImg from '../assets/searchImg.png';
 import { MediumTitle } from '../styles/commonStyle';
 import Search from '../components/common/Search';
 
 const Recipe = () => {
+  const { register, handleSubmit } = useSearchForm();
   return (
     <Container>
       <SearchContainer>
         <SearchTitle>
           400가지 이상의 다양한 한식레시피를 검색해보세요!
         </SearchTitle>
-        <Search onSearchClick={() => {}} />
+        <Search register={register} onSubmit={handleSubmit(() => {})} />
       </SearchContainer>
       <RecipeContainer>
         <SuggestionRecipe>오늘의 추천 RECIPE!</SuggestionRecipe>
