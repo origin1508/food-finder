@@ -8,3 +8,4 @@ export const OFFSET_X = 13;
 export const OFFSET_Y = 37;
 export const DEFAULT_LAT = 37.566826;
 export const DEFAULT_LNG = 126.9786567;
+export const DEFAULT_MAP_LEVEL = 3;
