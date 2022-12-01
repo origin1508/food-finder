@@ -64,4 +64,30 @@ export default {
 
     return recipe;
   },
+  async createRecipeInformation({
+    name,
+    method,
+    category,
+    imageUrl1,
+    imageUrl2,
+    ingredient,
+    serving,
+    cookingTime,
+    userId,
+  }) {
+    const createdRecipe = await Recipe.create({
+      name,
+      method,
+      category,
+      image_url1: imageUrl1,
+      image_url2: imageUrl2,
+      ingredient,
+      views: 0,
+      serving,
+      cooking_time: cookingTime,
+      user_id: userId,
+    });
+
+    return createdRecipe;
+  },
 };
