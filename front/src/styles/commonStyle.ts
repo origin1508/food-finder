@@ -41,3 +41,9 @@ export const TextOne = css`
   ${({ theme }) =>
     theme.mixins.title(theme.fontMedium, theme.weightRegular, theme.lightGrey)}
 `;
+
+export const TextTwo = css`
+  font-size: ${({ theme }) => theme.fontRegular};
+  line-height: 1.7;
+  margin: 0;
+`;

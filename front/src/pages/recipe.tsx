@@ -4,16 +4,20 @@ import SuggestionRecipe from '../components/recipe/SuggestionRecipe';
 import searchImg from '../assets/searchImg.png';
 import { MediumTitle } from '../styles/commonStyle';
 import Search from '../components/common/Search';
+import ImageSearch from '../components/common/ImageSearch';
 
 const Recipe = () => {
   return (
     <Container>
-      <SearchContainer>
+      <HeaderContainer>
         <SearchTitle>
           400가지 이상의 다양한 한식레시피를 검색해보세요!
         </SearchTitle>
-        <Search />
-      </SearchContainer>
+        <SearchContainer>
+          <Search />
+          <ImageSearch />
+        </SearchContainer>
+      </HeaderContainer>
       <RecipeContainer>
         <SuggestionRecipe>오늘의 추천 RECIPE!</SuggestionRecipe>
         <SuggestionRecipe>맛있고 다양한 한식 RECIPE!</SuggestionRecipe>
@@ -25,7 +29,7 @@ const Recipe = () => {
 const Container = styled.article`
   ${({ theme }) => theme.mixins.flexBox('column', 'start', 'start')};
 `;
-const SearchContainer = styled.section`
+const HeaderContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   gap: 3vh;
   height: 40vh;
@@ -36,6 +40,11 @@ const SearchContainer = styled.section`
 `;
 const SearchTitle = styled.h2`
   ${MediumTitle}
+`;
+
+const SearchContainer = styled.div`
+  ${({ theme }) => theme.mixins.flexBox}
+  gap: ${({ theme }) => theme.spacingSemiMedium}
 `;
 const RecipeContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
