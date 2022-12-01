@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const AuthInputContainer = styled.div`
   width: 100%;
+  position: relative;
   margin-bottom: ${(props) => props.theme.spacingMedium};
 `;
 
