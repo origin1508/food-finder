@@ -9,6 +9,7 @@ import RecipeComment from "./recipe_comment.schema";
 import RecipeStar from "./recipe_star.schema";
 import RecipeLike from "./recipe_like.schema";
 import Restaurant from "./resturant.schema";
+import RefreshToken from "./refreshToken.schema";
 
 /**
  * 관계 정의 예시
@@ -54,6 +55,10 @@ RecipeLike.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
 Recipe.hasMany(RecipeLike, { foreignKey: "dish_id", sourceKey: "dish_id" });
 RecipeLike.belongsTo(Recipe, { foreignKey: "dish_id", targetKey: "dish_id" });
 
+// User와 RefreshToken은 1 : 1 관계
+User.hasOne(RefreshToken, { foreignKey: "user_id", sourceKey: "user_id" });
+RefreshToken.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
+
 export {
   User,
   Recipe,
@@ -62,4 +67,5 @@ export {
   RecipeStar,
   Restaurant,
   Step,
+  RefreshToken,
 };

@@ -3,11 +3,11 @@ import express from "express";
 import userService from "../services/user.service";
 import { userProfileImageUpload } from "../middlewares/multer";
 import ApiError from "../utils/ApiError";
-import authorizeJWT from "../middlewares/JWTauthorization";
+import authorizeAccessToken from "../middlewares/accessTokenAuthorization";
 
 const router = express.Router();
 
-router.put("/:userId/nickname", authorizeJWT, async (req, res, next) => {
+router.put("/:userId/nickname", authorizeAccessToken, async (req, res, next) => {
   const { userId } = req.params;
   const { nickname } = req.body;
 
@@ -25,7 +25,7 @@ router.put("/:userId/nickname", authorizeJWT, async (req, res, next) => {
   }
 });
 
-router.put("/:userId/password", authorizeJWT, async (req, res, next) => {
+router.put("/:userId/password", authorizeAccessToken, async (req, res, next) => {
   const { userId } = req.params;
   const { password, newPassword } = req.body;
 
@@ -45,7 +45,7 @@ router.put("/:userId/password", authorizeJWT, async (req, res, next) => {
 
 router.put(
   "/:userId/profileImage",
-  authorizeJWT,
+  authorizeAccessToken,
   userProfileImageUpload.single("profileImage"),
   async (req, res, next) => {
     if (!req.file) {
@@ -69,7 +69,7 @@ router.put(
   }
 );
 
-router.get("/:userId/recipes", authorizeJWT, async (req, res, next) => {
+router.get("/:userId/recipes", authorizeAccessToken, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
