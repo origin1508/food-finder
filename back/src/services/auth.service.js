@@ -29,7 +29,7 @@ export default {
     const payload = { userId };
     const secretKey = process.env.JWT_SECRET_KEY;
     const options = {
-      expiresIn: "15s",
+      expiresIn: "1h",
       issuer: "FoodFinderAdmin",
     };
 
