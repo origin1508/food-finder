@@ -26,7 +26,7 @@ const userProfileImageUpload = multer({
   }),
 });
 
-const recipeImageUpload = (directory, userId) => {
+const recipeImageUpload = (directory) => {
   return multer({
     storage: multerS3({
       s3,
@@ -35,9 +35,7 @@ const recipeImageUpload = (directory, userId) => {
       key: function (req, file, cb) {
         cb(
           null,
-          `${directory}/${userId}/${Date.now()}_${path.basename(
-            file.originalname
-          )}`
+          `${directory}/${Date.now()}_${path.basename(file.originalname)}`
         );
       },
     }),

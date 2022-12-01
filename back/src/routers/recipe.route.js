@@ -19,22 +19,30 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", authorizeJWT, async (req, res, next) => {
-  try {
-    const { userId } = req;
-    const createdRecipe = await recipeService.addRecipe({
-      ...req.body,
-      userId,
-    });
+router.post(
+  "/",
+  authorizeJWT,
+  recipeImageUpload("recipeThumbnail").single("recipeThumbnail"),
+  async (req, res, next) => {
+    try {
+      const { userId } = req;
+      const { location } = req.file;
 
-    res.status(201).json({
-      success: true,
-      message: "레시피 생성 성공",
-      result: createdRecipe,
-    });
-  } catch (error) {
-    next(error);
+      const createdRecipe = await recipeService.addRecipe({
+        ...req.body,
+        userId,
+        thumbnailUrl: location,
+      });
+
+      res.status(201).json({
+        success: true,
+        message: "레시피 생성 성공",
+        result: createdRecipe,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export default router;

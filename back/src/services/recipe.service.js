@@ -16,13 +16,14 @@ export default {
     serving,
     cookingTime,
     userId,
+    thumbnailUrl,
   }) {
     const createdRecipeInformation = await recipeModel.createRecipeInformation({
       name,
       method,
       category,
-      imageUrl1: 1, // 테스트용
-      imageUrl2: 1, // 테스트용
+      imageUrl1: thumbnailUrl, // 테스트용
+      imageUrl2: thumbnailUrl, // 테스트용
       ingredient,
       serving,
       cookingTime,
