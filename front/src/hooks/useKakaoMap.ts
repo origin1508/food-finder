@@ -10,6 +10,7 @@ import {
   OFFSET_Y,
   DEFAULT_LAT,
   DEFAULT_LNG,
+  DEFAULT_MAP_LEVEL,
 } from '../constants/kakaoMap';
 
 const useKakaoMap = (searchResult: string) => {
@@ -26,11 +27,11 @@ const useKakaoMap = (searchResult: string) => {
   const offset = new kakao.maps.Point(OFFSET_X, OFFSET_Y);
 
   useEffect(() => {
-    if (mapRef === null) return;
+    if (!mapRef) return;
     const mapContainer = mapRef.current;
     const mapOption = {
       center: new kakao.maps.LatLng(DEFAULT_LAT, DEFAULT_LNG),
-      level: 10,
+      level: DEFAULT_MAP_LEVEL,
     };
     const map = new kakao.maps.Map(mapContainer as HTMLDivElement, mapOption);
 
@@ -57,8 +58,9 @@ const useKakaoMap = (searchResult: string) => {
 
   const addMarker = useCallback(
     (result: kakao.maps.services.PlacesSearchResult) => {
-      removeMarker();
       if (!kakaoMap) return;
+
+      removeMarker();
       const bounds = new kakao.maps.LatLngBounds();
       result.forEach((place, index) => {
         const { x, y } = place;
@@ -82,21 +84,38 @@ const useKakaoMap = (searchResult: string) => {
         setMakers((prev) => {
           return [...prev, marker];
         });
+        displayInfowindow(place, marker);
       });
+      kakaoMap.setBounds(bounds);
     },
     [placesResult, markers, setMakers, setPlacesResult],
   );
 
-  const removeMarker = () => {
+  const removeMarker = useCallback(() => {
     markers.forEach((marker) => {
       marker.setMap(null);
     });
     setMakers([]);
+  }, [markers]);
+
+  const displayInfowindow = (
+    place: kakao.maps.services.PlacesSearchResultItem,
+    marker: kakao.maps.Marker,
+  ) => {
+    if (!kakaoMap) return;
+
+    kakao.maps.event.addListener(marker, 'mouseover', () => {
+      infowindow.setContent(`<div>${place.place_name}</div>`);
+      infowindow.open(kakaoMap, marker);
+    });
+
+    kakao.maps.event.addListener(marker, 'mouseout', () => {
+      infowindow.close();
+    });
   };
 
   const pages = useMemo<number[]>(() => {
     const temp: number[] = [];
-
     if (!pagination) return temp;
 
     const { last } = pagination;
