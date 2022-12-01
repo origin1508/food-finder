@@ -28,15 +28,29 @@ export default {
       group: ["dish_id"],
       include: [
         {
+          model: User,
+          attributes: [],
+          required: false,
+        },
+        {
           model: RecipeLike,
           attributes: [],
           required: false,
         },
         {
-          model: User,
+          model: RecipeStar,
           attributes: [],
           required: false,
+          where: { user_id: "`User`.`user_id`" },
         },
+      ],
+      order: [
+        [
+          Sequelize.literal(
+            "((`RecipeInformation`.`views` * 1.5) + (COUNT(`RecipeLikes`.`dish_id`) * 1.5) + (IFNULL(AVG(`RecipeStars`.`score`),0) * 1.5)) / ((DATEDIFF(NOW(), `RecipeInformation`.`createdAt`)+1) * 1)"
+          ),
+          "DESC",
+        ],
       ],
     });
 
@@ -72,12 +86,12 @@ export default {
       group: ["dish_id"],
       include: [
         {
-          model: RecipeLike,
+          model: User,
           attributes: [],
           required: false,
         },
         {
-          model: User,
+          model: RecipeLike,
           attributes: [],
           required: false,
         },
@@ -85,6 +99,7 @@ export default {
           model: RecipeStar,
           attributes: [],
           required: false,
+          where: { user_id: "`User`.`user_id`" },
         },
       ],
       // (조회수 * 가중치 + 좋아요 * 가중치 + 별점 * 가중치) / (지난날짜 * 가중치)
