@@ -1,11 +1,12 @@
-import React from 'react';
+import AuthRegister from '../components/auth/AuthRegister';
+import BasePageComponent from '../hoc/BasePageComponent';
 
-const SignUp = () => {
+const Register = () => {
   return (
-    <div>
-      <h2>SignUp Page</h2>
-    </div>
+    <BasePageComponent>
+      <AuthRegister />
+    </BasePageComponent>
   );
 };
 
-export default SignUp;
+export default Register;

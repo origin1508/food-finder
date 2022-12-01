@@ -1,23 +1,52 @@
-import React, { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from '../components/global/Header';
+import ErrorAlert from '../components/errorBoundary/ErrorAlert';
+import ErrorBoundary from '../components/errorBoundary/ErrorBoundary';
+import LoadingCycle from '../components/loading/LoadingCycle';
 
-const Main = React.lazy(() => import('../pages/index'));
-const Login = React.lazy(() => import('../pages/login'));
-const Register = React.lazy(() => import('../pages/register'));
-const NotFound = React.lazy(() => import('../components/global/NotFound'));
+const Main = lazy(() => import('../pages/index'));
+const Login = lazy(() => import('../pages/login'));
+const Register = lazy(() => import('../pages/register'));
+const NotFound = lazy(() => import('../components/global/NotFound'));
+const Recipe = lazy(() => import('../pages/recipe'));
+const CreateRecipe = lazy(() => import('../pages/createRecipe'));
+const CollectRecipes = lazy(() => import('../pages/collectRecipes'));
+const Profile = lazy(() => import('../pages/profile'));
+const Map = lazy(() => import('../components/map/LandingPage'));
+
+export const PATH = {
+  MAIN: '/',
+  LOGIN: '/login',
+  REGISTER: '/register',
+  RECIPE: '/recipe',
+  CREATE_RECIPE: '/recipe/create',
+  COLLECT_RECIPES: '/collectRecipes',
+  PROFILE: '/profile',
+  MAP: '/map',
+  NOT_FOUND: '/*',
+};
 
 const CustomRouter = () => {
   return (
-    <React.Fragment>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
-    </React.Fragment>
+    <Router>
+      <ErrorBoundary fallback={({ error }) => <ErrorAlert error={error} />}>
+        <Header />
+        <Suspense fallback={<LoadingCycle />}>
+          <Routes>
+            <Route path={PATH.MAIN} element={<Main />} />
+            <Route path={PATH.LOGIN} element={<Login />} />
+            <Route path={PATH.REGISTER} element={<Register />} />
+            <Route path={PATH.RECIPE} element={<Recipe />} />
+            <Route path={PATH.CREATE_RECIPE} element={<CreateRecipe />} />
+            <Route path={PATH.COLLECT_RECIPES} element={<CollectRecipes />} />
+            <Route path={PATH.PROFILE} element={<Profile />} />
+            <Route path={PATH.NOT_FOUND} element={<NotFound />} />
+            <Route path={PATH.MAP} element={<Map />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
+    </Router>
   );
 };
 

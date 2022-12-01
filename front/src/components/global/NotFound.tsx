@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const NotFound = () => {
@@ -15,7 +14,7 @@ const Container = styled.div`
 `;
 const NotFoundTitle = styled.h2`
   position: absolute;
-  color: ${(props) => props.theme.DarkGrey};
-  ${(props) => props.theme.absoluteCenter}
+  color: ${({ theme }) => theme.DarkGrey};
+  ${({ theme }) => theme.absoluteCenter}
 `;
 export default NotFound;
