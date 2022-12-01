@@ -1,19 +1,15 @@
 import styled, { css } from 'styled-components';
-import { MediumTitle, SmallTitle, TextTwo } from '../../styles/commonStyle';
+import { MediumTitle, TextTwo } from '../../styles/commonStyle';
 import CustomIcon from '../icons/CustomIcon';
 import { theme } from '../../styles/theme';
 
 interface ModalProps {
-  isOpenModal: boolean;
   onModalCancelButtonClickEvent: () => void;
 }
 
-const ImageSearchModal = ({
-  isOpenModal,
-  onModalCancelButtonClickEvent,
-}: ModalProps) => {
+const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
   return (
-    <ModalBackDrop isOpenModal={isOpenModal}>
+    <ModalBackDrop>
       <ModalContainer>
         <ModalTitle>이미지 검색</ModalTitle>
         <UploadCotainer>
@@ -45,11 +41,7 @@ const ImageSearchModal = ({
         </UploadCotainer>
         <ButtonContainer>
           <SearchButton>Search</SearchButton>
-          <CancelButton
-            onClick={() => {
-              onModalCancelButtonClickEvent();
-            }}
-          >
+          <CancelButton onClick={onModalCancelButtonClickEvent}>
             Cancle
           </CancelButton>
         </ButtonContainer>
@@ -57,21 +49,6 @@ const ImageSearchModal = ({
     </ModalBackDrop>
   );
 };
-
-interface VisibleModalProps {
-  isOpenModal: boolean;
-}
-
-const isVisibleModal = css<VisibleModalProps>`
-  ${(props) =>
-    props.isOpenModal
-      ? css`
-          display: block;
-        `
-      : css`
-          display: none;
-        `}
-`;
 
 const ModalBackDrop = styled.article`
   position: fixed;
@@ -82,10 +59,10 @@ const ModalBackDrop = styled.article`
   bottom: 0;
   right: 0;
   z-index: 9;
-  ${isVisibleModal};
 `;
 
 const ModalContainer = styled.div`
+  ${({ theme }) => theme.fixedCenter};
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 60%;
   height: 70vh;

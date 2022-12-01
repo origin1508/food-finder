@@ -8,16 +8,19 @@ const ImageSearch = () => {
   const [isOpenModal, handleModalOpenButtonClick, handleModalCloseButtonClick] =
     useModal(false);
   return (
-    <SearchContainer onClick={handleModalOpenButtonClick}>
-      <SearchInput>사진검색</SearchInput>
-      <SearchIcon>
-        <CustomIcon name="upload" size="17" color={theme.darkGrey} />
-      </SearchIcon>
-      <ImageSearchModal
-        isOpenModal={isOpenModal}
-        onModalCancelButtonClickEvent={handleModalCloseButtonClick}
-      ></ImageSearchModal>
-    </SearchContainer>
+    <>
+      <SearchContainer onClick={handleModalOpenButtonClick}>
+        <SearchInput>사진검색</SearchInput>
+        <SearchIcon>
+          <CustomIcon name="upload" size="17" color={theme.darkGrey} />
+        </SearchIcon>
+      </SearchContainer>
+      {isOpenModal && (
+        <ImageSearchModal
+          onModalCancelButtonClickEvent={handleModalCloseButtonClick}
+        />
+      )}
+    </>
   );
 };
 
