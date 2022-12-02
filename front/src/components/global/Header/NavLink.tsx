@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { isLoginSelector } from '../../../atom/auth';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import NavLinkDropDown from './NavLinkDropDown';
 import { PATH } from '../../../customRouter';
 
 const NavLink = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const isLogin = useRecoilValue(isLoginSelector);
   const navigate = useNavigate();
   return (
     <>
@@ -27,7 +28,14 @@ const NavLink = () => {
           </Li>
         </NavContainer>
       ) : (
-        <Login onClick={() => navigate(PATH.LOGIN)}>Login</Login>
+        <NavContainer>
+          <Li>
+            <Nav onClick={() => navigate(PATH.RECIPE)}>Recipe</Nav>
+          </Li>
+          <Li>
+            <Login onClick={() => navigate(PATH.LOGIN)}>Login</Login>
+          </Li>
+        </NavContainer>
       )}
     </>
   );
@@ -47,19 +55,11 @@ const Nav = styled.div`
   }
 `;
 const Login = styled.div`
-  width: 7rem;
-  height: 4rem;
   cursor: pointer;
-  font-weight: ${({ theme }) => theme.weightBold};
-  padding: 1rem 1rem;
-  background-color: ${({ theme }) => theme.themeColor};
   color: ${({ theme }) => theme.mainWhite};
-  border-radius: 3rem;
   transition: all 0.5s;
-  ${({ theme }) => theme.mixins.flexBox()}
-
   &:hover {
-    background-color: ${({ theme }) => theme.darkGrey};
+    color: ${({ theme }) => theme.mainBlack};
   }
 `;
 export default NavLink;
