@@ -9,8 +9,8 @@ export async function authRegisterRequest(registerForm: AuthFormInitial) {
       'Content-Type': 'application/json',
     },
   });
-  const { success } = res.data;
-  return success;
+  const { message } = res.data;
+  return message;
 }
 
 export async function authLoginRequest(loginForm: AuthFormInitial) {
