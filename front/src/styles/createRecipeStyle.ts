@@ -38,11 +38,11 @@ export const CreateRecipeImgUploadStyle = css`
   cursor: pointer;
 `;
 
-export const CreateRecipeRemoveButton = styled.button`
+export const CreateRecipeRemoveButton = styled.button<{ top: string }>`
   ${({ theme }) => theme.mixins.flexBox()}
   visibility: hidden;
   position: absolute;
-  top: 25%;
+  top: ${({ top }) => top};
   right: 0.3rem;
   width: 2rem;
   height: 2rem;
