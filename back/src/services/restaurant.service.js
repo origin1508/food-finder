@@ -30,7 +30,7 @@ export default {
       title
     );
     if (checkRestaurantLikeList) {
-      throw ApiError.setBadRequest("중복된 즐겨찾기가 존재합니다.");
+      throw ApiError.setBadRequest("이미 존재하는 즐겨찾기입니다.");
     }
 
     await restaurantModel.creatLike(userId, restaurantInfo);
