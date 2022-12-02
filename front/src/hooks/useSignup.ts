@@ -5,7 +5,7 @@ import { PATH } from '../customRouter';
 import useSetAlert from './useSetAlert';
 
 export default function useSignup() {
-  const { setAlertLoading, setAlertSuccess, setAlertError } = useSetAlert();
+  const { setAlertSuccess, setAlertError } = useSetAlert();
   const navigate = useNavigate();
 
   const mutation = useMutation(authRegisterRequest, {
