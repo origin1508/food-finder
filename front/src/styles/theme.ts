@@ -9,6 +9,8 @@ export const theme = {
   lightDarkGrey: '#d1d5db',
   darkGrey: '#797979',
   lightRed: '#ff0000',
+  errorColor: '#ef4444',
+  successColor: '#21c55d',
   themeColor: '#2E83F5',
 
   fontLogo: "'Song Myung', serif",
