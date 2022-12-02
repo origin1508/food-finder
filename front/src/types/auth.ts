@@ -4,3 +4,8 @@ export interface AuthFormInitial {
   password: string;
   confirmPassword?: string;
 }
+
+export interface EditImageForm {
+  endPoint: string;
+  formData: FormData;
+}
