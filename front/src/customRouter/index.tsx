@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from '../components/global/Header';
 import ErrorAlert from '../components/errorBoundary/ErrorAlert';
 import ErrorBoundary from '../components/errorBoundary/ErrorBoundary';
-import LoadingCycle from '../components/loading/LoadingCycle';
+import LoadingCycle from '../components/alert/Loader';
+import Alert from '../components/alert/Alert';
 
 const Main = lazy(() => import('../pages/index'));
 const Login = lazy(() => import('../pages/login'));
@@ -32,6 +33,7 @@ const CustomRouter = () => {
     <Router>
       <ErrorBoundary fallback={({ error }) => <ErrorAlert error={error} />}>
         <Header />
+        <Alert />
         <Suspense fallback={<LoadingCycle />}>
           <Routes>
             <Route path={PATH.MAIN} element={<Main />} />

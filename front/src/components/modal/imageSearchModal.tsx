@@ -58,7 +58,8 @@ const ModalBackDrop = styled.article`
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 9;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.1);
 `;
 
 const ModalContainer = styled.div`

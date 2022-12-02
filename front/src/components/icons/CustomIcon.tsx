@@ -12,7 +12,7 @@ import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import { FaCrown } from 'react-icons/fa';
 import { FiSend } from 'react-icons/fi';
 import { BiCloudUpload, BiRefresh } from 'react-icons/bi';
-import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
+import { GrFormPrevious, GrFormNext, GrClose } from 'react-icons/gr';
 import { FcPlus } from 'react-icons/fc';
 import { AiOutlineUpload } from 'react-icons/ai';
 
@@ -80,6 +80,9 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
 
       case 'imageUpload':
         return <BsImage size={size} color={color} />;
+
+      case 'close':
+        return <GrClose size={size} color={color} />;
 
       default:
         console.log('Not implemented!');
