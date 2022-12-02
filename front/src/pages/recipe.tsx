@@ -15,8 +15,11 @@ const Recipe = () => {
         <SearchTitle>
           400가지 이상의 다양한 한식레시피를 검색해보세요!
         </SearchTitle>
-        <Search register={register} onSubmit={handleSubmit(() => {})} />
-      </SearchContainer>
+        <SearchContainer>
+          <Search register={register} onSubmit={handleSubmit(() => {})} />
+          <ImageSearch />
+        </SearchContainer>
+      </HeaderContainer>
       <RecipeContainer>
         <SuggestionRecipe>오늘의 추천 RECIPE!</SuggestionRecipe>
         <SuggestionRecipe>맛있고 다양한 한식 RECIPE!</SuggestionRecipe>
