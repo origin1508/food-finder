@@ -46,6 +46,7 @@ const CreateRecipeIngredient = () => {
               placeholder={placeholders[index % 3].amount}
             />
             <IngredientRemoveButton
+              top="25%"
               type="button"
               onClick={() => {
                 remove(index);
