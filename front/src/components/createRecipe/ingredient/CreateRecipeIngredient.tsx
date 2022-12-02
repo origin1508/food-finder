@@ -21,7 +21,7 @@ const CreateRecipeIngredient = () => {
 
 export default CreateRecipeIngredient;
 
-const CreateRecipeIngredientContainer = styled.div`
+const CreateRecipeIngredientContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
   padding: ${({ theme }) => theme.spacingLarge};
@@ -32,7 +32,7 @@ const CreateRecipeIngredientContainer = styled.div`
 
 const CreateRecipeIngredientHeader = styled(CreateRecipeHeader)``;
 
-const CreateRecipeIngredienTitle = styled.div`
+const CreateRecipeIngredienTitle = styled.h2`
   ${MediumTitle}
   color: ${({ theme }) => theme.mainBlack}
 `;

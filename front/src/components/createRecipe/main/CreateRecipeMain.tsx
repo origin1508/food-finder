@@ -20,7 +20,7 @@ const CreateRecipeMain = () => {
 
 export default CreateRecipeMain;
 
-const CreateRecipeMainConatiner = styled.div`
+const CreateRecipeMainConatiner = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')};
   width: 100%;
   padding: ${({ theme }) => theme.spacingLarge};
@@ -29,7 +29,7 @@ const CreateRecipeMainConatiner = styled.div`
   box-shadow: 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
 `;
 
-const CreateRecipeMainBody = styled.div`
+const CreateRecipeMainBody = styled.section`
   ${({ theme }) => theme.mixins.flexBox()};
   width: 100rem;
   gap: ${({ theme }) => theme.spacingLarge};
@@ -37,7 +37,7 @@ const CreateRecipeMainBody = styled.div`
 
 const CreateRecipeMainHeader = styled(CreateRecipeHeader)``;
 
-const CreateRecipeMainTitle = styled.div`
+const CreateRecipeMainTitle = styled.h2`
   ${MediumTitle};
   color: ${({ theme }) => theme.mainBlack};
 `;

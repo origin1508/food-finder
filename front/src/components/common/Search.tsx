@@ -1,15 +1,22 @@
 import styled from 'styled-components';
 import CustomIcon from '../icons/CustomIcon';
 import { theme } from '../../styles/theme';
+import { SearchProps } from '../../types/search/searchType';
 
-interface SearchType {
-  display?: string;
-}
-const Search = ({ display }: SearchType) => {
+const Search = ({
+  display,
+  placeholder = '음식, 재료, 태그, 사진검색',
+  register,
+  onSubmit,
+}: SearchProps) => {
   return (
-    <SearchContainer itemProp={display}>
-      <SearchInput placeholder="음식, 재료, 태그, 사진검색" type="search" />
-      <SearchIcon>
+    <SearchContainer itemProp={display} onSubmit={onSubmit}>
+      <SearchInput
+        {...register('keyword', { required: true })}
+        type="search"
+        placeholder={placeholder}
+      />
+      <SearchIcon type="submit">
         <CustomIcon name="searchIcon" size="17" color={theme.darkGrey} />
       </SearchIcon>
     </SearchContainer>
@@ -18,7 +25,7 @@ const Search = ({ display }: SearchType) => {
 
 export default Search;
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.form`
   position: relative;
   display: ${({ itemProp }) => itemProp};
   width: 40rem;
@@ -39,7 +46,7 @@ const SearchInput = styled.input`
     display: none;
 `;
 
-const SearchIcon = styled.div`
+const SearchIcon = styled.button`
   position: absolute;
   display: flex;
   justify-content: center;
