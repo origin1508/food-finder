@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { AuthFormInitial } from '../../types/auth';
 import useSignup from '../../hooks/useSignup';
+import useSetAlert from '../../hooks/useSetAlert';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {
@@ -11,8 +12,8 @@ import {
 } from '../../styles/authStyle';
 
 const AuthRegisterForm = () => {
-  const { mutate: signup, isLoading: signupLoading } = useSignup();
-
+  const { mutate: signup, isLoading } = useSignup();
+  const { setAlertLoading } = useSetAlert();
   const {
     register,
     handleSubmit,
@@ -30,6 +31,9 @@ const AuthRegisterForm = () => {
 
   const onSubmitRegister = handleSubmit((registerForm) => {
     delete registerForm.confirmPassword;
+    if (isLoading) {
+      setAlertLoading({ loading: true });
+    }
     signup(registerForm);
   });
 
