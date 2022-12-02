@@ -2,16 +2,20 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { authRegisterRequest } from '../api/authFetcher';
 import { PATH } from '../customRouter';
+import useSetAlert from './useSetAlert';
 
 export default function useSignup() {
+  const { setAlertLoading, setAlertSuccess, setAlertError } = useSetAlert();
   const navigate = useNavigate();
 
   const mutation = useMutation(authRegisterRequest, {
-    onSuccess: (success) => {
+    onSuccess: (message) => {
       navigate(PATH.LOGIN);
+      setAlertSuccess({ success: message });
     },
-    onError: (error) => {
-      console.log(error);
+    onError: (error: any) => {
+      setAlertError({ error: error.message });
+      console.log(error.message);
     },
   });
 
