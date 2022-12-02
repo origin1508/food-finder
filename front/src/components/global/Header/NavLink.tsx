@@ -15,7 +15,9 @@ const NavLink = () => {
             <Nav onClick={() => navigate(PATH.RECIPE)}>Recipe</Nav>
           </Li>
           <Li>
-            <Nav>Create Recipe</Nav>
+            <Nav onClick={() => navigate(PATH.CREATE_RECIPE)}>
+              Create Recipe
+            </Nav>
           </Li>
           <Li>
             <Nav onClick={() => navigate(PATH.COLLECT_RECIPES)}>
