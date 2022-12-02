@@ -1,7 +1,6 @@
 import useSetAlert from '../../hooks/useSetAlert';
 import styled from 'styled-components';
 import CustomIcon from '../icons/CustomIcon';
-import { TextTwo } from '../../styles/commonStyle';
 
 interface Toast {
   title: string;
