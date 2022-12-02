@@ -15,6 +15,7 @@ import { BiCloudUpload, BiRefresh } from 'react-icons/bi';
 import { GrFormPrevious, GrFormNext, GrClose } from 'react-icons/gr';
 import { FcPlus } from 'react-icons/fc';
 import { AiOutlineUpload } from 'react-icons/ai';
+import { IoMdRemove } from 'react-icons/io';
 
 interface CustomIconProps {
   name: string;
@@ -83,6 +84,9 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
 
       case 'close':
         return <GrClose size={size} color={color} />;
+
+      case 'remove':
+        return <IoMdRemove size={size} color={color} />;
 
       default:
         console.log('Not implemented!');

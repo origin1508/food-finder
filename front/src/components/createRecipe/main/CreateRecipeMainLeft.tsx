@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
-import { TextOne } from '../../../styles/commonStyle';
 import { CreateRecipeInputStyle } from '../../../styles/createRecipeStyle';
 
 const CreateRecipeMainLeft = () => {
@@ -8,14 +7,14 @@ const CreateRecipeMainLeft = () => {
   return (
     <CreateRecipeMainLeftContainer>
       <CreateRecipeMainInputContainer>
-        <CreateRecipeMainInputTitle>레시피 제목</CreateRecipeMainInputTitle>
+        <CreateRecipeMainInputLabel>레시피 제목</CreateRecipeMainInputLabel>
         <CreateRecipeMainInput
           {...register('title', { required: true })}
           placeholder="예) 소고기 미역국"
         />
       </CreateRecipeMainInputContainer>
       <CreateRecipeMainInputContainer>
-        <CreateRecipeMainInputTitle>요리 정보</CreateRecipeMainInputTitle>
+        <CreateRecipeMainInputLabel>요리 정보</CreateRecipeMainInputLabel>
         <CreateRecipeMainTextarea placeholder="예) 구수한 소고기 미역국이에요. 실패없이 간편하게 만들 수 있는 레시피랍니다." />
       </CreateRecipeMainInputContainer>
       <CreateRecipeMainSelectContainer>
@@ -63,7 +62,7 @@ const CreateRecipeMainTextarea = styled.textarea`
   height: 15rem;
 `;
 
-const CreateRecipeMainInputTitle = styled.span`
+const CreateRecipeMainInputLabel = styled.span`
   width: 20rem;
   font-size: 2.25rem;
 `;

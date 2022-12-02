@@ -9,9 +9,15 @@ const CreateRecipe = () => {
     mode: 'onChange',
     defaultValues: {
       title: '',
+      mainImg: new File([], ''),
       category: '',
       cookingMethod: '',
-      instruction: [{ step: 1, description: '' }],
+      ingredients: [
+        { name: '', amount: '' },
+        { name: '', amount: '' },
+        { name: '', amount: '' },
+      ],
+      instructions: [{ step: 1, description: '', image: new File([], '') }],
     },
   });
 
