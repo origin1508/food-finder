@@ -9,6 +9,7 @@ import {
   AuthButtonContainer,
   AuthInput,
   AuthInputContainer,
+  ErrorMessage,
 } from '../../styles/authStyle';
 import { PATH } from '../../customRouter';
 
@@ -30,7 +31,7 @@ const AuthRegisterForm = () => {
     },
   });
 
-  const onSubmitRegister = handleSubmit((registerForm) => {
+  const onSubmit = handleSubmit((registerForm) => {
     delete registerForm.confirmPassword;
     if (isLoading) {
       setAlertLoading({ loading: true });
@@ -39,7 +40,7 @@ const AuthRegisterForm = () => {
   });
 
   return (
-    <AuthRegisterFormContainer onSubmit={onSubmitRegister}>
+    <AuthRegisterFormContainer onSubmit={onSubmit}>
       <AuthInputContainer>
         <AuthInput
           placeholder="Your Name"
@@ -122,12 +123,4 @@ const AuthLink = styled(Link)`
   text-align: center;
   color: ${({ theme }) => theme.themeColor};
   cursor: pointer;
-`;
-const ErrorMessage = styled.div`
-  position: absolute;
-  font-size: ${({ theme }) => theme.fontSmall};
-  color: ${({ theme }) => theme.lightRed};
-  height: 1.4rem;
-  left: 2rem;
-  bottom: -1.5rem;
 `;
