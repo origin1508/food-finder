@@ -24,7 +24,7 @@ customAxios.interceptors.response.use(
     return res;
   },
   (error) => {
-    throw new Error('Response Error');
+    return Promise.reject(error);
   },
 );
 
