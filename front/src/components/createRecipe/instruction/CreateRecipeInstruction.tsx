@@ -6,14 +6,14 @@ import { MediumTitle } from '../../../styles/commonStyle';
 import {
   CreateRecipeHeader,
   CreateRecipeInputStyle,
+  CreateRecipeRemoveButton,
 } from '../../../styles/createRecipeStyle';
 
 const CreateRecipeInstruction = () => {
   const fileInput = useRef<HTMLInputElement>();
-  const { register, control } = useFormContext();
+  const { register } = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'instruction',
+    name: 'instructions',
   });
 
   return (
@@ -22,11 +22,11 @@ const CreateRecipeInstruction = () => {
         <CreateRecipeInstructionTitle>요리순서</CreateRecipeInstructionTitle>
       </CreateRecipeInstructionHeader>
       {fields.map((item, index) => {
-        const { ref } = register(`instruction.${index}.image`);
+        const { ref } = register(`instructions.${index}.image`);
         return (
           <CreateRecipeInstructionInputContainer key={item.id}>
             <CreateRecipeInstructionImgInput
-              {...register(`instruction.${index}.image`, { required: true })}
+              {...register(`instructions.${index}.image`, { required: true })}
               type="file"
               accept="image/*"
               ref={(el) => {
@@ -35,20 +35,27 @@ const CreateRecipeInstruction = () => {
                 fileInput.current = el;
               }}
             />
-
-            <CreateRecipeInstructionInputTitle>
+            <CreateRecipeInstructionInputLabel>
               Step{index + 1}
-            </CreateRecipeInstructionInputTitle>
+            </CreateRecipeInstructionInputLabel>
             <CreateRecipeInstructionInput
-              {...register(`instruction.${index}.description`)}
+              {...register(`instructions.${index}.description`)}
             />
             <ImageUploadButton
               onClick={() => {
                 fileInput.current && fileInput.current.click();
               }}
             >
-              {<CustomIcon name="plus" size="32" color="black" />}
+              <CustomIcon name="plus" size="32" color="black" />
             </ImageUploadButton>
+            <InstructionRemoveButton
+              top="45%"
+              onClick={() => {
+                remove(index);
+              }}
+            >
+              <CustomIcon name="remove" size="20" color="white" />
+            </InstructionRemoveButton>
           </CreateRecipeInstructionInputContainer>
         );
       })}
@@ -58,7 +65,7 @@ const CreateRecipeInstruction = () => {
           append({ step: fields.length + 1, description: '' });
         }}
       >
-        {<CustomIcon name="plusCircle" size="20" />} 순서추가
+        <CustomIcon name="plusCircle" size="20" /> 순서추가
       </CreateRecipeInstructionAddButton>
     </CreateRecipeInstructionContainer>
   );
@@ -93,10 +100,12 @@ const CreateRecipeInstructionImgInput = styled.input`
 
 const CreateRecipeInstructionInputContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox()}
+  position: relative;
   width: 80rem;
+  padding: 0 ${({ theme }) => theme.spacingLarge};
 `;
 
-const CreateRecipeInstructionInputTitle = styled.p`
+const CreateRecipeInstructionInputLabel = styled.span`
   ${MediumTitle};
   align-self: flex-start;
   margin-right: ${({ theme }) => theme.spacingRegular};
@@ -119,4 +128,10 @@ const ImageUploadButton = styled.div`
   box-shadow: inset 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
   background-color: ${({ theme }) => theme.lightGrey};
   cursor: pointer;
+`;
+
+const InstructionRemoveButton = styled(CreateRecipeRemoveButton)`
+  ${CreateRecipeInstructionInputContainer}:hover & {
+    visibility: visible;
+  }
 `;
