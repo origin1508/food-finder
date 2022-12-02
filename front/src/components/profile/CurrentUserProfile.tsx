@@ -2,27 +2,39 @@ import styled from 'styled-components';
 import mockData from '../../util/mockData';
 import basigProfileImg from '../../assets/basicProfileImg.png';
 import CustomIcon from '../icons/CustomIcon';
+import { useRecoilValue } from 'recoil';
+import { authState } from '../../atom/auth';
 
 const CurrentUserProfile = () => {
-  const { auth } = mockData;
+  const user = useRecoilValue(authState);
   return (
     <>
       <ProfileCardContainer>
         <UserInfoContainer>
           <UserImgContainer>
-            <UserImg src={basigProfileImg} alt="userImg" />
+            <UserImg
+              src={
+                user?.profileUrl !== null ? user?.profileUrl : basigProfileImg
+              }
+              alt="userImg"
+            />
             <ImgUpdateContainer>
               <CustomIcon name="upload" size="20" />
               <P>Change</P>
             </ImgUpdateContainer>
             <ImgUpdate type="file" accept="image/*" name="file" />
           </UserImgContainer>
-          <Name>{auth.name}</Name>
-          <Email>{auth.email}</Email>
+          <Name>{user?.nickname}</Name>
+          <Email>{user?.email}</Email>
         </UserInfoContainer>
         <UserInfoUpdateForm>
           <Label htmlFor="name">Name</Label>
-          <Input name="name" type="text" placeholder="Your Name"></Input>
+          <Input
+            name="name"
+            type="text"
+            placeholder="Your Name"
+            value={user?.nickname !== null ? user?.nickname : ''}
+          ></Input>
           <Label htmlFor="password">Your Password</Label>
           <Input
             name="password"

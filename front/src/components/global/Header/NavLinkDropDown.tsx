@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { authState } from '../../../atom/auth';
 import styled from 'styled-components';
 import CustomIcon from '../../icons/CustomIcon';
@@ -12,18 +12,21 @@ import useSetAlert from '../../../hooks/useSetAlert';
 const NavLinkDropDown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { setAlertSuccess } = useSetAlert();
-  const setAuthState = useSetRecoilState(authState);
+  const [user, setUser] = useRecoilState(authState);
+
   const navigate = useNavigate();
 
-  const hanldeLogoutButtonClick = () => {
+  const hanldeClickLogout = () => {
     Storage.clearToken();
-    setAuthState(null);
+    setUser(null);
     setAlertSuccess({ success: '로그아웃 되었습니다.' });
   };
   return (
     <>
       <DropDownButton onClick={() => setIsDropdownOpen((prev) => !prev)}>
-        <UserImg src={basicProfileImg} />
+        <UserImg
+          src={user?.profileUrl !== null ? user?.profileUrl : basicProfileImg}
+        />
         <Nickname>들자구</Nickname>
         <CustomIcon name="toggleDown" size="17" color="inherit"></CustomIcon>
       </DropDownButton>
@@ -32,8 +35,10 @@ const NavLinkDropDown = () => {
           <UserInfoContent>들자구</UserInfoContent>
           <UserInfoContent>eodnsdlekd@naver.com</UserInfoContent>
         </UserInfo>
-        <Profile onClick={() => navigate(PATH.PROFILE)}>Profile</Profile>
-        <Logout onClick={hanldeLogoutButtonClick}>Logout</Logout>
+        <Profile onClick={() => navigate(`/profile/${user?.userId}`)}>
+          Profile
+        </Profile>
+        <Logout onClick={hanldeClickLogout}>Logout</Logout>
       </DropDownContainer>
     </>
   );
@@ -54,7 +59,7 @@ const Nickname = styled.div`
 const UserImg = styled.img`
   width: 3.3rem;
   height: 3.3rem;
-  border-radius: 100;
+  border-radius: 100%;
 `;
 const DropDownContainer = styled.div`
   position: absolute;
