@@ -28,7 +28,7 @@ const CreateRecipe = () => {
 
 export default CreateRecipe;
 
-const CreateRecipeContainer = styled.div`
+const CreateRecipeContainer = styled.article`
   width: 110rem;
   margin: auto;
 `;
