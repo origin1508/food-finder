@@ -1,7 +1,7 @@
 import customAxios from '../util/customAxios';
 import Storage from '../storage/storage';
 import CookieStorage from '../storage/cookie';
-import { AuthFormInitial } from '../types/auth';
+import { AuthFormInitial, EditImageForm } from '../types/auth';
 
 export async function authRegisterRequest(registerForm: AuthFormInitial) {
   const res = await customAxios.post('/auth/register', registerForm, {
@@ -23,4 +23,18 @@ export async function authLoginRequest(loginForm: AuthFormInitial) {
   Storage.setToken(result.accessToken);
   CookieStorage.setToken(result.refreshToken);
   return res.data;
+}
+
+export async function authProfileImageUpdate({
+  endPoint,
+  formData,
+}: EditImageForm) {
+  const res = await customAxios.put(endPoint, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${Storage.getToken()}`,
+    },
+  });
+  const { result } = res.data;
+  return result;
 }
