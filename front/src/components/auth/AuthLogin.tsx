@@ -18,6 +18,7 @@ export default AuthLogin;
 const AuthLoginWrapper = styled.article`
   ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
+  height: calc(100vh - 7rem);
 `;
 
 const AuthLoginContainer = styled.section`
