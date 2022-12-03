@@ -50,6 +50,15 @@ export default {
       ],
       include: [
         {
+          model: User,
+          attributes: [
+            ["user_id", "userId"],
+            "email",
+            "nickname",
+            ["profile_url", "profileUrl"],
+          ],
+        },
+        {
           model: RecipeLike,
           attributes: [["user_id", "userId"]],
           required: false,

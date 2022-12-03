@@ -15,6 +15,9 @@ export default {
     // 조회수 1 증가
 
     recipe[0].dataValues.RecipeLikes = recipe[0].dataValues.RecipeLikes.length;
+    recipe[0].dataValues.writer = recipe[0].dataValues.User;
+    delete recipe[0].dataValues.User;
+
     return recipe;
   },
   async addRecipe({
