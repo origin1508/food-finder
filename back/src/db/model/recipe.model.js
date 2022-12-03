@@ -1,4 +1,11 @@
-import { Recipe, RecipeLike, User, RecipeComment, RecipeStar } from "../schema";
+import {
+  Recipe,
+  RecipeLike,
+  User,
+  RecipeComment,
+  RecipeStar,
+  Step,
+} from "../schema";
 import { Op, Sequelize } from "sequelize";
 
 export default {
@@ -89,5 +96,15 @@ export default {
     });
 
     return createdRecipe;
+  },
+  async createStep({ content, imageUrl, step, dishId }) {
+    const createdStep = await Step.create({
+      content,
+      image_url: imageUrl,
+      step,
+      dish_id: dishId,
+    });
+
+    return createdStep;
   },
 };

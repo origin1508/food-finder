@@ -13,7 +13,7 @@ const Step = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    iamge_url: {
+    image_url: {
       type: DataTypes.STRING,
       allowNull: true,
     },

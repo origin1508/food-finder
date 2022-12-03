@@ -22,16 +22,19 @@ router.get("/", async (req, res, next) => {
 router.post(
   "/",
   authorizeJWT,
-  recipeImageUpload("recipeThumbnail").single("recipeThumbnail"),
+  recipeImageUpload("recipeImages").fields([
+    { name: "recipeThumbnail", maxCount: 1 },
+    { name: "stepImages" },
+  ]),
   async (req, res, next) => {
     try {
       const { userId } = req;
-      const { location } = req.file;
 
       const createdRecipe = await recipeService.addRecipe({
         ...req.body,
         userId,
-        thumbnailUrl: location,
+        thumbnailUrl: req.files["recipeThumbnail"][0].location,
+        stepImages: req.files["stepImages"],
       });
 
       res.status(201).json({

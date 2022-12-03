@@ -17,19 +17,39 @@ export default {
     cookingTime,
     userId,
     thumbnailUrl,
+    stepImages,
+    steps,
   }) {
+    const parsedSteps = JSON.parse(steps);
+
     const createdRecipeInformation = await recipeModel.createRecipeInformation({
       name,
       method,
       category,
-      imageUrl1: thumbnailUrl, // 테스트용
-      imageUrl2: thumbnailUrl, // 테스트용
+      imageUrl1: thumbnailUrl,
+      imageUrl2: thumbnailUrl,
       ingredient,
       serving,
       cookingTime,
       userId,
     });
 
-    return createdRecipeInformation;
+    const createdSteps = [];
+
+    for (let key in parsedSteps) {
+      const createdStep = await recipeModel.createStep({
+        content: parsedSteps[key],
+        imageUrl: stepImages[Number(key) - 1].location,
+        step: Number(key),
+        dishId: createdRecipeInformation.dish_id,
+      });
+
+      createdSteps.push(createdStep);
+    }
+
+    return {
+      recipeInformation: { ...createdRecipeInformation.dataValues },
+      steps: createdSteps,
+    };
   },
 };
