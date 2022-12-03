@@ -34,6 +34,50 @@ export default {
 
     return recipes;
   },
+  async findRecipeDetailByDishId({ dishId }) {
+    const recipeDetail = await Recipe.findAll({
+      attributes: [
+        ["dish_id", "dishId"],
+        "name",
+        "method",
+        "category",
+        ["image_url1", "smallThumbnailUrl"],
+        ["image_url2", "largeThumbnailUrl"],
+        "ingredient",
+        "serving",
+        ["cooking_time", "cookingTime"],
+        "views",
+      ],
+      include: [
+        {
+          model: RecipeLike,
+          attributes: [["user_id", "userId"]],
+          required: false,
+        },
+        {
+          model: Step,
+          attributes: [
+            ["step_id", "stepId"],
+            "content",
+            ["image_url", "imageUrl"],
+            "step",
+          ],
+        },
+        {
+          model: RecipeComment,
+          attributes: [["user_id", "userId"], "content"],
+          include: [{ model: User }],
+        },
+        {
+          model: RecipeStar,
+          attributes: [["user_id", "userId"], "score"],
+        },
+      ],
+      where: { dish_id: Number(dishId) },
+    });
+
+    return recipeDetail;
+  },
   async findByKeyword(searchKeyword) {
     const recipe = await Recipe.findAll({
       logging: console.log,

@@ -19,6 +19,21 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/:recipeId", async (req, res, next) => {
+  try {
+    const { recipeId } = req.params;
+    const recipe = await recipeService.findRecipeDetail({ dishId: recipeId });
+
+    res.status(200).json({
+      success: true,
+      message: "레시피 디테일 정보 불러오기 성공",
+      result: recipe,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post(
   "/",
   authorizeJWT,

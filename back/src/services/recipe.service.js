@@ -7,7 +7,16 @@ export default {
 
     return recipes;
   },
+  async findRecipeDetail({ dishId }) {
+    const recipe = await recipeModel.findRecipeDetailByDishId({ dishId });
+    if (recipe.length === 0) {
+      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+    }
+    // 조회수 1 증가
 
+    recipe[0].dataValues.RecipeLikes = recipe[0].dataValues.RecipeLikes.length;
+    return recipe;
+  },
   async addRecipe({
     name,
     method,
