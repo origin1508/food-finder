@@ -63,4 +63,32 @@ router.post(
   }
 );
 
+router.put(
+  "/:recipeId",
+  authorizeJWT,
+  recipeImageUpload("recipeImages").single("recipeThumbnail"),
+  async (req, res, next) => {
+    try {
+      const { userId } = req;
+      const { recipeId } = req.params;
+      const location = req?.file?.location;
+
+      const updatedRecipeInformation =
+        await recipeService.updateRecipeInformation({
+          userId,
+          dishId: recipeId,
+          recipeThumbnail: location,
+          ...req.body,
+        });
+
+      res.status(200).json({
+        success: true,
+        message: "레시피 정보 업데이트 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;

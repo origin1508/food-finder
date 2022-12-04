@@ -12,7 +12,7 @@ export default {
     if (recipe.length === 0) {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
-    // 조회수 1 증가
+
     const { views } = recipe[0].dataValues;
     const increasedViews = views + 1;
     await recipeModel.updateRecipeViews({ views: increasedViews, dishId });
@@ -67,5 +67,42 @@ export default {
       recipeInformation: { ...createdRecipeInformation.dataValues },
       steps: createdSteps,
     };
+  },
+  async updateRecipeInformation({
+    userId,
+    dishId,
+    name,
+    method,
+    category,
+    recipeThumbnail,
+    ingredient,
+    serving,
+    cookingTime,
+  }) {
+    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
+      dishId,
+    });
+
+    if (recipeInformation == null) {
+      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+    }
+
+    if (recipeInformation.dataValues.userId !== userId) {
+      throw ApiError.setUnauthorized("수정 권한이 없습니다.");
+    }
+
+    const updatedRecipeInformation = await recipeModel.updateRecipeInformation({
+      dishId,
+      name,
+      method,
+      category,
+      imageUrl1: recipeThumbnail,
+      imageUrl2: recipeThumbnail,
+      ingredient,
+      serving,
+      cookingTime,
+    });
+
+    return updatedRecipeInformation;
   },
 };

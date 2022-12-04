@@ -34,6 +34,26 @@ export default {
 
     return recipes;
   },
+  async findRecipeInformationByDishId({ dishId }) {
+    const recipeInformation = await Recipe.findOne({
+      attributes: [
+        ["dish_id", "dishId"],
+        "name",
+        "method",
+        "category",
+        ["image_url1", "smallThumbnailUrl"],
+        ["image_url2", "largeThumbnailUrl"],
+        "ingredient",
+        "serving",
+        ["cooking_time", "cookingTime"],
+        "views",
+        ["user_id", "userId"],
+      ],
+      where: { dish_id: Number(dishId) },
+    });
+
+    return recipeInformation;
+  },
   async findRecipeDetailByDishId({ dishId }) {
     const recipeDetail = await Recipe.findAll({
       attributes: [
@@ -167,7 +187,6 @@ export default {
     imageUrl1,
     imageUrl2,
     ingredient,
-    views,
     serving,
     cookingTime,
     dishId,
@@ -180,7 +199,6 @@ export default {
         image_url1: imageUrl1,
         image_url2: imageUrl2,
         ingredient,
-        views,
         serving,
         cooking_time: cookingTime,
       },
