@@ -188,6 +188,7 @@ export default {
     imageUrl2,
     ingredient,
     serving,
+    views,
     cookingTime,
     dishId,
   }) {
@@ -200,17 +201,12 @@ export default {
         image_url2: imageUrl2,
         ingredient,
         serving,
+        views,
         cooking_time: cookingTime,
       },
       { where: { dish_id: Number(dishId) } }
     );
 
     return updatedRecipeInformation;
-  },
-  async updateRecipeViews({ views, dishId }) {
-    const updatedRecipeInformation = await Recipe.update(
-      { views },
-      { where: { dish_id: Number(dishId) } }
-    );
   },
 };

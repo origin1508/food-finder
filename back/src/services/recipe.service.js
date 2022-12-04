@@ -15,7 +15,10 @@ export default {
 
     const { views } = recipe[0].dataValues;
     const increasedViews = views + 1;
-    await recipeModel.updateRecipeViews({ views: increasedViews, dishId });
+    await recipeModel.updateRecipeInformation({
+      views: increasedViews,
+      dishId,
+    });
 
     recipe[0].dataValues.views = increasedViews;
     recipe[0].dataValues.RecipeLikes = recipe[0].dataValues.RecipeLikes.length;
