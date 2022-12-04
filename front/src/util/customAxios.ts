@@ -27,15 +27,6 @@ customAxios.interceptors.response.use(
     return res;
   },
   (error) => {
-    return Promise.reject(error);
-  },
-);
-
-customAxios.interceptors.response.use(
-  (res) => {
-    return res;
-  },
-  (error) => {
     if (error.response.status >= 400 && error.response.status < 500) {
       const { statusText, data } = error.response;
       if (
