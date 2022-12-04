@@ -7,6 +7,7 @@ import CustomIcon from '../../icons/CustomIcon';
 import basicProfileImg from '../../../assets/basicProfileImg.png';
 import { PATH } from '../../../customRouter';
 import Storage from '../../../storage/storage';
+import CookieStorage from '../../../storage/cookie';
 import useSetAlert from '../../../hooks/useSetAlert';
 
 const NavLinkDropDown = () => {
@@ -18,8 +19,10 @@ const NavLinkDropDown = () => {
 
   const hanldeClickLogout = () => {
     Storage.clearToken();
+    CookieStorage.clearToken();
     setUser(null);
     setAlertSuccess({ success: '로그아웃 되었습니다.' });
+    navigate(PATH.MAIN);
   };
   return (
     <>
@@ -27,13 +30,13 @@ const NavLinkDropDown = () => {
         <UserImg
           src={user?.profileUrl !== null ? user?.profileUrl : basicProfileImg}
         />
-        <Nickname>들자구</Nickname>
+        <Nickname>{user?.nickname}</Nickname>
         <CustomIcon name="toggleDown" size="17" color="inherit"></CustomIcon>
       </DropDownButton>
       <DropDownContainer itemScope={isDropdownOpen}>
         <UserInfo>
-          <UserInfoContent>들자구</UserInfoContent>
-          <UserInfoContent>eodnsdlekd@naver.com</UserInfoContent>
+          <UserInfoContent>{user?.nickname}</UserInfoContent>
+          <UserInfoContent>{user?.email}</UserInfoContent>
         </UserInfo>
         <Profile onClick={() => navigate(`/profile/${user?.userId}`)}>
           Profile
