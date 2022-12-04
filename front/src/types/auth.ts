@@ -1,11 +1,15 @@
 export interface AuthFormInitial {
-  email: string;
+  email?: string;
   nickname?: string;
-  password: string;
+  password?: string;
+  newPassword?: string;
   confirmPassword?: string;
+  updateImgFile?: File[];
+  image?: Blob;
+  endPoint?: string;
 }
 
 export interface EditImageForm {
   endPoint: string;
-  formData: FormData;
+  copress: Blob;
 }
