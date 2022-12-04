@@ -63,6 +63,34 @@ router.post(
   }
 );
 
+router.post(
+  "/:recipeId/steps",
+  authorizeJWT,
+  recipeImageUpload("recipeImages").single("stepImage"),
+  async (req, res, next) => {
+    try {
+      const { userId } = req;
+      const { recipeId } = req.params;
+      const location = req?.file?.location;
+
+      const createdStep = await recipeService.addStep({
+        ...req.body,
+        userId,
+        dishId: recipeId,
+        imageUrl: location,
+      });
+
+      res.status(201).json({
+        success: true,
+        message: "스텝 추가 성공",
+        result: createdStep,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.patch(
   "/:recipeId",
   authorizeJWT,
