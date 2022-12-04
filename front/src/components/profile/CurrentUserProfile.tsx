@@ -1,12 +1,73 @@
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import NicknameEditFrom from './NicknameEditForm';
+import PasswordEditForm from './PasswordEditForm';
+import { imageResize } from '../../util/imageResizeUtil';
 import styled from 'styled-components';
-import mockData from '../../util/mockData';
-import basigProfileImg from '../../assets/basicProfileImg.png';
 import CustomIcon from '../icons/CustomIcon';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../atom/auth';
+import { AuthFormInitial } from '../../types/auth';
+import useEditNickname from '../../hooks/useEditNickname';
+import useEditImg from '../../hooks/useEditImg';
+import useSetAlert from '../../hooks/useSetAlert';
 
 const CurrentUserProfile = () => {
   const user = useRecoilValue(authState);
+  const [isPasswordEditing, setIsPasswordEditing] = useState(false);
+  const { mutate: editNickname, isLoading: nicknameEditLoading } =
+    useEditNickname();
+  const { mutate: editImg, isLoading: ImgUpdateLoading } = useEditImg();
+  const { setAlertLoading } = useSetAlert();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<AuthFormInitial>({
+    mode: 'onChange',
+    defaultValues: {
+      updateImgFile: [],
+    },
+  });
+
+  const [profileimgPreview, setProfileImgPreview] = useState('');
+  const profileImg = watch('updateImgFile');
+
+  const onSubmit = handleSubmit(async ({ updateImgFile, nickname }) => {
+    if (updateImgFile!.length > 0) {
+      if (ImgUpdateLoading) {
+        setAlertLoading({ loading: true });
+      }
+      const file = updateImgFile![0];
+      const copress = await imageResize(file);
+      editImg({
+        endPoint: `/users/${user?.userId}/profileImage`,
+        image: copress,
+      });
+    }
+    if (nickname !== user?.nickname) {
+      if (nicknameEditLoading) {
+        setAlertLoading({ loading: true });
+      }
+      editNickname({
+        endPoint: `/users/${user?.userId}/nickname`,
+        nickname: nickname!,
+      });
+    }
+  });
+
+  useEffect(() => {
+    (async () => {
+      if (profileImg && profileImg.length > 0) {
+        const file = profileImg[0];
+        const copress = await imageResize(file);
+        setProfileImgPreview(URL.createObjectURL(copress));
+      }
+    })();
+  }, [profileImg]);
+
   return (
     <>
       <ProfileCardContainer>
@@ -14,7 +75,7 @@ const CurrentUserProfile = () => {
           <UserImgContainer>
             <UserImg
               src={
-                user?.profileUrl !== null ? user?.profileUrl : basigProfileImg
+                profileimgPreview !== '' ? profileimgPreview : user?.profileUrl!
               }
               alt="userImg"
             />
@@ -22,33 +83,30 @@ const CurrentUserProfile = () => {
               <CustomIcon name="upload" size="20" />
               <P>Change</P>
             </ImgUpdateContainer>
-            <ImgUpdate type="file" accept="image/*" name="file" />
+            <ImgUpdate type="file" {...register('updateImgFile')} />
           </UserImgContainer>
           <Name>{user?.nickname}</Name>
           <Email>{user?.email}</Email>
         </UserInfoContainer>
-        <UserInfoUpdateForm>
-          <Label htmlFor="name">Name</Label>
-          <Input
-            name="name"
-            type="text"
-            placeholder="Your Name"
-            value={user?.nickname !== null ? user?.nickname : ''}
-          ></Input>
-          <Label htmlFor="password">Your Password</Label>
-          <Input
-            name="password"
-            type="password"
-            placeholder="Your Password"
-          ></Input>
-          <Label htmlFor="confirmPassword">Confirm Password</Label>
-          <Input
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirm Password"
-          ></Input>
-          <Button>Update</Button>
-        </UserInfoUpdateForm>
+        <UserInfoUpdateContainer>
+          {!isPasswordEditing ? (
+            <NicknameEditFrom
+              user={user!}
+              register={register}
+              errors={errors}
+              onSubmit={onSubmit}
+              setIsPasswordEditing={setIsPasswordEditing}
+              setAlertLoading={setAlertLoading}
+            />
+          ) : null}
+          {isPasswordEditing ? (
+            <PasswordEditForm
+              user={user!}
+              setIsPasswordEditing={setIsPasswordEditing}
+              setAlertLoading={setAlertLoading}
+            />
+          ) : null}
+        </UserInfoUpdateContainer>
       </ProfileCardContainer>
     </>
   );
@@ -132,10 +190,16 @@ const Email = styled.span`
     )}
 `;
 
-const UserInfoUpdateForm = styled.div`
-  ${({ theme }) => theme.mixins.flexBox('column', 'center', 'space-between')}
-  height:65%;
+const UserInfoUpdateContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 65%;
   padding: 2rem 0;
+`;
+const InputContainer = styled.div`
+  position: relative;
+  ${({ theme }) => theme.mixins.flexBox}
+  width: 100%;
 `;
 
 const Label = styled.label`
@@ -148,11 +212,19 @@ const Label = styled.label`
 `;
 const Input = styled.input`
   ${({ theme }) => theme.mixins.input}
-  width: 60%;
 `;
 
 const Button = styled.button`
   ${({ theme }) => theme.mixins.mediumButton()}
   width: 60%;
+`;
+export const ErrorMessage = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  bottom: -1.5rem;
+  font-size: ${({ theme }) => theme.fontSmall};
+  color: ${({ theme }) => theme.lightRed};
+  height: 1.4rem;
 `;
 export default CurrentUserProfile;
