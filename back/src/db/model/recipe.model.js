@@ -209,4 +209,15 @@ export default {
 
     return updatedRecipeInformation;
   },
+  async updateStep({ stepId, content, imageUrl }) {
+    const updatedStep = await Step.update(
+      {
+        content,
+        image_url: imageUrl,
+      },
+      { where: { step_id: Number(stepId) } }
+    );
+
+    return updatedStep;
+  },
 };

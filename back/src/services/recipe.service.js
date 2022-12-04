@@ -108,4 +108,25 @@ export default {
 
     return updatedRecipeInformation;
   },
+  async updateStep({ dishId, userId, stepId, content, imageUrl }) {
+    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
+      dishId,
+    });
+
+    if (recipeInformation == null) {
+      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+    }
+
+    if (recipeInformation.dataValues.userId !== userId) {
+      throw ApiError.setUnauthorized("수정 권한이 없습니다.");
+    }
+
+    const updatedStep = await recipeModel.updateStep({
+      stepId,
+      content,
+      imageUrl,
+    });
+
+    return updatedStep;
+  },
 };

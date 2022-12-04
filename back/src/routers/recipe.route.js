@@ -63,7 +63,7 @@ router.post(
   }
 );
 
-router.put(
+router.patch(
   "/:recipeId",
   authorizeJWT,
   recipeImageUpload("recipeImages").single("recipeThumbnail"),
@@ -84,6 +84,34 @@ router.put(
       res.status(200).json({
         success: true,
         message: "레시피 정보 업데이트 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.patch(
+  "/:recipeId/steps/:stepId",
+  authorizeJWT,
+  recipeImageUpload("recipeImages").single("stepImage"),
+  async (req, res, next) => {
+    try {
+      const { userId } = req;
+      const { recipeId, stepId } = req.params;
+      const location = req?.file?.location;
+
+      const updatedStep = await recipeService.updateStep({
+        dishId: recipeId,
+        userId,
+        stepId,
+        imageUrl: location,
+        ...req.body,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "스텝 업데이트 성공",
       });
     } catch (error) {
       next(error);
