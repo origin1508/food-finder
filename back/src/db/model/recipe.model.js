@@ -160,4 +160,39 @@ export default {
 
     return createdStep;
   },
+  async updateRecipeInformation({
+    name,
+    method,
+    category,
+    imageUrl1,
+    imageUrl2,
+    ingredient,
+    views,
+    serving,
+    cookingTime,
+    dishId,
+  }) {
+    const updatedRecipeInformation = await Recipe.update(
+      {
+        name,
+        method,
+        category,
+        image_url1: imageUrl1,
+        image_url2: imageUrl2,
+        ingredient,
+        views,
+        serving,
+        cooking_time: cookingTime,
+      },
+      { where: { dish_id: Number(dishId) } }
+    );
+
+    return updatedRecipeInformation;
+  },
+  async updateRecipeViews({ views, dishId }) {
+    const updatedRecipeInformation = await Recipe.update(
+      { views },
+      { where: { dish_id: Number(dishId) } }
+    );
+  },
 };

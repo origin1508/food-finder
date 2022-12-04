@@ -13,7 +13,11 @@ export default {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
     // 조회수 1 증가
+    const { views } = recipe[0].dataValues;
+    const increasedViews = views + 1;
+    await recipeModel.updateRecipeViews({ views: increasedViews, dishId });
 
+    recipe[0].dataValues.views = increasedViews;
     recipe[0].dataValues.RecipeLikes = recipe[0].dataValues.RecipeLikes.length;
     recipe[0].dataValues.writer = recipe[0].dataValues.User;
     delete recipe[0].dataValues.User;
