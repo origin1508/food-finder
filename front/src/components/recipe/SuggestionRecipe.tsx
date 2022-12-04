@@ -36,7 +36,8 @@ const SuggestionRecipe = ({ children }: BaseComponentType) => {
                 creator={recipe.creator}
                 onMoreClick={recipe.onMoreClick}
                 index={recipe.index}
-              ></RecipeCard>
+                key={recipe.index}
+              />
             );
           })}
         </Wrap>
