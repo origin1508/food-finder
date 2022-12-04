@@ -1,25 +1,27 @@
 import { useMutation } from 'react-query';
 import { useSetRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
-import { authLoginRequest } from '../api/authFetcher';
-import { PATH } from '../customRouter';
+import { authProfileNickUpdate } from '../api/authFetcher';
 import useSetAlert from './useSetAlert';
 import { authState } from '../atom/auth';
 
-export default function useLogin() {
+export default function useEditNickname() {
   const { setAlertSuccess, setAlertError } = useSetAlert();
   const setAuthState = useSetRecoilState(authState);
-  const navigate = useNavigate();
 
-  const mutation = useMutation(authLoginRequest, {
+  const mutation = useMutation(authProfileNickUpdate, {
     onSuccess: (data) => {
-      setAuthState(data?.result);
+      setAuthState((prev) => {
+        return {
+          ...prev!,
+          nickname: 'hello',
+          //   nickname: data?.result.nickname,
+        };
+      });
       setAlertSuccess({ success: data?.message });
-      navigate(PATH.MAIN);
     },
     onError: (error: any) => {
       setAlertError({ error: error.response.data.message });
-      console.log(error.message);
+      console.log(error);
     },
   });
 
