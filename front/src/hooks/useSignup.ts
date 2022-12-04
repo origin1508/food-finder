@@ -14,7 +14,7 @@ export default function useSignup() {
       setAlertSuccess({ success: message });
     },
     onError: (error: any) => {
-      setAlertError({ error: error.message });
+      setAlertError({ error: error.response.data.message });
       console.log(error.message);
     },
   });

@@ -18,7 +18,7 @@ export default function useLogin() {
       navigate(PATH.MAIN);
     },
     onError: (error: any) => {
-      setAlertError({ error: error.message });
+      setAlertError({ error: error.response.data.message });
       console.log(error.message);
     },
   });
