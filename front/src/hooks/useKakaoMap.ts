@@ -115,22 +115,22 @@ const useKakaoMap = (searchResult: string) => {
   };
 
   const pages = useMemo<number[]>(() => {
-    const temp: number[] = [];
-    if (!pagination) return temp;
-
+    if (!pagination) return [];
     const { last } = pagination;
-    for (let i = 0; i < last; i++) {
-      temp.push(i + 1);
-    }
+    const temp: number[] = Array(last)
+      .fill(0)
+      .map((item, index) => item + index);
     return temp;
   }, [pagination]);
 
   const currentPage = useMemo<number>(() => {
-    return pagination?.current as number;
+    if (!pagination) return 0;
+    return pagination.current;
   }, [pagination]);
 
   const gotoPage = useMemo<(page: number) => void>(() => {
-    return pagination?.gotoPage as (page: number) => void;
+    if (!pagination) return () => {};
+    return pagination.gotoPage;
   }, [pagination]);
 
   return {
