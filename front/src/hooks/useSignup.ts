@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authRegisterRequest } from '../api/authFetcher';
 import { PATH } from '../customRouter';
 import useSetAlert from './useSetAlert';
+import { ErrorType } from '../types/error';
 
 export default function useSignup() {
   const { setAlertSuccess, setAlertError } = useSetAlert();
@@ -13,9 +14,9 @@ export default function useSignup() {
       navigate(PATH.LOGIN);
       setAlertSuccess({ success: message });
     },
-    onError: (error: any) => {
-      setAlertError({ error: error.response.data.message });
-      console.log(error.message);
+    onError: (error: ErrorType) => {
+      const errorMessage = error.response.data.message;
+      setAlertError({ error: errorMessage });
     },
   });
 

@@ -1,5 +1,5 @@
-import { atom, selector } from 'recoil';
-import { useSetRecoilState } from 'recoil';
+import { atom } from 'recoil';
+
 export interface Alert {
   loading?: boolean;
   success?: null | string | string[];

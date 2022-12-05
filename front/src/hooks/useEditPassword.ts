@@ -3,6 +3,7 @@ import { useMutation } from 'react-query';
 import { authPasswordUpdate } from '../api/authFetcher';
 import useSetAlert from './useSetAlert';
 import { PATH } from '../customRouter';
+import { ErrorType } from '../types/error';
 
 export default function useEditPassword() {
   const { setAlertSuccess, setAlertError } = useSetAlert();
@@ -13,9 +14,9 @@ export default function useEditPassword() {
       setAlertSuccess({ success: data?.message });
       navigate(PATH.LOGIN);
     },
-    onError: (error: any) => {
-      setAlertError({ error: error.response.data.message });
-      console.log(error);
+    onError: (error: ErrorType) => {
+      const errorMessage = error.response.data.message;
+      setAlertError({ error: errorMessage });
     },
   });
 

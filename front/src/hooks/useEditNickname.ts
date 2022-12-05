@@ -3,6 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import { authProfileNickUpdate } from '../api/authFetcher';
 import useSetAlert from './useSetAlert';
 import { authState } from '../atom/auth';
+import { ErrorType } from '../types/error';
 
 export default function useEditNickname() {
   const { setAlertSuccess, setAlertError } = useSetAlert();
@@ -10,18 +11,18 @@ export default function useEditNickname() {
 
   const mutation = useMutation(authProfileNickUpdate, {
     onSuccess: (data) => {
+      console.log('성공', data);
       setAuthState((prev) => {
         return {
           ...prev!,
-          nickname: 'hello',
-          //   nickname: data?.result.nickname,
+          nickname: data?.result.nickname,
         };
       });
       setAlertSuccess({ success: data?.message });
     },
-    onError: (error: any) => {
-      setAlertError({ error: error.response.data.message });
-      console.log(error);
+    onError: (error: ErrorType) => {
+      const errorMessage = error.response.data.message;
+      setAlertError({ error: errorMessage });
     },
   });
 

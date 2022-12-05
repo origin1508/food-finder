@@ -3,6 +3,7 @@ import { authProfileImageUpdate } from '../api/authFetcher';
 import { authState } from '../atom/auth';
 import { useSetRecoilState } from 'recoil';
 import useSetAlert from './useSetAlert';
+import { ErrorType } from '../types/error';
 
 export default function useEditImg() {
   const { setAlertSuccess, setAlertError } = useSetAlert();
@@ -10,19 +11,18 @@ export default function useEditImg() {
 
   const mutation = useMutation(authProfileImageUpdate, {
     onSuccess: (data) => {
+      console.log('성공', data);
       setAuthState((prev) => {
         return {
           ...prev!,
-          profileUrl:
-            'https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg',
-          // profileUrl: data?.result.profileUrl,
+          profileUrl: data?.result.profileUrl,
         };
       });
       setAlertSuccess({ success: data?.message });
     },
-    onError: (error: any) => {
-      setAlertError({ error: error.response.data.message });
-      console.log(error);
+    onError: (error: ErrorType) => {
+      const errorMessage = error.response.data.message;
+      setAlertError({ error: errorMessage });
     },
   });
 
