@@ -41,7 +41,7 @@ router.post("/register", async (req, res, next) => {
 });
 
 router.put(
-  "/validation/:userId/refresh-token",
+  "/validation/refresh-token",
   authorizeRefreshToken,
   async (req, res, next) => {
     const { userId } = req.params;
