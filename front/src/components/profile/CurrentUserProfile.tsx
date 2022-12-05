@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import NicknameEditFrom from './NicknameEditForm';
 import PasswordEditForm from './PasswordEditForm';
-import { imageResize } from '../../util/imageResizeUtil';
+import { imageResize } from '../../util/profileImageResizeUtil';
 import styled from 'styled-components';
 import CustomIcon from '../icons/CustomIcon';
 import { useRecoilValue } from 'recoil';
