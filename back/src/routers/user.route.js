@@ -7,52 +7,44 @@ import authorizeAccessToken from "../middlewares/accessTokenAuthorization";
 
 const router = express.Router();
 
-router.put(
-  "/:userId/nickname",
-  authorizeAccessToken,
-  async (req, res, next) => {
-    const { userId } = req.params;
-    const { nickname } = req.body;
+router.put("/nickname", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
+  const { nickname } = req.body;
 
-    try {
-      await userService.checkDuplicatedNickname(nickname);
-      const user = await userService.modifyNickname(userId, nickname);
+  try {
+    await userService.checkDuplicatedNickname(nickname);
+    const user = await userService.modifyNickname(userId, nickname);
 
-      res.status(201).json({
-        success: true,
-        message: "닉네임 수정 성공",
-        result: user,
-      });
-    } catch (err) {
-      next(err);
-    }
+    res.status(201).json({
+      success: true,
+      message: "닉네임 수정 성공",
+      result: user,
+    });
+  } catch (err) {
+    next(err);
   }
-);
+});
 
-router.put(
-  "/:userId/password",
-  authorizeAccessToken,
-  async (req, res, next) => {
-    const { userId } = req.params;
-    const { password, newPassword } = req.body;
+router.put("/password", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
+  const { password, newPassword } = req.body;
 
-    try {
-      await userService.checkCorrectPassword(userId, password);
-      const user = await userService.modifyPassword(userId, newPassword);
+  try {
+    await userService.checkCorrectPassword(userId, password);
+    const user = await userService.modifyPassword(userId, newPassword);
 
-      res.status(201).json({
-        success: true,
-        message: "비밀번호 수정 성공",
-        result: user,
-      });
-    } catch (err) {
-      next(err);
-    }
+    res.status(201).json({
+      success: true,
+      message: "비밀번호 수정 성공",
+      result: user,
+    });
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 router.put(
-  "/:userId/profileImage",
+  "/profileImage",
   authorizeAccessToken,
   userProfileImageUpload.single("profileImage"),
   async (req, res, next) => {
@@ -60,7 +52,7 @@ router.put(
       throw ApiError.setBadRequest("이미지 파일을 전송받지 못했습니다.");
     }
 
-    const { userId } = req.params;
+    const userId = req.userId;
     const { location } = req.file;
 
     try {
@@ -77,8 +69,8 @@ router.put(
   }
 );
 
-router.get("/:userId/recipes", authorizeAccessToken, async (req, res, next) => {
-  const { userId } = req.params;
+router.get("/recipes", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
 
   try {
     const recipes = await userService.getRecipes(userId);
@@ -93,8 +85,8 @@ router.get("/:userId/recipes", authorizeAccessToken, async (req, res, next) => {
   }
 });
 
-router.get("/:userId/like/recipes", authorizeAccessToken, async (req, res, next) => {
-  const { userId } = req.params;
+router.get("/like/recipes", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
 
   try {
     const recipes = await userService.getLikeRecipes(userId);
@@ -109,8 +101,8 @@ router.get("/:userId/like/recipes", authorizeAccessToken, async (req, res, next)
   }
 });
 
-router.get("/:userId/like/restaurant", authorizeAccessToken, async (req, res, next) => {
-  const { userId } = req.params;
+router.get("/like/restaurant", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
 
   try {
     const restaurants = await userService.getRestaurants(userId);
