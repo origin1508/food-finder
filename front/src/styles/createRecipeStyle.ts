@@ -36,6 +36,7 @@ export const CreateRecipeImgUploadStyle = css`
   box-shadow: inset 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
   background-color: ${({ theme }) => theme.lightGrey};
   cursor: pointer;
+  position: relative;
 `;
 
 export const CreateRecipeRemoveButton = styled.button<{ top: string }>`
