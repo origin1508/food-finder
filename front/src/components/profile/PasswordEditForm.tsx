@@ -13,22 +13,18 @@ const PasswordEditForm = ({
   const {
     register,
     handleSubmit,
-    watch,
     getValues,
     formState: { errors },
   } = useForm<AuthFormInitial>({
     mode: 'onChange',
   });
 
-  const onSubmit = handleSubmit(async ({ password, newPassword }) => {
+  const onSubmit = handleSubmit(async (passwordForm) => {
+    delete passwordForm.confirmPassword;
     if (isLoading) {
       setAlertLoading({ loading: true });
     }
-    editPassword({
-      endPoint: `/users/${user.userId}/password`,
-      password: password!,
-      newPassword: newPassword!,
-    });
+    editPassword(passwordForm);
   });
   return (
     <UserInfoUpdateForm onSubmit={onSubmit}>

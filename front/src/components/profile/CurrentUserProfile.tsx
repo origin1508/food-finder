@@ -42,19 +42,13 @@ const CurrentUserProfile = () => {
       }
       const file = updateImgFile![0];
       const copress = await imageResize(file);
-      editImg({
-        endPoint: `/users/${user?.userId}/profileImage`,
-        image: copress,
-      });
+      editImg(copress);
     }
     if (nickname !== user?.nickname) {
       if (nicknameEditLoading) {
         setAlertLoading({ loading: true });
       }
-      editNickname({
-        endPoint: `/users/${user?.userId}/nickname`,
-        nickname: nickname!,
-      });
+      editNickname(nickname!);
     }
   });
 
