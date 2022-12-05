@@ -5,6 +5,7 @@ import { authLoginRequest } from '../api/authFetcher';
 import { PATH } from '../customRouter';
 import useSetAlert from './useSetAlert';
 import { authState } from '../atom/auth';
+import { ErrorType } from '../types/error';
 
 export default function useLogin() {
   const { setAlertSuccess, setAlertError } = useSetAlert();
@@ -17,9 +18,9 @@ export default function useLogin() {
       setAlertSuccess({ success: data?.message });
       navigate(PATH.MAIN);
     },
-    onError: (error: any) => {
-      setAlertError({ error: error.response.data.message });
-      console.log(error.message);
+    onError: (error: ErrorType) => {
+      const errorMessage = error.response.data.message;
+      setAlertError({ error: errorMessage });
     },
   });
 

@@ -10,7 +10,7 @@ const useSetAlert = () => {
     setAlert((prev) => {
       return {
         ...prev,
-        loading: loading,
+        loading,
       };
     });
   };
