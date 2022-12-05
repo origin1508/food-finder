@@ -25,13 +25,10 @@ export async function authLoginRequest(loginForm: AuthFormInitial) {
   return res.data;
 }
 
-export async function authProfileImageUpdate({
-  endPoint,
-  image,
-}: AuthFormInitial) {
+export async function authProfileImageUpdate(image: Blob) {
   const formData = new FormData();
-  formData.append('image', image!);
-  const res = await customAxios.put(endPoint!, formData, {
+  formData.append('profileImage', image);
+  const res = await customAxios.put('/user/profileImage', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${Storage.getToken()}`,
@@ -41,35 +38,26 @@ export async function authProfileImageUpdate({
   return res.data;
 }
 
-export async function authProfileNickUpdate({
-  endPoint,
-  nickname,
-}: AuthFormInitial) {
-  const res = await customAxios.put(endPoint!, nickname, {
+export async function authProfileNickUpdate(nickname: string) {
+  const res = await customAxios.put(
+    '/user/nickname',
+    { nickname },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Storage.getToken()}`,
+      },
+    },
+  );
+  return res.data;
+}
+
+export async function authPasswordUpdate(passwordForm: AuthFormInitial) {
+  const res = await customAxios.put('/user/password', passwordForm, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${Storage.getToken()}`,
     },
   });
-  return res.data;
-}
-
-export async function authPasswordUpdate({
-  endPoint,
-  password,
-  newPassword,
-}: AuthFormInitial) {
-  const res = await customAxios.put(
-    endPoint!,
-    {
-      password: password,
-      newPassword: newPassword,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${Storage.getToken()}`,
-      },
-    },
-  );
   return res.data;
 }
