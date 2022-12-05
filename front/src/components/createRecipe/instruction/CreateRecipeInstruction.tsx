@@ -1,17 +1,17 @@
-import { useRef } from 'react';
 import styled from 'styled-components';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import imageResize from '../../../util/imageResize';
 import CustomIcon from '../../icons/CustomIcon';
 import { MediumTitle } from '../../../styles/commonStyle';
 import {
   CreateRecipeHeader,
   CreateRecipeInputStyle,
+  CreateRecipeImgUploadStyle,
   CreateRecipeRemoveButton,
 } from '../../../styles/createRecipeStyle';
 
 const CreateRecipeInstruction = () => {
-  const fileInput = useRef<HTMLInputElement>();
-  const { register } = useFormContext();
+  const { register, watch, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: 'instructions',
   });
@@ -22,31 +22,41 @@ const CreateRecipeInstruction = () => {
         <CreateRecipeInstructionTitle>요리순서</CreateRecipeInstructionTitle>
       </CreateRecipeInstructionHeader>
       {fields.map((item, index) => {
-        const { ref } = register(`instructions.${index}.image`);
+        const registeredDesciption = `instructions.${index}.description`;
+        const registeredImage = `instructions.${index}.image`;
+        const registeredPreview = `instructions.${index}.preview`;
+        const preview = watch(registeredPreview);
+
         return (
           <CreateRecipeInstructionInputContainer key={item.id}>
-            <CreateRecipeInstructionImgInput
-              {...register(`instructions.${index}.image`, { required: true })}
-              type="file"
-              accept="image/*"
-              ref={(el) => {
-                if (!el) return;
-                ref(el);
-                fileInput.current = el;
-              }}
-            />
             <CreateRecipeInstructionInputLabel>
               Step{index + 1}
             </CreateRecipeInstructionInputLabel>
-            <CreateRecipeInstructionInput
-              {...register(`instructions.${index}.description`)}
-            />
-            <ImageUploadButton
-              onClick={() => {
-                fileInput.current && fileInput.current.click();
-              }}
-            >
-              <CustomIcon name="plus" size="32" color="black" />
+            <CreateRecipeInstructionInput {...register(registeredDesciption)} />
+
+            <ImageUploadButton preview={preview}>
+              <CreateRecipeInstructionImgInput
+                {...register(registeredImage, { required: true })}
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  if (e.target.files instanceof FileList) {
+                    const uploadImage = e.target.files[0];
+                    const compressedUploadImg = await imageResize(uploadImage);
+                    const previewUrl = URL.createObjectURL(
+                      compressedUploadImg as File,
+                    );
+                    setValue(registeredPreview, previewUrl);
+                  }
+                }}
+              />
+              {preview ? (
+                <></>
+              ) : (
+                <ImgUploadIcon>
+                  <CustomIcon name="plus" size="32" color="black" />
+                </ImgUploadIcon>
+              )}
             </ImageUploadButton>
             <InstructionRemoveButton
               top="45%"
@@ -62,7 +72,7 @@ const CreateRecipeInstruction = () => {
       <CreateRecipeInstructionAddButton
         type="button"
         onClick={() => {
-          append({ step: fields.length + 1, description: '' });
+          append({ description: '' });
         }}
       >
         <CustomIcon name="plusCircle" size="20" /> 순서추가
@@ -94,8 +104,25 @@ const CreateRecipeInstructionAddButton = styled.button`
   height: 3rem;
 `;
 
+const ImageUploadButton = styled.div<{ preview: string }>`
+  ${CreateRecipeImgUploadStyle};
+  ${({ preview }) =>
+    preview && `background-image: url(${preview}); background-size: cover;`}
+`;
+
 const CreateRecipeInstructionImgInput = styled.input`
-  display: none;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 999;
+`;
+
+const ImgUploadIcon = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const CreateRecipeInstructionInputContainer = styled.section`
@@ -115,19 +142,6 @@ const CreateRecipeInstructionInputLabel = styled.span`
 const CreateRecipeInstructionInput = styled.textarea`
   ${CreateRecipeInputStyle}
   height: 20rem;
-`;
-
-const ImageUploadButton = styled.div`
-  ${({ theme }) => theme.mixins.flexBox()}
-  flex-shrink: 0;
-  width: 20rem;
-  height: 20rem;
-  margin-bottom: ${({ theme }) => theme.spacingRegular};
-  margin-left: ${({ theme }) => theme.spacingRegular};
-  border-radius: 0.5rem;
-  box-shadow: inset 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
-  background-color: ${({ theme }) => theme.lightGrey};
-  cursor: pointer;
 `;
 
 const InstructionRemoveButton = styled(CreateRecipeRemoveButton)`
