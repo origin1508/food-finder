@@ -6,11 +6,15 @@ export interface CreateRecipeProps {
 
 export interface CreateRecipeValue {
   title: string;
-  mainImg: File;
+  mainImg: Blob;
   category: string;
   cookingMethod: string;
   ingredients: { name: string; amount: string }[];
-  instructions: { step: number; description: string; image: File }[];
+  instructions: {
+    description: string;
+    image: Blob;
+    preview?: string;
+  }[];
 }
 
 export interface CreateRecipeInstructionProps {
