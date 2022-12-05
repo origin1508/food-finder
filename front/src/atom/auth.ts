@@ -5,12 +5,12 @@ import Storage from '../storage/storage';
 const { persistAtom } = recoilPersist();
 
 export interface AuthInfo {
-  accessToken: string | null;
-  refreshToken: string | null;
-  userId: number | null;
-  email: string | null;
-  nickname: string | null;
-  profileUrl: string | null;
+  accessToken: string;
+  refreshToken: string;
+  userId: number;
+  email: string;
+  nickname: string;
+  profileUrl: string;
 }
 
 export const authState = atom<AuthInfo | null>({

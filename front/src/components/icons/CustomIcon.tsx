@@ -7,6 +7,8 @@ import {
   BsSuitHeartFill,
   BsPlusLg,
   BsImage,
+  BsFillClockFill,
+  BsSuitHeart,
 } from 'react-icons/bs';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import { FaCrown } from 'react-icons/fa';
@@ -44,8 +46,6 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
       case 'searchIcon':
         return <BsSearch size={size} color={color} />;
 
-      case 'like':
-        return <BsSuitHeartFill size={size} color={color} />;
       case 'bell':
         return <BsFillBellFill size={size} color={color} />;
 
@@ -87,6 +87,15 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
 
       case 'remove':
         return <IoMdRemove size={size} color={color} />;
+
+      case 'clock':
+        return <BsFillClockFill size={size} color={color} />;
+
+      case 'like':
+        return <BsSuitHeart size={size} color={color} />;
+
+      case 'liked':
+        return <BsSuitHeartFill size={size} color={color} />;
 
       default:
         console.log('Not implemented!');
