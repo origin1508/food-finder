@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
-app.use("/users", userRouter);
+app.use("/user", userRouter);
 app.use("/recipe", recipeSearchRouter);
 app.use("/restaurant", restaurantRouter);
 app.use("/error", errorRouter);
