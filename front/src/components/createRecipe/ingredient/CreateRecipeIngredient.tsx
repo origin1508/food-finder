@@ -7,21 +7,7 @@ import {
   CreateRecipeRemoveButton,
 } from '../../../styles/createRecipeStyle';
 import { MediumTitle } from '../../../styles/commonStyle';
-
-const placeholders = [
-  {
-    name: '예) 돼지고기',
-    amount: '예) 300g',
-  },
-  {
-    name: '예) 양배추',
-    amount: '예) 1/2개',
-  },
-  {
-    name: '예) 참기름',
-    amount: '예) 2t',
-  },
-];
+import { INGREDIENT_PLACEHOLDERS } from '../../../constants/createRecipe';
 
 const CreateRecipeIngredient = () => {
   const { register, control } = useFormContext();
@@ -39,11 +25,11 @@ const CreateRecipeIngredient = () => {
           <CreateRecipeIngredientInputContainer key={item.id}>
             <CreateRecipeIngredientInput
               {...register(`ingredients.${index}.name`)}
-              placeholder={placeholders[index % 3].name}
+              placeholder={INGREDIENT_PLACEHOLDERS[index % 3].name}
             />
             <CreateRecipeIngredientInput
               {...register(`ingredients.${index}.amount`)}
-              placeholder={placeholders[index % 3].amount}
+              placeholder={INGREDIENT_PLACEHOLDERS[index % 3].amount}
             />
             <IngredientRemoveButton
               top="25%"
