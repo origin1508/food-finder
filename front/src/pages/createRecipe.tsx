@@ -11,7 +11,7 @@ const CreateRecipe = () => {
       name: '',
       mainImage: new File([], ''),
       category: '',
-      cookingMethod: '',
+      method: '',
       ingredients: [
         { name: '', amount: '' },
         { name: '', amount: '' },
