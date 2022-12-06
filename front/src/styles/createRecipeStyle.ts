@@ -25,7 +25,15 @@ export const CreateRecipeInputStyle = css`
   font-family: inherit;
 `;
 
-export const CreateRecipeImgUploadStyle = css`
+export const CreateRecipeImageInput = styled.input`
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 999;
+`;
+
+export const CreateRecipeImageUploadStyle = css`
   ${({ theme }) => theme.mixins.flexBox()}
   flex-shrink: 0;
   width: 20rem;
@@ -36,6 +44,7 @@ export const CreateRecipeImgUploadStyle = css`
   box-shadow: inset 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
   background-color: ${({ theme }) => theme.lightGrey};
   cursor: pointer;
+  position: relative;
 `;
 
 export const CreateRecipeRemoveButton = styled.button<{ top: string }>`
@@ -48,4 +57,16 @@ export const CreateRecipeRemoveButton = styled.button<{ top: string }>`
   height: 2rem;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.lightRed};
+`;
+
+export const ImageUploadIcon = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('column')}
+  width: 100%;
+  height: 100%;
+  gap: ${({ theme }) => theme.spacingRegular};
+  color: ${({ theme }) => theme.darkGrey};
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;

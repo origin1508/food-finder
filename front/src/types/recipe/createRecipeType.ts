@@ -5,15 +5,33 @@ export interface CreateRecipeProps {
 }
 
 export interface CreateRecipeValue {
-  title: string;
-  mainImg: File;
+  name: string;
+  mainImage: FileList;
+  serving: string;
+  cookingTime: string;
   category: string;
-  cookingMethod: string;
+  method: string;
   ingredients: { name: string; amount: string }[];
-  instructions: { step: number; description: string; image: File }[];
+  instructions: {
+    description: string;
+    image: FileList;
+    preview?: string;
+  }[];
 }
 
 export interface CreateRecipeInstructionProps {
   fields: Record<'id', string>[];
   fileInput: React.RefObject<HTMLInputElement>;
+}
+
+export interface RecipeFormValue {
+  name: string;
+  method: string;
+  category: string;
+  ingredient: string;
+  serving: string;
+  cookingTime: string;
+  recipeThumbnail: Blob;
+  stepImages: Blob[];
+  steps: string;
 }
