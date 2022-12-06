@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
-import CreateRecipeMain from './main/CreateRecipeMain';
+import CreateRecipeInfo from './main/CreateRecipeInfo';
 import CreateRecipeIngredient from './ingredient/CreateRecipeIngredient';
 import CreateRecipeInstruction from './instruction/CreateRecipeInstruction';
 import { CreateRecipeContainerStyle } from '../../styles/createRecipeStyle';
@@ -11,7 +11,7 @@ const CreateRecipeForm = () => {
     <CreateRecipeFormConatiner
       onSubmit={handleSubmit((data) => console.log(data))}
     >
-      <CreateRecipeMain />
+      <CreateRecipeInfo />
       <CreateRecipeIngredient />
       <CreateRecipeInstruction />
       <CreateRecipeFormButtonContainer>
