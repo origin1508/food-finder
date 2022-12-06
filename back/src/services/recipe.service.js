@@ -205,4 +205,21 @@ export default {
 
     return deletedRecipe;
   },
+  async deleteComment({ userId, commentId }) {
+    const comment = await recipeModel.findRecipeCommentByCommentId({
+      commentId,
+    });
+
+    if (comment == null) {
+      throw ApiError.setNotFound("존재하지 않는 댓글입니다.");
+    }
+
+    if (comment.dataValues.userId !== userId) {
+      throw ApiError.setUnauthorized("삭제 권한이 없습니다.");
+    }
+
+    const deletedComment = await recipeModel.deleteComment({ commentId });
+
+    return deletedComment;
+  },
 };

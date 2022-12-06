@@ -207,4 +207,23 @@ router.delete("/:recipeId", authorizeJWT, async (req, res, next) => {
   }
 });
 
+router.delete("/comments/:commentId", authorizeJWT, async (req, res, next) => {
+  try {
+    const { commentId } = req.params;
+    const { userId } = req;
+
+    const deletedRecipe = await recipeService.deleteComment({
+      userId,
+      commentId,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "댓글 삭제 성공",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

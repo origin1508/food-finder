@@ -271,4 +271,13 @@ export default {
 
     return deletedRecipe;
   },
+  async deleteComment({ commentId }) {
+    const deletedComment = await RecipeComment.destroy({
+      where: {
+        comment_id: Number(commentId),
+      },
+    });
+
+    return deletedComment;
+  },
 };
