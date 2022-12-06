@@ -9,6 +9,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       suspense: true,
+      staleTime: 1000 * 60 * 3,
       useErrorBoundary: true,
     },
   },
