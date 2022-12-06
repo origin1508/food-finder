@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import useSetAlert from './useSetAlert';
 import { SearchValue } from '../types/search/searchType';
 import {
   MARKER_IMAGE_URL,
@@ -20,6 +21,7 @@ const useKakaoMap = (searchResult: string) => {
   const [pagination, setPagination] = useState<kakao.maps.Pagination>();
   const [markers, setMakers] = useState<kakao.maps.Marker[]>([]);
   const mapRef = useRef<HTMLDivElement>(null);
+  const { setAlertError } = useSetAlert();
   const ps = new kakao.maps.services.Places();
   const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
   const imageSize = new kakao.maps.Size(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
@@ -48,8 +50,16 @@ const useKakaoMap = (searchResult: string) => {
       ps.keywordSearch(
         searchResult + ' ' + keyword,
         (result, status, pagination) => {
-          setPlacesResult(result);
-          setPagination(pagination);
+          if (status === kakao.maps.services.Status.OK) {
+            setPlacesResult(result);
+            setPagination(pagination);
+          } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+            setAlertError({ error: '검색 결과가 존재하지 않습니다.' });
+            return;
+          } else if (status === kakao.maps.services.Status.ERROR) {
+            setAlertError({ error: '검색 결과 중 오류가 발생했습니다.' });
+            return;
+          }
         },
       );
     },
