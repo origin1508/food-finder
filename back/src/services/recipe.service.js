@@ -168,4 +168,24 @@ export default {
 
     return updatedStep;
   },
+  async updateComment({ userId, commentId, content }) {
+    const comment = await recipeModel.findRecipeCommentByCommentId({
+      commentId,
+    });
+
+    if (comment == null) {
+      throw ApiError.setNotFound("존재하지 않는 댓글입니다.");
+    }
+
+    if (comment.dataValues.userId !== userId) {
+      throw ApiError.setUnauthorized("수정 권한이 없습니다.");
+    }
+
+    const updatedComment = await recipeModel.updateRecipeComment({
+      commentId,
+      content,
+    });
+
+    return updatedComment;
+  },
 };

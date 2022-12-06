@@ -168,4 +168,24 @@ router.patch(
   }
 );
 
+router.patch("/comments/:commentId", authorizeJWT, async (req, res, next) => {
+  try {
+    const { commentId } = req.params;
+    const { userId } = req;
+
+    const updatedComment = await recipeService.updateComment({
+      commentId,
+      userId,
+      ...req.body,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "댓글 업데이트 성공",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

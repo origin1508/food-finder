@@ -118,6 +118,19 @@ export default {
 
     return recipeDetail;
   },
+  async findRecipeCommentByCommentId({ commentId }) {
+    const comment = await RecipeComment.findOne({
+      attributes: [
+        ["comment_id", "commentId"],
+        "content",
+        ["user_id", "userId"],
+        ["dish_Id", "dishId"],
+      ],
+      where: { comment_Id: Number(commentId) },
+    });
+
+    return comment;
+  },
   async findByKeyword(searchKeyword) {
     const recipe = await Recipe.findAll({
       logging: console.log,
@@ -239,5 +252,14 @@ export default {
     );
 
     return updatedStep;
+  },
+  async updateRecipeComment({ commentId, content }) {
+    const updatedComment = await RecipeComment.update(
+      {
+        content,
+      },
+      { where: { comment_id: Number(commentId) } }
+    );
+    return updatedComment;
   },
 };
