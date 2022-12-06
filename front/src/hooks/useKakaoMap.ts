@@ -27,13 +27,13 @@ const useKakaoMap = (searchResult: string) => {
   const offset = new kakao.maps.Point(OFFSET_X, OFFSET_Y);
 
   useEffect(() => {
-    if (!mapRef) return;
+    if (!mapRef || mapRef.current === null) return;
     const mapContainer = mapRef.current;
     const mapOption = {
       center: new kakao.maps.LatLng(DEFAULT_LAT, DEFAULT_LNG),
       level: DEFAULT_MAP_LEVEL,
     };
-    const map = new kakao.maps.Map(mapContainer as HTMLDivElement, mapOption);
+    const map = new kakao.maps.Map(mapContainer, mapOption);
 
     setkakaoMap(map);
   }, [mapRef]);
@@ -114,23 +114,26 @@ const useKakaoMap = (searchResult: string) => {
     });
   };
 
-  const pages = useMemo<number[]>(() => {
-    if (!pagination) return [];
-    const { last } = pagination;
-    const temp: number[] = Array(last)
-      .fill(0)
-      .map((item, index) => item + index);
-    return temp;
+  const pages = useMemo(() => {
+    if (pagination instanceof kakao.maps.Pagination) {
+      const { last } = pagination;
+      const temp: number[] = Array(last)
+        .fill(0)
+        .map((item, index) => item + index);
+      return temp;
+    }
   }, [pagination]);
 
-  const currentPage = useMemo<number>(() => {
-    if (!pagination) return 0;
-    return pagination.current;
+  const currentPage = useMemo(() => {
+    if (pagination instanceof kakao.maps.Pagination) {
+      return pagination.current;
+    }
   }, [pagination]);
 
-  const gotoPage = useMemo<(page: number) => void>(() => {
-    if (!pagination) return () => {};
-    return pagination.gotoPage;
+  const gotoPage = useMemo(() => {
+    if (pagination instanceof kakao.maps.Pagination) {
+      return pagination.gotoPage;
+    }
   }, [pagination]);
 
   return {
