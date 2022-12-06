@@ -1,18 +1,11 @@
 import styled from 'styled-components';
-import { useFieldArray, useFormContext } from 'react-hook-form';
-import imageResize from '../../../util/imageResize';
+import { useFieldArray } from 'react-hook-form';
+import CreateRecipeInstructionInputComponent from './CreateRecipeInstructionInputComponent';
 import CustomIcon from '../../icons/CustomIcon';
 import { MediumTitle } from '../../../styles/commonStyle';
-import {
-  CreateRecipeHeader,
-  CreateRecipeInputStyle,
-  CreateRecipeImageInput,
-  CreateRecipeImageUploadStyle,
-  CreateRecipeRemoveButton,
-} from '../../../styles/createRecipeStyle';
+import { CreateRecipeHeader } from '../../../styles/createRecipeStyle';
 
 const CreateRecipeInstruction = () => {
-  const { register, watch, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: 'instructions',
   });
@@ -23,54 +16,13 @@ const CreateRecipeInstruction = () => {
         <CreateRecipeInstructionTitle>요리순서</CreateRecipeInstructionTitle>
       </CreateRecipeInstructionHeader>
       {fields.map((item, index) => {
-        const registeredDesciption = `instructions.${index}.description`;
-        const registeredPreview = `instructions.${index}.preview`;
-        const registeredImage = `instructions.${index}.image`;
-        const preview = watch(registeredPreview);
-
+        const { id } = item;
         return (
-          <CreateRecipeInstructionInputContainer key={item.id}>
-            <CreateRecipeInstructionInputLabel>
-              Step{index + 1}
-            </CreateRecipeInstructionInputLabel>
-            <CreateRecipeInstructionInput {...register(registeredDesciption)} />
-            <CreateRecipeImageUpload preview={preview}>
-              <CreateRecipeImageInput
-                {...register(registeredImage, { required: true })}
-                type="file"
-                accept="image/*"
-                onChange={async (e) => {
-                  if (e.target.files instanceof FileList) {
-                    const uploadImage = e.target.files[0];
-                    const compressedUploadImage = await imageResize(
-                      uploadImage,
-                    );
-                    if (compressedUploadImage) {
-                      const previewUrl = URL.createObjectURL(
-                        compressedUploadImage,
-                      );
-                      setValue(registeredPreview, previewUrl);
-                    }
-                  }
-                }}
-              />
-              {preview ? (
-                <></>
-              ) : (
-                <ImageUploadIcon>
-                  <CustomIcon name="plus" size="32" color="black" />
-                </ImageUploadIcon>
-              )}
-            </CreateRecipeImageUpload>
-            <InstructionRemoveButton
-              top="45%"
-              onClick={() => {
-                remove(index);
-              }}
-            >
-              <CustomIcon name="remove" size="20" color="white" />
-            </InstructionRemoveButton>
-          </CreateRecipeInstructionInputContainer>
+          <CreateRecipeInstructionInputComponent
+            key={id}
+            index={index}
+            remove={remove}
+          />
         );
       })}
       <CreateRecipeInstructionAddButton
@@ -106,42 +58,4 @@ const CreateRecipeInstructionTitle = styled.h2`
 const CreateRecipeInstructionAddButton = styled.button`
   width: auto;
   height: 3rem;
-`;
-
-const CreateRecipeImageUpload = styled.div<{ preview: string }>`
-  ${CreateRecipeImageUploadStyle};
-  ${({ preview }) =>
-    preview && `background-image: url(${preview}); background-size: cover;`}
-`;
-
-const ImageUploadIcon = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
-const CreateRecipeInstructionInputContainer = styled.section`
-  ${({ theme }) => theme.mixins.flexBox()}
-  position: relative;
-  width: 80rem;
-  padding: 0 ${({ theme }) => theme.spacingLarge};
-`;
-
-const CreateRecipeInstructionInputLabel = styled.span`
-  ${MediumTitle};
-  align-self: flex-start;
-  margin-right: ${({ theme }) => theme.spacingRegular};
-  color: ${({ theme }) => theme.themeColor};
-`;
-
-const CreateRecipeInstructionInput = styled.textarea`
-  ${CreateRecipeInputStyle}
-  height: 20rem;
-`;
-
-const InstructionRemoveButton = styled(CreateRecipeRemoveButton)`
-  ${CreateRecipeInstructionInputContainer}:hover & {
-    visibility: visible;
-  }
 `;
