@@ -188,4 +188,23 @@ router.patch("/comments/:commentId", authorizeJWT, async (req, res, next) => {
   }
 });
 
+router.delete("/:recipeId", authorizeJWT, async (req, res, next) => {
+  try {
+    const { recipeId } = req.params;
+    const { userId } = req;
+
+    const deletedRecipe = await recipeService.deleteRecipe({
+      userId,
+      dishId: recipeId,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "레시피 삭제 성공",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

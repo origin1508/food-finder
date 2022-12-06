@@ -262,4 +262,13 @@ export default {
     );
     return updatedComment;
   },
+  async deleteRecipeInformation({ dishId }) {
+    const deletedRecipe = await Recipe.destroy({
+      where: {
+        dish_id: Number(dishId),
+      },
+    });
+
+    return deletedRecipe;
+  },
 };

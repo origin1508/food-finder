@@ -188,4 +188,21 @@ export default {
 
     return updatedComment;
   },
+  async deleteRecipe({ userId, dishId }) {
+    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
+      dishId,
+    });
+
+    if (recipeInformation == null) {
+      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+    }
+
+    if (recipeInformation.dataValues.userId !== userId) {
+      throw ApiError.setUnauthorized("삭제 권한이 없습니다.");
+    }
+
+    const deletedRecipe = await recipeModel.deleteRecipeInformation({ dishId });
+
+    return deletedRecipe;
+  },
 };
