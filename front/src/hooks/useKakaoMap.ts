@@ -48,7 +48,6 @@ const useKakaoMap = (searchResult: string) => {
       ps.keywordSearch(
         searchResult + ' ' + keyword,
         (result, status, pagination) => {
-          console.log(pagination);
           setPlacesResult(result);
           setPagination(pagination);
         },
@@ -119,7 +118,6 @@ const useKakaoMap = (searchResult: string) => {
     if (pagination) {
       const { totalCount } = pagination;
       const lastPage: number = Math.floor(totalCount / 15);
-      console.log(lastPage);
       const temp: number[] = Array(lastPage)
         .fill(1)
         .map((item, index) => item + index);
