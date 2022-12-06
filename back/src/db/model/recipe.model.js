@@ -180,6 +180,15 @@ export default {
 
     return createdStep;
   },
+  async createRecipeComment({ userId, dishId, content }) {
+    const createdComment = await RecipeComment.create({
+      content,
+      user_id: userId,
+      dish_id: dishId,
+    });
+
+    return createdComment;
+  },
   async updateRecipeInformation({
     name,
     method,

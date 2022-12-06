@@ -91,6 +91,27 @@ router.post(
   }
 );
 
+router.post("/:recipeId/comments", authorizeJWT, async (req, res, next) => {
+  try {
+    const { userId } = req;
+    const { recipeId } = req.params;
+
+    const createdComment = await recipeService.addComment({
+      ...req.body,
+      userId,
+      dishId: recipeId,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "댓글 추가 성공",
+      result: createdComment,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.patch(
   "/:recipeId",
   authorizeJWT,
