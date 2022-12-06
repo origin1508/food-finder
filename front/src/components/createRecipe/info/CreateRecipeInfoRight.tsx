@@ -1,34 +1,44 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
+import usePreview from '../../../hooks/usePreview';
+import LoadingCycle from '../../alert/Loader';
 import CustomIcon from '../../icons/CustomIcon';
 import {
   CreateRecipeImageInput,
   CreateRecipeImageUploadStyle,
+  ImageUploadIcon,
 } from '../../../styles/createRecipeStyle';
-
+import { IMAGE_FORMAT } from '../../../constants/createRecipe';
 const CreateRecipeInfoRight = () => {
   const [previewUrl, setPreviewUrl] = useState('');
+  const { isLoading, createPreview } = usePreview();
   const { register } = useFormContext();
+
   return (
     <CreateRecipeInfoRightContainer>
       <CreateRecipeInfoImageUpload previewUrl={previewUrl}>
+        {isLoading && <LoadingCycle />}
         <CreateRecipeImageInput
-          {...register('mainImage', { required: true })}
+          {...register('mainImage', {
+            required: { value: true, message: '요리 대표 사진을 등록해주세요' },
+            validate: {
+              acceptedFormat: (files) => IMAGE_FORMAT.includes(files[0].type),
+            },
+          })}
           type="file"
-          accept="image/*"
-          onChange={(e) => {
-            if (e.target.files instanceof FileList) {
-              const uploadImage = e.target.files[0];
-              const previewUrl = URL.createObjectURL(uploadImage);
-              setPreviewUrl(previewUrl);
-            }
+          accept="image/jpeg, image/png"
+          onChange={async (e) => {
+            const previewUrl = await createPreview(e);
+            previewUrl && setPreviewUrl(previewUrl);
           }}
         />
-        <ImageUploadIcon>
-          <CustomIcon name="imageUpload" size="40" color="grey" />
-          요리 대표 사진 등록
-        </ImageUploadIcon>
+        {!previewUrl && (
+          <ImageUploadIcon>
+            <CustomIcon name="imageUpload" size="40" color="grey" />
+            요리 대표 사진 등록
+          </ImageUploadIcon>
+        )}
       </CreateRecipeInfoImageUpload>
     </CreateRecipeInfoRightContainer>
   );
@@ -45,16 +55,4 @@ const CreateRecipeInfoImageUpload = styled.div<{
   ${({ previewUrl }) =>
     previewUrl &&
     `background-image: url(${previewUrl}); background-size: cover;`}
-`;
-
-const ImageUploadIcon = styled.div`
-  ${({ theme }) => theme.mixins.flexBox('column')}
-  width: 100%;
-  height: 100%;
-  gap: ${({ theme }) => theme.spacingRegular};
-  color: ${({ theme }) => theme.darkGrey};
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;
