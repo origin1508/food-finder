@@ -6,37 +6,41 @@ import CustomIcon from '../../components/icons/CustomIcon';
 import { theme } from '../../styles/theme';
 import { BaseComponentType } from '../../types/common/baseComponentType';
 import mockData from '../../util/mockData';
-const SuggestionRecipe = ({ children }: BaseComponentType) => {
-  const CARD_WIDTH_SIZE = 27;
-  const CARDS_WIDTH_SIZE = 132;
-  const { recipeDatas } = mockData;
+import { RandomRecipes } from '../../hooks/Recipe/useRecipes';
+
+interface SuggestRecipe {
+  recipes: RandomRecipes[];
+}
+const SuggestionRecipe = ({ recipes }: SuggestRecipe) => {
+  const CARD_WIDTH_SIZE = 130;
+  const CARDS_WIDTH_SIZE = 128;
   const [slidePx, setSlidePx] = useState(0);
 
   const toPrev = () => {
     slidePx < 0 && setSlidePx(slidePx + CARD_WIDTH_SIZE);
+    console.log(slidePx);
   };
 
   const toNext = () => {
     slidePx > -CARDS_WIDTH_SIZE && setSlidePx(slidePx - CARD_WIDTH_SIZE);
+    console.log(slidePx);
   };
 
   return (
     <SuggestionRecipeContainer>
-      <Title>{children}</Title>
       <RecipeCards>
         <Wrap results={slidePx}>
-          {recipeDatas.map((recipe) => {
+          {recipes.map((recipe) => {
             return (
               <RecipeCard
-                img={recipe.img}
-                title={recipe.title}
-                channelUuid={recipe.channelUuid}
+                key={recipe.dish_id}
+                img={recipe.image_url1}
+                title={recipe.name}
+                channelUuid={recipe.dish_id}
                 views={recipe.views}
                 likes={recipe.likes}
-                creator={recipe.creator}
-                onMoreClick={recipe.onMoreClick}
-                index={recipe.index}
-                key={recipe.index}
+                creator={recipe.nickname ? recipe.nickname : 'FoodFinder'}
+                onMoreClick={() => console.log('onmore')}
               />
             );
           })}
@@ -54,23 +58,17 @@ const SuggestionRecipe = ({ children }: BaseComponentType) => {
 
 const SuggestionRecipeContainer = styled.div`
   position: relative;
-  ${({ theme }) => theme.mixins.flexBox('column')};
-  gap: 2vh;
-`;
-
-const Title = styled.h2`
-  ${MediumTitle}
-  color:${({ theme }) => theme.mainBlack}
 `;
 
 const RecipeCards = styled.div`
-  max-width: 132vh;
+  max-width: 128vh;
   height: 25vh;
   overflow: hidden;
 `;
 const Wrap = styled.div`
-  ${({ theme }) => theme.mixins.flexBox('row', 'center', 'start')}
-  gap: 3rem;
+  width: 100%;
+  ${({ theme }) => theme.mixins.flexBox('row', 'center', 'centrt')}
+  gap: 2vh;
   transform: translateX(${({ results }) => `${results}vh`});
   transition: all 0.3s;
 `;
@@ -79,7 +77,7 @@ const PrevButton = styled.div`
   ${({ theme }) => theme.mixins.flexBox}
   position: absolute;
   cursor: pointer;
-  top: 50%;
+  top: 40%;
   left: -1.3%;
   background-color: ${({ theme }) => theme.mainWhite};
   width: 4vh;
@@ -92,7 +90,7 @@ const NextButton = styled.div`
   ${({ theme }) => theme.mixins.flexBox}
   position: absolute;
   cursor: pointer;
-  top: 50%;
+  top: 40%;
   right: -1.3%;
   background-color: ${({ theme }) => theme.mainWhite};
   width: 4vh;
