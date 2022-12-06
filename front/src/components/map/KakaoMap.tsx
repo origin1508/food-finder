@@ -33,14 +33,16 @@ const KakaoMap = () => {
         <ScrollWrapper ref={scrollRef}>
           <PlacesList>
             {placesResult?.map((result, index) => {
+              const { id, place_name, road_address_name, address_name, phone } =
+                result;
               return (
-                <PlaceItem key={result.id}>
+                <PlaceItem key={id}>
                   <PlaceMarker>{index + 1}</PlaceMarker>
                   <PlaceInfo>
-                    <PlaceName>{result.place_name}</PlaceName>
-                    <PlaceAddress>{result.road_address_name}</PlaceAddress>
-                    <PlaceSubAddress>{result.address_name}</PlaceSubAddress>
-                    <PlaceTelNumber>{result.phone}</PlaceTelNumber>
+                    <PlaceName>{place_name}</PlaceName>
+                    <PlaceAddress>{road_address_name}</PlaceAddress>
+                    <PlaceSubAddress>{address_name}</PlaceSubAddress>
+                    <PlaceTelNumber>{phone}</PlaceTelNumber>
                   </PlaceInfo>
                 </PlaceItem>
               );
@@ -48,20 +50,21 @@ const KakaoMap = () => {
           </PlacesList>
         </ScrollWrapper>
         <Pagination>
-          {pages.map((page) => {
-            return (
-              <Page
-                key={page}
-                onClick={() => {
-                  gotoPage(page);
-                  scrollRef.current?.scrollTo(0, 0);
-                }}
-                isOn={currentPage === page ? true : false}
-              >
-                {page}
-              </Page>
-            );
-          })}
+          {pages &&
+            pages.map((page) => {
+              return (
+                <Page
+                  key={page}
+                  onClick={() => {
+                    gotoPage && gotoPage(page);
+                    scrollRef.current?.scrollTo(0, 0);
+                  }}
+                  isOn={currentPage === page ? true : false}
+                >
+                  {page}
+                </Page>
+              );
+            })}
         </Pagination>
       </PlacesListContainer>
       <Map ref={mapRef}></Map>
