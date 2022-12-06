@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
 import { CreateRecipeInputStyle } from '../../../styles/createRecipeStyle';
 import {
-  categoryOptions,
-  cookingMethodOptions,
-  servingOptions,
-} from '../createRecipeOptions';
+  SERVING_OPTIONS,
+  CATEGORY_OPTIONS,
+  METHOD_OPTIONS,
+} from '../../../constants/createRecipe';
 
 const CreateRecipeInfoLeft = () => {
   const { register } = useFormContext();
+
   return (
     <CreateRecipeInfoLeftContainer>
       <CreateRecipeInfoInputContainer>
@@ -24,12 +25,13 @@ const CreateRecipeInfoLeft = () => {
           <CreateRecipeOption value="" hidden>
             인원
           </CreateRecipeOption>
-          {servingOptions.map((serving) => (
+          {SERVING_OPTIONS.map((serving) => (
             <CreateRecipeOption key={serving}>{serving}</CreateRecipeOption>
           ))}
         </CreateRecipeSelect>
         <CreateRecipeInfoInput
           {...register('cookingTime', { required: true })}
+          placeholder="조리시간"
         />
       </CreateRecipeInfoInputContainer>
       <CreateRecipeInfoSelectContainer>
@@ -38,20 +40,15 @@ const CreateRecipeInfoLeft = () => {
           <CreateRecipeOption value="" hidden>
             분류별
           </CreateRecipeOption>
-          {categoryOptions.map((category) => (
+          {CATEGORY_OPTIONS.map((category) => (
             <CreateRecipeOption key={category}>{category}</CreateRecipeOption>
           ))}
-          {/* <option disabled>종류별</option>
-          <option>밥</option>
-          <option>반찬</option>
-          <option>후식</option>
-          <option>국 & 찌개</option> */}
         </CreateRecipeSelect>
         <CreateRecipeSelect {...register('method', { required: true })}>
           <CreateRecipeOption value="" hidden>
             조리방법별
           </CreateRecipeOption>
-          {cookingMethodOptions.map((method) => (
+          {METHOD_OPTIONS.map((method) => (
             <CreateRecipeOption key={method}>{method}</CreateRecipeOption>
           ))}
         </CreateRecipeSelect>
