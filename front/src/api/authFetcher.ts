@@ -61,3 +61,23 @@ export async function authPasswordUpdate(passwordForm: AuthFormInitial) {
   });
   return res.data;
 }
+
+export async function getAuthRecipes() {
+  const res = await customAxios.get(`/users/recipes`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Storage.getToken()}`,
+    },
+  });
+  return res.data.result;
+}
+
+export async function getAuthLikeRecipes() {
+  const res = await customAxios.get(`/users/like/recipes`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Storage.getToken()}`,
+    },
+  });
+  return res.data.result;
+}
