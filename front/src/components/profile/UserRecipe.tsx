@@ -1,7 +1,21 @@
+import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { authState } from '../../atom/auth';
 import styled from 'styled-components';
+import {
+  useAuthRecipes,
+  useAuthLikeRecipes,
+} from '../../hooks/Auth/useAuthRecipes';
 import { MediumTitle } from '../../styles/commonStyle';
 import UserRacipeCards from './UserRecipeCards';
 const UserRecipe = () => {
+  const user = useRecoilValue(authState);
+  // const { data, error, isLoading } = useAuthRecipes();
+  // const { data, error, isLoading } = useAuthLikeRecipes();
+
+  // useEffect(() => {
+  //   console.log(data);
+  // }, []);
   return (
     <>
       <UserRecipeContainer>
