@@ -48,7 +48,9 @@ export default {
 
     const token = jwt.sign(payload, secretKey, options);
 
-    await refreshTokenModel.createOrUpdate(userId, token);
+    const encryptedToken = await bcrypt.hash(token, 12);
+
+    await refreshTokenModel.createOrUpdate(userId, encryptedToken);
 
     return token;
   },
@@ -58,8 +60,10 @@ export default {
     if(!exToken) {
       throw ApiError.setBadRequest('서버에 저장되지 않은 리프레시 토큰입니다. 로그인 화면으로');
     }
+
+    const decryptedToken = await bcrypt.compare(refreshToken, exToken.token);
     
-    if(exToken.token !== refreshToken) {
+    if(!decryptedToken) {
       await refreshTokenModel.destroy(userId);
       throw ApiError.setBadRequest('해당 유저의 리프레시 토큰이 아닙니다. 로그인 화면으로');
     }
