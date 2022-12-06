@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { getAuthRecipes, getAuthLikeRecipes } from '../../api/authFetcher';
 
-interface AuthRecipesValue {
+interface AuthRecipe {
   dishId: number;
   name: string;
   smallThumbnailUrl: string;
@@ -11,14 +11,11 @@ interface AuthRecipesValue {
 }
 
 function useAuthRecipes() {
-  return useQuery<AuthRecipesValue[], Error>(['authRecips'], getAuthRecipes);
+  return useQuery<AuthRecipe[], Error>(['authRecips'], getAuthRecipes);
 }
 
 function useAuthLikeRecipes() {
-  return useQuery<AuthRecipesValue[], Error>(
-    ['authLikeRecips'],
-    getAuthLikeRecipes,
-  );
+  return useQuery<AuthRecipe[], Error>(['authLikeRecips'], getAuthLikeRecipes);
 }
 
 export { useAuthRecipes, useAuthLikeRecipes };
