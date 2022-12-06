@@ -6,15 +6,15 @@ export interface CreateRecipeProps {
 
 export interface CreateRecipeValue {
   name: string;
-  mainImage: File;
-  serving: number;
-  cookingTime: number;
+  mainImage: FileList;
+  serving: string;
+  cookingTime: string;
   category: string;
   method: string;
   ingredients: { name: string; amount: string }[];
   instructions: {
     description: string;
-    image: File;
+    image: FileList;
     preview?: string;
   }[];
 }
@@ -29,9 +29,9 @@ export interface RecipeFormValue {
   method: string;
   category: string;
   ingredient: string;
-  serving: number;
-  cookingTime: number;
+  serving: string;
+  cookingTime: string;
   recipeThumbnail: Blob;
-  stepImage: Blob[];
-  steps: { [step: number]: string };
+  stepImages: Blob[];
+  steps: string;
 }
