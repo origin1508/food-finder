@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
 import { CreateRecipeInputStyle } from '../../../styles/createRecipeStyle';
-import { categoryOptions, cookingMethodOptions } from '../createRecipeOptions';
+import {
+  categoryOptions,
+  cookingMethodOptions,
+  servingOptions,
+} from '../createRecipeOptions';
 
 const CreateRecipeInfoLeft = () => {
   const { register } = useFormContext();
@@ -16,8 +20,13 @@ const CreateRecipeInfoLeft = () => {
       </CreateRecipeInfoInputContainer>
       <CreateRecipeInfoInputContainer>
         <CreateRecipeInfoInputLabel>요리 정보</CreateRecipeInfoInputLabel>
-        <CreateRecipeSelect {...register('category', { required: true })}>
-          <CreateRecipeOption disabled>인원</CreateRecipeOption>
+        <CreateRecipeSelect {...register('serving', { required: true })}>
+          <CreateRecipeOption value="" hidden>
+            인원
+          </CreateRecipeOption>
+          {servingOptions.map((serving) => (
+            <CreateRecipeOption key={serving}>{serving}</CreateRecipeOption>
+          ))}
         </CreateRecipeSelect>
         <CreateRecipeInfoInput
           {...register('cookingTime', { required: true })}
@@ -38,7 +47,7 @@ const CreateRecipeInfoLeft = () => {
           <option>후식</option>
           <option>국 & 찌개</option> */}
         </CreateRecipeSelect>
-        <CreateRecipeSelect {...register('cookingMethod', { required: true })}>
+        <CreateRecipeSelect {...register('method', { required: true })}>
           <CreateRecipeOption value="" hidden>
             조리방법별
           </CreateRecipeOption>
