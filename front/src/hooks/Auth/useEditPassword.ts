@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { authPasswordUpdate } from '../api/authFetcher';
-import useSetAlert from './useSetAlert';
-import { PATH } from '../customRouter';
-import { ErrorType } from '../types/error';
+import { authPasswordUpdate } from '../../api/authFetcher';
+import useSetAlert from '../useSetAlert';
+import { PATH } from '../../customRouter';
+import { ErrorType } from '../../types/error';
 
 export default function useEditPassword() {
   const { setAlertSuccess, setAlertError } = useSetAlert();

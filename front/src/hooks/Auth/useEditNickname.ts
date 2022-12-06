@@ -1,9 +1,9 @@
 import { useMutation } from 'react-query';
 import { useSetRecoilState } from 'recoil';
-import { authProfileNickUpdate } from '../api/authFetcher';
-import useSetAlert from './useSetAlert';
-import { authState } from '../atom/auth';
-import { ErrorType } from '../types/error';
+import { authProfileNickUpdate } from '../../api/authFetcher';
+import useSetAlert from '../useSetAlert';
+import { authState } from '../../atom/auth';
+import { ErrorType } from '../../types/error';
 
 export default function useEditNickname() {
   const { setAlertSuccess, setAlertError } = useSetAlert();

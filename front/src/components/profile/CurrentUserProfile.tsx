@@ -8,8 +8,8 @@ import CustomIcon from '../icons/CustomIcon';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../atom/auth';
 import { AuthFormInitial } from '../../types/auth';
-import useEditNickname from '../../hooks/useEditNickname';
-import useEditImg from '../../hooks/useEditImg';
+import useEditNickname from '../../hooks/Auth/useEditNickname';
+import useEditImg from '../../hooks/Auth/useEditImg';
 import useSetAlert from '../../hooks/useSetAlert';
 
 const CurrentUserProfile = () => {
