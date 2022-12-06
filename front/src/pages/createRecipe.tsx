@@ -9,7 +9,8 @@ const CreateRecipe = () => {
     mode: 'onChange',
     defaultValues: {
       name: '',
-      mainImage: new File([], ''),
+      serving: '',
+      cookingTime: '',
       category: '',
       method: '',
       ingredients: [
@@ -17,7 +18,7 @@ const CreateRecipe = () => {
         { name: '', amount: '' },
         { name: '', amount: '' },
       ],
-      instructions: [{ description: '', image: new File([], '') }],
+      instructions: [{ description: '' }],
     },
   });
 
