@@ -94,8 +94,19 @@ export default {
         },
         {
           model: RecipeComment,
-          attributes: [["user_id", "userId"], "content"],
-          include: [{ model: User }],
+          attributes: [["comment_id", "commentId"], "content"],
+          include: [
+            {
+              model: User,
+              attributes: [
+                ["user_id", "userId"],
+                "nickname",
+                ["profile_url", "profileUrl"],
+                "createdAt",
+                "updatedAt",
+              ],
+            },
+          ],
         },
         {
           model: RecipeStar,
