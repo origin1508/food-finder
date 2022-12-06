@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { UserInfoEdit } from '../../types/user';
 import { AuthFormInitial } from '../../types/auth';
 import styled from 'styled-components';
-import useEditPassword from '../../hooks/useEditPassword';
+import useEditPassword from '../../hooks/Auth/useEditPassword';
 
 const PasswordEditForm = ({
   setIsPasswordEditing,

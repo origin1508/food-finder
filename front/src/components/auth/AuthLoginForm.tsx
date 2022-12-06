@@ -10,7 +10,7 @@ import {
   AuthInputContainer,
   ErrorMessage,
 } from '../../styles/authStyle';
-import useLogin from '../../hooks/useLogin';
+import useLogin from '../../hooks/Auth/useLogin';
 import { PATH } from '../../customRouter';
 
 const AuthLoginForm = () => {

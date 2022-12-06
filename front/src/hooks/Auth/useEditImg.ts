@@ -1,9 +1,9 @@
 import { useMutation } from 'react-query';
-import { authProfileImageUpdate } from '../api/authFetcher';
-import { authState } from '../atom/auth';
+import { authProfileImageUpdate } from '../../api/authFetcher';
+import { authState } from '../../atom/auth';
 import { useSetRecoilState } from 'recoil';
-import useSetAlert from './useSetAlert';
-import { ErrorType } from '../types/error';
+import useSetAlert from '../useSetAlert';
+import { ErrorType } from '../../types/error';
 
 export default function useEditImg() {
   const { setAlertSuccess, setAlertError } = useSetAlert();

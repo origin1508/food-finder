@@ -13,3 +13,23 @@ export const createRecipeRequest = async (formData: FormData) => {
 
   return res.data;
 };
+
+export async function getRandomRecipes() {
+  const res = await customAxios.get(`/recipe/list/random`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${JWT_TOKEN}`,
+    },
+  });
+  return res.data.result;
+}
+
+export async function getRecipeRanking() {
+  const res = await customAxios.get(`/recipe/list/week`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${JWT_TOKEN}`,
+    },
+  });
+  return res.data.result;
+}
