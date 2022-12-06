@@ -50,20 +50,21 @@ const KakaoMap = () => {
           </PlacesList>
         </ScrollWrapper>
         <Pagination>
-          {pages.map((page) => {
-            return (
-              <Page
-                key={page}
-                onClick={() => {
-                  gotoPage(page);
-                  scrollRef.current?.scrollTo(0, 0);
-                }}
-                isOn={currentPage === page ? true : false}
-              >
-                {page}
-              </Page>
-            );
-          })}
+          {pages &&
+            pages.map((page) => {
+              return (
+                <Page
+                  key={page}
+                  onClick={() => {
+                    gotoPage && gotoPage(page);
+                    scrollRef.current?.scrollTo(0, 0);
+                  }}
+                  isOn={currentPage === page ? true : false}
+                >
+                  {page}
+                </Page>
+              );
+            })}
         </Pagination>
       </PlacesListContainer>
       <Map ref={mapRef}></Map>
