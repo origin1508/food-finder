@@ -21,7 +21,6 @@ const CreateRecipeInfoRight = () => {
             if (e.target.files instanceof FileList) {
               const uploadImage = e.target.files[0];
               const previewUrl = URL.createObjectURL(uploadImage);
-              console.log(previewUrl);
               setPreviewUrl(previewUrl);
             }
           }}
