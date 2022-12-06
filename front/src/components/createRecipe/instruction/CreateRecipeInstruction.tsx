@@ -6,7 +6,8 @@ import { MediumTitle } from '../../../styles/commonStyle';
 import {
   CreateRecipeHeader,
   CreateRecipeInputStyle,
-  CreateRecipeImgUploadStyle,
+  CreateRecipeImageInput,
+  CreateRecipeImageUploadStyle,
   CreateRecipeRemoveButton,
 } from '../../../styles/createRecipeStyle';
 
@@ -23,8 +24,8 @@ const CreateRecipeInstruction = () => {
       </CreateRecipeInstructionHeader>
       {fields.map((item, index) => {
         const registeredDesciption = `instructions.${index}.description`;
-        const registeredImage = `instructions.${index}.image`;
         const registeredPreview = `instructions.${index}.preview`;
+        const registeredImage = `instructions.${index}.image`;
         const preview = watch(registeredPreview);
 
         return (
@@ -33,31 +34,34 @@ const CreateRecipeInstruction = () => {
               Step{index + 1}
             </CreateRecipeInstructionInputLabel>
             <CreateRecipeInstructionInput {...register(registeredDesciption)} />
-
-            <ImageUploadButton preview={preview}>
-              <CreateRecipeInstructionImgInput
+            <CreateRecipeImageUpload preview={preview}>
+              <CreateRecipeImageInput
                 {...register(registeredImage, { required: true })}
                 type="file"
                 accept="image/*"
                 onChange={async (e) => {
                   if (e.target.files instanceof FileList) {
                     const uploadImage = e.target.files[0];
-                    const compressedUploadImg = await imageResize(uploadImage);
-                    const previewUrl = URL.createObjectURL(
-                      compressedUploadImg as File,
+                    const compressedUploadImage = await imageResize(
+                      uploadImage,
                     );
-                    setValue(registeredPreview, previewUrl);
+                    if (compressedUploadImage) {
+                      const previewUrl = URL.createObjectURL(
+                        compressedUploadImage,
+                      );
+                      setValue(registeredPreview, previewUrl);
+                    }
                   }
                 }}
               />
               {preview ? (
                 <></>
               ) : (
-                <ImgUploadIcon>
+                <ImageUploadIcon>
                   <CustomIcon name="plus" size="32" color="black" />
-                </ImgUploadIcon>
+                </ImageUploadIcon>
               )}
-            </ImageUploadButton>
+            </CreateRecipeImageUpload>
             <InstructionRemoveButton
               top="45%"
               onClick={() => {
@@ -104,21 +108,13 @@ const CreateRecipeInstructionAddButton = styled.button`
   height: 3rem;
 `;
 
-const ImageUploadButton = styled.div<{ preview: string }>`
-  ${CreateRecipeImgUploadStyle};
+const CreateRecipeImageUpload = styled.div<{ preview: string }>`
+  ${CreateRecipeImageUploadStyle};
   ${({ preview }) =>
     preview && `background-image: url(${preview}); background-size: cover;`}
 `;
 
-const CreateRecipeInstructionImgInput = styled.input`
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-  z-index: 999;
-`;
-
-const ImgUploadIcon = styled.div`
+const ImageUploadIcon = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
