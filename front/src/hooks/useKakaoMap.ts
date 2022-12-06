@@ -116,7 +116,7 @@ const useKakaoMap = (searchResult: string) => {
 
   const pages = useMemo(() => {
     if (pagination instanceof kakao.maps.Pagination) {
-      const { last } = pagination;
+      const { last }: { last: number } = pagination;
       const temp: number[] = Array(last)
         .fill(0)
         .map((item, index) => item + index);
