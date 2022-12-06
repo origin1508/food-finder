@@ -180,8 +180,8 @@ export default {
       FROM users AS u 
       INNER JOIN recipe_likes AS rl ON u.user_id = rl.user_id 
       INNER JOIN recipe_informations ri ON rl.dish_id = ri.dish_id 
-      WHERE u.user_id = ${userId};`,
-      { type: QueryTypes.SELECT }
+      WHERE u.user_id = ?`,
+      { replacements: [userId], type: QueryTypes.SELECT }
     );
 
     return recipes;
