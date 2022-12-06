@@ -25,7 +25,15 @@ export const CreateRecipeInputStyle = css`
   font-family: inherit;
 `;
 
-export const CreateRecipeImgUploadStyle = css`
+export const CreateRecipeImageInput = styled.input`
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 999;
+`;
+
+export const CreateRecipeImageUploadStyle = css`
   ${({ theme }) => theme.mixins.flexBox()}
   flex-shrink: 0;
   width: 20rem;
