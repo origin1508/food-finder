@@ -48,6 +48,7 @@ const useKakaoMap = (searchResult: string) => {
       ps.keywordSearch(
         searchResult + ' ' + keyword,
         (result, status, pagination) => {
+          console.log(pagination);
           setPlacesResult(result);
           setPagination(pagination);
         },
@@ -115,23 +116,25 @@ const useKakaoMap = (searchResult: string) => {
   };
 
   const pages = useMemo(() => {
-    if (pagination instanceof kakao.maps.Pagination) {
-      const { last }: { last: number } = pagination;
-      const temp: number[] = Array(last)
-        .fill(0)
+    if (pagination) {
+      const { totalCount } = pagination;
+      const lastPage: number = Math.floor(totalCount / 15);
+      console.log(lastPage);
+      const temp: number[] = Array(lastPage)
+        .fill(1)
         .map((item, index) => item + index);
       return temp;
     }
   }, [pagination]);
 
   const currentPage = useMemo(() => {
-    if (pagination instanceof kakao.maps.Pagination) {
+    if (pagination) {
       return pagination.current;
     }
   }, [pagination]);
 
   const gotoPage = useMemo(() => {
-    if (pagination instanceof kakao.maps.Pagination) {
+    if (pagination) {
       return pagination.gotoPage;
     }
   }, [pagination]);
