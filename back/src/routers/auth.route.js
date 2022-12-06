@@ -44,7 +44,7 @@ router.put(
   "/validation/refresh-token",
   authorizeRefreshToken,
   async (req, res, next) => {
-    const { userId } = req.params;
+    const {userId} = req.body;
     const refreshToken = req.refreshToken;
     try {
       await authService.verifyRefreshTokenInDB(userId, refreshToken);
