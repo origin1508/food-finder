@@ -16,6 +16,11 @@ const imageResize = async (image: File) => {
     return compressedImage;
   } catch (error) {
     console.log(error);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Image compression failed');
+    }
   }
 };
 
