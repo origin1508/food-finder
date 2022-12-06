@@ -33,14 +33,16 @@ const KakaoMap = () => {
         <ScrollWrapper ref={scrollRef}>
           <PlacesList>
             {placesResult?.map((result, index) => {
+              const { id, place_name, road_address_name, address_name, phone } =
+                result;
               return (
-                <PlaceItem key={result.id}>
+                <PlaceItem key={id}>
                   <PlaceMarker>{index + 1}</PlaceMarker>
                   <PlaceInfo>
-                    <PlaceName>{result.place_name}</PlaceName>
-                    <PlaceAddress>{result.road_address_name}</PlaceAddress>
-                    <PlaceSubAddress>{result.address_name}</PlaceSubAddress>
-                    <PlaceTelNumber>{result.phone}</PlaceTelNumber>
+                    <PlaceName>{place_name}</PlaceName>
+                    <PlaceAddress>{road_address_name}</PlaceAddress>
+                    <PlaceSubAddress>{address_name}</PlaceSubAddress>
+                    <PlaceTelNumber>{phone}</PlaceTelNumber>
                   </PlaceInfo>
                 </PlaceItem>
               );
