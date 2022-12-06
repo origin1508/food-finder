@@ -8,8 +8,8 @@ const CreateRecipe = () => {
   const methods = useForm<CreateRecipeValue>({
     mode: 'onChange',
     defaultValues: {
-      title: '',
-      mainImg: new File([], ''),
+      name: '',
+      mainImage: new File([], ''),
       category: '',
       cookingMethod: '',
       ingredients: [

@@ -5,8 +5,10 @@ export interface CreateRecipeProps {
 }
 
 export interface CreateRecipeValue {
-  title: string;
-  mainImg: Blob;
+  name: string;
+  mainImage: Blob;
+  serving: number;
+  cookingTime: number;
   category: string;
   cookingMethod: string;
   ingredients: { name: string; amount: string }[];
