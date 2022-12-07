@@ -1,7 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import RecipeCard from '../recipe/RecipeCard';
-import mockData from '../../util/mockData';
 import CustomIcon from '../icons/CustomIcon';
 import { searchResultState } from '../../atom/searchResult';
 import { SearchValue } from '../../types/search/searchType';
@@ -9,9 +8,6 @@ import { BigTitle, MediumTitle } from '../../styles/commonStyle';
 
 const RecipeResult = ({ keyword }: SearchValue) => {
   const searchResult = useRecoilValue(searchResultState);
-  const { recipeDatas } = mockData;
-  const { img, title, channelUuid, views, likes, creator, onMoreClick, index } =
-    recipeDatas[0];
   return (
     <RecipeResultContainer>
       <RecipeResultImg>
@@ -23,7 +19,7 @@ const RecipeResult = ({ keyword }: SearchValue) => {
         <CustomIcon name="quoteRight" size="16" /> RECIPE
       </RecipeResultTitle>
       <RecipeResultList>
-        {searchResult.map((item, index) => {
+        {searchResult.map((item) => {
           const {
             dish_id,
             name,
@@ -37,25 +33,14 @@ const RecipeResult = ({ keyword }: SearchValue) => {
             <RecipeCard
               img={image_url1}
               title={name}
-              channelUuid="test"
-              views={views.toString()}
-              likes={likes.toString()}
+              channelUuid={dish_id}
+              views={views}
+              likes={likes}
               creator={nickname}
-              onMoreClick={onMoreClick}
-              index={index}
+              onMoreClick={() => {}}
             />
           );
         })}
-        <RecipeCard
-          img={img}
-          title={title}
-          channelUuid={channelUuid}
-          views={views}
-          likes={likes}
-          creator={creator}
-          onMoreClick={onMoreClick}
-          index={index}
-        />
       </RecipeResultList>
     </RecipeResultContainer>
   );
