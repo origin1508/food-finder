@@ -1,13 +1,15 @@
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import RecipeResult from '../components/searchResult/RecipeResult';
 import PlaceResult from '../components/searchResult/PlaceResult';
 
 const SearchResult = () => {
+  const { keyword } = useParams();
   return (
     <SearchResultWrapper>
       <SearchResultContainer>
-        <RecipeResult />
-        <PlaceResult />
+        <RecipeResult keyword={keyword!} />
+        <PlaceResult keyword={keyword!} />
       </SearchResultContainer>
     </SearchResultWrapper>
   );
