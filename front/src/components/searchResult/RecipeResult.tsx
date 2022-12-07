@@ -1,18 +1,24 @@
 import styled from 'styled-components';
 import RecipeCard from '../recipe/RecipeCard';
 import mockData from '../../util/mockData';
+import CustomIcon from '../icons/CustomIcon';
+import { SearchValue } from '../../types/search/searchType';
 import { BigTitle, MediumTitle } from '../../styles/commonStyle';
 
-const RecipeResult = () => {
+const RecipeResult = ({ keyword }: SearchValue) => {
   const { recipeDatas } = mockData;
   const { img, title, channelUuid, views, likes, creator, onMoreClick, index } =
     recipeDatas[0];
   return (
     <RecipeResultContainer>
       <RecipeResultImg>
-        <RecipeResultImgTitle>김치찌개</RecipeResultImgTitle>
+        <RecipeResultImgTitle>{keyword}</RecipeResultImgTitle>
       </RecipeResultImg>
-      <RecipeResultTitle>"김치찌개" RECIPE</RecipeResultTitle>
+      <RecipeResultTitle>
+        <CustomIcon name="quoteLeft" size="16" />
+        {keyword}
+        <CustomIcon name="quoteRight" size="16" /> RECIPE
+      </RecipeResultTitle>
       <RecipeResultList>
         <RecipeCard
           img={img}
