@@ -10,7 +10,19 @@ export const restaurantLikeRequest = async (restaurant: Restaurant) => {
       Authorization: `Bearer ${JWT_TOKEN}`,
     },
   });
-  console.log(res);
+
+  return res.data;
+};
+
+export const restaurantUnlikeRequest = async (title: string) => {
+  const res = await customAxios.delete('/restaurant/unlike', {
+    data: {
+      title: title,
+    },
+    headers: {
+      Authorization: `Bearer ${JWT_TOKEN}`,
+    },
+  });
 
   return res.data;
 };
