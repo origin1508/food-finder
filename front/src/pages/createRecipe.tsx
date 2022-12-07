@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { FormProvider, useForm } from 'react-hook-form';
+import useCreateRecipe from '../hooks/useCreateRecipe';
 import BasePageComponent from '../hoc/BasePageComponent';
-import CreateRecipeForm from '../components/createRecipe/CreateRecipeForm';
-import { CreateRecipeValue } from '../types/recipe/createRecipeType';
+import RecipeForm from '../components/recipeForm/RecipeForm';
+import { RecipeFormDefaultValue } from '../types/recipe/recipeFormType';
 
 const CreateRecipe = () => {
-  const methods = useForm<CreateRecipeValue>({
+  const methods = useForm<RecipeFormDefaultValue>({
     mode: 'onChange',
     defaultValues: {
       name: '',
@@ -21,13 +22,14 @@ const CreateRecipe = () => {
       instructions: [{ description: '' }],
     },
   });
+  const { mutate: createRecipe } = useCreateRecipe();
 
   return (
     <BasePageComponent>
       <FormProvider {...methods}>
-        <CreateRecipeContainer>
-          <CreateRecipeForm />
-        </CreateRecipeContainer>
+        <RecipeFormContainer>
+          <RecipeForm onSubmit={createRecipe} />
+        </RecipeFormContainer>
       </FormProvider>
     </BasePageComponent>
   );
@@ -35,7 +37,7 @@ const CreateRecipe = () => {
 
 export default CreateRecipe;
 
-const CreateRecipeContainer = styled.article`
+const RecipeFormContainer = styled.article`
   width: 110rem;
   margin: auto;
 `;

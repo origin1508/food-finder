@@ -2,32 +2,32 @@ import styled from 'styled-components';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import CustomIcon from '../../icons/CustomIcon';
 import {
-  CreateRecipeHeader,
-  CreateRecipeInputStyle,
-  CreateRecipeRemoveButton,
-} from '../../../styles/createRecipeStyle';
+  RecipeFormHeader,
+  RecipeFormInputStyle,
+  RecipeFormRemoveButton,
+} from '../../../styles/recipeFormStyle';
 import { MediumTitle } from '../../../styles/commonStyle';
-import { INGREDIENT_PLACEHOLDERS } from '../../../constants/createRecipe';
+import { INGREDIENT_PLACEHOLDERS } from '../../../constants/recipeForm';
 
-const CreateRecipeIngredient = () => {
+const RecipeFormIngredient = () => {
   const { register, control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control: control,
     name: 'ingredients',
   });
   return (
-    <CreateRecipeIngredientContainer>
-      <CreateRecipeIngredientHeader>
-        <CreateRecipeIngredienTitle>재료</CreateRecipeIngredienTitle>
-      </CreateRecipeIngredientHeader>
+    <RecipeFormIngredientContainer>
+      <RecipeFormIngredientHeader>
+        <RecipeFormIngredienTitle>재료</RecipeFormIngredienTitle>
+      </RecipeFormIngredientHeader>
       {fields.map((item, index) => {
         return (
-          <CreateRecipeIngredientInputContainer key={item.id}>
-            <CreateRecipeIngredientInput
+          <RecipeFormIngredientInputContainer key={item.id}>
+            <RecipeFormIngredientInput
               {...register(`ingredients.${index}.name`)}
               placeholder={INGREDIENT_PLACEHOLDERS[index % 3].name}
             />
-            <CreateRecipeIngredientInput
+            <RecipeFormIngredientInput
               {...register(`ingredients.${index}.amount`)}
               placeholder={INGREDIENT_PLACEHOLDERS[index % 3].amount}
             />
@@ -40,7 +40,7 @@ const CreateRecipeIngredient = () => {
             >
               <CustomIcon name="remove" size="20" color="white" />
             </IngredientRemoveButton>
-          </CreateRecipeIngredientInputContainer>
+          </RecipeFormIngredientInputContainer>
         );
       })}
       <IngredientAddButton
@@ -51,13 +51,13 @@ const CreateRecipeIngredient = () => {
       >
         <CustomIcon name="plusCircle" size="20" /> 추가
       </IngredientAddButton>
-    </CreateRecipeIngredientContainer>
+    </RecipeFormIngredientContainer>
   );
 };
 
-export default CreateRecipeIngredient;
+export default RecipeFormIngredient;
 
-const CreateRecipeIngredientContainer = styled.section`
+const RecipeFormIngredientContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
   padding: ${({ theme }) => theme.spacingLarge};
@@ -66,14 +66,14 @@ const CreateRecipeIngredientContainer = styled.section`
   box-shadow: 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
 `;
 
-const CreateRecipeIngredientHeader = styled(CreateRecipeHeader)``;
+const RecipeFormIngredientHeader = styled(RecipeFormHeader)``;
 
-const CreateRecipeIngredienTitle = styled.h2`
+const RecipeFormIngredienTitle = styled.h2`
   ${MediumTitle}
   color: ${({ theme }) => theme.mainBlack}
 `;
 
-const CreateRecipeIngredientInputContainer = styled.section`
+const RecipeFormIngredientInputContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox()}
   position: relative;
   width: 65rem;
@@ -81,12 +81,12 @@ const CreateRecipeIngredientInputContainer = styled.section`
   gap: ${({ theme }) => theme.spacingMedium};
 `;
 
-const CreateRecipeIngredientInput = styled.input`
-  ${CreateRecipeInputStyle}
+const RecipeFormIngredientInput = styled.input`
+  ${RecipeFormInputStyle}
 `;
 
-const IngredientRemoveButton = styled(CreateRecipeRemoveButton)`
-  ${CreateRecipeIngredientInputContainer}:hover & {
+const IngredientRemoveButton = styled(RecipeFormRemoveButton)`
+  ${RecipeFormIngredientInputContainer}:hover & {
     visibility: visible;
   }
 `;
