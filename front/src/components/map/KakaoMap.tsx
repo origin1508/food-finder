@@ -112,7 +112,6 @@ const KakaoMapContainer = styled.article`
 
 const PlacesListContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column', 'center', 'start')};
-  justify-content: 
   width: 40%;
   height: 100%;
   padding: ${({ theme }) => theme.spacingSemiMedium};
