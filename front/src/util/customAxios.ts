@@ -8,7 +8,7 @@ const { VITE_SERVER_URL } = import.meta.env;
 const customAxios = axios.create({
   baseURL: VITE_SERVER_URL,
   headers: {
-    'Content-Type': 'Aplication/json',
+    'Content-Type': 'application/json',
   },
   timeout: 3000,
 });
