@@ -7,7 +7,7 @@ import { MdDelete, MdCreate } from 'react-icons/md';
 // import * as Api from '../../api';
 import CommentEdit from './CommentEdit';
 import useModal from '../../hooks/useModal';
-import ConfirmModal from '../modal/CofirmModal';
+import ConfirmModal from '../modal/ConfirmModal';
 import { authState } from '../../atom/auth';
 import { Comment } from './CommentForm';
 import { SmallTitle, SmallSubTitle } from '../../styles/commonStyle';
