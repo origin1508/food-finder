@@ -1,18 +1,35 @@
 import styled from 'styled-components';
-import CreateRecipeMain from './main/CreateRecipeMain';
+import { useFormContext } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import useCreateRecipe from '../../hooks/useCreateRecipe';
+import useSetAlert from '../../hooks/useSetAlert';
+import CreateRecipeInfo from './info/CreateRecipeInfo';
 import CreateRecipeIngredient from './ingredient/CreateRecipeIngredient';
 import CreateRecipeInstruction from './instruction/CreateRecipeInstruction';
 import { CreateRecipeContainerStyle } from '../../styles/createRecipeStyle';
+import { CreateRecipeValue } from '../../types/recipe/createRecipeType';
 
 const CreateRecipeForm = () => {
+  const { handleSubmit } = useFormContext<CreateRecipeValue>();
+  const navigate = useNavigate();
+  const { mutate: createRecipe, isLoading } = useCreateRecipe();
+  const { setAlertLoading } = useSetAlert();
+
+  const handleCreateRecipe = handleSubmit((data) => {
+    isLoading && setAlertLoading({ loading: true });
+    createRecipe(data);
+  });
+
   return (
-    <CreateRecipeFormConatiner>
-      <CreateRecipeMain />
+    <CreateRecipeFormConatiner onSubmit={handleCreateRecipe}>
+      <CreateRecipeInfo />
       <CreateRecipeIngredient />
       <CreateRecipeInstruction />
       <CreateRecipeFormButtonContainer>
         <CreatRecipeSubmitButton type="submit">저장</CreatRecipeSubmitButton>
-        <CreateRecipeCancleButton type="button">취소</CreateRecipeCancleButton>
+        <CreateRecipeCancleButton type="button" onClick={() => navigate(-1)}>
+          취소
+        </CreateRecipeCancleButton>
       </CreateRecipeFormButtonContainer>
     </CreateRecipeFormConatiner>
   );
@@ -26,7 +43,7 @@ const CreateRecipeFormConatiner = styled.form`
   gap: ${({ theme }) => theme.spacingRegular};
 `;
 
-const CreateRecipeFormButtonContainer = styled.div`
+const CreateRecipeFormButtonContainer = styled.section`
   ${CreateRecipeContainerStyle};
   ${({ theme }) => theme.mixins.flexBox()};
   gap: ${({ theme }) => theme.spacingLarge};

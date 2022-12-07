@@ -37,7 +37,8 @@ const UserRecipeCards = ({ children }: BaseComponentType) => {
                 onMoreClick={recipe.onMoreClick}
                 index={recipe.index}
                 size="20"
-              ></RecipeCard>
+                key={recipe.index}
+              />
             );
           })}
         </Wrap>

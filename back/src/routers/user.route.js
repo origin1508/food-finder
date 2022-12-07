@@ -3,12 +3,12 @@ import express from "express";
 import userService from "../services/user.service";
 import { userProfileImageUpload } from "../middlewares/multer";
 import ApiError from "../utils/ApiError";
-import authorizeJWT from "../middlewares/JWTauthorization";
+import authorizeAccessToken from "../middlewares/accessTokenAuthorization";
 
 const router = express.Router();
 
-router.put("/:userId/nickname", authorizeJWT, async (req, res, next) => {
-  const { userId } = req.params;
+router.put("/nickname", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
   const { nickname } = req.body;
 
   try {
@@ -25,8 +25,8 @@ router.put("/:userId/nickname", authorizeJWT, async (req, res, next) => {
   }
 });
 
-router.put("/:userId/password", authorizeJWT, async (req, res, next) => {
-  const { userId } = req.params;
+router.put("/password", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
   const { password, newPassword } = req.body;
 
   try {
@@ -44,15 +44,15 @@ router.put("/:userId/password", authorizeJWT, async (req, res, next) => {
 });
 
 router.put(
-  "/:userId/profileImage",
-  authorizeJWT,
+  "/profileImage",
+  authorizeAccessToken,
   userProfileImageUpload.single("profileImage"),
   async (req, res, next) => {
     if (!req.file) {
       throw ApiError.setBadRequest("이미지 파일을 전송받지 못했습니다.");
     }
 
-    const { userId } = req.params;
+    const userId = req.userId;
     const { location } = req.file;
 
     try {
@@ -69,8 +69,8 @@ router.put(
   }
 );
 
-router.get("/:userId/recipes", authorizeJWT, async (req, res, next) => {
-  const { userId } = req.params;
+router.get("/recipes", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
 
   try {
     const recipes = await userService.getRecipes(userId);
@@ -85,16 +85,24 @@ router.get("/:userId/recipes", authorizeJWT, async (req, res, next) => {
   }
 });
 
-// router.get("/:userId/like/recipes", async (req, res, next) => {
-//   const {userId} = req.params;
+router.get("/like/recipes", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
 
-//   try {
-//     const recipes = await userService
-//   }
-// });
+  try {
+    const recipes = await userService.getLikeRecipes(userId);
 
-router.get("/:userId/like/restaurant", async (req, res, next) => {
-  const { userId } = req.params;
+    res.status(200).json({
+      success: true,
+      message: "좋아요한 레시피 목록 조회 성공",
+      result: recipes,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/like/restaurant", authorizeAccessToken, async (req, res, next) => {
+  const userId = req.userId;
 
   try {
     const restaurants = await userService.getRestaurants(userId);

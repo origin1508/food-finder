@@ -1,27 +1,63 @@
 import styled from 'styled-components';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import CustomIcon from '../../icons/CustomIcon';
 import {
   CreateRecipeHeader,
   CreateRecipeInputStyle,
+  CreateRecipeRemoveButton,
 } from '../../../styles/createRecipeStyle';
 import { MediumTitle } from '../../../styles/commonStyle';
+import { INGREDIENT_PLACEHOLDERS } from '../../../constants/createRecipe';
 
 const CreateRecipeIngredient = () => {
+  const { register, control } = useFormContext();
+  const { fields, append, remove } = useFieldArray({
+    control: control,
+    name: 'ingredients',
+  });
   return (
     <CreateRecipeIngredientContainer>
       <CreateRecipeIngredientHeader>
         <CreateRecipeIngredienTitle>재료</CreateRecipeIngredienTitle>
       </CreateRecipeIngredientHeader>
-      <CreateRecipeIngredientAddButton type="button">
-        {<CustomIcon name="plusCircle" size="20" />} 추가
-      </CreateRecipeIngredientAddButton>
+      {fields.map((item, index) => {
+        return (
+          <CreateRecipeIngredientInputContainer key={item.id}>
+            <CreateRecipeIngredientInput
+              {...register(`ingredients.${index}.name`)}
+              placeholder={INGREDIENT_PLACEHOLDERS[index % 3].name}
+            />
+            <CreateRecipeIngredientInput
+              {...register(`ingredients.${index}.amount`)}
+              placeholder={INGREDIENT_PLACEHOLDERS[index % 3].amount}
+            />
+            <IngredientRemoveButton
+              top="25%"
+              type="button"
+              onClick={() => {
+                remove(index);
+              }}
+            >
+              <CustomIcon name="remove" size="20" color="white" />
+            </IngredientRemoveButton>
+          </CreateRecipeIngredientInputContainer>
+        );
+      })}
+      <IngredientAddButton
+        type="button"
+        onClick={() => {
+          append({ name: '', amount: '' });
+        }}
+      >
+        <CustomIcon name="plusCircle" size="20" /> 추가
+      </IngredientAddButton>
     </CreateRecipeIngredientContainer>
   );
 };
 
 export default CreateRecipeIngredient;
 
-const CreateRecipeIngredientContainer = styled.div`
+const CreateRecipeIngredientContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
   padding: ${({ theme }) => theme.spacingLarge};
@@ -32,9 +68,27 @@ const CreateRecipeIngredientContainer = styled.div`
 
 const CreateRecipeIngredientHeader = styled(CreateRecipeHeader)``;
 
-const CreateRecipeIngredienTitle = styled.div`
+const CreateRecipeIngredienTitle = styled.h2`
   ${MediumTitle}
   color: ${({ theme }) => theme.mainBlack}
 `;
 
-const CreateRecipeIngredientAddButton = styled.button``;
+const CreateRecipeIngredientInputContainer = styled.section`
+  ${({ theme }) => theme.mixins.flexBox()}
+  position: relative;
+  width: 65rem;
+  padding: 0 ${({ theme }) => theme.spacingLarge};
+  gap: ${({ theme }) => theme.spacingMedium};
+`;
+
+const CreateRecipeIngredientInput = styled.input`
+  ${CreateRecipeInputStyle}
+`;
+
+const IngredientRemoveButton = styled(CreateRecipeRemoveButton)`
+  ${CreateRecipeIngredientInputContainer}:hover & {
+    visibility: visible;
+  }
+`;
+
+const IngredientAddButton = styled.button``;

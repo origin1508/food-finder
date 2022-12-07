@@ -1,12 +1,21 @@
-// import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import useSearchForm from '../hooks/useSearchForm';
 import SuggestionRecipe from '../components/recipe/SuggestionRecipe';
 import searchImg from '../assets/searchImg.png';
 import { MediumTitle } from '../styles/commonStyle';
 import Search from '../components/common/Search';
 import ImageSearch from '../components/common/ImageSearch';
+import { useRandomRecipes, useRecipeRanking } from '../hooks/Recipe/useRecipes';
+import { PATH } from '../customRouter';
 
 const Recipe = () => {
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useSearchForm();
+  const { data: randomRecipe } = useRandomRecipes();
+  const { data: recipeRanking } = useRecipeRanking();
+
   return (
     <Container>
       <HeaderContainer>
@@ -14,13 +23,27 @@ const Recipe = () => {
           400가지 이상의 다양한 한식레시피를 검색해보세요!
         </SearchTitle>
         <SearchContainer>
-          <Search />
+          <Search register={register} onSubmit={handleSubmit(() => {})} />
           <ImageSearch />
         </SearchContainer>
       </HeaderContainer>
       <RecipeContainer>
-        <SuggestionRecipe>오늘의 추천 RECIPE!</SuggestionRecipe>
-        <SuggestionRecipe>맛있고 다양한 한식 RECIPE!</SuggestionRecipe>
+        <SuggestionRecipeContainer>
+          <TitleContainer>
+            <Title>금주의 추천 RECIPE!</Title>
+          </TitleContainer>
+          <SuggestionRecipe recipes={recipeRanking!} />
+        </SuggestionRecipeContainer>
+        <SuggestionRecipeContainer>
+          <TitleContainer>
+            <Title>맛있고 다양한 음식 RECIPE!</Title>
+            <MoreRecipe onClick={() => navigate(PATH.COLLECT_RECIPES)}>
+              더 보기
+            </MoreRecipe>
+          </TitleContainer>
+
+          <SuggestionRecipe recipes={randomRecipe!} />
+        </SuggestionRecipeContainer>
       </RecipeContainer>
     </Container>
   );
@@ -49,8 +72,33 @@ const SearchContainer = styled.div`
 const RecipeContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
-  gap: 10vh;
+  gap: 5vh;
   padding: 3% 8%;
+`;
+const SuggestionRecipeContainer = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('column')}
+  gap : ${({ theme }) => theme.spacingMedium};
+`;
+
+const TitleContainer = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('row', 'end', 'start')}
+  gap: ${({ theme }) => theme.spacingMedium};
+  padding-left: ${({ theme }) => theme.spacingMedium};
+  width: 100%;
+`;
+const Title = styled.h2`
+  ${MediumTitle}
+  color:${({ theme }) => theme.mainBlack}
+`;
+
+const MoreRecipe = styled.div`
+  cursor: pointer;
+  ${({ theme }) =>
+    theme.mixins.title(
+      theme.fontSemiRegular,
+      theme.weightSemiBold,
+      theme.darkGrey,
+    )}
 `;
 
 export default Recipe;

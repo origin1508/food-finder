@@ -1,25 +1,37 @@
-import { useRef } from 'react';
 import styled from 'styled-components';
+import { useFieldArray } from 'react-hook-form';
 import CreateRecipeInstructionInputComponent from './CreateRecipeInstructionInputComponent';
 import CustomIcon from '../../icons/CustomIcon';
 import { MediumTitle } from '../../../styles/commonStyle';
 import { CreateRecipeHeader } from '../../../styles/createRecipeStyle';
 
 const CreateRecipeInstruction = () => {
-  const fileInput = useRef<HTMLInputElement>(null);
+  const { fields, append, remove } = useFieldArray({
+    name: 'instructions',
+  });
+
   return (
     <CreateRecipeInstructionContainer>
       <CreateRecipeInstructionHeader>
         <CreateRecipeInstructionTitle>요리순서</CreateRecipeInstructionTitle>
       </CreateRecipeInstructionHeader>
-      <CreateRecipeInstructionImgInput
-        type="file"
-        accept=".jpg .jpeg"
-        ref={fileInput}
-      />
-      <CreateRecipeInstructionInputComponent fileInput={fileInput} />
-      <CreateRecipeInstructionAddButton type="button">
-        {<CustomIcon name="plusCircle" size="20" />} 순서추가
+      {fields.map((item, index) => {
+        const { id } = item;
+        return (
+          <CreateRecipeInstructionInputComponent
+            key={id}
+            index={index}
+            remove={remove}
+          />
+        );
+      })}
+      <CreateRecipeInstructionAddButton
+        type="button"
+        onClick={() => {
+          append({ description: '' });
+        }}
+      >
+        <CustomIcon name="plusCircle" size="20" /> 순서추가
       </CreateRecipeInstructionAddButton>
     </CreateRecipeInstructionContainer>
   );
@@ -27,7 +39,7 @@ const CreateRecipeInstruction = () => {
 
 export default CreateRecipeInstruction;
 
-const CreateRecipeInstructionContainer = styled.div`
+const CreateRecipeInstructionContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
   padding: ${({ theme }) => theme.spacingLarge};
@@ -38,7 +50,7 @@ const CreateRecipeInstructionContainer = styled.div`
 
 const CreateRecipeInstructionHeader = styled(CreateRecipeHeader)``;
 
-const CreateRecipeInstructionTitle = styled.span`
+const CreateRecipeInstructionTitle = styled.h2`
   ${MediumTitle}
   color: ${({ theme }) => theme.mainBlack}
 `;
@@ -46,8 +58,4 @@ const CreateRecipeInstructionTitle = styled.span`
 const CreateRecipeInstructionAddButton = styled.button`
   width: auto;
   height: 3rem;
-`;
-
-const CreateRecipeInstructionImgInput = styled.input`
-  display: none;
 `;

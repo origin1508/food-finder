@@ -1,27 +1,16 @@
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { SmallTitle, SmallSubTitle } from '../../styles/commonStyle';
 
 interface RecipeCardProps {
   img: string;
   title: string;
-  channelUuid: string;
-  views: string;
-  likes: string;
+  channelUuid: number;
+  views: number;
+  likes: number;
   creator: string;
-  onMoreClick: (channelUuid: string, index?: number) => void;
-  index?: number;
+  onMoreClick: () => void;
   size?: string;
 }
-
-// interface Todo {
-//   userId: number;
-//   id: number;
-//   title: string;
-//   completed: boolean;
-// }
 
 const RecipeCard = ({
   img,
@@ -31,24 +20,10 @@ const RecipeCard = ({
   likes,
   creator,
   onMoreClick,
-  index,
   size,
 }: RecipeCardProps) => {
-  // const { data: todos } = useQuery('todos', async () => {
-  //   const { data } = await axios.get<Todo[]>(
-  //     'https://jsonplaceholder.typicode.com/todos2',
-  //   );
-
-  //   return data;
-  // });
   return (
-    <CardContainer
-      itemProp={size}
-      onClick={() => {
-        onMoreClick(channelUuid, index);
-      }}
-    >
-      {/* {todos?.map((todo) => todo.title)} */}
+    <CardContainer itemProp={size} onClick={onMoreClick}>
       <CardImg src={img} />
       <CardContent>
         <CardTitle>{title}</CardTitle>

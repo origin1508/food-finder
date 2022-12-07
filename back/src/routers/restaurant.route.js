@@ -1,10 +1,10 @@
 import express from "express";
 import restaurantService from "../services/restaurant.service";
-import authorizeJWT from "../middlewares/JWTauthorization";
+import authorizeAccessToken from "../middlewares/accessTokenAuthorization";
 
 const router = express.Router();
 
-router.post("/like", authorizeJWT, async (req, res, next) => {
+router.post("/like", authorizeAccessToken, async (req, res, next) => {
   const userId = req.userId;
   const restaurantInfo = req.body;
 
@@ -20,7 +20,7 @@ router.post("/like", authorizeJWT, async (req, res, next) => {
   }
 });
 
-router.delete("/unlike", authorizeJWT, async (req, res, next) => {
+router.delete("/unlike", authorizeAccessToken, async (req, res, next) => {
   const userId = req.userId;
   const { title } = req.body;
 

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import ApiError from "../utils/ApiError";
 
-const authorizeJWT = (req, res, next) => {
+const authorizeAccessToken = (req, res, next) => {
   try {
     const token = req.headers.authorization.split("Bearer ")[1];
     if (!token) {
@@ -26,4 +26,4 @@ const authorizeJWT = (req, res, next) => {
   }
 };
 
-export default authorizeJWT;
+export default authorizeAccessToken;

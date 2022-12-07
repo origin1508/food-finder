@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const AuthInputContainer = styled.div`
   width: 100%;
+  position: relative;
   margin-bottom: ${(props) => props.theme.spacingMedium};
 `;
 
@@ -27,4 +28,12 @@ export const AuthButton = styled.button`
   &:active {
     transform: scale(0.98);
   }
+`;
+export const ErrorMessage = styled.div`
+  position: absolute;
+  font-size: ${({ theme }) => theme.fontSmall};
+  color: ${({ theme }) => theme.lightRed};
+  height: 1.4rem;
+  left: 2rem;
+  bottom: -1.5rem;
 `;

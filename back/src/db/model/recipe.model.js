@@ -1,5 +1,6 @@
 import { Recipe, RecipeLike, User, RecipeStar } from "../schema";
-import { Op, Sequelize } from "sequelize";
+import { Op, Sequelize, QueryTypes } from "sequelize";
+import sequelize from "../../configs/sequelize";
 
 export default {
   async findByKeyword(searchKeyword) {
@@ -60,13 +61,13 @@ export default {
   async findAllByUserId(userId) {
     const recieps = await Recipe.findAll({
       attributes: [
-        'dish_id',
-        'name',
-        'method',
-        'category',
-        'image_url2',
-        'views',
-        'createdAt'
+        "dish_id",
+        "name",
+        "method",
+        "category",
+        "image_url2",
+        "views",
+        "createdAt",
       ],
       where: {
         user_id: userId,
@@ -171,5 +172,18 @@ export default {
     });
 
     return randomRecipe;
+  },
+
+  async getLikeRecipes(userId) {
+    const recipes = await sequelize.query(
+      `SELECT ri.dish_id, ri.name, ri.method, ri.category, ri.image_url2, ri.views, ri.createdAt 
+      FROM users AS u 
+      INNER JOIN recipe_likes AS rl ON u.user_id = rl.user_id 
+      INNER JOIN recipe_informations ri ON rl.dish_id = ri.dish_id 
+      WHERE u.user_id = ?`,
+      { replacements: [userId], type: QueryTypes.SELECT }
+    );
+
+    return recipes;
   },
 };

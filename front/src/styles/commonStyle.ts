@@ -14,6 +14,15 @@ export const MediumTitle = css`
     theme.mixins.title(theme.fontMedium, theme.weightSemiBold, theme.lightGrey)}
 `;
 
+export const MediumSubTitle = css`
+  ${({ theme }) =>
+    theme.mixins.title(
+      theme.fontSemiMedium,
+      theme.weightRegular,
+      theme.darkGrey,
+    )}
+`;
+
 export const SmallTitle = css`
   ${({ theme }) =>
     theme.mixins.title(

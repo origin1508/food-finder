@@ -1,40 +1,76 @@
 import styled from 'styled-components';
+import { useFormContext, UseFieldArrayRemove } from 'react-hook-form';
+import usePreview from '../../../hooks/usePreview';
+import LoadingCycle from '../../alert/Loader';
 import CustomIcon from '../../icons/CustomIcon';
-import { CreateRecipeInputStyle } from '../../../styles/createRecipeStyle';
 import { MediumTitle } from '../../../styles/commonStyle';
-
-interface CreateRecipeInstructionProps {
-  fileInput: React.RefObject<HTMLInputElement>;
-}
+import {
+  CreateRecipeInputStyle,
+  CreateRecipeImageInput,
+  CreateRecipeImageUploadStyle,
+  CreateRecipeRemoveButton,
+  ImageUploadIcon,
+} from '../../../styles/createRecipeStyle';
 
 const CreateRecipeInstructionInputComponent = ({
-  fileInput,
-}: CreateRecipeInstructionProps) => {
+  index,
+  remove,
+}: {
+  index: number;
+  remove: UseFieldArrayRemove;
+}) => {
+  const { register, watch, setValue } = useFormContext();
+  const { isLoading, createPreview } = usePreview();
+  const registeredDesciption = `instructions.${index}.description`;
+  const registeredPreview = `instructions.${index}.preview`;
+  const registeredImage = `instructions.${index}.image`;
+  const preview = watch(registeredPreview);
+
   return (
     <CreateRecipeInstructionInputContainer>
-      <CreateRecipeInstructionInputTitle>
-        Step1
-      </CreateRecipeInstructionInputTitle>
-      <CreateRecipeInstructionInput />
-      <ImageUploadButton
+      <CreateRecipeInstructionInputLabel>
+        Step{index + 1}
+      </CreateRecipeInstructionInputLabel>
+      <CreateRecipeInstructionInput {...register(registeredDesciption)} />
+      <CreateRecipeImageUpload preview={preview}>
+        {isLoading && <LoadingCycle />}
+        <CreateRecipeImageInput
+          {...register(registeredImage, { required: true })}
+          type="file"
+          accept="image/*"
+          onChange={async (e) => {
+            const previewUrl = await createPreview(e);
+            previewUrl && setValue(registeredPreview, previewUrl);
+          }}
+        />
+        {!preview && (
+          <ImageUploadIcon>
+            <CustomIcon name="plus" size="32" color="black" />
+          </ImageUploadIcon>
+        )}
+      </CreateRecipeImageUpload>
+      <InstructionRemoveButton
+        top="45%"
         onClick={() => {
-          fileInput.current && fileInput.current.click();
+          remove(index);
         }}
       >
-        {<CustomIcon name="plus" size="32" color="black" />}
-      </ImageUploadButton>
+        <CustomIcon name="remove" size="20" color="white" />
+      </InstructionRemoveButton>
     </CreateRecipeInstructionInputContainer>
   );
 };
 
 export default CreateRecipeInstructionInputComponent;
 
-const CreateRecipeInstructionInputContainer = styled.div`
+const CreateRecipeInstructionInputContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox()}
+  position: relative;
   width: 80rem;
+  padding: 0 ${({ theme }) => theme.spacingLarge};
 `;
 
-const CreateRecipeInstructionInputTitle = styled.p`
+const CreateRecipeInstructionInputLabel = styled.span`
   ${MediumTitle};
   align-self: flex-start;
   margin-right: ${({ theme }) => theme.spacingRegular};
@@ -46,15 +82,14 @@ const CreateRecipeInstructionInput = styled.textarea`
   height: 20rem;
 `;
 
-const ImageUploadButton = styled.div`
-  ${({ theme }) => theme.mixins.flexBox()}
-  flex-shrink: 0;
-  width: 20rem;
-  height: 20rem;
-  margin-bottom: ${({ theme }) => theme.spacingRegular};
-  margin-left: ${({ theme }) => theme.spacingRegular};
-  border-radius: 0.5rem;
-  box-shadow: inset 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
-  background-color: ${({ theme }) => theme.lightGrey};
-  cursor: pointer;
+const CreateRecipeImageUpload = styled.div<{ preview: string }>`
+  ${CreateRecipeImageUploadStyle};
+  ${({ preview }) =>
+    preview && `background-image: url(${preview}); background-size: cover;`}
+`;
+
+const InstructionRemoveButton = styled(CreateRecipeRemoveButton)`
+  ${CreateRecipeInstructionInputContainer}:hover & {
+    visibility: visible;
+  }
 `;

@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import ApiError from "../utils/ApiError";
 
 import userModel from "../db/model/user.model";
+import refreshTokenModel from '../db/model/refreshToken.model';
 
 export default {
   async checkUser(email, password) {
@@ -37,7 +38,7 @@ export default {
     return token;
   },
 
-  async generateRefreshToken() {
+  async generateRefreshToken(userId) {
     const payload = {};
     const secretKey = process.env.JWT_SECRET_KEY;
     const options = {
@@ -47,7 +48,25 @@ export default {
 
     const token = jwt.sign(payload, secretKey, options);
 
+    const encryptedToken = await bcrypt.hash(token, 12);
+
+    await refreshTokenModel.createOrUpdate(userId, encryptedToken);
+
     return token;
+  },
+
+  async verifyRefreshTokenInDB(userId, refreshToken) {
+    const exToken = await refreshTokenModel.findByUserId(userId);
+    if(!exToken) {
+      throw ApiError.setBadRequest('서버에 저장되지 않은 리프레시 토큰입니다. 로그인 화면으로');
+    }
+
+    const decryptedToken = await bcrypt.compare(refreshToken, exToken.token);
+    
+    if(!decryptedToken) {
+      await refreshTokenModel.destroy(userId);
+      throw ApiError.setBadRequest('해당 유저의 리프레시 토큰이 아닙니다. 로그인 화면으로');
+    }
   },
 
   async registerInfo(email, password, nickname) {

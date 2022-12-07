@@ -15,12 +15,13 @@ const AuthRegister = () => {
 
 export default AuthRegister;
 
-const AuthRegisterWrapper = styled.div`
+const AuthRegisterWrapper = styled.article`
   ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
+  height: calc(100vh - 7rem);
 `;
 
-const AuthRegisterContainer = styled.div`
+const AuthRegisterContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 60rem;
   height: 65rem;

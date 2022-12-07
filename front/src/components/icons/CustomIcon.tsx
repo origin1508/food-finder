@@ -7,14 +7,17 @@ import {
   BsSuitHeartFill,
   BsPlusLg,
   BsImage,
+  BsFillClockFill,
+  BsSuitHeart,
 } from 'react-icons/bs';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import { FaCrown } from 'react-icons/fa';
 import { FiSend } from 'react-icons/fi';
 import { BiCloudUpload, BiRefresh } from 'react-icons/bi';
-import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
+import { GrFormPrevious, GrFormNext, GrClose } from 'react-icons/gr';
 import { FcPlus } from 'react-icons/fc';
 import { AiOutlineUpload } from 'react-icons/ai';
+import { IoMdRemove } from 'react-icons/io';
 
 interface CustomIconProps {
   name: string;
@@ -43,8 +46,6 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
       case 'searchIcon':
         return <BsSearch size={size} color={color} />;
 
-      case 'like':
-        return <BsSuitHeartFill size={size} color={color} />;
       case 'bell':
         return <BsFillBellFill size={size} color={color} />;
 
@@ -80,6 +81,21 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
 
       case 'imageUpload':
         return <BsImage size={size} color={color} />;
+
+      case 'close':
+        return <GrClose size={size} color={color} />;
+
+      case 'remove':
+        return <IoMdRemove size={size} color={color} />;
+
+      case 'clock':
+        return <BsFillClockFill size={size} color={color} />;
+
+      case 'like':
+        return <BsSuitHeart size={size} color={color} />;
+
+      case 'liked':
+        return <BsSuitHeartFill size={size} color={color} />;
 
       default:
         console.log('Not implemented!');
