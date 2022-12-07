@@ -63,7 +63,7 @@ export async function authPasswordUpdate(passwordForm: AuthFormInitial) {
 }
 
 export async function getAuthRecipes() {
-  const res = await customAxios.get(`/users/recipes`, {
+  const res = await customAxios.get(`/user/recipes`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${Storage.getToken()}`,
@@ -73,7 +73,7 @@ export async function getAuthRecipes() {
 }
 
 export async function getAuthLikeRecipes() {
-  const res = await customAxios.get(`/users/like/recipes`, {
+  const res = await customAxios.get(`/user/like/recipes`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${Storage.getToken()}`,
