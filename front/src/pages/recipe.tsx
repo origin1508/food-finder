@@ -8,7 +8,7 @@ import Search from '../components/common/Search';
 import ImageSearch from '../components/common/ImageSearch';
 
 const Recipe = () => {
-  const { register, handleSubmit } = useSearchForm();
+  const { register, handleRecipeSearch } = useSearchForm();
   return (
     <Container>
       <HeaderContainer>
@@ -16,7 +16,7 @@ const Recipe = () => {
           400가지 이상의 다양한 한식레시피를 검색해보세요!
         </SearchTitle>
         <SearchContainer>
-          <Search register={register} onSubmit={handleSubmit(() => {})} />
+          <Search register={register} onSubmit={handleRecipeSearch} />
           <ImageSearch />
         </SearchContainer>
       </HeaderContainer>
