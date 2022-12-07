@@ -8,22 +8,21 @@ interface RecipeCardProps {
   views: number;
   likes: number;
   creator: string;
-  onMoreClick: () => void;
+  onClickDetailPage: () => void;
   size?: string;
 }
 
 const RecipeCard = ({
   img,
   title,
-  channelUuid,
   views,
   likes,
   creator,
-  onMoreClick,
+  onClickDetailPage,
   size,
 }: RecipeCardProps) => {
   return (
-    <CardContainer itemProp={size} onClick={onMoreClick}>
+    <CardContainer itemProp={size} onClick={onClickDetailPage}>
       <CardImg src={img} />
       <CardContent>
         <CardTitle>{title}</CardTitle>

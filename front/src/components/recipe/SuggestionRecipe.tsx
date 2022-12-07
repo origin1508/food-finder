@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import RecipeCard from '../../components/recipe/RecipeCard';
 import { MediumTitle } from '../../styles/commonStyle';
@@ -12,6 +13,7 @@ interface SuggestRecipe {
   recipes: RandomRecipes[];
 }
 const SuggestionRecipe = ({ recipes }: SuggestRecipe) => {
+  const navigate = useNavigate();
   const CARD_WIDTH_SIZE = 130;
   const CARDS_WIDTH_SIZE = 128;
   const [slidePx, setSlidePx] = useState(0);
@@ -24,6 +26,11 @@ const SuggestionRecipe = ({ recipes }: SuggestRecipe) => {
   const toNext = () => {
     slidePx > -CARDS_WIDTH_SIZE && setSlidePx(slidePx - CARD_WIDTH_SIZE);
     console.log(slidePx);
+  };
+
+  const handleClickDetail = (userId: number) => {
+    const recipeDetailPagePath = `/recipe/detail/${userId}`;
+    navigate(recipeDetailPagePath);
   };
 
   return (
@@ -40,7 +47,7 @@ const SuggestionRecipe = ({ recipes }: SuggestRecipe) => {
                 views={recipe.views}
                 likes={recipe.likes}
                 creator={recipe.nickname ? recipe.nickname : 'FoodFinder'}
-                onMoreClick={() => console.log('onmore')}
+                onClickDetailPage={() => handleClickDetail(recipe.dish_id)}
               />
             );
           })}

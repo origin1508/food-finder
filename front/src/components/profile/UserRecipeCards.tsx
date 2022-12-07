@@ -34,8 +34,7 @@ const UserRecipeCards = ({ children }: BaseComponentType) => {
                 views={recipe.views}
                 likes={recipe.likes}
                 creator={recipe.creator}
-                onMoreClick={recipe.onMoreClick}
-                index={recipe.index}
+                onClickDetailPage={recipe.onMoreClick}
                 size="20"
                 key={recipe.index}
               />
