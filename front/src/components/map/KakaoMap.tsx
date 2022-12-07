@@ -1,12 +1,16 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import useRestaurant from '../../hooks/useRestaurant';
 import useSearchForm from '../../hooks/useSearchForm';
 import useKakaoMap from '../../hooks/useKakaoMap';
 import Search from '../common/Search';
+import CustomIcon from '../icons/CustomIcon';
+import { SearchValue } from '../../types/search/searchType';
 
-const KakaoMap = () => {
-  const searchResult = '김치찌개';
+const KakaoMap = ({ keyword }: SearchValue) => {
+  const searchResult = keyword;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { restaurantLikeMutation, restaurantUnlikeMutation } = useRestaurant();
   const { register, handleSubmit } = useSearchForm();
   const {
     kakaoMap,
@@ -33,17 +37,41 @@ const KakaoMap = () => {
         <ScrollWrapper ref={scrollRef}>
           <PlacesList>
             {placesResult?.map((result, index) => {
-              const { id, place_name, road_address_name, address_name, phone } =
-                result;
+              const {
+                id,
+                place_name,
+                place_url,
+                road_address_name,
+                address_name,
+                phone,
+              } = result;
               return (
                 <PlaceItem key={id}>
                   <PlaceMarker>{index + 1}</PlaceMarker>
-                  <PlaceInfo>
+                  <PlaceInfo
+                    onClick={() => {
+                      window.open(place_url);
+                    }}
+                  >
                     <PlaceName>{place_name}</PlaceName>
                     <PlaceAddress>{road_address_name}</PlaceAddress>
                     <PlaceSubAddress>{address_name}</PlaceSubAddress>
                     <PlaceTelNumber>{phone}</PlaceTelNumber>
                   </PlaceInfo>
+                  <PlaceLikeButton
+                    onClick={() => {
+                      restaurantLikeMutation.mutate(result);
+                    }}
+                  >
+                    <CustomIcon name="like" size="20" />
+                  </PlaceLikeButton>
+                  <PlaceLikeButton
+                    onClick={() => {
+                      restaurantUnlikeMutation.mutate(result);
+                    }}
+                  >
+                    <CustomIcon name="liked" size="20" />
+                  </PlaceLikeButton>
                 </PlaceItem>
               );
             })}
@@ -85,7 +113,7 @@ const KakaoMapContainer = styled.article`
 const PlacesListContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column', 'center', 'start')};
   justify-content: 
-  width: 35%;
+  width: 40%;
   height: 100%;
   padding: ${({ theme }) => theme.spacingSemiMedium};
   flex-grow: 1;
@@ -93,7 +121,7 @@ const PlacesListContainer = styled.section`
 `;
 
 const Map = styled.div`
-  width: 65%;
+  width: 60%;
   height: 100%;
 `;
 
@@ -130,9 +158,10 @@ const PlaceMarker = styled.div`
 
 const PlaceInfo = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'start', 'center')}
-  width: 85%;
+  width: 80%;
   height: 100%;
   line-height: 2rem;
+  cursor: pointer;
 `;
 
 const PlaceName = styled.span`
@@ -148,6 +177,8 @@ const PlaceSubAddress = styled.span`
 const PlaceTelNumber = styled.span`
   color: ${({ theme }) => theme.themeColor};
 `;
+
+const PlaceLikeButton = styled.button``;
 
 const Pagination = styled.div`
   ${({ theme }) => theme.mixins.flexBox()}

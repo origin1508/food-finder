@@ -12,7 +12,7 @@ import { PATH } from '../customRouter';
 
 const Recipe = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useSearchForm();
+  const { register, handleRecipeSearch } = useSearchForm();
   const { data: randomRecipe } = useRandomRecipes();
   const { data: recipeRanking } = useRecipeRanking();
 
@@ -23,7 +23,7 @@ const Recipe = () => {
           400가지 이상의 다양한 한식레시피를 검색해보세요!
         </SearchTitle>
         <SearchContainer>
-          <Search register={register} onSubmit={handleSubmit(() => {})} />
+          <Search register={register} onSubmit={handleRecipeSearch} />
           <ImageSearch />
         </SearchContainer>
       </HeaderContainer>

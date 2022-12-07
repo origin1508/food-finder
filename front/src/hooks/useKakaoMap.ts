@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import useSetAlert from './useSetAlert';
 import { SearchValue } from '../types/search/searchType';
 import {
   MARKER_IMAGE_URL,
@@ -11,6 +12,7 @@ import {
   DEFAULT_LAT,
   DEFAULT_LNG,
   DEFAULT_MAP_LEVEL,
+  COUNT_PER_PAGE,
 } from '../constants/kakaoMap';
 
 const useKakaoMap = (searchResult: string) => {
@@ -20,6 +22,7 @@ const useKakaoMap = (searchResult: string) => {
   const [pagination, setPagination] = useState<kakao.maps.Pagination>();
   const [markers, setMakers] = useState<kakao.maps.Marker[]>([]);
   const mapRef = useRef<HTMLDivElement>(null);
+  const { setAlertError } = useSetAlert();
   const ps = new kakao.maps.services.Places();
   const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
   const imageSize = new kakao.maps.Size(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
@@ -48,8 +51,16 @@ const useKakaoMap = (searchResult: string) => {
       ps.keywordSearch(
         searchResult + ' ' + keyword,
         (result, status, pagination) => {
-          setPlacesResult(result);
-          setPagination(pagination);
+          if (status === kakao.maps.services.Status.OK) {
+            setPlacesResult(result);
+            setPagination(pagination);
+          } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+            setAlertError({ error: '검색 결과가 존재하지 않습니다.' });
+            return;
+          } else if (status === kakao.maps.services.Status.ERROR) {
+            setAlertError({ error: '검색 결과 중 오류가 발생했습니다.' });
+            return;
+          }
         },
       );
     },
@@ -103,9 +114,11 @@ const useKakaoMap = (searchResult: string) => {
     marker: kakao.maps.Marker,
   ) => {
     if (!kakaoMap) return;
+    const content =
+      '<div style="padding: 1rem;">' + `<p>${place.place_name}</p>` + '</div>';
 
     kakao.maps.event.addListener(marker, 'mouseover', () => {
-      infowindow.setContent(`<div>${place.place_name}</div>`);
+      infowindow.setContent(content);
       infowindow.open(kakaoMap, marker);
     });
 
@@ -117,7 +130,7 @@ const useKakaoMap = (searchResult: string) => {
   const pages = useMemo(() => {
     if (pagination) {
       const { totalCount } = pagination;
-      const lastPage: number = Math.floor(totalCount / 15);
+      const lastPage: number = Math.floor(totalCount / COUNT_PER_PAGE);
       const temp: number[] = Array(lastPage)
         .fill(1)
         .map((item, index) => item + index);
