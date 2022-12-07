@@ -13,3 +13,9 @@ export const createRecipeRequest = async (formData: FormData) => {
 
   return res.data;
 };
+
+export const searchKeywordRequest = async (keyword: string) => {
+  const res = await customAxios.get(`/recipe/${keyword}`);
+
+  return res.data;
+};
