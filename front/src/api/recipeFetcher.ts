@@ -39,3 +39,13 @@ export async function getRecipeRanking() {
   });
   return res.data.result;
 }
+
+export async function getRecipeDetail(userId: string) {
+  const res = await customAxios.get(`/test/recipes/${userId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${JWT_TOKEN}`,
+    },
+  });
+  return res.data.result;
+}
