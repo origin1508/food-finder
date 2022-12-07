@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { AuthFormInitial } from '../../types/auth';
-import useSignup from '../../hooks/useSignup';
+import useSignup from '../../hooks/Auth/useSignup';
 import useSetAlert from '../../hooks/useSetAlert';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
