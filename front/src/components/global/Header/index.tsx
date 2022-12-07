@@ -11,7 +11,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isBackground, setIsBackground] = useState(false);
-  const { register, handleSubmit } = useSearchForm();
+  const { register, handleRecipeSearch } = useSearchForm();
   const MIN_SCROLL_Y = 20;
 
   const updateScroll = () => {
@@ -48,7 +48,7 @@ const Header = () => {
             isBackground || scrollPosition > MIN_SCROLL_Y ? 'block' : 'none'
           }
           register={register}
-          onSubmit={handleSubmit(() => {})}
+          onSubmit={handleRecipeSearch}
         />
         <NavLink />
       </ContentContainer>
