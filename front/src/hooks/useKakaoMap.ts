@@ -12,6 +12,7 @@ import {
   DEFAULT_LAT,
   DEFAULT_LNG,
   DEFAULT_MAP_LEVEL,
+  COUNT_PER_PAGE,
 } from '../constants/kakaoMap';
 
 const useKakaoMap = (searchResult: string) => {
@@ -113,9 +114,11 @@ const useKakaoMap = (searchResult: string) => {
     marker: kakao.maps.Marker,
   ) => {
     if (!kakaoMap) return;
+    const content =
+      '<div style="padding: 1rem;">' + `<p>${place.place_name}</p>` + '</div>';
 
     kakao.maps.event.addListener(marker, 'mouseover', () => {
-      infowindow.setContent(`<div>${place.place_name}</div>`);
+      infowindow.setContent(content);
       infowindow.open(kakaoMap, marker);
     });
 
@@ -127,7 +130,7 @@ const useKakaoMap = (searchResult: string) => {
   const pages = useMemo(() => {
     if (pagination) {
       const { totalCount } = pagination;
-      const lastPage: number = Math.floor(totalCount / 15);
+      const lastPage: number = Math.floor(totalCount / COUNT_PER_PAGE);
       const temp: number[] = Array(lastPage)
         .fill(1)
         .map((item, index) => item + index);
