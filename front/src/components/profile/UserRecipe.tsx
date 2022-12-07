@@ -10,12 +10,12 @@ import { MediumTitle } from '../../styles/commonStyle';
 import UserRacipeCards from './UserRecipeCards';
 const UserRecipe = () => {
   const user = useRecoilValue(authState);
-  // const { data, error, isLoading } = useAuthRecipes();
-  // const { data, error, isLoading } = useAuthLikeRecipes();
+  const { data: authRecipe } = useAuthRecipes();
+  const { data: authLickeRecipe } = useAuthLikeRecipes();
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, []);
+  useEffect(() => {
+    console.log(authRecipe);
+  }, []);
   return (
     <>
       <UserRecipeContainer>
