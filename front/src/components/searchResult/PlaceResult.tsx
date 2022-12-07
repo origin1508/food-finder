@@ -1,13 +1,19 @@
 import styled from 'styled-components';
 import KakaoMap from '../map/KakaoMap';
+import CustomIcon from '../icons/CustomIcon';
+import { SearchValue } from '../../types/search/searchType';
 import { MediumTitle } from '../../styles/commonStyle';
 
-const PlaceResult = () => {
+const PlaceResult = ({ keyword }: SearchValue) => {
   return (
     <PlaceResultContainer>
-      <RecipeResultTitle>"김치찌개" 맛집</RecipeResultTitle>
+      <RecipeResultTitle>
+        <CustomIcon name="quoteLeft" size="16" />
+        {keyword}
+        <CustomIcon name="quoteRight" size="16" /> 맛집
+      </RecipeResultTitle>
       <MapContainer>
-        <KakaoMap />
+        <KakaoMap keyword={keyword} />
       </MapContainer>
     </PlaceResultContainer>
   );
