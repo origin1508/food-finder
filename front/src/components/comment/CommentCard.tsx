@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import { MdDelete, MdCreate } from 'react-icons/md';
 // import * as Api from '../../api';
@@ -9,13 +9,21 @@ import CommentEdit from './CommentEdit';
 import useModal from '../../hooks/useModal';
 import ConfirmModal from '../modal/ConfirmModal';
 import { authState } from '../../atom/auth';
-import { Comment } from './CommentForm';
+import { Comment } from '../recipeDetail/RecipeComment';
 import { SmallTitle, SmallSubTitle } from '../../styles/commonStyle';
 import { theme } from '../../styles/theme';
+import useDeleteComment from '../../hooks/Comment/userDeleteComment';
 
-const ContentCard = ({ comment }: { comment: Comment }) => {
+const ContentCard = ({
+  comment,
+  recipeId,
+}: {
+  comment: Comment;
+  recipeId: string;
+}) => {
   const [isEdit, setIsEdit] = useState(false);
-
+  const { mutate } = useDeleteComment();
+  const { handleSubmit } = useFormContext();
   const user = useRecoilValue(authState);
   const loginId = user?.userId;
   const [isOpenModal, handleModalOpenButtonClick, handleModalCloseButtonClick] =
@@ -23,30 +31,26 @@ const ContentCard = ({ comment }: { comment: Comment }) => {
   const navigate = useNavigate();
 
   const handleClickImage = () => {
-    const path = `/profile/${comment.writerUser.id}`;
+    const path = `/profile/${comment.User.userId}`;
     navigate(path);
   };
 
-  //   const handleDeleteComment = async () => {
-  //     await Api.delete('api/comment', comment._id);
-  //     fetch();
-  //   };
+  const handleClickDeleteButton = handleSubmit(() => {
+    mutate({ recipeId });
+  });
 
   return (
     <CardItemBlock>
       <CommentWrap>
         {!isEdit ? (
           <ContentCotainer>
-            <UserImg
-              src={comment.writerUser.imageUrl}
-              onClick={handleClickImage}
-            />
+            <UserImg src={comment.User.profileUrl} onClick={handleClickImage} />
             <CommentInfoContainer>
-              <UserNickname>{comment.writerUser.name}</UserNickname>
-              <CommentContent>{comment.comment}</CommentContent>
+              <UserNickname>{comment.User.nickname}</UserNickname>
+              <CommentContent>{comment.content}</CommentContent>
             </CommentInfoContainer>
-            {/* 자신이 쓴 댓글만 수정, 삭제 할 수 있도록 조건부 렌더링 */}
-            {loginId !== comment.writerUser.id && (
+
+            {loginId === comment.User.userId && (
               <IconBlock>
                 <Edit>
                   <MdCreate
@@ -68,12 +72,17 @@ const ContentCard = ({ comment }: { comment: Comment }) => {
             )}
           </ContentCotainer>
         ) : (
-          <CommentEdit comment={comment} setIsEdit={setIsEdit} />
+          <CommentEdit
+            comment={comment}
+            setIsEdit={setIsEdit}
+            recipeId={recipeId}
+          />
         )}
       </CommentWrap>
       <ConfirmModal
         isOpenModal={isOpenModal}
         onModalCancelButtonClickEvent={handleModalCloseButtonClick}
+        onModalAcceptButtonClickEvent={handleClickDeleteButton}
       >
         해당 댓글을 삭제하시겠습니까?
       </ConfirmModal>
@@ -107,7 +116,6 @@ const CommentContent = styled.p`
   ${SmallSubTitle}
 `;
 
-// 펜 모양 보여주는 컴포넌트
 const Edit = styled.div`
   width: fit-content;
   color: #dee2e6;
@@ -118,7 +126,6 @@ const Edit = styled.div`
   }
 `;
 
-// 쓰레기통 보여주는 컴포넌트
 const Remove = styled.div`
   width: fit-content;
   color: #dee2e6;

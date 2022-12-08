@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-// import * as Api from '../../api';
+
 import Comments from './Comments';
-import mockData from '../../util/mockData';
+
+import useComment from '../../hooks/Comment/useComment';
+import { Comment } from '../recipeDetail/RecipeComment';
 
 interface CommentForm {
   recipeId: string;
-  writerId: number;
   comments: Comment[];
 }
 
@@ -15,63 +15,26 @@ interface CommentFormInitial {
   comment: string;
 }
 
-export interface Comment {
-  writerUser: {
-    name: string;
-    id: number;
-    imageUrl: string;
-  };
-  comment: string;
-}
-const CommentForm = ({ recipeId, writerId, comments }: CommentForm) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CommentFormInitial>({
+const CommentForm = ({ recipeId, comments }: CommentForm) => {
+  const { mutate: commentMutate, isLoading } = useComment();
+  const { register, handleSubmit } = useForm<CommentFormInitial>({
     mode: 'onChange',
   });
 
-  //   const fetch = async () => {
-  //     try {
-  //       const response = await Api.get(`api/comment/list`, recipeId);
-  //       setComments(response.data);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-
-  // 입력받은 방명록을 저장하기 위한 state
-
-  //
-
-  //   const addHandler = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //       await Api.post(`api/comment/${writerId}`, inputs);
-  //       fetch();
-  //       setInputs({
-  //         ...inputs,
-  //         comment: '',
-  //       });
-  //     } catch (e) {}
-  //   };
-
-  // 기존 방명록을 받아와 저장
-  //   useEffect(() => {
-  //     fetch();
-  //   }, [recipeId]);
+  const onSubmit = handleSubmit(({ comment }) => {
+    commentMutate({ recipeId: recipeId, comment });
+  });
 
   return (
-    <CommentsFormContainer className="commet-container">
-      <Comments comments={comments} />
-      <InputForm>
+    <CommentsFormContainer>
+      <Comments comments={comments} recipeId={recipeId} />
+      <InputForm onSubmit={onSubmit}>
         <Input
           type="text"
           placeholder="댓글을 입력해주세요."
           {...register!('comment')}
         />
-        <SubitButton className="mt-2">등록</SubitButton>
+        <SubitButton type="submit">등록</SubitButton>
       </InputForm>
     </CommentsFormContainer>
   );

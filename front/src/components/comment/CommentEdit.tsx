@@ -1,28 +1,36 @@
 import { useState } from 'react';
-import { Comment } from './CommentForm';
+import { useFormContext } from 'react-hook-form';
+import { Comment } from '../recipeDetail/RecipeComment';
+import useEditComment from '../../hooks/Comment/useEditComment';
+
 import styled from 'styled-components';
 // import * as Api from '../../api';
 
 interface CommentEdit {
   comment: Comment;
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  recipeId: string;
 }
 
-const CommentEdit = ({ comment, setIsEdit }: CommentEdit) => {
+const CommentEdit = ({ comment, setIsEdit, recipeId }: CommentEdit) => {
+  const { register, handleSubmit } = useFormContext();
+  const { mutate } = useEditComment();
   const [inputs, setInputs] = useState({
-    comment: comment.comment,
+    comment: comment.content,
   });
 
-  //   const editHandler = async (e) => {
-  //     e.preventDefault();
-  //     await Api.put(`api/comment/${comment.id}`, inputs);
+  const onSubmit = handleSubmit(({ comment }) => {
+    console.log(comment);
+    mutate({ recipeId, comment });
+  });
 
-  //     setIsEdit(false);
-  //     fetch();
-  //   };
   return (
-    <InputForm>
-      <Input name="comment" defaultValue={comment.comment} as="textarea" />
+    <InputForm onSubmit={onSubmit}>
+      <Input
+        defaultValue={comment.content}
+        as="textarea"
+        {...register!('comment')}
+      />
 
       <ButtonContainer>
         <SubitButton type="submit">수정</SubitButton>
