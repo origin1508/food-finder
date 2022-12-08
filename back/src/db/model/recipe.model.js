@@ -388,6 +388,16 @@ export default {
     return createdLike;
   },
 
+  async createRecipeStar({ score, userId, dishId }) {
+    const createdStar = await RecipeStar.create({
+      score,
+      user_id: userId,
+      dish_id: dishId,
+    });
+
+    return createdStar;
+  },
+
   async updateRecipeInformation({
     name,
     method,
