@@ -298,4 +298,14 @@ export default {
 
     return deletedComment;
   },
+  async deleteLike({ userId, dishId }) {
+    const deletedLike = await RecipeLike.destroy({
+      where: {
+        user_id: Number(userId),
+        dish_id: Number(dishId),
+      },
+    });
+
+    return deletedLike;
+  },
 };

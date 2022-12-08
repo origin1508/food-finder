@@ -245,4 +245,23 @@ router.delete("/comments/:commentId", authorizeJWT, async (req, res, next) => {
   }
 });
 
+router.delete("/:recipeId/likes", authorizeJWT, async (req, res, next) => {
+  try {
+    const { userId } = req;
+    const { recipeId } = req.params;
+
+    const deletedLike = await recipeService.deleteLike({
+      userId,
+      dishId: recipeId,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "좋아요 취소 성공",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

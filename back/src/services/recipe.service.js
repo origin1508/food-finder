@@ -244,4 +244,18 @@ export default {
 
     return deletedComment;
   },
+  async deleteLike({ userId, dishId }) {
+    const existenceOfLike = await recipeModel.findExistenceOfLike({
+      userId,
+      dishId,
+    });
+
+    if (existenceOfLike == false) {
+      throw ApiError.setBadRequest("좋아요 상태가 아닙니다.");
+    }
+
+    const deletedLike = await recipeModel.deleteLike({ userId, dishId });
+
+    return deletedLike;
+  },
 };
