@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MediumSubTitle, SmallTitle } from '../../styles/commonStyle';
 import CustomIcon from '../../components/icons/CustomIcon';
@@ -8,6 +9,7 @@ import {
   RecipeDetailTitleStyle,
 } from '../../styles/recipeDetailStyle';
 import { RecipeDetailInitial } from '../../types/recipe/recipeDetailType';
+import RecipeScoreStatus from './RecipeScoreStatus';
 
 const RecipeDetailMain = ({
   recipeDetail,
@@ -22,8 +24,10 @@ const RecipeDetailMain = ({
     cookingTime,
     writer,
     smallThumbnailUrl,
+    RecipeStars,
     dishId: recipeId,
   } = recipeDetail;
+
   return (
     <MainContainer>
       <RecipeImage itemProp={smallThumbnailUrl}>
@@ -32,6 +36,7 @@ const RecipeDetailMain = ({
           <WriterNickname>{writer.nickname}</WriterNickname>
         </WriterInfoContainer>
       </RecipeImage>
+      <RecipeScoreStatus score={RecipeStars[0].score} />
 
       <RecipeInfoContiner>
         <TitleContainer>
@@ -61,7 +66,7 @@ const RecipeDetailMain = ({
 const MainContainer = styled.section`
   ${RecipeDetailContainerStyle}
   gap: ${({ theme }) => theme.spacingLarge};
-  margin: ${({ theme }) => theme.spacingMedium} 0;
+  margin-top: ${({ theme }) => theme.spacingMedium};
 `;
 
 const RecipeImage = styled.div`
@@ -91,6 +96,18 @@ const WriterImage = styled.img`
 `;
 const WriterNickname = styled.h3`
   ${SmallTitle}
+`;
+
+const RecipeRaitingContiner = styled.div`
+  width: 100%;
+  ${({ theme }) => theme.mixins.flexBox}
+  gap : ${({ theme }) => theme.spacingMedium};
+  & svg {
+    color: #c4c4c4;
+  }
+  .black {
+    color: black;
+  }
 `;
 const RecipeInfoContiner = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'start')};
