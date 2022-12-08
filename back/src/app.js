@@ -25,7 +25,7 @@ app.use("/user", userRouter);
 app.use("/recipe", recipeSearchRouter);
 app.use("/restaurant", restaurantRouter);
 app.use("/error", errorRouter);
-app.use("/test/recipes", recipeRouter);
+app.use("/recipes", recipeRouter);
 
 app.get("/", (req, res) => {
   res.send("food-finder");
