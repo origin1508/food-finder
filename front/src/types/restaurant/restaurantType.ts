@@ -1,5 +1,6 @@
 export interface Restaurant {
   title: string;
+  restaurantId: number;
   address: string;
   roadAddress: string;
   mapX: number;
@@ -17,7 +18,8 @@ export interface LikedRestaurantQuery {
   success: boolean;
   message: string;
   result: {
-    _id: string;
+    _id: number;
+    restaurant_id: number;
     title: string;
     address: string;
     road_address: string;

@@ -23,10 +23,10 @@ export const restaurantLikeRequest = async (restaurant: Restaurant) => {
   return res.data;
 };
 
-export const restaurantUnlikeRequest = async (title: string) => {
+export const restaurantUnlikeRequest = async (restaurantId: number) => {
   const res = await customAxios.delete('/restaurant/unlike', {
     data: {
-      title: title,
+      restaurantId: restaurantId,
     },
     headers: {
       Authorization: `Bearer ${JWT_TOKEN}`,

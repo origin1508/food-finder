@@ -107,7 +107,7 @@ const CurrentUserProfile = () => {
 };
 
 const ProfileCardContainer = styled.section`
-  width: 40%;
+  width: 100%;
   height: 80vh;
   background-color: ${({ theme }) => theme.mainWhite};
   border-radius: 1rem;

@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
 import CurrentUserProfile from '../components/profile/CurrentUserProfile';
+import LikedRestaurant from '../components/profile/LikedRestaurant';
 import UserRecipe from '../components/profile/UserRecipe';
 const Profile = () => {
   return (
     <Container>
       <ContentContainer>
-        <CurrentUserProfile></CurrentUserProfile>
-        <UserRecipe></UserRecipe>
+        <CurrentUserProfile />
+        <UserRecipe />
+        <LikedRestaurant />
       </ContentContainer>
     </Container>
   );
@@ -20,12 +22,15 @@ const Container = styled.article`
 `;
 
 const ContentContainer = styled.div`
-  ${({ theme }) => theme.mixins.flexBox('row', 'center', 'space-around')}
-  padding: 0 8%;
+  display: grid;
+  grid-template-columns: 40% auto;
+  grid-template-rows: repeat(2, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: ${({ theme }) => `0 ${theme.spacingLargest}`};
+  padding: 0 10%;
   width: 100%;
-  height: 100%;
-  gap: ${({ theme }) => theme.spancingLarge};
-  margin: ${({ theme }) => `${theme.spancingMedium} 0`};
+  height: 200%;
 `;
 
 export default Profile;

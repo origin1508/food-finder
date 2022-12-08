@@ -29,9 +29,10 @@ const LikedRestaurant = () => {
         <ScrollWrapper>
           <Restaurants>
             {restaurants?.map((restaurant) => {
-              const { _id, title, address, road_address } = restaurant;
+              const { restaurant_id, title, address, road_address } =
+                restaurant;
               return (
-                <Restaurant key={_id}>
+                <Restaurant key={restaurant_id}>
                   <RestaurantInfoCard
                     title={title}
                     address={address}
@@ -39,7 +40,7 @@ const LikedRestaurant = () => {
                   />
                   <LikeButton
                     onClick={() => {
-                      restaurantUnlikeMutation.mutate(title);
+                      restaurantUnlikeMutation.mutate(restaurant_id);
                     }}
                   >
                     <CustomIcon name="liked" size="20" color="red" />
@@ -59,8 +60,9 @@ export default LikedRestaurant;
 
 const LikedRestaurantWrapper = styled.section`
   ${({ theme }) => theme.mixins.flexBox()}
+  grid-column: 1 / 3;
   flex-shrink: 0;
-  width: 50%;
+  width: 100%;
   height: 80vh;
   background-color: ${({ theme }) => theme.mainWhite};
   padding: ${({ theme }) => theme.spancingMedium};
