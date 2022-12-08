@@ -2,10 +2,12 @@ import { Restaurant } from "../schema";
 
 export default {
   async creatLike(userId, restaurantInfo) {
-    const { title, address, roadAddress, mapX, mapY, link } = restaurantInfo;
+    const { title, restaurantId, address, roadAddress, mapX, mapY, link } =
+      restaurantInfo;
 
     await Restaurant.create({
       user_id: userId,
+      restaurant_id: restaurantId,
       title: title,
       address: address,
       road_address: roadAddress,
@@ -15,20 +17,20 @@ export default {
     });
   },
 
-  async deleteLike(userId, title) {
+  async deleteLike(userId, restaurantId) {
     await Restaurant.destroy({
       where: {
         user_id: userId,
-        title: title,
+        restaurant_id: restaurantId,
       },
     });
   },
 
-  async findByTitle(userId, title) {
+  async findByRestaurantId(userId, restaurantId) {
     const restaurant = await Restaurant.findOne({
       where: {
         user_id: userId,
-        title: title,
+        restaurant_id: restaurantId,
       },
     });
 
@@ -42,6 +44,6 @@ export default {
       },
     });
 
-    return restaurants
+    return restaurants;
   },
 };

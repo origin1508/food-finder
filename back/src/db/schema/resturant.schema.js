@@ -9,6 +9,10 @@ const Restaurant = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    restaurant_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -22,11 +26,11 @@ const Restaurant = sequelize.define(
       allowNull: false,
     },
     map_x: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
     map_y: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
     url: {

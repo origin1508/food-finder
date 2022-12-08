@@ -22,10 +22,10 @@ router.post("/like", authorizeAccessToken, async (req, res, next) => {
 
 router.delete("/unlike", authorizeAccessToken, async (req, res, next) => {
   const userId = req.userId;
-  const { title } = req.body;
+  const { restaurantId } = req.body;
 
   try {
-    await restaurantService.restaurantUnlike(userId, title);
+    await restaurantService.restaurantUnlike(userId, restaurantId);
 
     res.status(200).json({
       success: true,
