@@ -5,6 +5,7 @@ import {
   MARKER_IMAGE_URL,
   IMAGE_SIZE_WIDTH,
   IMAGE_SIZE_HEIGHT,
+  BIG_IMAGE_SIZE,
   SPRITE_SIZE_WIDTH,
   SPRITE_SIZE_HEIGHT,
   OFFSET_X,
@@ -14,18 +15,22 @@ import {
   DEFAULT_MAP_LEVEL,
   COUNT_PER_PAGE,
 } from '../constants/kakaoMap';
+import favoriteMarkerImage from '../assets/favoriteMarker2.png';
 
-const useKakaoMap = (searchResult: string) => {
+const useKakaoMap = (searchResult?: string) => {
   const [kakaoMap, setkakaoMap] = useState<kakao.maps.Map>();
   const [placesResult, setPlacesResult] =
     useState<kakao.maps.services.PlacesSearchResult>();
   const [pagination, setPagination] = useState<kakao.maps.Pagination>();
   const [markers, setMakers] = useState<kakao.maps.Marker[]>([]);
+  const [RestaurntBounds, setRestaurntBounds] =
+    useState<kakao.maps.LatLngBounds>();
   const mapRef = useRef<HTMLDivElement>(null);
   const { setAlertError } = useSetAlert();
   const ps = new kakao.maps.services.Places();
   const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
   const imageSize = new kakao.maps.Size(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
+  const bigImageSize = new kakao.maps.Size(BIG_IMAGE_SIZE, BIG_IMAGE_SIZE);
   const spriteSize = new kakao.maps.Size(SPRITE_SIZE_WIDTH, SPRITE_SIZE_HEIGHT);
   const offset = new kakao.maps.Point(OFFSET_X, OFFSET_Y);
 
@@ -48,21 +53,22 @@ const useKakaoMap = (searchResult: string) => {
   const handlePlacesSearch = useCallback(
     (data: SearchValue) => {
       const { keyword } = data;
-      ps.keywordSearch(
-        searchResult + ' ' + keyword,
-        (result, status, pagination) => {
-          if (status === kakao.maps.services.Status.OK) {
-            setPlacesResult(result);
-            setPagination(pagination);
-          } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-            setAlertError({ error: '검색 결과가 존재하지 않습니다.' });
-            return;
-          } else if (status === kakao.maps.services.Status.ERROR) {
-            setAlertError({ error: '검색 결과 중 오류가 발생했습니다.' });
-            return;
-          }
-        },
-      );
+      searchResult &&
+        ps.keywordSearch(
+          searchResult + ' ' + keyword,
+          (result, status, pagination) => {
+            if (status === kakao.maps.services.Status.OK) {
+              setPlacesResult(result);
+              setPagination(pagination);
+            } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+              setAlertError({ error: '검색 결과가 존재하지 않습니다.' });
+              return;
+            } else if (status === kakao.maps.services.Status.ERROR) {
+              setAlertError({ error: '검색 결과 중 오류가 발생했습니다.' });
+              return;
+            }
+          },
+        );
     },
     [placesResult, pagination, setPlacesResult, setPagination],
   );
@@ -99,7 +105,7 @@ const useKakaoMap = (searchResult: string) => {
       });
       kakaoMap.setBounds(bounds);
     },
-    [placesResult, markers, setMakers, setPlacesResult],
+    [kakaoMap, placesResult, markers, setMakers, setPlacesResult],
   );
 
   const removeMarker = useCallback(() => {
@@ -108,6 +114,31 @@ const useKakaoMap = (searchResult: string) => {
     });
     setMakers([]);
   }, [markers]);
+
+  const addRestaurantMarker = useCallback(
+    (x: number, y: number) => {
+      if (!kakaoMap) return;
+      if (!RestaurntBounds) return;
+
+      removeMarker();
+      const restaurantPosition = new kakao.maps.LatLng(y, x);
+      const markerImage = new kakao.maps.MarkerImage(
+        favoriteMarkerImage,
+        bigImageSize,
+      );
+      const marker = new kakao.maps.Marker({
+        position: restaurantPosition,
+        image: markerImage,
+      });
+      RestaurntBounds.extend(restaurantPosition);
+      marker.setMap(kakaoMap);
+      setMakers((prev) => {
+        return [...prev, marker];
+      });
+      kakaoMap.setBounds(RestaurntBounds);
+    },
+    [kakaoMap, RestaurntBounds, setMakers],
+  );
 
   const displayInfowindow = (
     place: kakao.maps.services.PlacesSearchResultItem,
@@ -156,8 +187,10 @@ const useKakaoMap = (searchResult: string) => {
     placesResult,
     pages,
     currentPage,
+    setRestaurntBounds,
     gotoPage,
     handlePlacesSearch,
+    addRestaurantMarker,
   };
 };
 
