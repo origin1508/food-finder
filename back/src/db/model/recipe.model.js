@@ -131,6 +131,16 @@ export default {
 
     return comment;
   },
+  async findExistenceOfLike({ userId, dishId }) {
+    const existence = await RecipeLike.findOne({
+      where: { user_id: Number(userId), dish_id: Number(dishId) },
+    }).then((data) => {
+      if (data == null) return false;
+      return true;
+    });
+
+    return existence;
+  },
   async findByKeyword(searchKeyword) {
     const recipe = await Recipe.findAll({
       logging: console.log,
@@ -212,6 +222,14 @@ export default {
     });
 
     return createdComment;
+  },
+  async createRecipeLike({ userId, dishId }) {
+    const createdLike = await RecipeLike.create({
+      user_id: userId,
+      dish_id: dishId,
+    });
+
+    return createdLike;
   },
   async updateRecipeInformation({
     name,

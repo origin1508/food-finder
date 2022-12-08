@@ -110,6 +110,28 @@ export default {
 
     return createdComment;
   },
+  async addLike({ userId, dishId }) {
+    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
+      dishId,
+    });
+
+    if (recipeInformation == null) {
+      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+    }
+
+    const existenceOfLike = await recipeModel.findExistenceOfLike({
+      userId,
+      dishId,
+    });
+
+    if (existenceOfLike == true) {
+      throw ApiError.setBadRequest("이미 좋아요를 한 상태입니다.");
+    }
+
+    const createdLike = await recipeModel.createRecipeLike({ userId, dishId });
+
+    return createdLike;
+  },
   async updateRecipeInformation({
     userId,
     dishId,

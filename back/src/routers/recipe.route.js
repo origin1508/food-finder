@@ -112,6 +112,25 @@ router.post("/:recipeId/comments", authorizeJWT, async (req, res, next) => {
   }
 });
 
+router.post("/:recipeId/likes", authorizeJWT, async (req, res, next) => {
+  try {
+    const { userId } = req;
+    const { recipeId } = req.params;
+
+    const createdLike = await recipeService.addLike({
+      userId,
+      dishId: recipeId,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "좋아요 성공",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.patch(
   "/:recipeId",
   authorizeJWT,
