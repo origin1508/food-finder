@@ -10,6 +10,7 @@ import RecipeDetailIngredient from '../components/recipeDetail/RecipeDetaiIngred
 import RecipeSteps from '../components/recipeDetail/RecipeSteps';
 import RecipeComment from '../components/recipeDetail/RecipeComment';
 import { PATH } from '../customRouter';
+import RecipeRatingStar from '../components/recipeDetail/RecipeRatingStar';
 
 const RecipeDetail = () => {
   const isLogin = useRecoilValue(isLoginSelector);
@@ -23,6 +24,7 @@ const RecipeDetail = () => {
     if (!isLogin) {
       navigate(PATH.LOGIN);
     }
+    console.log(recipeDetail);
   }, [isLogin]);
   return (
     <BasePageComponent>
@@ -30,7 +32,8 @@ const RecipeDetail = () => {
         <RecipeDetailMain recipeDetail={recipeDetail} />
         <RecipeDetailIngredient ingredient={ingredient} />
         <RecipeSteps steps={Steps} />
-        <RecipeComment comments={RecipeComments} />
+        <RecipeRatingStar recipeId={recipeId!} />
+        <RecipeComment comments={RecipeComments} recipeId={recipeId!} />
       </RecipeDetailContainer>
     </BasePageComponent>
   );
