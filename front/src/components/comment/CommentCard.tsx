@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import { MdDelete, MdCreate } from 'react-icons/md';
 // import * as Api from '../../api';
