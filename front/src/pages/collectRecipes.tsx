@@ -18,6 +18,7 @@ const CollectRecipes = () => {
   const [selectKind, setSelectKind] = useState('전체');
   const [selectMethod, setSelectMethod] = useState('전체');
   const { recipeDatas, filterByType, filterByMethod } = mockData;
+  const { ref, inView } = useInView();
   const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery(
       ['photos'],
@@ -31,9 +32,10 @@ const CollectRecipes = () => {
       },
     );
   if (status === 'loading') return <LoadingCycle />;
+
   useEffect(() => {
-    console.log(data);
-  }, []);
+    if (inView) fetchNextPage();
+  }, [inView]);
 
   return (
     <BasePageComponent>
@@ -61,8 +63,9 @@ const CollectRecipes = () => {
           <Filter>
             <FilterTitle>조리방법별</FilterTitle>
             <SelectContainer>
-              {filterByMethod.map((type) => (
+              {filterByMethod.map((type, index) => (
                 <SelectMethod
+                  key={index}
                   itemProp={selectMethod}
                   itemType={type}
                   name={type}
@@ -94,6 +97,8 @@ const CollectRecipes = () => {
             ))}
           </Wrap>
         </RecipeCards>
+        {isFetchingNextPage ? <LoadingCycle /> : <div ref={ref}></div>}
+        {hasNextPage ? <div>다음페이지</div> : <div>마지막 페이지</div>}
       </CollectRecipesContainer>
     </BasePageComponent>
   );
