@@ -13,7 +13,7 @@ export interface RecipeDetailInitial {
   RecipeLikes: number;
   Steps: RecipeStepsInitial[];
   RecipeComments: Comment[];
-  RecipeStars: undefined[];
+  RecipeStars: { userId: string; score: number }[];
   writer: {
     userId: number;
     email: string;

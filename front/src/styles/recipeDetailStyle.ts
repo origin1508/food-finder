@@ -8,6 +8,7 @@ export const RecipeDetailContainerStyle = css`
   border-radius: 0.5rem;
   background-color: ${({ theme }) => theme.mainWhite};
   box-shadow: 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
+  margin-bottom: ${({ theme }) => theme.spacingMedium};
 `;
 
 export const RecipeDetailHeader = css`
