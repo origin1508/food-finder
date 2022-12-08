@@ -1,5 +1,13 @@
-import { Recipe, RecipeLike, User } from "../schema";
-import { Op, Sequelize } from "sequelize";
+import {
+  Recipe,
+  RecipeLike,
+  User,
+  RecipeComment,
+  RecipeStar,
+  Step,
+} from "../schema";
+import { Op, Sequelize, QueryTypes } from "sequelize";
+import sequelize from "../../configs/sequelize";
 
 export default {
   async findAll() {
