@@ -27,7 +27,7 @@ export const PATH = {
   COLLECT_RECIPES: '/collectRecipes',
   SEARCH_RESULT: '/search',
   PROFILE: '/profile/:userId',
-  RECIPE_DETAIL: '/recipe/detail/:userId',
+  RECIPE_DETAIL: '/recipe/detail/:recipeId',
   MAP: '/map',
   NOT_FOUND: '/*',
 };
