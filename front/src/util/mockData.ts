@@ -190,6 +190,89 @@ const mockData = {
       },
     },
   ],
+
+  comments: [
+    {
+      writerUser: {
+        imageUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
+        name: '들자구',
+        id: 9,
+      },
+      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      id: 12,
+    },
+    {
+      writerUser: {
+        imageUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
+        name: '들자구',
+        id: 12,
+      },
+      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      id: 12,
+    },
+    {
+      writerUser: {
+        imageUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
+        name: '들자구',
+        id: 12,
+      },
+      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      id: 12,
+    },
+    {
+      writerUser: {
+        imageUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
+        name: '들자구',
+        id: 12,
+      },
+      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      id: 12,
+    },
+    {
+      writerUser: {
+        imageUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
+        name: '들자구',
+        id: 12,
+      },
+      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      id: 12,
+    },
+    {
+      writerUser: {
+        imageUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
+        name: '들자구',
+        id: 12,
+      },
+      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      id: 12,
+    },
+    {
+      writerUser: {
+        imageUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
+        name: '들자구',
+        id: 12,
+      },
+      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      id: 12,
+    },
+    {
+      writerUser: {
+        imageUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
+        name: '들자구',
+        id: 12,
+      },
+      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      id: 12,
+    },
+  ],
 };
 
 export default mockData;
