@@ -19,10 +19,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:recipeId", async (req, res, next) => {
+router.get("/:recipeId", authorizeAccessToken, async (req, res, next) => {
   try {
     const { recipeId } = req.params;
-    const recipe = await recipeService.findRecipeDetail({ dishId: recipeId });
+    const { userId } = req;
+    const recipe = await recipeService.findRecipeDetail({
+      dishId: recipeId,
+      userId,
+    });
 
     res.status(200).json({
       success: true,
