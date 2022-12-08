@@ -1,32 +1,36 @@
 import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useNavigate, useParams } from 'react-router-dom';
+import { isLoginSelector } from '../atom/auth';
 import { useRecipeDetail } from '../hooks/Recipe/useRecipes';
 import styled from 'styled-components';
 import BasePageComponent from '../hoc/BasePageComponent';
 import RecipeDetailMain from '../components/recipeDetail/RecipeDetailMain';
 import RecipeDetailIngredient from '../components/recipeDetail/RecipeDetaiIngredient';
 import RecipeSteps from '../components/recipeDetail/RecipeSteps';
-import mockData from '../util/mockData';
-import ConfirmModal from '../components/modal/ConfirmModal';
-import useModal from '../hooks/useModal';
 import RecipeComment from '../components/recipeDetail/RecipeComment';
+import { PATH } from '../customRouter';
 
 const RecipeDetail = () => {
-  // const { data } = useRecipeDetail(userId!);
-  const { recipeDetail } = mockData;
-  const firstRecipeDetail = recipeDetail[0];
-  const { ingredient } = recipeDetail[0];
-  const { steps } = recipeDetail[0];
+  const isLogin = useRecoilValue(isLoginSelector);
+  const navigate = useNavigate();
+  const { recipeId } = useParams();
+  const { data } = useRecipeDetail(recipeId!);
+  const recipeDetail = data![0];
+  const { ingredient, Steps, RecipeComments } = recipeDetail;
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, []);
+  useEffect(() => {
+    if (!isLogin) {
+      navigate(PATH.LOGIN);
+    }
+  }, [isLogin]);
   return (
     <BasePageComponent>
       <RecipeDetailContainer>
-        <RecipeDetailMain recipeDetail={firstRecipeDetail} />
+        <RecipeDetailMain recipeDetail={recipeDetail} />
         <RecipeDetailIngredient ingredient={ingredient} />
-        <RecipeSteps steps={steps} />
-        <RecipeComment />
+        <RecipeSteps steps={Steps} />
+        <RecipeComment comments={RecipeComments} />
       </RecipeDetailContainer>
     </BasePageComponent>
   );

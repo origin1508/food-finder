@@ -4,6 +4,7 @@ import {
   getRecipeRanking,
   getRecipeDetail,
 } from '../../api/recipeFetcher';
+import { RecipeDetailInitial } from '../../types/recipe/recipeDetailType';
 
 export interface RandomRecipes {
   dish_id: number;
@@ -24,7 +25,7 @@ function useRecipeRanking() {
 }
 
 function useRecipeDetail(userId: string) {
-  return useQuery<RandomRecipes[], Error>(['racipeDetail', userId], () =>
+  return useQuery<RecipeDetailInitial[], Error>(['racipeDetail', userId], () =>
     getRecipeDetail(userId),
   );
 }

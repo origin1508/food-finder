@@ -64,8 +64,7 @@ const CollectRecipes = () => {
                   views={recipe.views}
                   likes={recipe.likes}
                   creator={recipe.creator}
-                  onMoreClick={recipe.onMoreClick}
-                  index={recipe.index}
+                  onClickDetailPage={recipe.onMoreClick}
                 ></RecipeCard>
               );
             })}

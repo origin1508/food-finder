@@ -81,3 +81,28 @@ export async function getAuthLikeRecipes() {
   });
   return res.data.result;
 }
+
+export async function authLikeRequest(recipeId: number) {
+  const res = await customAxios.post(
+    `recipes/${recipeId}/likes`,
+    { body: null },
+
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Storage.getToken()}`,
+      },
+    },
+  );
+  return res.data;
+}
+
+export async function authUnLikeRequest(recipeId: number) {
+  const res = await customAxios.delete(`recipes/${recipeId}/likes`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Storage.getToken()}`,
+    },
+  });
+  return res.data;
+}

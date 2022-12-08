@@ -28,8 +28,8 @@ export const PATH = {
   COLLECT_RECIPES: '/collectRecipes',
   SEARCH_RESULT: '/search',
   PROFILE: '/profile/:userId',
-  RECIPE_DETAIL: '/recipe/detail/:userId',
   EDIT_RECIPE: '/recipe/edit',
+  RECIPE_DETAIL: '/recipe/detail/:recipeId',
   MAP: '/map',
   NOT_FOUND: '/*',
 };
