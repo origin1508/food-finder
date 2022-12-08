@@ -1,6 +1,6 @@
 import { Router } from "express";
 import recipeService from "../services/recipe.service";
-import authorizeJWT from "../middlewares/JWTauthorization";
+import authorizeAccessToken from "../middlewares/accessTokenAuthorization";
 import { recipeImageUpload } from "../middlewares/multer";
 
 const router = Router();
@@ -36,7 +36,7 @@ router.get("/:recipeId", async (req, res, next) => {
 
 router.post(
   "/",
-  authorizeJWT,
+  authorizeAccessToken,
   recipeImageUpload("recipeImages").fields([
     { name: "recipeThumbnail", maxCount: 1 },
     { name: "stepImages" },
@@ -65,7 +65,7 @@ router.post(
 
 router.post(
   "/:recipeId/steps",
-  authorizeJWT,
+  authorizeAccessToken,
   recipeImageUpload("recipeImages").single("stepImage"),
   async (req, res, next) => {
     try {
@@ -91,49 +91,57 @@ router.post(
   }
 );
 
-router.post("/:recipeId/comments", authorizeJWT, async (req, res, next) => {
-  try {
-    const { userId } = req;
-    const { recipeId } = req.params;
+router.post(
+  "/:recipeId/comments",
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { userId } = req;
+      const { recipeId } = req.params;
 
-    const createdComment = await recipeService.addComment({
-      ...req.body,
-      userId,
-      dishId: recipeId,
-    });
+      const createdComment = await recipeService.addComment({
+        ...req.body,
+        userId,
+        dishId: recipeId,
+      });
 
-    res.status(201).json({
-      success: true,
-      message: "댓글 추가 성공",
-      result: createdComment,
-    });
-  } catch (error) {
-    next(error);
+      res.status(201).json({
+        success: true,
+        message: "댓글 추가 성공",
+        result: createdComment,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.post("/:recipeId/likes", authorizeJWT, async (req, res, next) => {
-  try {
-    const { userId } = req;
-    const { recipeId } = req.params;
+router.post(
+  "/:recipeId/likes",
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { userId } = req;
+      const { recipeId } = req.params;
 
-    const createdLike = await recipeService.addLike({
-      userId,
-      dishId: recipeId,
-    });
+      const createdLike = await recipeService.addLike({
+        userId,
+        dishId: recipeId,
+      });
 
-    res.status(201).json({
-      success: true,
-      message: "좋아요 성공",
-    });
-  } catch (error) {
-    next(error);
+      res.status(201).json({
+        success: true,
+        message: "좋아요 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.patch(
   "/:recipeId",
-  authorizeJWT,
+  authorizeAccessToken,
   recipeImageUpload("recipeImages").single("recipeThumbnail"),
   async (req, res, next) => {
     try {
@@ -161,7 +169,7 @@ router.patch(
 
 router.patch(
   "/:recipeId/steps/:stepId",
-  authorizeJWT,
+  authorizeAccessToken,
   recipeImageUpload("recipeImages").single("stepImage"),
   async (req, res, next) => {
     try {
@@ -187,27 +195,31 @@ router.patch(
   }
 );
 
-router.patch("/comments/:commentId", authorizeJWT, async (req, res, next) => {
-  try {
-    const { commentId } = req.params;
-    const { userId } = req;
+router.patch(
+  "/comments/:commentId",
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { commentId } = req.params;
+      const { userId } = req;
 
-    const updatedComment = await recipeService.updateComment({
-      commentId,
-      userId,
-      ...req.body,
-    });
+      const updatedComment = await recipeService.updateComment({
+        commentId,
+        userId,
+        ...req.body,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "댓글 업데이트 성공",
-    });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        success: true,
+        message: "댓글 업데이트 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.delete("/:recipeId", authorizeJWT, async (req, res, next) => {
+router.delete("/:recipeId", authorizeAccessToken, async (req, res, next) => {
   try {
     const { recipeId } = req.params;
     const { userId } = req;
@@ -226,42 +238,50 @@ router.delete("/:recipeId", authorizeJWT, async (req, res, next) => {
   }
 });
 
-router.delete("/comments/:commentId", authorizeJWT, async (req, res, next) => {
-  try {
-    const { commentId } = req.params;
-    const { userId } = req;
+router.delete(
+  "/comments/:commentId",
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { commentId } = req.params;
+      const { userId } = req;
 
-    const deletedRecipe = await recipeService.deleteComment({
-      userId,
-      commentId,
-    });
+      const deletedRecipe = await recipeService.deleteComment({
+        userId,
+        commentId,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "댓글 삭제 성공",
-    });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        success: true,
+        message: "댓글 삭제 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.delete("/:recipeId/likes", authorizeJWT, async (req, res, next) => {
-  try {
-    const { userId } = req;
-    const { recipeId } = req.params;
+router.delete(
+  "/:recipeId/likes",
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { userId } = req;
+      const { recipeId } = req.params;
 
-    const deletedLike = await recipeService.deleteLike({
-      userId,
-      dishId: recipeId,
-    });
+      const deletedLike = await recipeService.deleteLike({
+        userId,
+        dishId: recipeId,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "좋아요 취소 성공",
-    });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        success: true,
+        message: "좋아요 취소 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export default router;
