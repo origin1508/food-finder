@@ -35,6 +35,7 @@ export default {
 
     return recipes;
   },
+
   async findRecipeInformationByDishId({ dishId }) {
     const recipeInformation = await Recipe.findOne({
       attributes: [
@@ -55,6 +56,7 @@ export default {
 
     return recipeInformation;
   },
+
   async findRecipeDetailByDishId({ dishId }) {
     const recipeDetail = await Recipe.findAll({
       attributes: [
@@ -119,6 +121,7 @@ export default {
 
     return recipeDetail;
   },
+
   async findRecipeCommentByCommentId({ commentId }) {
     const comment = await RecipeComment.findOne({
       attributes: [
@@ -132,6 +135,7 @@ export default {
 
     return comment;
   },
+
   async findExistenceOfLike({ userId, dishId }) {
     const existence = await RecipeLike.findOne({
       where: { user_id: Number(userId), dish_id: Number(dishId) },
@@ -142,6 +146,7 @@ export default {
 
     return existence;
   },
+
   async findByKeyword(searchKeyword) {
     const likes = Sequelize.fn(
       "COUNT",
@@ -325,6 +330,7 @@ export default {
 
     return recipes;
   },
+
   async createRecipeInformation({
     name,
     method,
@@ -351,6 +357,7 @@ export default {
 
     return createdRecipe;
   },
+
   async createStep({ content, imageUrl, step, dishId }) {
     const createdStep = await Step.create({
       content,
@@ -361,6 +368,7 @@ export default {
 
     return createdStep;
   },
+
   async createRecipeComment({ userId, dishId, content }) {
     const createdComment = await RecipeComment.create({
       content,
@@ -370,6 +378,7 @@ export default {
 
     return createdComment;
   },
+
   async createRecipeLike({ userId, dishId }) {
     const createdLike = await RecipeLike.create({
       user_id: userId,
@@ -378,6 +387,7 @@ export default {
 
     return createdLike;
   },
+
   async updateRecipeInformation({
     name,
     method,
@@ -407,6 +417,7 @@ export default {
 
     return updatedRecipeInformation;
   },
+
   async updateStep({ stepId, content, imageUrl }) {
     const updatedStep = await Step.update(
       {
@@ -418,6 +429,7 @@ export default {
 
     return updatedStep;
   },
+
   async updateRecipeComment({ commentId, content }) {
     const updatedComment = await RecipeComment.update(
       {
@@ -427,6 +439,7 @@ export default {
     );
     return updatedComment;
   },
+
   async deleteRecipeInformation({ dishId }) {
     const deletedRecipe = await Recipe.destroy({
       where: {
@@ -436,6 +449,7 @@ export default {
 
     return deletedRecipe;
   },
+
   async deleteComment({ commentId }) {
     const deletedComment = await RecipeComment.destroy({
       where: {
@@ -445,6 +459,7 @@ export default {
 
     return deletedComment;
   },
+
   async deleteLike({ userId, dishId }) {
     const deletedLike = await RecipeLike.destroy({
       where: {
