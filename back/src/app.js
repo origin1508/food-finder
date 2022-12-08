@@ -9,6 +9,7 @@ import userRouter from "./routers/user.route";
 import recipeSearchRouter from "./routers/recipeSearch.route";
 import restaurantRouter from "./routers/restaurant.route";
 import errorRouter from "./routers/error.route";
+import recipeRouter from "./routers/recipe.route";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/user", userRouter);
 app.use("/recipe", recipeSearchRouter);
 app.use("/restaurant", restaurantRouter);
 app.use("/error", errorRouter);
+app.use("/recipes", recipeRouter);
 
 app.get("/", (req, res) => {
   res.send("food-finder");
