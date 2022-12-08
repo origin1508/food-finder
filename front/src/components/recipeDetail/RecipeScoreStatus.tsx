@@ -20,7 +20,10 @@ const RecipeScoreStatus = ({ score }: { score: number }) => {
     setRecipeScore(scoreStates);
   };
   useEffect(() => {
-    ratingStatus(score - 1);
+    if (score) {
+      return ratingStatus(score - 1);
+    }
+    ratingStatus(3);
   }, []);
 
   return (

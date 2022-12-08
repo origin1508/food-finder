@@ -24,8 +24,8 @@ const RecipeDetail = () => {
     if (!isLogin) {
       navigate(PATH.LOGIN);
     }
-    console.log(recipeDetail);
-  }, [isLogin]);
+    console.log(recipeDetail, data);
+  }, [isLogin, data]);
   return (
     <BasePageComponent>
       <RecipeDetailContainer>
