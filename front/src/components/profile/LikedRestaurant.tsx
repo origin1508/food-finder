@@ -59,8 +59,9 @@ export default LikedRestaurant;
 
 const LikedRestaurantWrapper = styled.section`
   ${({ theme }) => theme.mixins.flexBox()}
+  grid-column: 1 / 3;
   flex-shrink: 0;
-  width: 50%;
+  width: 100%;
   height: 80vh;
   background-color: ${({ theme }) => theme.mainWhite};
   padding: ${({ theme }) => theme.spancingMedium};
