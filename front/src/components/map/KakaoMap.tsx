@@ -1,19 +1,21 @@
 import { useEffect, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import useRestaurant from '../../hooks/useRestaurant';
 import useSearchForm from '../../hooks/useSearchForm';
 import useKakaoMap from '../../hooks/useKakaoMap';
 import Search from '../common/Search';
 import CustomIcon from '../icons/CustomIcon';
+import { likedRestaurantIdState } from '../../atom/restaurant';
 import { SearchValue } from '../../types/search/searchType';
 
 const KakaoMap = ({ keyword }: SearchValue) => {
   const searchResult = keyword;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const likedRestaurantId = useRecoilValue(likedRestaurantIdState);
   const { restaurantLikeMutation, restaurantUnlikeMutation } = useRestaurant();
   const { register, handleSubmit } = useSearchForm();
   const {
-    kakaoMap,
     mapRef,
     placesResult,
     currentPage,
@@ -58,20 +60,23 @@ const KakaoMap = ({ keyword }: SearchValue) => {
                     <PlaceSubAddress>{address_name}</PlaceSubAddress>
                     <PlaceTelNumber>{phone}</PlaceTelNumber>
                   </PlaceInfo>
-                  <PlaceLikeButton
-                    onClick={() => {
-                      restaurantLikeMutation.mutate(result);
-                    }}
-                  >
-                    <CustomIcon name="like" size="20" />
-                  </PlaceLikeButton>
-                  <PlaceLikeButton
-                    onClick={() => {
-                      restaurantUnlikeMutation.mutate(result);
-                    }}
-                  >
-                    <CustomIcon name="liked" size="20" />
-                  </PlaceLikeButton>
+                  {likedRestaurantId.includes(Number(id)) ? (
+                    <PlaceLikeButton
+                      onClick={() => {
+                        restaurantUnlikeMutation.mutate(Number(id));
+                      }}
+                    >
+                      <CustomIcon name="liked" size="20" color="red" />
+                    </PlaceLikeButton>
+                  ) : (
+                    <PlaceLikeButton
+                      onClick={() => {
+                        restaurantLikeMutation.mutate(result);
+                      }}
+                    >
+                      <CustomIcon name="like" size="20" />
+                    </PlaceLikeButton>
+                  )}
                 </PlaceItem>
               );
             })}
