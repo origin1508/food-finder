@@ -27,7 +27,10 @@ const RecipeDetailMain = ({
     RecipeStars,
     dishId: recipeId,
   } = recipeDetail;
-
+  let score = 3;
+  if (RecipeStars[0]) {
+    score = RecipeStars[0].score;
+  }
   return (
     <MainContainer>
       <RecipeImage itemProp={smallThumbnailUrl}>
@@ -36,7 +39,7 @@ const RecipeDetailMain = ({
           <WriterNickname>{writer.nickname}</WriterNickname>
         </WriterInfoContainer>
       </RecipeImage>
-      <RecipeScoreStatus score={RecipeStars[0].score} />
+      <RecipeScoreStatus score={score} />
 
       <RecipeInfoContiner>
         <TitleContainer>
