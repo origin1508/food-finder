@@ -12,7 +12,7 @@ import { authState } from '../../atom/auth';
 import { Comment } from '../recipeDetail/RecipeComment';
 import { SmallTitle, SmallSubTitle } from '../../styles/commonStyle';
 import { theme } from '../../styles/theme';
-import useDeleteComment from '../../hooks/Comment/userDeleteComment';
+import useDeleteComment from '../../hooks/Comment/useDeleteComment';
 
 const ContentCard = ({
   comment,
