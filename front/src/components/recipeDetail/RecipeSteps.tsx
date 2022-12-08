@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import { MediumTitle, MediumSubTitle } from '../../styles/commonStyle';
+
 import {
   RecipeDetailContainerStyle,
   RecipeDetailHeader,
   RecipeDetailTitleStyle,
   RecipeDetailSubTitleStyle,
 } from '../../styles/recipeDetailStyle';
-import { RecipeStepsValue } from '../../types/recipe/recipeDetailType';
+import { RecipeStepsInitial } from '../../types/recipe/recipeDetailType';
 
-const RecipeSteps = ({ steps }: { steps: RecipeStepsValue[] }) => {
+const RecipeSteps = ({ steps }: { steps: RecipeStepsInitial[] }) => {
   return (
     <RecipeStepsContainer>
       <RecipeStepsHeader>
@@ -16,8 +16,8 @@ const RecipeSteps = ({ steps }: { steps: RecipeStepsValue[] }) => {
         <SubTitle>Steps</SubTitle>
       </RecipeStepsHeader>
       <Steps>
-        {steps.map((step, index) => (
-          <Step key={index}>
+        {steps.map((step) => (
+          <Step key={step.stepId}>
             <StepNum>{step.step}.</StepNum>
             <StepText>{step.content}</StepText>
             <StepImage itemProp={step.imageUrl} />

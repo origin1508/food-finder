@@ -1,33 +1,41 @@
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { authState } from '../../atom/auth';
-import { MediumTitle, MediumSubTitle } from '../../styles/commonStyle';
+import { useForm, FormProvider } from 'react-hook-form';
 import {
   RecipeDetailContainerStyle,
   RecipeDetailHeader,
   RecipeDetailTitleStyle,
   RecipeDetailSubTitleStyle,
 } from '../../styles/recipeDetailStyle';
-import { RecipeStepsValue } from '../../types/recipe/recipeDetailType';
 import CommentForm from '../comment/CommentForm';
-import mockData from '../../util/mockData';
 
-const RecipeComment = () => {
-  const { comments } = mockData;
-  const { userId } = useParams();
-  const user = useRecoilValue(authState);
+export interface Comment {
+  User: {
+    nickname: string;
+    userId: number;
+    profileUrl: string;
+  };
+  content: string;
+}
+
+interface CommentFormInitial {
+  comment: string;
+}
+
+const RecipeComment = ({ comments }: { comments: Comment[] }) => {
+  const { recipeId } = useParams();
+  const methods = useForm<CommentFormInitial>({
+    mode: 'onChange',
+  });
   return (
     <RecipeStepsContainer>
       <RecipeStepsHeader>
         <Title>후기 댓글</Title>
         <SubTitle>{comments.length}</SubTitle>
       </RecipeStepsHeader>
-      <CommentForm
-        recipeId={userId!}
-        writerId={user?.userId!}
-        comments={comments}
-      />
+      <FormProvider {...methods}>
+        <CommentForm recipeId={recipeId!} comments={comments} />
+      </FormProvider>
     </RecipeStepsContainer>
   );
 };

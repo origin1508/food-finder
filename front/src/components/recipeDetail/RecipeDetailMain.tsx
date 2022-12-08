@@ -6,20 +6,27 @@ import Like from '../../components/recipeDetail/Like';
 import {
   RecipeDetailContainerStyle,
   RecipeDetailTitleStyle,
-  RecipeDetailSubTitleStyle,
 } from '../../styles/recipeDetailStyle';
-import { RecipeDetailValue } from '../../types/recipe/recipeDetailType';
+import { RecipeDetailInitial } from '../../types/recipe/recipeDetailType';
 
 const RecipeDetailMain = ({
   recipeDetail,
 }: {
-  recipeDetail: RecipeDetailValue;
+  recipeDetail: RecipeDetailInitial;
 }) => {
-  const { name, views, recipeLikes, serving, cookingTime, writer } =
-    recipeDetail;
+  const {
+    name,
+    views,
+    RecipeLikes,
+    serving,
+    cookingTime,
+    writer,
+    smallThumbnailUrl,
+    dishId: recipeId,
+  } = recipeDetail;
   return (
     <MainContainer>
-      <RecipeImage itemProp="http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00636_2.png">
+      <RecipeImage itemProp={smallThumbnailUrl}>
         <WriterInfoContainer>
           <WriterImage src={writer.profileUrl} />
           <WriterNickname>{writer.nickname}</WriterNickname>
@@ -30,7 +37,7 @@ const RecipeDetailMain = ({
         <TitleContainer>
           <Title>{name}</Title>
           <LikeCount>
-            조회수 {views} / 좋아요 {recipeLikes}
+            조회수 {views} / 좋아요 {RecipeLikes}
           </LikeCount>
         </TitleContainer>
         <TextInfo>우리나라의 전통음식 비빔밥 레시피입니다!</TextInfo>
@@ -44,7 +51,7 @@ const RecipeDetailMain = ({
             <SubTitle>{cookingTime}분</SubTitle>
           </CookingTime>
 
-          <Like />
+          <Like recipeId={recipeId} />
         </BasicInformationContainer>
       </RecipeInfoContiner>
     </MainContainer>

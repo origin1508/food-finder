@@ -5,12 +5,12 @@ import {
   RecipeDetailTitleStyle,
   RecipeDetailSubTitleStyle,
 } from '../../styles/recipeDetailStyle';
-import { IngredientValue } from '../../types/recipe/recipeDetailType';
+import { IngredientInitial } from '../../types/recipe/recipeDetailType';
 
 const RecipeDetailIngredient = ({
   ingredient,
 }: {
-  ingredient: IngredientValue[];
+  ingredient: IngredientInitial[];
 }) => {
   return (
     <RecipeDetailIngredientContainer>
@@ -19,12 +19,12 @@ const RecipeDetailIngredient = ({
         <SubTitle>Ingredients</SubTitle>
       </RecipeDetailIngredientHeader>
       <IngredientList>
-        {ingredient.map((item, index) => (
+        {/* {ingredient.map((item, index) => (
           <Ingredient key={index}>
             <IngredientName>{item?.name}</IngredientName>
             <IngredientAmount>{item?.amount}</IngredientAmount>
           </Ingredient>
-        ))}
+        ))} */}
       </IngredientList>
     </RecipeDetailIngredientContainer>
   );
