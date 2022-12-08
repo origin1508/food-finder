@@ -15,7 +15,7 @@ export const INGREDIENT_PLACEHOLDERS = [
   },
 ];
 
-export const CATEGORY_OPTIONS = ['밥', '반찬', '후식', '국&찌개'];
+export const CATEGORY_OPTIONS = ['밥', '반찬', '후식', '국&찌개', '면', '탕'];
 
 export const METHOD_OPTIONS = [
   '볶기',
