@@ -5,14 +5,14 @@ import LoadingCycle from '../../alert/Loader';
 import CustomIcon from '../../icons/CustomIcon';
 import { MediumTitle } from '../../../styles/commonStyle';
 import {
-  CreateRecipeInputStyle,
-  CreateRecipeImageInput,
-  CreateRecipeImageUploadStyle,
-  CreateRecipeRemoveButton,
+  RecipeFormInputStyle,
+  RecipeFormImageInput,
+  RecipeFormImageUploadStyle,
+  RecipeFormRemoveButton,
   ImageUploadIcon,
-} from '../../../styles/createRecipeStyle';
+} from '../../../styles/recipeFormStyle';
 
-const CreateRecipeInstructionInputComponent = ({
+const RecipeFormInstructionInputComponent = ({
   index,
   remove,
 }: {
@@ -27,14 +27,14 @@ const CreateRecipeInstructionInputComponent = ({
   const preview = watch(registeredPreview);
 
   return (
-    <CreateRecipeInstructionInputContainer>
-      <CreateRecipeInstructionInputLabel>
+    <RecipeFormInstructionInputContainer>
+      <RecipeFormInstructionInputLabel>
         Step{index + 1}
-      </CreateRecipeInstructionInputLabel>
-      <CreateRecipeInstructionInput {...register(registeredDesciption)} />
-      <CreateRecipeImageUpload preview={preview}>
+      </RecipeFormInstructionInputLabel>
+      <RecipeFormInstructionInput {...register(registeredDesciption)} />
+      <RecipeFormImageUpload preview={preview}>
         {isLoading && <LoadingCycle />}
-        <CreateRecipeImageInput
+        <RecipeFormImageInput
           {...register(registeredImage, { required: true })}
           type="file"
           accept="image/*"
@@ -48,7 +48,7 @@ const CreateRecipeInstructionInputComponent = ({
             <CustomIcon name="plus" size="32" color="black" />
           </ImageUploadIcon>
         )}
-      </CreateRecipeImageUpload>
+      </RecipeFormImageUpload>
       <InstructionRemoveButton
         top="45%"
         onClick={() => {
@@ -57,39 +57,39 @@ const CreateRecipeInstructionInputComponent = ({
       >
         <CustomIcon name="remove" size="20" color="white" />
       </InstructionRemoveButton>
-    </CreateRecipeInstructionInputContainer>
+    </RecipeFormInstructionInputContainer>
   );
 };
 
-export default CreateRecipeInstructionInputComponent;
+export default RecipeFormInstructionInputComponent;
 
-const CreateRecipeInstructionInputContainer = styled.section`
+const RecipeFormInstructionInputContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox()}
   position: relative;
   width: 80rem;
   padding: 0 ${({ theme }) => theme.spacingLarge};
 `;
 
-const CreateRecipeInstructionInputLabel = styled.span`
+const RecipeFormInstructionInputLabel = styled.span`
   ${MediumTitle};
   align-self: flex-start;
   margin-right: ${({ theme }) => theme.spacingRegular};
   color: ${({ theme }) => theme.themeColor};
 `;
 
-const CreateRecipeInstructionInput = styled.textarea`
-  ${CreateRecipeInputStyle}
+const RecipeFormInstructionInput = styled.textarea`
+  ${RecipeFormInputStyle}
   height: 20rem;
 `;
 
-const CreateRecipeImageUpload = styled.div<{ preview: string }>`
-  ${CreateRecipeImageUploadStyle};
+const RecipeFormImageUpload = styled.div<{ preview: string }>`
+  ${RecipeFormImageUploadStyle};
   ${({ preview }) =>
     preview && `background-image: url(${preview}); background-size: cover;`}
 `;
 
-const InstructionRemoveButton = styled(CreateRecipeRemoveButton)`
-  ${CreateRecipeInstructionInputContainer}:hover & {
+const InstructionRemoveButton = styled(RecipeFormRemoveButton)`
+  ${RecipeFormInstructionInputContainer}:hover & {
     visibility: visible;
   }
 `;

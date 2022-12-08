@@ -1,45 +1,45 @@
 import styled from 'styled-components';
 import { useFieldArray } from 'react-hook-form';
-import CreateRecipeInstructionInputComponent from './CreateRecipeInstructionInputComponent';
+import RecipeFormInstructionInputComponent from './RecipeFormInstructionInputComponent';
 import CustomIcon from '../../icons/CustomIcon';
 import { MediumTitle } from '../../../styles/commonStyle';
-import { CreateRecipeHeader } from '../../../styles/createRecipeStyle';
+import { RecipeFormHeader } from '../../../styles/recipeFormStyle';
 
-const CreateRecipeInstruction = () => {
+const RecipeFormInstruction = () => {
   const { fields, append, remove } = useFieldArray({
     name: 'instructions',
   });
 
   return (
-    <CreateRecipeInstructionContainer>
-      <CreateRecipeInstructionHeader>
-        <CreateRecipeInstructionTitle>요리순서</CreateRecipeInstructionTitle>
-      </CreateRecipeInstructionHeader>
+    <RecipeFormInstructionContainer>
+      <RecipeFormInstructionHeader>
+        <RecipeFormInstructionTitle>요리순서</RecipeFormInstructionTitle>
+      </RecipeFormInstructionHeader>
       {fields.map((item, index) => {
         const { id } = item;
         return (
-          <CreateRecipeInstructionInputComponent
+          <RecipeFormInstructionInputComponent
             key={id}
             index={index}
             remove={remove}
           />
         );
       })}
-      <CreateRecipeInstructionAddButton
+      <RecipeFormInstructionAddButton
         type="button"
         onClick={() => {
           append({ description: '' });
         }}
       >
         <CustomIcon name="plusCircle" size="20" /> 순서추가
-      </CreateRecipeInstructionAddButton>
-    </CreateRecipeInstructionContainer>
+      </RecipeFormInstructionAddButton>
+    </RecipeFormInstructionContainer>
   );
 };
 
-export default CreateRecipeInstruction;
+export default RecipeFormInstruction;
 
-const CreateRecipeInstructionContainer = styled.section`
+const RecipeFormInstructionContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
   padding: ${({ theme }) => theme.spacingLarge};
@@ -48,14 +48,14 @@ const CreateRecipeInstructionContainer = styled.section`
   box-shadow: 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
 `;
 
-const CreateRecipeInstructionHeader = styled(CreateRecipeHeader)``;
+const RecipeFormInstructionHeader = styled(RecipeFormHeader)``;
 
-const CreateRecipeInstructionTitle = styled.h2`
+const RecipeFormInstructionTitle = styled.h2`
   ${MediumTitle}
   color: ${({ theme }) => theme.mainBlack}
 `;
 
-const CreateRecipeInstructionAddButton = styled.button`
+const RecipeFormInstructionAddButton = styled.button`
   width: auto;
   height: 3rem;
 `;

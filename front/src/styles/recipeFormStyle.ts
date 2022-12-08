@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const CreateRecipeContainerStyle = css`
+export const RecipeFormContainerStyle = css`
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 100%;
   padding: ${({ theme }) => theme.spacingLarge};
@@ -9,14 +9,14 @@ export const CreateRecipeContainerStyle = css`
   box-shadow: 2px 2px 5px ${({ theme }) => theme.lightDarkGrey};
 `;
 
-export const CreateRecipeHeader = styled.header`
+export const RecipeFormHeader = styled.header`
   width: 100%;
   padding: ${({ theme }) => theme.spacingMedium};
   margin-bottom: ${({ theme }) => theme.spacingLarge};
   border-bottom: 1px solid ${({ theme }) => theme.lightDarkGrey};
 `;
 
-export const CreateRecipeInputStyle = css`
+export const RecipeFormInputStyle = css`
   ${({ theme }) => theme.mixins.input()}
   outline: none;
   resize: none;
@@ -25,7 +25,7 @@ export const CreateRecipeInputStyle = css`
   font-family: inherit;
 `;
 
-export const CreateRecipeImageInput = styled.input`
+export const RecipeFormImageInput = styled.input`
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -33,7 +33,7 @@ export const CreateRecipeImageInput = styled.input`
   z-index: 999;
 `;
 
-export const CreateRecipeImageUploadStyle = css`
+export const RecipeFormImageUploadStyle = css`
   ${({ theme }) => theme.mixins.flexBox()}
   flex-shrink: 0;
   width: 20rem;
@@ -47,7 +47,7 @@ export const CreateRecipeImageUploadStyle = css`
   position: relative;
 `;
 
-export const CreateRecipeRemoveButton = styled.button<{ top: string }>`
+export const RecipeFormRemoveButton = styled.button<{ top: string }>`
   ${({ theme }) => theme.mixins.flexBox()}
   visibility: hidden;
   position: absolute;

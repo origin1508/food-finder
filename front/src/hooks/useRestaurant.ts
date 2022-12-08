@@ -1,13 +1,17 @@
-import { useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import useSetAlert from './useSetAlert';
 import {
+  getLikedRestaurant,
   restaurantLikeRequest,
   restaurantUnlikeRequest,
 } from '../api/restaurantFetcher';
+import { LikedRestaurantQuery } from '../types/restaurant/restaurantType';
 
 const useRestaurant = () => {
+  const queryClient = useQueryClient();
   const { setAlertError, setAlertSuccess } = useSetAlert();
+
   const restaurantLike = async (
     result: kakao.maps.services.PlacesSearchResultItem,
   ) => {
@@ -25,18 +29,21 @@ const useRestaurant = () => {
     return res;
   };
 
-  const restaurantUnlike = async (
-    result: kakao.maps.services.PlacesSearchResultItem,
-  ) => {
-    const { place_name } = result;
+  const restaurantUnlike = async (place_name: string) => {
     const res = await restaurantUnlikeRequest(place_name);
 
     return res;
   };
 
+  const likedRestaurantQuery = useQuery<LikedRestaurantQuery>(
+    'likedRestaurant',
+    getLikedRestaurant,
+  );
+
   const restaurantLikeMutation = useMutation(restaurantLike, {
     onSuccess: (data) => {
       const { message } = data;
+      queryClient.invalidateQueries('likedRestaurant');
       setAlertSuccess({ success: message });
     },
     onError: (error) => {
@@ -50,6 +57,7 @@ const useRestaurant = () => {
   const restaurantUnlikeMutation = useMutation(restaurantUnlike, {
     onSuccess: (data) => {
       const { message } = data;
+      queryClient.invalidateQueries('likedRestaurant');
       setAlertSuccess({ success: message });
     },
     onError: (error) => {
@@ -60,7 +68,11 @@ const useRestaurant = () => {
     },
   });
 
-  return { restaurantLikeMutation, restaurantUnlikeMutation };
+  return {
+    likedRestaurantQuery,
+    restaurantLikeMutation,
+    restaurantUnlikeMutation,
+  };
 };
 
 export default useRestaurant;

@@ -1,12 +1,10 @@
-import { UseFormRegister } from 'react-hook-form';
-
-export interface CreateRecipeProps {
-  register: UseFormRegister<CreateRecipeValue>;
+export interface RecipeFormProps {
+  onSubmit: (data: RecipeFormDefaultValue) => void;
 }
 
-export interface CreateRecipeValue {
+export interface RecipeFormDefaultValue {
   name: string;
-  mainImage: FileList;
+  mainImage: { files: FileList; preview?: string };
   serving: string;
   cookingTime: string;
   category: string;
@@ -19,7 +17,7 @@ export interface CreateRecipeValue {
   }[];
 }
 
-export interface CreateRecipeInstructionProps {
+export interface RecipeFormInstructionProps {
   fields: Record<'id', string>[];
   fileInput: React.RefObject<HTMLInputElement>;
 }

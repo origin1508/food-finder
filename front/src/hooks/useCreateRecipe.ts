@@ -2,11 +2,11 @@ import { useMutation } from 'react-query';
 import useSetAlert from './useSetAlert';
 import imageResize from '../util/imageResize';
 import { createRecipeRequest } from '../api/recipeFetcher';
-import { CreateRecipeValue } from '../types/recipe/createRecipeType';
+import { RecipeFormDefaultValue } from '../types/recipe/recipeFormType';
 
 const useCreateRecipe = () => {
   const { setAlertSuccess, setAlertError } = useSetAlert();
-  const createRecipe = async (data: CreateRecipeValue) => {
+  const createRecipe = async (data: RecipeFormDefaultValue) => {
     const {
       name,
       mainImage,
@@ -19,7 +19,7 @@ const useCreateRecipe = () => {
     } = data;
     const ingredient = 'test';
     const stepImages = Array<Blob>();
-    const recipeThumbnail = await imageResize(mainImage[0]);
+    const recipeThumbnail = await imageResize(mainImage.files[0]);
     const steps = await instructions.reduce(async (acc, cur, idx) => {
       const { description, image } = cur;
       const compressedImage = await imageResize(image[0]);
@@ -43,7 +43,7 @@ const useCreateRecipe = () => {
     return await createRecipeRequest(formData);
   };
 
-  const mutation = useMutation(createRecipe, {
+  const createRecipeMutation = useMutation(createRecipe, {
     onSuccess: (data) => {
       console.log(data);
       setAlertSuccess({ success: '성공' });
@@ -57,7 +57,7 @@ const useCreateRecipe = () => {
     },
   });
 
-  return mutation;
+  return createRecipeMutation;
 };
 
 export default useCreateRecipe;
