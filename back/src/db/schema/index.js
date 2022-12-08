@@ -20,43 +20,43 @@ import RefreshToken from "./refreshToken.schema";
  */
 
 // Recipe
-User.hasMany(Recipe, { foreignKey: "user_id", sourceKey: "user_id" });
-Recipe.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
+User.hasMany(Recipe, { foreignKey: "user_id", sourceKey: "user_id", onDelete: "CASCADE" });
+Recipe.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id", });
 
 // Step
-Recipe.hasMany(Step, { foreignKey: "dish_id", sourceKey: "dish_id" });
+Recipe.hasMany(Step, { foreignKey: "dish_id", sourceKey: "dish_id", onDelete: "CASCADE" });
 Step.belongsTo(Recipe, { foreignKey: "dish_id", targetKey: "dish_id" });
 
 // Restaurant
-User.hasMany(Restaurant, { foreignKey: "user_id", sourceKey: "user_id" });
+User.hasMany(Restaurant, { foreignKey: "user_id", sourceKey: "user_id", onDelete: "CASCADE" });
 Restaurant.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
 
 // RecipeStar
-User.hasMany(RecipeStar, { foreignKey: "user_id", sourceKey: "user_id" });
+User.hasMany(RecipeStar, { foreignKey: "user_id", sourceKey: "user_id", onDelete: "CASCADE" });
 RecipeStar.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
 
-Recipe.hasMany(RecipeStar, { foreignKey: "dish_id", sourceKey: "dish_id" });
+Recipe.hasMany(RecipeStar, { foreignKey: "dish_id", sourceKey: "dish_id", onDelete: "CASCADE" });
 RecipeStar.belongsTo(Recipe, { foreignKey: "dish_id", targetKey: "dish_id" });
 
 // RecipeComment
-User.hasMany(RecipeComment, { foreignKey: "user_id", sourceKey: "user_id" });
+User.hasMany(RecipeComment, { foreignKey: "user_id", sourceKey: "user_id", onDelete: "CASCADE" });
 RecipeComment.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
 
-Recipe.hasMany(RecipeComment, { foreignKey: "dish_id", sourceKey: "dish_id" });
+Recipe.hasMany(RecipeComment, { foreignKey: "dish_id", sourceKey: "dish_id", onDelete: "CASCADE" });
 RecipeComment.belongsTo(Recipe, {
   foreignKey: "dish_id",
   targetKey: "dish_id",
 });
 
 //RecipeLike
-User.hasMany(RecipeLike, { foreignKey: "user_id", sourceKey: "user_id" });
+User.hasMany(RecipeLike, { foreignKey: "user_id", sourceKey: "user_id", onDelete: "CASCADE" });
 RecipeLike.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
 
-Recipe.hasMany(RecipeLike, { foreignKey: "dish_id", sourceKey: "dish_id" });
+Recipe.hasMany(RecipeLike, { foreignKey: "dish_id", sourceKey: "dish_id", onDelete: "CASCADE" });
 RecipeLike.belongsTo(Recipe, { foreignKey: "dish_id", targetKey: "dish_id" });
 
 // User와 RefreshToken은 1 : 1 관계
-User.hasOne(RefreshToken, { foreignKey: "user_id", sourceKey: "user_id" });
+User.hasOne(RefreshToken, { foreignKey: "user_id", sourceKey: "user_id", onDelete: "CASCADE" });
 RefreshToken.belongsTo(User, { foreignKey: "user_id", targetKey: "user_id" });
 
 export {
