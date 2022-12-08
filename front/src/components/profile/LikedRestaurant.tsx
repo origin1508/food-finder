@@ -29,9 +29,10 @@ const LikedRestaurant = () => {
         <ScrollWrapper>
           <Restaurants>
             {restaurants?.map((restaurant) => {
-              const { _id, title, address, road_address } = restaurant;
+              const { restaurant_id, title, address, road_address } =
+                restaurant;
               return (
-                <Restaurant key={_id}>
+                <Restaurant key={restaurant_id}>
                   <RestaurantInfoCard
                     title={title}
                     address={address}
@@ -39,7 +40,7 @@ const LikedRestaurant = () => {
                   />
                   <LikeButton
                     onClick={() => {
-                      restaurantUnlikeMutation.mutate(title);
+                      restaurantUnlikeMutation.mutate(restaurant_id);
                     }}
                   >
                     <CustomIcon name="liked" size="20" color="red" />
