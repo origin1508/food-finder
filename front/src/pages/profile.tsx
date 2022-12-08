@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import CurrentUserProfile from '../components/profile/CurrentUserProfile';
+import LikedRestaurant from '../components/profile/LikedRestaurant';
 import UserRecipe from '../components/profile/UserRecipe';
 const Profile = () => {
   return (
@@ -8,6 +9,7 @@ const Profile = () => {
       <ContentContainer>
         <CurrentUserProfile></CurrentUserProfile>
         <UserRecipe></UserRecipe>
+        <LikedRestaurant />
       </ContentContainer>
     </Container>
   );
@@ -20,11 +22,13 @@ const Container = styled.article`
 `;
 
 const ContentContainer = styled.div`
-  ${({ theme }) => theme.mixins.flexBox('row', 'center', 'space-around')}
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  justify-items: center;
   padding: 0 8%;
   width: 100%;
-  height: 100%;
-  gap: ${({ theme }) => theme.spancingLarge};
+  height: 200%;
   margin: ${({ theme }) => `${theme.spancingMedium} 0`};
 `;
 
