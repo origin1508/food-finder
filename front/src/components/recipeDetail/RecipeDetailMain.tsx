@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MediumSubTitle, TextTwo } from '../../styles/commonStyle';
+import { MediumSubTitle, SmallTitle } from '../../styles/commonStyle';
 import CustomIcon from '../../components/icons/CustomIcon';
 import { theme } from '../../styles/theme';
 import Like from '../../components/recipeDetail/Like';
@@ -15,10 +15,16 @@ const RecipeDetailMain = ({
 }: {
   recipeDetail: RecipeDetailValue;
 }) => {
-  const { name, views, recipeLikes, serving, cookingTime } = recipeDetail;
+  const { name, views, recipeLikes, serving, cookingTime, writer } =
+    recipeDetail;
   return (
     <MainContainer>
-      <RecipeImage itemProp="http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00636_2.png"></RecipeImage>
+      <RecipeImage itemProp="http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00636_2.png">
+        <WriterInfoContainer>
+          <WriterImage src={writer.profileUrl} />
+          <WriterNickname>{writer.nickname}</WriterNickname>
+        </WriterInfoContainer>
+      </RecipeImage>
 
       <RecipeInfoContiner>
         <TitleContainer>
@@ -52,11 +58,32 @@ const MainContainer = styled.section`
 `;
 
 const RecipeImage = styled.div`
-  width: 50rem;
-  height: 50rem;
+  width: 80rem;
+  height: 60rem;
   background-image: ${({ itemProp }) => `url(${itemProp})`};
   background-size: cover;
   background-position: center;
+  margin: 3rem 0 6rem 0;
+`;
+
+const WriterInfoContainer = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('column')}
+  gap : 1rem;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const WriterImage = styled.img`
+  cursor: pointer;
+  width: 10rem;
+  height: 10rem;
+  border: 2px solid ${({ theme }) => theme.lightDarkGrey};
+  border-radius: 100%;
+`;
+const WriterNickname = styled.h3`
+  ${SmallTitle}
 `;
 const RecipeInfoContiner = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'start')};
