@@ -24,10 +24,10 @@ export default {
   },
 
   async restaurantLike(userId, restaurantInfo) {
-    const { title } = restaurantInfo;
-    const checkRestaurantLikeList = await restaurantModel.findByTitle(
+    const { restaurantId } = restaurantInfo;
+    const checkRestaurantLikeList = await restaurantModel.findByRestaurantId(
       userId,
-      title
+      restaurantId
     );
     if (checkRestaurantLikeList) {
       throw ApiError.setBadRequest("이미 존재하는 즐겨찾기입니다.");
@@ -36,15 +36,15 @@ export default {
     await restaurantModel.creatLike(userId, restaurantInfo);
   },
 
-  async restaurantUnlike(userId, title) {
-    const checkRestaurantLikeList = await restaurantModel.findByTitle(
+  async restaurantUnlike(userId, restaurantId) {
+    const checkRestaurantLikeList = await restaurantModel.findByRestaurantId(
       userId,
-      title
+      restaurantId
     );
     if (!checkRestaurantLikeList) {
       throw ApiError.setBadRequest("존재하지 않는 즐겨찾기입니다.");
     }
 
-    await restaurantModel.deleteLike(userId, title);
+    await restaurantModel.deleteLike(userId, restaurantId);
   },
 };
