@@ -139,6 +139,30 @@ router.post(
   }
 );
 
+router.post(
+  "/:recipeId/stars",
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { userId } = req;
+      const { recipeId } = req.params;
+
+      const createdStar = await recipeService.addStar({
+        userId,
+        dishId: recipeId,
+        ...req.body,
+      });
+
+      res.status(201).json({
+        success: true,
+        message: "별점 등록 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.patch(
   "/:recipeId",
   authorizeAccessToken,
