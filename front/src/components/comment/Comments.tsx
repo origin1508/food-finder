@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 import CommentCard from './CommentCard';
-import { Comment } from './CommentForm';
+import { Comment } from '../recipeDetail/RecipeComment';
 
-const Comments = ({ comments }: { comments: Comment[] }) => {
+const Comments = ({
+  comments,
+  recipeId,
+}: {
+  comments: Comment[];
+  recipeId: string;
+}) => {
   return (
     <CommentsContainer>
       {comments.map((comment, index) => (
-        <CommentCard comment={comment} key={index} />
+        <CommentCard comment={comment} key={index} recipeId={recipeId} />
       ))}
     </CommentsContainer>
   );
