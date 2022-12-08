@@ -1,27 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { authState } from '../../atom/auth';
-import { useRecoilValue } from 'recoil';
+import React, { useState } from 'react';
+
 import styled from 'styled-components';
 import CustomIcon from '../icons/CustomIcon';
-import { MediumTitle } from '../../styles/commonStyle';
-import { theme } from '../../styles/theme';
-// import {
-//   authFollowRequest,
-//   authUnFollowRequest,
-//   authFollowingRequest,
-// } from "@/api/authFetcher";
 
-const Like = () => {
-  const user = useRecoilValue(authState);
+import { theme } from '../../styles/theme';
+import { useLike, useUnLike } from '../../hooks/Recipe/useLike';
+
+const Like = ({ recipeId }: { recipeId: number }) => {
   const [liked, setLiked] = useState(false);
-  //   const userId = user?.userId;
+  const { mutate: setLike } = useLike();
+  const { mutate: setUnLike } = useUnLike();
+
   const handleClickLike = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!liked) {
-      //   await authFollowRequest('/recipe/like', userId);
+      setLike(recipeId);
       setLiked(true);
     } else {
-      //   await authUnFollowRequest('/recipe/unlike', userId);
+      setUnLike(recipeId);
       setLiked(false);
     }
   };
