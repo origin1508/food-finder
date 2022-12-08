@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useInfiniteQuery } from 'react-query';
+import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
 import BasePageComponent from '../hoc/BasePageComponent';
 import { MediumTitle, SmallTitle } from '../styles/commonStyle';
@@ -8,12 +10,31 @@ import mockData from '../util/mockData';
 import CustomIcon from '../components/icons/CustomIcon';
 import { theme } from '../styles/theme';
 import { PATH } from '../customRouter';
+import { getPhotos } from '../api/authFetcher';
+import LoadingCycle from '../components/alert/Loader';
 
 const CollectRecipes = () => {
   const navigate = useNavigate();
   const [selectKind, setSelectKind] = useState('전체');
   const [selectMethod, setSelectMethod] = useState('전체');
   const { recipeDatas, filterByType, filterByMethod } = mockData;
+  const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery(
+      ['photos'],
+      async ({ pageParam = 1 }) => {
+        return await getPhotos(pageParam);
+      },
+      {
+        getNextPageParam: (lastPage) => {
+          return lastPage.nextPage;
+        },
+      },
+    );
+  if (status === 'loading') return <LoadingCycle />;
+  useEffect(() => {
+    console.log(data);
+  }, []);
+
   return (
     <BasePageComponent>
       <CollectRecipesContainer>
@@ -55,19 +76,22 @@ const CollectRecipes = () => {
         </FilterContainer>
         <RecipeCards>
           <Wrap>
-            {recipeDatas.map((recipe) => {
-              return (
-                <RecipeCard
-                  img={recipe.img}
-                  title={recipe.title}
-                  channelUuid={recipe.channelUuid}
-                  views={recipe.views}
-                  likes={recipe.likes}
-                  creator={recipe.creator}
-                  onClickDetailPage={recipe.onMoreClick}
-                ></RecipeCard>
-              );
-            })}
+            {data?.pages.map((page, index) => (
+              <React.Fragment key={index}>
+                {page.data.map((photo: any) => (
+                  <RecipeCard
+                    key={photo.id}
+                    img={photo.urls.raw}
+                    title={photo.id}
+                    channelUuid={photo.id}
+                    views={photo.likes}
+                    likes={photo.likes}
+                    creator={photo.id}
+                    onClickDetailPage={() => console.log('click')}
+                  ></RecipeCard>
+                ))}
+              </React.Fragment>
+            ))}
           </Wrap>
         </RecipeCards>
       </CollectRecipesContainer>
