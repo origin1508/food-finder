@@ -25,11 +25,11 @@ const ContentContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
+  align-items: center;
   justify-items: center;
   padding: 0 8%;
   width: 100%;
   height: 200%;
-  margin: ${({ theme }) => `${theme.spancingMedium} 0`};
 `;
 
 export default Profile;
