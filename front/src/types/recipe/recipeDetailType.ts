@@ -1,18 +1,19 @@
-export interface RecipeDetailValue extends RecipeStepsValue, IngredientValue {
+import { Comment } from '../../components/recipeDetail/RecipeComment';
+export interface RecipeDetailInitial {
   dishId: number;
   name: string;
   method: string;
   category: string;
   smallThumbnailUrl: string;
   largeThumbnailUrl: string;
-  ingredient: IngredientValue[];
+  ingredient: IngredientInitial[];
   serving: number;
   cookingTime: number;
   views: number;
-  recipeLikes: number;
-  steps: RecipeStepsValue[];
-  recipeComments: undefined[];
-  recipeStars: undefined[];
+  RecipeLikes: number;
+  Steps: RecipeStepsInitial[];
+  RecipeComments: Comment[];
+  RecipeStars: undefined[];
   writer: {
     userId: number;
     email: string;
@@ -21,14 +22,14 @@ export interface RecipeDetailValue extends RecipeStepsValue, IngredientValue {
   };
 }
 
-export interface RecipeStepsValue {
+export interface RecipeStepsInitial {
   stepId?: number;
   content?: string;
   imageUrl?: string;
   step?: number;
 }
 
-export interface IngredientValue {
+export interface IngredientInitial {
   name?: string;
   amount?: string;
 }
