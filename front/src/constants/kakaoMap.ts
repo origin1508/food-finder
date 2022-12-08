@@ -2,6 +2,7 @@ export const MARKER_IMAGE_URL =
   'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
 export const IMAGE_SIZE_WIDTH = 36;
 export const IMAGE_SIZE_HEIGHT = 37;
+export const BIG_IMAGE_SIZE = 55;
 export const SPRITE_SIZE_WIDTH = 36;
 export const SPRITE_SIZE_HEIGHT = 691;
 export const OFFSET_X = 13;
