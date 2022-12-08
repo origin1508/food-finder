@@ -16,15 +16,5 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), htmlPlugin(loadEnv(mode, '.'))],
-    server: {
-      proxy: {
-        '/naverApi': {
-          target: 'https://openapi.naver.com',
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace(/^\/naverApi/, ''),
-        },
-      },
-    },
   };
 });
