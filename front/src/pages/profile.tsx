@@ -7,8 +7,8 @@ const Profile = () => {
   return (
     <Container>
       <ContentContainer>
-        <CurrentUserProfile></CurrentUserProfile>
-        <UserRecipe></UserRecipe>
+        <CurrentUserProfile />
+        <UserRecipe />
         <LikedRestaurant />
       </ContentContainer>
     </Container>
@@ -23,11 +23,12 @@ const Container = styled.article`
 
 const ContentContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 40% auto;
   grid-template-rows: repeat(2, 1fr);
   align-items: center;
   justify-items: center;
-  padding: 0 8%;
+  gap: ${({ theme }) => `0 ${theme.spacingLargest}`};
+  padding: 0 10%;
   width: 100%;
   height: 200%;
 `;
