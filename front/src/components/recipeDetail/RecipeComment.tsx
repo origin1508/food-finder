@@ -22,29 +22,34 @@ interface CommentFormInitial {
   comment: string;
 }
 
-const RecipeComment = ({ comments }: { comments: Comment[] }) => {
-  const { recipeId } = useParams();
+const RecipeComment = ({
+  comments,
+  recipeId,
+}: {
+  comments: Comment[];
+  recipeId: string;
+}) => {
   const methods = useForm<CommentFormInitial>({
     mode: 'onChange',
   });
   return (
-    <RecipeStepsContainer>
-      <RecipeStepsHeader>
+    <RecipeCommnetsContainer>
+      <RecipeCommentHeadr>
         <Title>후기 댓글</Title>
         <SubTitle>{comments.length}</SubTitle>
-      </RecipeStepsHeader>
+      </RecipeCommentHeadr>
       <FormProvider {...methods}>
         <CommentForm recipeId={recipeId!} comments={comments} />
       </FormProvider>
-    </RecipeStepsContainer>
+    </RecipeCommnetsContainer>
   );
 };
 
-const RecipeStepsContainer = styled.section`
+const RecipeCommnetsContainer = styled.section`
   ${RecipeDetailContainerStyle}
 `;
 
-const RecipeStepsHeader = styled.header`
+const RecipeCommentHeadr = styled.header`
   ${RecipeDetailHeader};
 `;
 

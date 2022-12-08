@@ -32,7 +32,6 @@ const RecipeDetailIngredient = ({
 
 const RecipeDetailIngredientContainer = styled.section`
   ${RecipeDetailContainerStyle}
-  margin-bottom: ${({ theme }) => theme.spacingMedium};
 `;
 
 const RecipeDetailIngredientHeader = styled.header`

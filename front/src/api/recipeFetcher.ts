@@ -99,3 +99,23 @@ export async function recipeCommentDelete({ recipeId }: { recipeId: string }) {
   });
   return res.data;
 }
+
+export async function recipeRequestRating({
+  recipeId,
+  score,
+}: {
+  recipeId: string;
+  score: number;
+}) {
+  const res = await customAxios.post(
+    `/recipes/${recipeId}/stars`,
+    { score },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JWT_TOKEN}`,
+      },
+    },
+  );
+  return res.data;
+}
