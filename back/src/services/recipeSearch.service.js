@@ -25,10 +25,11 @@ export default {
 
   async getRandomRecipe() {
     const concatenatedDishId = await RecipeModel.getConcatenatedDishId();
-    const arrayOfDishId = concatenatedDishId.split(",");
-    if (!arrayOfDishId) {
+    if (!concatenatedDishId) {
       throw ApiError.setBadRequest("랜덤 레시피 불러오기 실패");
     }
+
+    const arrayOfDishId = concatenatedDishId.split(",");
     const randomDishId = getMultipleRandom(
       arrayOfDishId,
       arrayOfDishId.length >= 10 ? 10 : arrayOfDishId.length
