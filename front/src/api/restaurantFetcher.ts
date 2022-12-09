@@ -4,8 +4,8 @@ import { Restaurant } from '../types/restaurant/restaurantType';
 
 const JWT_TOKEN = Storage.getToken();
 
-export const getLikedRestaurant = async () => {
-  const res = await customAxios.get(`/user/like/restaurant`, {
+export const getLikedRestaurant = async (userId: number) => {
+  const res = await customAxios.get(`/user/${userId}/like/restaurant`, {
     headers: {
       Authorization: `Bearer ${JWT_TOKEN}`,
     },
