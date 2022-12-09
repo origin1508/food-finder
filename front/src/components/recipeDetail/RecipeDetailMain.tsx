@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MediumSubTitle, SmallTitle } from '../../styles/commonStyle';
 import CustomIcon from '../../components/icons/CustomIcon';
@@ -6,31 +7,45 @@ import Like from '../../components/recipeDetail/Like';
 import {
   RecipeDetailContainerStyle,
   RecipeDetailTitleStyle,
-  RecipeDetailSubTitleStyle,
 } from '../../styles/recipeDetailStyle';
-import { RecipeDetailValue } from '../../types/recipe/recipeDetailType';
+import { RecipeDetailInitial } from '../../types/recipe/recipeDetailType';
+import RecipeScoreStatus from './RecipeScoreStatus';
 
 const RecipeDetailMain = ({
   recipeDetail,
 }: {
-  recipeDetail: RecipeDetailValue;
+  recipeDetail: RecipeDetailInitial;
 }) => {
-  const { name, views, recipeLikes, serving, cookingTime, writer } =
-    recipeDetail;
+  const {
+    name,
+    views,
+    RecipeLikes,
+    serving,
+    cookingTime,
+    writer,
+    smallThumbnailUrl,
+    RecipeStars,
+    dishId: recipeId,
+  } = recipeDetail;
+  let score = 3;
+  if (RecipeStars[0]) {
+    score = RecipeStars[0].score;
+  }
   return (
     <MainContainer>
-      <RecipeImage itemProp="http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00636_2.png">
+      <RecipeImage itemProp={smallThumbnailUrl}>
         <WriterInfoContainer>
           <WriterImage src={writer.profileUrl} />
           <WriterNickname>{writer.nickname}</WriterNickname>
         </WriterInfoContainer>
       </RecipeImage>
+      <RecipeScoreStatus score={score} />
 
       <RecipeInfoContiner>
         <TitleContainer>
           <Title>{name}</Title>
           <LikeCount>
-            조회수 {views} / 좋아요 {recipeLikes}
+            조회수 {views} / 좋아요 {RecipeLikes}
           </LikeCount>
         </TitleContainer>
         <TextInfo>우리나라의 전통음식 비빔밥 레시피입니다!</TextInfo>
@@ -44,7 +59,7 @@ const RecipeDetailMain = ({
             <SubTitle>{cookingTime}분</SubTitle>
           </CookingTime>
 
-          <Like />
+          <Like recipeId={recipeId} />
         </BasicInformationContainer>
       </RecipeInfoContiner>
     </MainContainer>
@@ -54,7 +69,7 @@ const RecipeDetailMain = ({
 const MainContainer = styled.section`
   ${RecipeDetailContainerStyle}
   gap: ${({ theme }) => theme.spacingLarge};
-  margin: ${({ theme }) => theme.spacingMedium} 0;
+  margin-top: ${({ theme }) => theme.spacingMedium};
 `;
 
 const RecipeImage = styled.div`
@@ -84,6 +99,18 @@ const WriterImage = styled.img`
 `;
 const WriterNickname = styled.h3`
   ${SmallTitle}
+`;
+
+const RecipeRaitingContiner = styled.div`
+  width: 100%;
+  ${({ theme }) => theme.mixins.flexBox}
+  gap : ${({ theme }) => theme.spacingMedium};
+  & svg {
+    color: #c4c4c4;
+  }
+  .black {
+    color: black;
+  }
 `;
 const RecipeInfoContiner = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'start')};

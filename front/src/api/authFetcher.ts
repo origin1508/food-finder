@@ -2,6 +2,7 @@ import customAxios from '../util/customAxios';
 import Storage from '../storage/storage';
 import CookieStorage from '../storage/cookie';
 import { AuthFormInitial, EditImageForm } from '../types/auth';
+import customAxios2 from '../util/customAixos2';
 
 export async function authRegisterRequest(registerForm: AuthFormInitial) {
   const res = await customAxios.post('/auth/register', registerForm, {
@@ -80,4 +81,34 @@ export async function getAuthLikeRecipes() {
     },
   });
   return res.data.result;
+}
+
+export async function authLikeRequest(recipeId: number) {
+  const res = await customAxios.post(
+    `recipes/${recipeId}/likes`,
+    { body: null },
+
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Storage.getToken()}`,
+      },
+    },
+  );
+  return res.data;
+}
+
+export async function authUnLikeRequest(recipeId: number) {
+  const res = await customAxios.delete(`recipes/${recipeId}/likes`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Storage.getToken()}`,
+    },
+  });
+  return res.data;
+}
+
+export async function getPhotos(pageParams: number) {
+  const { data } = await customAxios2.get(`/photos?page=${pageParams}`);
+  return { data, nextPage: pageParams + 1 };
 }
