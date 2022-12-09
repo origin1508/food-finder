@@ -1,6 +1,12 @@
 import ApiError from "../utils/ApiError";
 import RecipeModel from "../db/model/recipe.model";
 
+const getMultipleRandom = (arr, num) => {
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+
+  return shuffled.slice(0, num);
+};
+
 export default {
   async searchRecipe(searchKeyword) {
     const searchedRecipe = await RecipeModel.findByKeyword(searchKeyword);
@@ -11,16 +17,26 @@ export default {
   async recipeRankingOn7days() {
     const recipeRanking = await RecipeModel.rankingOn7days();
     if (!recipeRanking) {
-      throw ApiError.setInternalServerError("이번 주 레시피 불러오기 실패");
+      throw ApiError.setBadRequest("이번 주 레시피 불러오기 실패");
     }
 
     return recipeRanking;
   },
 
   async getRandomRecipe() {
-    const randomRecipe = await RecipeModel.getRandomRecipe();
+    const concatenatedDishId = await RecipeModel.getConcatenatedDishId();
+    const arrayOfDishId = concatenatedDishId.split(",");
+    if (!arrayOfDishId) {
+      throw ApiError.setBadRequest("랜덤 레시피 불러오기 실패");
+    }
+    const randomDishId = getMultipleRandom(
+      arrayOfDishId,
+      arrayOfDishId.length >= 10 ? 10 : arrayOfDishId.length
+    );
+
+    const randomRecipe = await RecipeModel.getRandomRecipe(randomDishId);
     if (!randomRecipe) {
-      throw ApiError.setInternalServerError("랜덤 레시피 불러오기 실패");
+      throw ApiError.setBadRequest("랜덤 레시피 불러오기 실패");
     }
 
     return randomRecipe;

@@ -285,7 +285,17 @@ export default {
     return ranking;
   },
 
-  async getRandomRecipe() {
+  async getConcatenatedDishId() {
+    const concatenatedDishId = await Recipe.findAll({
+      attributes: [
+        [sequelize.fn("GROUP_CONCAT", sequelize.col("dish_id")), "dishId"],
+      ],
+    });
+
+    return concatenatedDishId[0].dataValues.dishId;
+  },
+
+  async getRandomRecipe(arrayOfDishId) {
     const likes = Sequelize.fn(
       "COUNT",
       Sequelize.col("`RecipeLikes`.`dish_id`")
@@ -293,7 +303,6 @@ export default {
     const nickname = Sequelize.col("`User`.`nickname`");
 
     const randomRecipe = await Recipe.findAll({
-      limit: 10,
       subQuery: false,
       attributes: [
         "dish_id",
@@ -304,6 +313,7 @@ export default {
         [likes, "likes"],
         [nickname, "nickname"],
       ],
+      where: { dish_id: { [Op.in]: arrayOfDishId } },
       group: ["dish_id"],
       include: [
         {
