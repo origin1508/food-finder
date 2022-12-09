@@ -7,7 +7,13 @@ const router = Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    const recipes = await recipeService.findAllRecipeInformations();
+    const { method, category, lastRecipeId, limit } = req.query;
+    const recipes = await recipeService.findAllRecipeInformations({
+      method,
+      category,
+      lastRecipeId,
+      limit,
+    });
 
     res.status(200).json({
       success: true,

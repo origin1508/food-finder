@@ -10,28 +10,22 @@ import { Op, Sequelize, QueryTypes } from "sequelize";
 import sequelize from "../../configs/sequelize";
 
 export default {
-  async findAll() {
-    const recipes = await Recipe.findAll({
-      attributes: [
-        ["dish_id", "dishId"],
-        "name",
-        ["image_url1", "smallThumbnailUrl"],
-        ["image_url2", "largeThumbnailUrl"],
-        "views",
-        [
-          Sequelize.fn("COUNT", Sequelize.col("`RecipeLikes`.`user_id`")),
-          "likes",
-        ],
-      ],
-      include: [
-        {
-          model: RecipeLike,
-          attributes: [],
-          required: false,
-        },
-      ],
-      group: ["dish_id"],
-    });
+  async findAll({ lastRecipeId, method, category, postsPerPage }) {
+    const recipes = await sequelize.query(
+      `
+    SELECT dish_id as dishId, name, method, category, image_url1 as smallThumbnailUrl, image_url2 as largeThumbnailUrl, views,COALESCE(likes, 0) as likes 
+    FROM recipe_informations as ri
+    LEFT JOIN (SELECT dish_id as rl_di, COUNT(*) as likes FROM recipe_likes group by dish_id) as rl
+    ON ri.dish_id = rl_di
+    WHERE
+    ${lastRecipeId ? `ri.dish_id < ${lastRecipeId} AND ` : ""}
+    ${method ? `method = '${method}' AND ` : "method = method AND"}
+    ${category ? `category = "${category}"` : "category = category"}
+    ORDER BY ri.dish_id DESC ${postsPerPage ? `LIMIT ${postsPerPage}` : ""}`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
 
     return recipes;
   },

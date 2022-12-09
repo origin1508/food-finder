@@ -1,9 +1,19 @@
 import recipeModel from "../db/model/recipe.model";
 import ApiError from "../utils/ApiError";
+import constant from "../constants/constant";
 
 export default {
-  async findAllRecipeInformations() {
-    const recipes = await recipeModel.findAll();
+  async findAllRecipeInformations({ method, category, lastRecipeId, limit }) {
+    const postsPerPage = limit ? limit : constant.postsPerPage;
+    const verifiedLastRecipeId =
+      lastRecipeId === "init" ? undefined : lastRecipeId;
+
+    const recipes = await recipeModel.findAll({
+      lastRecipeId: verifiedLastRecipeId,
+      method,
+      category,
+      postsPerPage,
+    });
 
     return recipes;
   },
@@ -24,6 +34,7 @@ export default {
       userId,
       dishId,
     });
+    // FIXME: if문 없어도 가능할 듯
     if (existenceOfLike == true) {
       recipe[0].dataValues.liked = true;
     } else {
@@ -151,6 +162,7 @@ export default {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
 
+    // FIXME: 별점을 이미 주었을 시 -> 에러
     const createdStar = await recipeModel.createRecipeStar({
       userId,
       dishId,
