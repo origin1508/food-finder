@@ -7,18 +7,15 @@ import CustomIcon from '../icons/CustomIcon';
 import { MediumTitle } from '../../styles/commonStyle';
 
 const LikedRestaurant = () => {
-  const { kakaoMap, mapRef, setRestaurntBounds, addRestaurantMarker } =
-    useKakaoMap();
+  const { kakaoMap, mapRef, removeMarker, addRestaurantMarker } = useKakaoMap();
   const { likedRestaurantQuery, restaurantUnlikeMutation } = useRestaurant();
   const restaurants = likedRestaurantQuery.data?.result;
 
   useEffect(() => {
-    setRestaurntBounds(new kakao.maps.LatLngBounds());
-    restaurants?.map((restaurant) => {
-      const { map_x, map_y } = restaurant;
-      addRestaurantMarker(map_x, map_y);
-    });
-  }, [kakaoMap, restaurants, setRestaurntBounds]);
+    removeMarker();
+    if (restaurants && restaurants.length === 0) return;
+    restaurants && addRestaurantMarker(restaurants);
+  }, [kakaoMap, restaurants]);
 
   return (
     <LikedRestaurantWrapper>
@@ -28,26 +25,30 @@ const LikedRestaurant = () => {
         </LikedRestaurantHeader>
         <ScrollWrapper>
           <Restaurants>
-            {restaurants?.map((restaurant) => {
-              const { restaurant_id, title, address, road_address } =
-                restaurant;
-              return (
-                <Restaurant key={restaurant_id}>
-                  <RestaurantInfoCard
-                    title={title}
-                    address={address}
-                    road_address={road_address}
-                  />
-                  <LikeButton
-                    onClick={() => {
-                      restaurantUnlikeMutation.mutate(restaurant_id);
-                    }}
-                  >
-                    <CustomIcon name="liked" size="20" color="red" />
-                  </LikeButton>
-                </Restaurant>
-              );
-            })}
+            {restaurants && restaurants.length > 0 ? (
+              restaurants.map((restaurant) => {
+                const { restaurant_id, title, address, road_address } =
+                  restaurant;
+                return (
+                  <Restaurant key={restaurant_id}>
+                    <RestaurantInfoCard
+                      title={title}
+                      address={address}
+                      road_address={road_address}
+                    />
+                    <LikeButton
+                      onClick={() => {
+                        restaurantUnlikeMutation.mutate(restaurant_id);
+                      }}
+                    >
+                      <CustomIcon name="liked" size="20" color="red" />
+                    </LikeButton>
+                  </Restaurant>
+                );
+              })
+            ) : (
+              <EmptyText>좋아요한 맛집이 없습니다.</EmptyText>
+            )}
           </Restaurants>
         </ScrollWrapper>
       </LikedRestaurantContainer>
@@ -60,12 +61,10 @@ export default LikedRestaurant;
 
 const LikedRestaurantWrapper = styled.section`
   ${({ theme }) => theme.mixins.flexBox()}
-  grid-column: 1 / 3;
   flex-shrink: 0;
-  width: 100%;
+  width: 80%;
   height: 80vh;
   background-color: ${({ theme }) => theme.mainWhite};
-  padding: ${({ theme }) => theme.spancingMedium};
   border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
@@ -119,4 +118,12 @@ const LikeButton = styled.button``;
 const Map = styled.div`
   width: 65%;
   height: 100%;
+`;
+
+const EmptyText = styled.p`
+  ${({ theme }) => theme.mixins.flexBox()}
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  font-size: ${({ theme }) => theme.fontSemiMedium};
 `;
