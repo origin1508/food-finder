@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import CustomIcon from '../icons/CustomIcon';
 import { theme } from '../../styles/theme';
 import { useLike, useUnLike } from '../../hooks/Recipe/useLike';
+import { authState } from '../../atom/auth';
 
 const Like = ({ recipeId }: { recipeId: number }) => {
+  const user = useRecoilValue(authState);
   const [liked, setLiked] = useState(false);
-  const { mutate: setLike } = useLike();
-  const { mutate: setUnLike } = useUnLike();
+  const { mutate: setLike } = useLike(user?.userId!);
+  const { mutate: setUnLike } = useUnLike(user?.userId!);
 
   const handleClickLike = async (e: React.FormEvent) => {
     e.preventDefault();

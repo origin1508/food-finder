@@ -1,12 +1,17 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { authLikeRequest, authUnLikeRequest } from '../../api/authFetcher';
 import useSetAlert from '../useSetAlert';
 import { ErrorType } from '../../types/error';
 
-function useLike() {
-  const { setAlertError } = useSetAlert();
+function useLike(userId: number) {
+  const { setAlertError, setAlertSuccess } = useSetAlert();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation(authLikeRequest, {
+    onSuccess: ({ message }) => {
+      queryClient.invalidateQueries(['authLikeRecips', userId]);
+      setAlertSuccess({ success: message });
+    },
     onError: (error: ErrorType) => {
       const errorMessage = error.response.data.message;
       setAlertError({ error: errorMessage });
@@ -16,10 +21,15 @@ function useLike() {
   return mutation;
 }
 
-function useUnLike() {
-  const { setAlertError } = useSetAlert();
+function useUnLike(userId: number) {
+  const { setAlertError, setAlertSuccess } = useSetAlert();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation(authUnLikeRequest, {
+    onSuccess: ({ message }) => {
+      queryClient.invalidateQueries(['authLikeRecips', userId]);
+      setAlertSuccess({ success: message });
+    },
     onError: (error: ErrorType) => {
       const errorMessage = error.response.data.message;
       setAlertError({ error: errorMessage });

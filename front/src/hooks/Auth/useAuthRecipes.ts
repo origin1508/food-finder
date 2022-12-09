@@ -1,21 +1,25 @@
 import { useQuery } from 'react-query';
 import { getAuthRecipes, getAuthLikeRecipes } from '../../api/authFetcher';
 
-interface AuthRecipe {
-  dishId: number;
+export interface AuthRecipe {
+  dish_id: number;
+  category?: string;
   name: string;
-  smallThumbnailUrl: string;
-  largeThumbnailUrl: string;
+  image_url2: string;
   views: number;
   likes: number;
 }
 
-function useAuthRecipes() {
-  return useQuery<AuthRecipe[], Error>(['authRecips'], getAuthRecipes);
+function useAuthRecipes(userId: number) {
+  return useQuery<AuthRecipe[], Error>(['authRecips', userId], () =>
+    getAuthRecipes(userId),
+  );
 }
 
-function useAuthLikeRecipes() {
-  return useQuery<AuthRecipe[], Error>(['authLikeRecips'], getAuthLikeRecipes);
+function useAuthLikeRecipes(userId: number) {
+  return useQuery<AuthRecipe[], Error>(['authLikeRecips', userId], () =>
+    getAuthLikeRecipes(userId),
+  );
 }
 
 export { useAuthRecipes, useAuthLikeRecipes };
