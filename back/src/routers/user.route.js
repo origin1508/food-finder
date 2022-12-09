@@ -69,8 +69,8 @@ router.put(
   }
 );
 
-router.get("/recipes", authorizeAccessToken, async (req, res, next) => {
-  const userId = req.userId;
+router.get("/:userId/recipes", authorizeAccessToken, async (req, res, next) => {
+  const { userId } = req.params;
 
   try {
     const recipes = await userService.getRecipes(userId);
@@ -85,32 +85,56 @@ router.get("/recipes", authorizeAccessToken, async (req, res, next) => {
   }
 });
 
-router.get("/like/recipes", authorizeAccessToken, async (req, res, next) => {
-  const userId = req.userId;
+router.get(
+  "/:userId/like/recipes",
+  authorizeAccessToken,
+  async (req, res, next) => {
+    const { userId } = req.params;
 
-  try {
-    const recipes = await userService.getLikeRecipes(userId);
+    try {
+      const recipes = await userService.getLikeRecipes(userId);
 
-    res.status(200).json({
-      success: true,
-      message: "좋아요한 레시피 목록 조회 성공",
-      result: recipes,
-    });
-  } catch (err) {
-    next(err);
+      res.status(200).json({
+        success: true,
+        message: "좋아요한 레시피 목록 조회 성공",
+        result: recipes,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
-router.get("/like/restaurant", authorizeAccessToken, async (req, res, next) => {
-  const userId = req.userId;
+router.get(
+  "/:userId/like/restaurant",
+  authorizeAccessToken,
+  async (req, res, next) => {
+    const { userId } = req.params;
+
+    try {
+      const restaurants = await userService.getRestaurants(userId);
+
+      res.status(200).json({
+        success: true,
+        message: "북마크한 맛집 목록 조회 성공",
+        result: restaurants,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.get("/:userId/info", authorizeAccessToken, async (req, res, next) => {
+  const { userId } = req.params;
 
   try {
-    const restaurants = await userService.getRestaurants(userId);
+    const userInfo = await userService.getUserInfo(userId);
 
     res.status(200).json({
       success: true,
-      message: "북마크한 맛집 목록 조회 성공",
-      result: restaurants,
+      message: "유저 정보 조회 성공",
+      result: userInfo,
     });
   } catch (err) {
     next(err);
