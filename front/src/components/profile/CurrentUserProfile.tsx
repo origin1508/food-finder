@@ -11,6 +11,11 @@ import { AuthFormInitial } from '../../types/auth';
 import useEditNickname from '../../hooks/Auth/useEditNickname';
 import useEditImg from '../../hooks/Auth/useEditImg';
 import useSetAlert from '../../hooks/useSetAlert';
+import {
+  RecipeDetailHeader,
+  RecipeDetailTitleStyle,
+  RecipeDetailSubTitleStyle,
+} from '../../styles/recipeDetailStyle';
 
 const CurrentUserProfile = () => {
   const user = useRecoilValue(authState);
@@ -66,6 +71,10 @@ const CurrentUserProfile = () => {
     <>
       <ProfileCardContainer>
         <UserInfoContainer>
+          <UserInfoHeader>
+            <Title>User Info</Title>
+            <SubTitle>유저 정보</SubTitle>
+          </UserInfoHeader>
           <UserImgContainer>
             <UserImg
               src={
@@ -82,25 +91,24 @@ const CurrentUserProfile = () => {
           <Name>{user?.nickname}</Name>
           <Email>{user?.email}</Email>
         </UserInfoContainer>
-        <UserInfoUpdateContainer>
-          {!isPasswordEditing ? (
-            <NicknameEditFrom
-              user={user!}
-              register={register}
-              errors={errors}
-              onSubmit={onSubmit}
-              setIsPasswordEditing={setIsPasswordEditing}
-              setAlertLoading={setAlertLoading}
-            />
-          ) : null}
-          {isPasswordEditing ? (
-            <PasswordEditForm
-              user={user!}
-              setIsPasswordEditing={setIsPasswordEditing}
-              setAlertLoading={setAlertLoading}
-            />
-          ) : null}
-        </UserInfoUpdateContainer>
+
+        {!isPasswordEditing ? (
+          <NicknameEditFrom
+            user={user!}
+            register={register}
+            errors={errors}
+            onSubmit={onSubmit}
+            setIsPasswordEditing={setIsPasswordEditing}
+            setAlertLoading={setAlertLoading}
+          />
+        ) : null}
+        {isPasswordEditing ? (
+          <PasswordEditForm
+            user={user!}
+            setIsPasswordEditing={setIsPasswordEditing}
+            setAlertLoading={setAlertLoading}
+          />
+        ) : null}
       </ProfileCardContainer>
     </>
   );
@@ -118,9 +126,18 @@ const ProfileCardContainer = styled.section`
 const UserInfoContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
   padding: 2rem 0;
-  border-bottom: 1px solid ${({ theme }) => theme.lightDarkGrey};
 `;
 
+const UserInfoHeader = styled.div`
+  ${RecipeDetailHeader}
+`;
+const Title = styled.h3`
+  ${RecipeDetailTitleStyle}
+`;
+
+const SubTitle = styled.h5`
+  ${RecipeDetailSubTitleStyle}
+`;
 const UserImgContainer = styled.div`
   width: 10rem;
   height: 10rem;
@@ -184,41 +201,4 @@ const Email = styled.span`
     )}
 `;
 
-const UserInfoUpdateContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 65%;
-  padding: 2rem 0;
-`;
-const InputContainer = styled.div`
-  position: relative;
-  ${({ theme }) => theme.mixins.flexBox}
-  width: 100%;
-`;
-
-const Label = styled.label`
-  ${({ theme }) =>
-    theme.mixins.title(
-      theme.fontRegular,
-      theme.weightSemiBold,
-      theme.mainBlack,
-    )}
-`;
-const Input = styled.input`
-  ${({ theme }) => theme.mixins.input}
-`;
-
-const Button = styled.button`
-  ${({ theme }) => theme.mixins.mediumButton()}
-  width: 60%;
-`;
-export const ErrorMessage = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  bottom: -1.5rem;
-  font-size: ${({ theme }) => theme.fontSmall};
-  color: ${({ theme }) => theme.lightRed};
-  height: 1.4rem;
-`;
 export default CurrentUserProfile;
