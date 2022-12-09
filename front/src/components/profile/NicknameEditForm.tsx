@@ -43,10 +43,9 @@ const NicknameEditFrom = ({
   );
 };
 const UserInfoUpdateForm = styled.form`
-  ${theme.absoluteCenter};
   ${({ theme }) => theme.mixins.flexBox('column', 'center', 'space-around')}
-  height:60%;
   width: 100%;
+  height: 40%;
 `;
 const InputContainer = styled.div`
   position: relative;

@@ -87,8 +87,8 @@ const PasswordEditForm = ({
   );
 };
 const UserInfoUpdateForm = styled.form`
-  ${({ theme }) => theme.mixins.flexBox('column', 'center', 'space-between')}
-  height:100%;
+  ${({ theme }) => theme.mixins.flexBox('column', 'center', 'space-around')}
+  height:50%;
   padding: 2rem 0;
 `;
 const InputContainer = styled.div`
