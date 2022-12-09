@@ -1,5 +1,7 @@
 import { useQuery } from 'react-query';
+import { useRecoilValue } from 'recoil';
 import { getAuthRecipes, getAuthLikeRecipes } from '../../api/authFetcher';
+import { authState } from '../../atom/auth';
 
 interface AuthRecipe {
   dishId: number;
@@ -10,8 +12,10 @@ interface AuthRecipe {
   likes: number;
 }
 
-function useAuthRecipes() {
-  return useQuery<AuthRecipe[], Error>(['authRecips'], getAuthRecipes);
+function useAuthRecipes(userId: number) {
+  return useQuery<AuthRecipe[], Error>(['authRecips'], () =>
+    getAuthRecipes(userId),
+  );
 }
 
 function useAuthLikeRecipes() {
