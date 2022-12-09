@@ -1,14 +1,33 @@
+import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { FormState } from 'react-hook-form';
 import useSetAlert from './useSetAlert';
 import imageResize from '../util/imageResize';
 import { createRecipeRequest } from '../api/recipeFetcher';
 import { RecipeFormDefaultValue } from '../types/recipe/recipeFormType';
+import { FORM_FIELDS } from '../constants/recipeForm';
 
-const useCreateRecipe = () => {
+const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
   const navigate = useNavigate();
   const { setAlertSuccess, setAlertError } = useSetAlert();
+  const { errors, submitCount } = formState;
+  useEffect(() => {
+    if (errors) {
+      const field = FORM_FIELDS.find((field) => errors[field]);
+      if (field === 'mainImage') {
+        setAlertError({ error: errors.mainImage?.files?.message });
+      } else if (field === 'ingredients') {
+        setAlertError({ error: '재료를 입력해주세요.' });
+      } else if (field === 'instructions') {
+        setAlertError({ error: '요리순서를 작성해주세요' });
+      } else if (field) {
+        setAlertError({ error: errors[field]?.message });
+      }
+    }
+  }, [submitCount]);
+
   const createRecipe = async (data: RecipeFormDefaultValue) => {
     const {
       name,
