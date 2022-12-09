@@ -9,6 +9,8 @@ import {
 } from '../../styles/recipeDetailStyle';
 import { RecipeDetailInitial } from '../../types/recipe/recipeDetailType';
 import RecipeScoreStatus from './RecipeScoreStatus';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RecipeDetailMain = ({
   recipeDetail,
@@ -26,13 +28,22 @@ const RecipeDetailMain = ({
     RecipeStars,
     dishId: recipeId,
   } = recipeDetail;
-  let score = 3;
-  if (RecipeStars[0]) {
-    score = RecipeStars[0].score;
-  }
+  const navigate = useNavigate();
+  const [score, setScore] = useState(3);
+
+  const handleClickImage = () => {
+    const path = `/profile/${writer.userId}`;
+    navigate(path);
+  };
+  useEffect(() => {
+    if (RecipeStars[0]) {
+      setScore(RecipeStars[0].score);
+    }
+  }, [RecipeStars]);
+
   return (
     <MainContainer>
-      <RecipeImage itemProp={smallThumbnailUrl}>
+      <RecipeImage itemProp={smallThumbnailUrl} onClick={handleClickImage}>
         <WriterInfoContainer>
           <WriterImage src={writer.profileUrl} />
           <WriterNickname>{writer.nickname}</WriterNickname>
@@ -77,6 +88,7 @@ const RecipeImage = styled.div`
   background-image: ${({ itemProp }) => `url(${itemProp})`};
   background-size: cover;
   background-position: center;
+  cursor: pointer;
   margin: 3rem 0 6rem 0;
 `;
 
