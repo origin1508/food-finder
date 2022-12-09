@@ -8,21 +8,32 @@ export default {
     const verifiedLastRecipeId =
       lastRecipeId === "init" ? undefined : lastRecipeId;
 
-    const recipesObject = {
-      recipes: await recipeModel.findAll({
-        lastRecipeId: verifiedLastRecipeId,
-        method,
-        category,
-        postsPerPage,
-      }),
-    };
+    const recipes = await recipeModel.findAll({
+      lastRecipeId: verifiedLastRecipeId,
+      method,
+      category,
+      postsPerPage: +postsPerPage + 1,
+    });
 
-    recipesObject.lastRecipeId =
-      recipesObject.recipes[recipesObject.recipes.length - 1]?.dishId;
+    let recipesObject;
+    if (recipes.length > postsPerPage) {
+      recipesObject = {
+        recipes: recipes.slice(undefined, postsPerPage),
+        isLast: false,
+        lastRecipeId: recipes[recipes.length - 2]?.dishId,
+      };
+    } else {
+      recipesObject = {
+        recipes: recipes,
+        isLast: true,
+        lastRecipeId: recipes[recipes.length - 1]?.dishId,
+      };
+    }
 
     return recipesObject;
   },
   async findRecipeDetail({ dishId, userId }) {
+    // FIXME: recipe[0].dataValues 중복 문제
     const recipe = await recipeModel.findRecipeDetailByDishId({ dishId });
     if (recipe.length === 0) {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
@@ -66,6 +77,7 @@ export default {
     stepImages,
     steps,
   }) {
+    // TODO: transaction
     const parsedSteps = JSON.parse(steps);
 
     const createdRecipeInformation = await recipeModel.createRecipeInformation({
@@ -82,6 +94,7 @@ export default {
 
     const createdSteps = [];
 
+    // FIXME: bulk insert 고려
     for (let key in parsedSteps) {
       const createdStep = await recipeModel.createStep({
         content: parsedSteps[key],
@@ -168,7 +181,7 @@ export default {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
 
-    // FIXME: 별점을 이미 주었을 시 -> 에러
+    // TODO: 별점을 이미 주었을 시 -> 에러
     const createdStar = await recipeModel.createRecipeStar({
       userId,
       dishId,
@@ -215,6 +228,7 @@ export default {
     return updatedRecipeInformation;
   },
   async updateStep({ dishId, userId, stepId, content, imageUrl }) {
+    // FIXME: 업데이트 로직 고려
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
