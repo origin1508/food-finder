@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { MdDelete, MdCreate } from 'react-icons/md';
-// import * as Api from '../../api';
 import CommentEdit from './CommentEdit';
 import useModal from '../../hooks/useModal';
 import ConfirmModal from '../modal/ConfirmModal';
@@ -23,7 +22,6 @@ const ContentCard = ({
 }) => {
   const [isEdit, setIsEdit] = useState(false);
   const { mutate } = useDeleteComment();
-  const { handleSubmit } = useFormContext();
   const user = useRecoilValue(authState);
   const loginId = user?.userId;
   const [isOpenModal, handleModalOpenButtonClick, handleModalCloseButtonClick] =

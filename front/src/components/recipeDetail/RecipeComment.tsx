@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import {
   RecipeDetailContainerStyle,

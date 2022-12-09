@@ -1,10 +1,7 @@
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Comment } from '../recipeDetail/RecipeComment';
 import useEditComment from '../../hooks/Comment/useEditComment';
-
 import styled from 'styled-components';
-// import * as Api from '../../api';
 
 interface CommentEdit {
   comment: Comment;

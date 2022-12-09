@@ -6,7 +6,6 @@ import CustomIcon from '../icons/CustomIcon';
 interface ModalProps extends BaseComponentType {
   isOpenModal: boolean;
   onModalAcceptButtonClickEvent?: (commentId: number) => void;
-
   onModalCancelButtonClickEvent: () => void;
   commentId: number;
 }
