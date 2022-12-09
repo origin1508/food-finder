@@ -1,29 +1,36 @@
-import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import { authState } from '../../atom/auth';
 import styled from 'styled-components';
 import {
   useAuthRecipes,
   useAuthLikeRecipes,
 } from '../../hooks/Auth/useAuthRecipes';
-import { MediumTitle } from '../../styles/commonStyle';
 import UserRacipeCards from './UserRecipeCards';
-const UserRecipe = () => {
-  const user = useRecoilValue(authState);
-  const { data: authRecipe } = useAuthRecipes();
-  const { data: authLickeRecipe } = useAuthLikeRecipes();
+import {
+  RecipeDetailHeader,
+  RecipeDetailTitleStyle,
+} from '../../styles/recipeDetailStyle';
+const UserRecipe = ({ profileOwnerId }: { profileOwnerId: string }) => {
+  const { data: authRecipe } = useAuthRecipes(Number(profileOwnerId));
+  const { data: authLickeRecipe } = useAuthLikeRecipes(Number(profileOwnerId));
 
-  useEffect(() => {
-    console.log(authRecipe);
-  }, []);
   return (
     <>
       <UserRecipeContainer>
         <LikeRecipe>
-          <UserRacipeCards>Likes Recipe</UserRacipeCards>
+          <LikeRecipeHeader>
+            <Title>Likes Recipe</Title>
+          </LikeRecipeHeader>
+          <UserRacipeCards recipes={authLickeRecipe!}>
+            아직 좋아요를 누른 레시피가 없습니다!
+          </UserRacipeCards>
         </LikeRecipe>
         <MyRecipe>
-          <UserRacipeCards>My Recipe</UserRacipeCards>
+          <LikeRecipeHeader>
+            <Title>My Recipe</Title>
+          </LikeRecipeHeader>
+          <UserRacipeCards recipes={authRecipe!}>
+            아직 등록된 레시피가 없습니다! <br></br>
+            나만의 레시피를 등록해 보세요!
+          </UserRacipeCards>
         </MyRecipe>
       </UserRecipeContainer>
     </>
@@ -41,16 +48,17 @@ const UserRecipeContainer = styled.section`
 const LikeRecipe = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
   height:50%;
-  padding: 2rem 0;
-  border-bottom: 1px solid ${({ theme }) => theme.lightDarkGrey};
+`;
+const Title = styled.h3`
+  ${RecipeDetailTitleStyle}
+`;
+
+const LikeRecipeHeader = styled.div`
+  ${RecipeDetailHeader}
 `;
 const MyRecipe = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
   height:50%;
-  padding: 2rem 0;
 `;
-const Title = styled.h2`
-  ${MediumTitle}
-  color : ${({ theme }) => theme.mainBlack};
-`;
+
 export default UserRecipe;
