@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import {
   RecipeDetailContainerStyle,
   RecipeDetailHeader,
@@ -30,7 +29,6 @@ const RecipeSteps = ({ steps }: { steps: RecipeStepsInitial[] }) => {
 
 const RecipeStepsContainer = styled.section`
   ${RecipeDetailContainerStyle}
-  margin-bottom : ${({ theme }) => theme.spacingMedium}
 `;
 
 const RecipeStepsHeader = styled.header`

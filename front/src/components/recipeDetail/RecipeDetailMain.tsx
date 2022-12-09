@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MediumSubTitle, SmallTitle } from '../../styles/commonStyle';
 import CustomIcon from '../../components/icons/CustomIcon';

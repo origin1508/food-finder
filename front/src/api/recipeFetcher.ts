@@ -71,14 +71,14 @@ export async function recipeCommentRequest({
 }
 
 export async function recipeCommentUpdate({
-  recipeId,
+  commentId,
   comment,
 }: {
-  recipeId: string;
+  commentId: number;
   comment: string;
 }) {
   const res = await customAxios.patch(
-    `/recipes/comments/${recipeId}`,
+    `/recipes/comments/${commentId}`,
     { content: comment },
     {
       headers: {
@@ -90,8 +90,12 @@ export async function recipeCommentUpdate({
   return res.data;
 }
 
-export async function recipeCommentDelete({ recipeId }: { recipeId: string }) {
-  const res = await customAxios.delete(`/recipes/comments/${recipeId}`, {
+export async function recipeCommentDelete({
+  commentId,
+}: {
+  commentId: number;
+}) {
+  const res = await customAxios.delete(`/recipes/comments/${commentId}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${JWT_TOKEN}`,

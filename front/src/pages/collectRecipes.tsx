@@ -17,7 +17,7 @@ const CollectRecipes = () => {
   const navigate = useNavigate();
   const [selectKind, setSelectKind] = useState('전체');
   const [selectMethod, setSelectMethod] = useState('전체');
-  const { recipeDatas, filterByType, filterByMethod } = mockData;
+  const { filterByType, filterByMethod } = mockData;
   const { ref, inView } = useInView();
   const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery(
@@ -48,8 +48,9 @@ const CollectRecipes = () => {
           <Filter>
             <FilterTitle>종류별</FilterTitle>
             <SelectContainer>
-              {filterByType.map((type) => (
+              {filterByType.map((type, index) => (
                 <SelectType
+                  key={index}
                   itemProp={selectKind}
                   itemType={type}
                   name={type}

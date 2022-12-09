@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import RecipeCard from '../../components/recipe/RecipeCard';
-import { MediumTitle } from '../../styles/commonStyle';
 import CustomIcon from '../../components/icons/CustomIcon';
 import { theme } from '../../styles/theme';
-import { BaseComponentType } from '../../types/common/baseComponentType';
-import mockData from '../../util/mockData';
 import { RandomRecipes } from '../../hooks/Recipe/useRecipes';
 
 interface SuggestRecipe {

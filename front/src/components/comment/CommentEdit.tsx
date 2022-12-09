@@ -1,10 +1,7 @@
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Comment } from '../recipeDetail/RecipeComment';
 import useEditComment from '../../hooks/Comment/useEditComment';
-
 import styled from 'styled-components';
-// import * as Api from '../../api';
 
 interface CommentEdit {
   comment: Comment;
@@ -15,13 +12,10 @@ interface CommentEdit {
 const CommentEdit = ({ comment, setIsEdit, recipeId }: CommentEdit) => {
   const { register, handleSubmit } = useFormContext();
   const { mutate } = useEditComment();
-  const [inputs, setInputs] = useState({
-    comment: comment.content,
-  });
+  const { commentId } = comment;
 
   const onSubmit = handleSubmit(({ comment }) => {
-    console.log(comment);
-    mutate({ recipeId, comment });
+    mutate({ commentId, comment });
   });
 
   return (

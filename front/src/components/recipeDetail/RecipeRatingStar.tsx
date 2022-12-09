@@ -10,7 +10,7 @@ import {
 } from '../../styles/recipeDetailStyle';
 
 const RecipeRatingStar = ({ recipeId }: { recipeId: string }) => {
-  const { mutate } = useRating();
+  const { mutate } = useRating(recipeId);
   const [clicked, setClicked] = useState([false, false, false, false, false]);
   const array = [0, 1, 2, 3, 4];
   let score = clicked.filter(Boolean).length;

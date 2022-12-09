@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-
 import styled from 'styled-components';
 import CustomIcon from '../icons/CustomIcon';
-
 import { theme } from '../../styles/theme';
 import { useLike, useUnLike } from '../../hooks/Recipe/useLike';
 
