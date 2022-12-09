@@ -34,3 +34,14 @@ export const SERVING_OPTIONS = [
   '5인분',
   '6인분이상',
 ];
+
+export const FORM_FIELDS = [
+  'name',
+  'serving',
+  'cookingTime',
+  'category',
+  'method',
+  'mainImage',
+  'ingredients',
+  'instructions',
+] as const;
