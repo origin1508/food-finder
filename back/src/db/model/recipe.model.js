@@ -141,6 +141,17 @@ export default {
     return existence;
   },
 
+  async findExistenceOfStar({ userId, dishId }) {
+    const existence = await RecipeStar.findOne({
+      where: { user_id: Number(userId), dish_id: Number(dishId) },
+    }).then((data) => {
+      if (data == null) return false;
+      return true;
+    });
+
+    return existence;
+  },
+
   async findByKeyword(searchKeyword) {
     const likes = Sequelize.fn(
       "COUNT",

@@ -192,7 +192,15 @@ export default {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
 
-    // TODO: 별점을 이미 주었을 시 -> 에러
+    const existenceOfStar = await recipeModel.findExistenceOfStar({
+      userId,
+      dishId,
+    });
+
+    if (existenceOfStar) {
+      throw ApiError.setBadRequest("이미 별점을 준 상태입니다.");
+    }
+
     const createdStar = await recipeModel.createRecipeStar({
       userId,
       dishId,
