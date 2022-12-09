@@ -10,9 +10,10 @@ router.post(
   "/like",
   authorizeAccessToken,
   [
-    body("title").exists().isLength({ min: 1 }),
-    body("address").exists().isLength({ min: 1 }),
-    body("roadAddress").exists().isLength({ min: 1 }),
+    body("title").isLength({ min: 1 }),
+    body("address").isLength({ min: 1 }),
+    body("roadAddress").isLength({ min: 1 }),
+    body("link").isLength({ min: 1 }).optional({ nullable: true }),
     body("restaurantId").exists().isInt(),
     body("mapX").exists().isFloat(),
     body("mapY").exists().isFloat(),
