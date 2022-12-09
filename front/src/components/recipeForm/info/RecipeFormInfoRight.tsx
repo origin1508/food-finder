@@ -9,17 +9,21 @@ import {
   ImageUploadIcon,
 } from '../../../styles/recipeFormStyle';
 import { IMAGE_FORMAT } from '../../../constants/recipeForm';
+import { RecipeFormDefaultValue } from '../../../types/recipe/recipeFormType';
+
 const RecipeFormInfoRight = () => {
   const { isLoading, createPreview } = usePreview();
-  const { register, watch, setValue } = useFormContext();
+  const { register, watch, setValue } =
+    useFormContext<RecipeFormDefaultValue>();
   const previewUrl = watch('mainImage.preview');
+
   return (
     <RecipeFormInfoRightContainer>
       <RecipeFormInfoImageUpload previewUrl={previewUrl}>
         {isLoading && <LoadingCycle />}
         <RecipeFormImageInput
           {...register('mainImage.files', {
-            required: { value: true, message: '요리 대표 사진을 등록해주세요' },
+            required: '요리 대표 사진을 등록해주세요',
             validate: {
               acceptedFormat: (files) => IMAGE_FORMAT.includes(files[0].type),
             },

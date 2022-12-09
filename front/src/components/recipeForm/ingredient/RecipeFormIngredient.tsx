@@ -8,9 +8,10 @@ import {
 } from '../../../styles/recipeFormStyle';
 import { MediumTitle } from '../../../styles/commonStyle';
 import { INGREDIENT_PLACEHOLDERS } from '../../../constants/recipeForm';
+import { RecipeFormDefaultValue } from '../../../types/recipe/recipeFormType';
 
 const RecipeFormIngredient = () => {
-  const { register, control } = useFormContext();
+  const { register, control } = useFormContext<RecipeFormDefaultValue>();
   const { fields, append, remove } = useFieldArray({
     control: control,
     name: 'ingredients',
@@ -24,11 +25,15 @@ const RecipeFormIngredient = () => {
         return (
           <RecipeFormIngredientInputContainer key={item.id}>
             <RecipeFormIngredientInput
-              {...register(`ingredients.${index}.name`)}
+              {...register(`ingredients.${index}.name`, {
+                required: '재료명을 입력해주세요.',
+              })}
               placeholder={INGREDIENT_PLACEHOLDERS[index % 3].name}
             />
             <RecipeFormIngredientInput
-              {...register(`ingredients.${index}.amount`)}
+              {...register(`ingredients.${index}.amount`, {
+                required: '재료양을 입력해주세요.',
+              })}
               placeholder={INGREDIENT_PLACEHOLDERS[index % 3].amount}
             />
             <IngredientRemoveButton
