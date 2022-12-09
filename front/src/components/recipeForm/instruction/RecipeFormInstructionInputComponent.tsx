@@ -19,7 +19,12 @@ const RecipeFormInstructionInputComponent = ({
   index: number;
   remove: UseFieldArrayRemove;
 }) => {
-  const { register, watch, setValue } = useFormContext();
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const { isLoading, createPreview } = usePreview();
   const registeredDesciption = `instructions.${index}.description`;
   const registeredPreview = `instructions.${index}.preview`;
@@ -31,11 +36,17 @@ const RecipeFormInstructionInputComponent = ({
       <RecipeFormInstructionInputLabel>
         Step{index + 1}
       </RecipeFormInstructionInputLabel>
-      <RecipeFormInstructionInput {...register(registeredDesciption)} />
+      <RecipeFormInstructionInput
+        {...register(registeredDesciption, {
+          required: '요리순서를 작성해주세요.',
+        })}
+      />
       <RecipeFormImageUpload preview={preview}>
         {isLoading && <LoadingCycle />}
         <RecipeFormImageInput
-          {...register(registeredImage, { required: true })}
+          {...register(registeredImage, {
+            required: '요리순서 사진을 등록해주세요.',
+          })}
           type="file"
           accept="image/*"
           onChange={async (e) => {
