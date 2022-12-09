@@ -35,9 +35,9 @@ const ContentCard = ({
     navigate(path);
   };
 
-  const handleClickDeleteButton = handleSubmit(() => {
-    mutate({ recipeId });
-  });
+  const handleClickDeleteButton = (commentId: number) => {
+    mutate({ commentId });
+  };
 
   return (
     <CardItemBlock>
@@ -83,6 +83,7 @@ const ContentCard = ({
         isOpenModal={isOpenModal}
         onModalCancelButtonClickEvent={handleModalCloseButtonClick}
         onModalAcceptButtonClickEvent={handleClickDeleteButton}
+        commentId={comment.commentId}
       >
         해당 댓글을 삭제하시겠습니까?
       </ConfirmModal>

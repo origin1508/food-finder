@@ -16,6 +16,7 @@ export interface Comment {
     profileUrl: string;
   };
   content: string;
+  commentId: number;
 }
 
 interface CommentFormInitial {

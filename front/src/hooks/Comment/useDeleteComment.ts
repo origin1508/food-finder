@@ -9,6 +9,7 @@ export default function useDeleteComment() {
   const mutation = useMutation(recipeCommentDelete, {
     onSuccess: ({ message }) => {
       setAlertSuccess({ success: message });
+      location.reload();
     },
     onError: (error: ErrorType) => {
       const errorMessage = error.response.data.message;

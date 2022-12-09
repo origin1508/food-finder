@@ -15,13 +15,10 @@ interface CommentEdit {
 const CommentEdit = ({ comment, setIsEdit, recipeId }: CommentEdit) => {
   const { register, handleSubmit } = useFormContext();
   const { mutate } = useEditComment();
-  const [inputs, setInputs] = useState({
-    comment: comment.content,
-  });
+  const { commentId } = comment;
 
   const onSubmit = handleSubmit(({ comment }) => {
-    console.log(comment);
-    mutate({ recipeId, comment });
+    mutate({ commentId, comment });
   });
 
   return (
