@@ -22,7 +22,8 @@ const CreateRecipe = () => {
       instructions: [{ description: '' }],
     },
   });
-  const { mutate: createRecipe } = useCreateRecipe();
+  const { formState } = methods;
+  const { mutate: createRecipe } = useCreateRecipe(formState);
 
   return (
     <BasePageComponent>
