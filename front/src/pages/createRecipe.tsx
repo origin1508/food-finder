@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { FormProvider, useForm } from 'react-hook-form';
-import useCreateRecipe from '../hooks/useCreateRecipe';
+import useCreateRecipe from '../hooks/Recipe/useCreateRecipe';
 import BasePageComponent from '../hoc/BasePageComponent';
 import RecipeForm from '../components/recipeForm/RecipeForm';
 import { RecipeFormDefaultValue } from '../types/recipe/recipeFormType';

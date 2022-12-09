@@ -4,6 +4,7 @@ import useSearchForm from '../hooks/useSearchForm';
 import styled from 'styled-components';
 import RecipeResult from '../components/searchResult/RecipeResult';
 import PlaceResult from '../components/searchResult/PlaceResult';
+import BasePageComponent from '../hoc/BasePageComponent';
 
 const SearchResult = () => {
   const [searchParams] = useSearchParams();
@@ -18,12 +19,14 @@ const SearchResult = () => {
   }, [keyword]);
 
   return (
-    <SearchResultWrapper>
-      <SearchResultContainer>
-        <RecipeResult keyword={keyword!} />
-        <PlaceResult keyword={keyword!} />
-      </SearchResultContainer>
-    </SearchResultWrapper>
+    <BasePageComponent>
+      <SearchResultWrapper>
+        <SearchResultContainer>
+          <RecipeResult keyword={keyword!} />
+          <PlaceResult keyword={keyword!} />
+        </SearchResultContainer>
+      </SearchResultWrapper>
+    </BasePageComponent>
   );
 };
 

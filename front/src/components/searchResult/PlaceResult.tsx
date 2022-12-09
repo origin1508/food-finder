@@ -26,7 +26,6 @@ const PlaceResultContainer = styled.section`
   width: 100%;
   height: 80rem;
   margin: ${({ theme }) => theme.spacingLarge} 0;
-  padding: 0 ${({ theme }) => theme.spacingLarge};
   gap: ${({ theme }) => theme.spacingLarge};
 `;
 
