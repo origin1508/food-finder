@@ -9,6 +9,7 @@ export default function useComment() {
   const mutation = useMutation(recipeCommentRequest, {
     onSuccess: ({ message }) => {
       setAlertSuccess({ success: message });
+      location.reload();
     },
     onError: (error: ErrorType) => {
       const errorMessage = error.response.data.message;
