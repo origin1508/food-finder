@@ -33,37 +33,48 @@ export default {
     return recipesObject;
   },
   async findRecipeDetail({ dishId, userId }) {
-    // FIXME: recipe[0].dataValues 중복 문제
     const recipe = await recipeModel.findRecipeDetailByDishId({ dishId });
+
     if (recipe.length === 0) {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
 
-    const { views } = recipe[0].dataValues;
+    const recipeObject = { ...recipe[0].dataValues };
+
+    const { views } = recipeObject;
     const increasedViews = views + 1;
     await recipeModel.updateRecipeInformation({
       views: increasedViews,
       dishId,
     });
 
-    const existenceOfLike = await recipeModel.findExistenceOfLike({
+    recipeObject.liked = await recipeModel.findExistenceOfLike({
       userId,
       dishId,
     });
-    // FIXME: if문 없어도 가능할 듯
-    if (existenceOfLike == true) {
-      recipe[0].dataValues.liked = true;
-    } else {
-      recipe[0].dataValues.liked = false;
-    }
 
-    // TODO: 별점 평균
-    recipe[0].dataValues.views = increasedViews;
-    recipe[0].dataValues.RecipeLikes = recipe[0].dataValues.RecipeLikes.length;
-    recipe[0].dataValues.writer = recipe[0].dataValues.User;
-    delete recipe[0].dataValues.User;
+    const stars = recipeObject.RecipeStars.map((data) => {
+      if (data.dataValues.userId === userId) {
+        recipeObject.myStar = data.dataValues.score;
+      }
 
-    return recipe;
+      return data.dataValues.score;
+    });
+
+    const starAverage = Math.ceil(
+      stars.reduce((acc, cur, idx) => (acc += cur), 0) / stars.length
+    );
+
+    recipeObject.starAverage = starAverage ? starAverage : 0;
+    delete recipeObject.RecipeStars;
+
+    recipeObject.views = increasedViews;
+    recipeObject.RecipeLikes = recipeObject.RecipeLikes.length;
+
+    recipeObject.writer = recipeObject.User;
+    delete recipeObject.User;
+
+    return recipeObject;
   },
   async addRecipe({
     name,
