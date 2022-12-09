@@ -3,7 +3,7 @@ import { BaseComponentType } from '../../types/common/baseComponentType';
 import { MediumSubTitle } from '../../styles/commonStyle';
 import CustomIcon from '../icons/CustomIcon';
 
-interface ModalProps extends BaseComponentType {
+interface Modal extends BaseComponentType {
   isOpenModal: boolean;
   onModalAcceptButtonClickEvent?: (commentId: number) => void;
   onModalCancelButtonClickEvent: () => void;
@@ -16,7 +16,7 @@ const ConfirmModal = ({
   onModalCancelButtonClickEvent,
   children,
   commentId,
-}: ModalProps) => {
+}: Modal) => {
   return (
     <ModalBackDrop isOpenModal={isOpenModal}>
       <ModalContainer isOpenModal={isOpenModal}>
