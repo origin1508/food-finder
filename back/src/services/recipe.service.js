@@ -1,31 +1,80 @@
 import recipeModel from "../db/model/recipe.model";
 import ApiError from "../utils/ApiError";
+import constant from "../constants/constant";
 
 export default {
-  async findAllRecipeInformations() {
-    const recipes = await recipeModel.findAll();
+  async findAllRecipeInformations({ method, category, lastRecipeId, limit }) {
+    const postsPerPage = limit ? limit : constant.postsPerPage;
+    const verifiedLastRecipeId =
+      lastRecipeId === "init" ? undefined : lastRecipeId;
 
-    return recipes;
+    const recipes = await recipeModel.findAll({
+      lastRecipeId: verifiedLastRecipeId,
+      method,
+      category,
+      postsPerPage: +postsPerPage + 1,
+    });
+
+    let recipesObject;
+    if (recipes.length > postsPerPage) {
+      recipesObject = {
+        recipes: recipes.slice(undefined, postsPerPage),
+        isLast: false,
+        lastRecipeId: recipes[recipes.length - 2]?.dishId,
+      };
+    } else {
+      recipesObject = {
+        recipes: recipes,
+        isLast: true,
+        lastRecipeId: recipes[recipes.length - 1]?.dishId,
+      };
+    }
+
+    return recipesObject;
   },
-  async findRecipeDetail({ dishId }) {
+  async findRecipeDetail({ dishId, userId }) {
     const recipe = await recipeModel.findRecipeDetailByDishId({ dishId });
+
     if (recipe.length === 0) {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
 
-    const { views } = recipe[0].dataValues;
+    const recipeObject = { ...recipe[0].dataValues };
+
+    const { views } = recipeObject;
     const increasedViews = views + 1;
     await recipeModel.updateRecipeInformation({
       views: increasedViews,
       dishId,
     });
 
-    recipe[0].dataValues.views = increasedViews;
-    recipe[0].dataValues.RecipeLikes = recipe[0].dataValues.RecipeLikes.length;
-    recipe[0].dataValues.writer = recipe[0].dataValues.User;
-    delete recipe[0].dataValues.User;
+    recipeObject.liked = await recipeModel.findExistenceOfLike({
+      userId,
+      dishId,
+    });
 
-    return recipe;
+    const stars = recipeObject.RecipeStars.map((data) => {
+      if (data.dataValues.userId === userId) {
+        recipeObject.myStar = data.dataValues.score;
+      }
+
+      return data.dataValues.score;
+    });
+
+    const starAverage = Math.ceil(
+      stars.reduce((acc, cur, idx) => (acc += cur), 0) / stars.length
+    );
+
+    recipeObject.starAverage = starAverage ? starAverage : 0;
+    delete recipeObject.RecipeStars;
+
+    recipeObject.views = increasedViews;
+    recipeObject.RecipeLikes = recipeObject.RecipeLikes.length;
+
+    recipeObject.writer = recipeObject.User;
+    delete recipeObject.User;
+
+    return recipeObject;
   },
   async addRecipe({
     name,
@@ -39,6 +88,7 @@ export default {
     stepImages,
     steps,
   }) {
+    // TODO: transaction
     const parsedSteps = JSON.parse(steps);
 
     const createdRecipeInformation = await recipeModel.createRecipeInformation({
@@ -55,6 +105,7 @@ export default {
 
     const createdSteps = [];
 
+    // FIXME: bulk insert 고려
     for (let key in parsedSteps) {
       const createdStep = await recipeModel.createStep({
         content: parsedSteps[key],
@@ -141,6 +192,7 @@ export default {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
 
+    // TODO: 별점을 이미 주었을 시 -> 에러
     const createdStar = await recipeModel.createRecipeStar({
       userId,
       dishId,
@@ -187,6 +239,7 @@ export default {
     return updatedRecipeInformation;
   },
   async updateStep({ dishId, userId, stepId, content, imageUrl }) {
+    // FIXME: 업데이트 로직 고려
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
