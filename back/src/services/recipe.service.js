@@ -8,14 +8,19 @@ export default {
     const verifiedLastRecipeId =
       lastRecipeId === "init" ? undefined : lastRecipeId;
 
-    const recipes = await recipeModel.findAll({
-      lastRecipeId: verifiedLastRecipeId,
-      method,
-      category,
-      postsPerPage,
-    });
+    const recipesObject = {
+      recipes: await recipeModel.findAll({
+        lastRecipeId: verifiedLastRecipeId,
+        method,
+        category,
+        postsPerPage,
+      }),
+    };
 
-    return recipes;
+    recipesObject.lastRecipeId =
+      recipesObject.recipes[recipesObject.recipes.length - 1]?.dishId;
+
+    return recipesObject;
   },
   async findRecipeDetail({ dishId, userId }) {
     const recipe = await recipeModel.findRecipeDetailByDishId({ dishId });
@@ -41,6 +46,7 @@ export default {
       recipe[0].dataValues.liked = false;
     }
 
+    // TODO: 별점 평균
     recipe[0].dataValues.views = increasedViews;
     recipe[0].dataValues.RecipeLikes = recipe[0].dataValues.RecipeLikes.length;
     recipe[0].dataValues.writer = recipe[0].dataValues.User;
