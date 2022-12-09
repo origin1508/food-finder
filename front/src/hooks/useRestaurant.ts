@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { AxiosError } from 'axios';
 import useSetAlert from './useSetAlert';
 import {
@@ -8,11 +8,14 @@ import {
   restaurantUnlikeRequest,
 } from '../api/restaurantFetcher';
 import { likedRestaurantIdState } from '../atom/restaurant';
+import { authState } from '../atom/auth';
 import { LikedRestaurantQuery } from '../types/restaurant/restaurantType';
 
 const useRestaurant = () => {
   const queryClient = useQueryClient();
   const [, setLikedRestaurantId] = useRecoilState(likedRestaurantIdState);
+  const user = useRecoilValue(authState);
+  const userId = user?.userId;
   const { setAlertError, setAlertSuccess } = useSetAlert();
 
   const restaurantLike = async (
@@ -41,7 +44,7 @@ const useRestaurant = () => {
 
   const likedRestaurantQuery = useQuery<LikedRestaurantQuery>(
     'likedRestaurant',
-    getLikedRestaurant,
+    () => getLikedRestaurant(userId as number),
     {
       onSuccess: (data) => {
         if (data) {
