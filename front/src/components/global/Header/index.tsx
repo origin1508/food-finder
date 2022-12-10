@@ -30,6 +30,7 @@ const Header = () => {
       };
     } else if (pathname === PATH.MAIN) {
       setIsBackground(false);
+      setScrollPosition(0);
     } else {
       setIsBackground(true);
     }
