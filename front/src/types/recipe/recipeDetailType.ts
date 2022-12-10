@@ -6,14 +6,15 @@ export interface RecipeDetailInitial {
   category: string;
   smallThumbnailUrl: string;
   largeThumbnailUrl: string;
-  ingredient: IngredientInitial[];
+  ingredient: string;
   serving: number;
   cookingTime: number;
   views: number;
   RecipeLikes: number;
   Steps: RecipeStepsInitial[];
   RecipeComments: Comment[];
-  RecipeStars: { userId: string; score: number }[];
+  myStar: number;
+  liked: boolean;
   writer: {
     userId: number;
     email: string;

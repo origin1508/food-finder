@@ -16,20 +16,18 @@ const RecipeDetail = () => {
   const isLogin = useRecoilValue(isLoginSelector);
   const navigate = useNavigate();
   const { recipeId } = useParams();
-  const { data } = useRecipeDetail(recipeId!);
-  const recipeDetail = data![0];
-  const { ingredient, Steps, RecipeComments } = recipeDetail;
+  const { data: recipeDetail } = useRecipeDetail(recipeId!);
+  const { ingredient, Steps, RecipeComments } = recipeDetail!;
 
   useEffect(() => {
     if (!isLogin) {
       navigate(PATH.LOGIN);
     }
-    console.log(recipeDetail, data);
-  }, [isLogin, data]);
+  }, [isLogin, recipeDetail]);
   return (
     <BasePageComponent>
       <RecipeDetailContainer>
-        <RecipeDetailMain recipeDetail={recipeDetail} />
+        <RecipeDetailMain recipeDetail={recipeDetail!} />
         <RecipeDetailIngredient ingredient={ingredient} />
         <RecipeSteps steps={Steps} />
         <RecipeRatingStar recipeId={recipeId!} />
@@ -41,10 +39,7 @@ const RecipeDetail = () => {
 
 const RecipeDetailContainer = styled.article`
   width: 110rem;
-
   margin: auto;
 `;
-const TestButton = styled.button`
-  ${({ theme }) => theme.mixins.mediumButton()}
-`;
+
 export default RecipeDetail;

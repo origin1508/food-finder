@@ -25,21 +25,16 @@ const RecipeDetailMain = ({
     cookingTime,
     writer,
     smallThumbnailUrl,
-    RecipeStars,
+    myStar,
+    liked,
     dishId: recipeId,
   } = recipeDetail;
   const navigate = useNavigate();
-  const [score, setScore] = useState(3);
 
   const handleClickImage = () => {
     const path = `/profile/${writer.userId}`;
     navigate(path);
   };
-  useEffect(() => {
-    if (RecipeStars[0]) {
-      setScore(RecipeStars[0].score);
-    }
-  }, [RecipeStars]);
 
   return (
     <MainContainer>
@@ -49,7 +44,7 @@ const RecipeDetailMain = ({
           <WriterNickname>{writer.nickname}</WriterNickname>
         </WriterInfoContainer>
       </RecipeImage>
-      <RecipeScoreStatus score={score} />
+      <RecipeScoreStatus score={myStar} />
 
       <RecipeInfoContiner>
         <TitleContainer>
@@ -69,7 +64,7 @@ const RecipeDetailMain = ({
             <SubTitle>{cookingTime}분</SubTitle>
           </CookingTime>
 
-          <Like recipeId={recipeId} />
+          <Like recipeId={recipeId} liked={liked} />
         </BasicInformationContainer>
       </RecipeInfoContiner>
     </MainContainer>
