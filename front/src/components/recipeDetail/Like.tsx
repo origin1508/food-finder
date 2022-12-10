@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import CustomIcon from '../icons/CustomIcon';
@@ -6,9 +6,9 @@ import { theme } from '../../styles/theme';
 import { useLike, useUnLike } from '../../hooks/Recipe/useLike';
 import { authState } from '../../atom/auth';
 
-const Like = ({ recipeId }: { recipeId: number }) => {
+const Like = ({ recipeId, liked }: { recipeId: number; liked: boolean }) => {
   const user = useRecoilValue(authState);
-  const [liked, setLiked] = useState(false);
+  const [isLiked, isSetLiked] = useState(false);
   const { mutate: setLike } = useLike(user?.userId!);
   const { mutate: setUnLike } = useUnLike(user?.userId!);
 
@@ -16,26 +16,23 @@ const Like = ({ recipeId }: { recipeId: number }) => {
     e.preventDefault();
     if (!liked) {
       setLike(recipeId);
-      setLiked(true);
+      isSetLiked(true);
     } else {
       setUnLike(recipeId);
-      setLiked(false);
+      isSetLiked(false);
     }
   };
 
-  //   useEffect(() => {
-  //     if (userId) {
-  //       (async () => {
-  //         const { result } = await authFollowingRequest('/recipe/like', userId);
-  //         setFollowed(result.isFollowed);
-  //       })();
-  //     }
-  //   }, [userId]);
+  useEffect(() => {
+    if (liked) {
+      isSetLiked(true);
+    }
+  }, [liked]);
   return (
     <LikeContainer>
       <LikeButtton onClick={handleClickLike}>
         <CustomIcon
-          name={liked ? 'liked' : 'like'}
+          name={isLiked ? 'liked' : 'like'}
           size="25"
           color={theme.darkGrey}
         />
