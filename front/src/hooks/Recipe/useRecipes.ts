@@ -25,7 +25,7 @@ function useRecipeRanking() {
 }
 
 function useRecipeDetail(userId: string) {
-  return useQuery<RecipeDetailInitial[], Error>(['racipeDetail', userId], () =>
+  return useQuery<RecipeDetailInitial, Error>(['racipeDetail', userId], () =>
     getRecipeDetail(userId),
   );
 }
