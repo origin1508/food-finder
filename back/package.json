@@ -27,6 +27,7 @@
     "multer-s3": "^2.10.0",
     "mysql2": "^2.3.3",
     "pm2": "^5.2.2",
+    "python-shell": "^3.0.1",
     "sequelize": "^6.25.8"
   },
   "devDependencies": {
