@@ -10,6 +10,7 @@ import recipeSearchRouter from "./routers/recipeSearch.route";
 import restaurantRouter from "./routers/restaurant.route";
 import errorRouter from "./routers/error.route";
 import recipeRouter from "./routers/recipe.route";
+import predictionRouter from "./routers/prediction.route";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/recipe", recipeSearchRouter);
 app.use("/restaurant", restaurantRouter);
 app.use("/error", errorRouter);
 app.use("/recipes", recipeRouter);
+app.use("/prediction", predictionRouter);
 
 app.get("/", (req, res) => {
   res.send("food-finder");
