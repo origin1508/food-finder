@@ -14,10 +14,10 @@ import { useNavigate } from 'react-router-dom';
 
 const RecipeDetailMain = ({
   recipeDetail,
-  isWriter,
+  isEditor,
 }: {
   recipeDetail: RecipeDetailInitial;
-  isWriter: boolean;
+  isEditor: boolean;
 }) => {
   const {
     name,
