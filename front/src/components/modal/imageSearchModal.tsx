@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { MediumTitle, TextTwo } from '../../styles/commonStyle';
+import usePrediction from '../../hooks/usePrediction';
+import { TextTwo } from '../../styles/commonStyle';
 import CustomIcon from '../icons/CustomIcon';
 import { theme } from '../../styles/theme';
 import { imageResize } from '../../util/profileImageResizeUtil';
@@ -21,6 +22,7 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
       imageSearchFile: [],
     },
   });
+  const { mutate: imagePrediction } = usePrediction();
 
   const searchImage = watch('imageSearchFile');
 
@@ -34,9 +36,11 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
     })();
   }, [searchImage]);
 
+  const handleImageSearch = handleSubmit((data) => imagePrediction(data));
+
   return (
     <ModalBackDrop>
-      <ModalContainer>
+      <ModalContainer onSubmit={handleImageSearch}>
         <ModalTitle>이미지 검색</ModalTitle>
         <UploadCotainer>
           <ImageUploadBox>
@@ -64,7 +68,7 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
           </NoticeContainer>
         </UploadCotainer>
         <ButtonContainer>
-          <SearchButton>Search</SearchButton>
+          <SearchButton type="submit">Search</SearchButton>
           <CancelButton onClick={onModalCancelButtonClickEvent}>
             Cancle
           </CancelButton>
@@ -86,7 +90,7 @@ const ModalBackDrop = styled.article`
   background-color: rgba(0, 0, 0, 0.1);
 `;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.form`
   ${({ theme }) => theme.fixedCenter};
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 60%;
