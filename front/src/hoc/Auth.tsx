@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { Navigate } from 'react-router-dom';
 import useSetAlert from '../hooks/useSetAlert';
 import { isLoginSelector } from '../atom/auth';
+import { PATH } from '../customRouter';
 
 interface AuthProps {
   children: ReactNode;
@@ -17,7 +18,7 @@ const Auth = ({ children }: AuthProps) => {
     }
   }, [isLogin]);
 
-  return <>{isLogin ? children : <Navigate to={'/login'} />}</>;
+  return <>{isLogin ? children : <Navigate to={PATH.LOGIN} />}</>;
 };
 
 export default Auth;

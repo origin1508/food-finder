@@ -1,4 +1,8 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import useModal from '../../hooks/useModal';
+import useEditRecipe from '../../hooks/Recipe/useEditRecipe';
 import { MediumSubTitle, SmallTitle } from '../../styles/commonStyle';
 import CustomIcon from '../../components/icons/CustomIcon';
 import { theme } from '../../styles/theme';
@@ -9,8 +13,7 @@ import {
 } from '../../styles/recipeDetailStyle';
 import { RecipeDetailInitial } from '../../types/recipe/recipeDetailType';
 import RecipeScoreStatus from './RecipeScoreStatus';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import ConfirmModal from '../modal/ConfirmModal';
 
 const RecipeDetailMain = ({
   recipeDetail,
@@ -19,6 +22,11 @@ const RecipeDetailMain = ({
   recipeDetail: RecipeDetailInitial;
   isEditor: boolean;
 }) => {
+  const [isOpenModal, handleModalOpenButtonClick, handleModalCloseButtonClick] =
+    useModal(false);
+  const {
+    recipeDeleteMutation: { mutate: recipeDelete },
+  } = useEditRecipe();
   const {
     name,
     views,
@@ -36,6 +44,9 @@ const RecipeDetailMain = ({
   const handleClickImage = () => {
     const path = `/profile/${writer.userId}`;
     navigate(path);
+  };
+  const handleAcceptClick = () => {
+    recipeDelete(recipeId);
   };
 
   return (
@@ -68,16 +79,25 @@ const RecipeDetailMain = ({
 
           <Like recipeId={recipeId} liked={liked} />
         </BasicInformationContainer>
-        {isWriter && (
+        {isEditor && (
           <RecipeInfoButtonContainer>
             <RecipeInfoButton
               onClick={() => navigate(`/recipe/edit/${recipeId}`)}
             >
               수정
             </RecipeInfoButton>
-            <RecipeInfoRemoveButton>삭제</RecipeInfoRemoveButton>
+            <RecipeInfoRemoveButton onClick={handleModalOpenButtonClick}>
+              삭제
+            </RecipeInfoRemoveButton>
           </RecipeInfoButtonContainer>
         )}
+        <ConfirmModal
+          isOpenModal={isOpenModal}
+          onModalAcceptButtonClickEvent={handleAcceptClick}
+          onModalCancelButtonClickEvent={handleModalCloseButtonClick}
+        >
+          정말 삭제하시겠습니까?
+        </ConfirmModal>
       </RecipeInfoContiner>
     </MainContainer>
   );

@@ -24,6 +24,7 @@ const ContentCard = ({
   const { mutate } = useDeleteComment();
   const user = useRecoilValue(authState);
   const loginId = user?.userId;
+  const commentId = comment.commentId;
   const [isOpenModal, handleModalOpenButtonClick, handleModalCloseButtonClick] =
     useModal(false);
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const ContentCard = ({
     navigate(path);
   };
 
-  const handleClickDeleteButton = (commentId: number) => {
+  const handleClickDeleteButton = () => {
     mutate({ commentId });
   };
 
@@ -81,7 +82,6 @@ const ContentCard = ({
         isOpenModal={isOpenModal}
         onModalCancelButtonClickEvent={handleModalCloseButtonClick}
         onModalAcceptButtonClickEvent={handleClickDeleteButton}
-        commentId={comment.commentId}
       >
         해당 댓글을 삭제하시겠습니까?
       </ConfirmModal>
