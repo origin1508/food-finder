@@ -7,7 +7,7 @@ const router = express.Router();
 const uploadPath = "./src/ml/predictionImages";
 const upload = multer({ dest: uploadPath });
 
-router.get("/", upload.single("image"), async (req, res, next) => {
+router.post("/", upload.single("image"), async (req, res, next) => {
   const imageFileName = req.file.filename;
   try {
     const predictionResult = await predictionService.runPrediction(
@@ -28,4 +28,4 @@ router.get("/", upload.single("image"), async (req, res, next) => {
   }
 });
 
-export default router;
+export default router; 
