@@ -5,12 +5,12 @@ const { persistAtom } = recoilPersist();
 
 export const categoryValue = atom({
   key: 'categroy',
-  default: '',
+  default: '전체',
   effects_UNSTABLE: [persistAtom],
 });
 
 export const methodValue = atom({
   key: 'method',
-  default: '',
+  default: '전체',
   effects_UNSTABLE: [persistAtom],
 });
