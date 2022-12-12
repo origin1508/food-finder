@@ -30,7 +30,7 @@ export const PATH = {
   RESTAURANT: '/restaurant',
   SEARCH_RESULT: '/search',
   RECIPE_DETAIL: '/recipe/detail/:recipeId',
-  EDIT_RECIPE: '/recipe/edit',
+  EDIT_RECIPE: '/recipe/edit/:recipeId',
   NOT_FOUND: '/*',
 };
 
