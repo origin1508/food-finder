@@ -27,7 +27,7 @@ const LikedRestaurant = () => {
           <Restaurants>
             {restaurants && restaurants.length > 0 ? (
               restaurants.map((restaurant) => {
-                const { restaurant_id, title, address, road_address } =
+                const { restaurant_id, title, address, road_address, url } =
                   restaurant;
                 return (
                   <Restaurant key={restaurant_id}>
@@ -35,6 +35,9 @@ const LikedRestaurant = () => {
                       title={title}
                       address={address}
                       road_address={road_address}
+                      onClick={() => {
+                        window.open(url);
+                      }}
                     />
                     <LikeButton
                       onClick={() => {
