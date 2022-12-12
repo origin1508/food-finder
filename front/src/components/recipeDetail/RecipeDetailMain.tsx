@@ -68,7 +68,7 @@ const RecipeDetailMain = ({
 
           <Like recipeId={recipeId} liked={liked} />
         </BasicInformationContainer>
-        {isWriter && (
+        {isEditor && (
           <RecipeInfoButtonContainer>
             <RecipeInfoButton
               onClick={() => navigate(`/recipe/edit/${recipeId}`)}
