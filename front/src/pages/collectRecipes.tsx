@@ -23,8 +23,8 @@ const CollectRecipes = () => {
   const { categoryList, methodList } = filterList;
   const { ref, inView } = useInView();
 
-  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-    ['collectRecipesInfo'],
+  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ['collectRecipesInfo', method, category],
     async ({ pageParam = '' }) => {
       return await getRecipesCardInfo({
         pageParams: pageParam,
@@ -42,8 +42,6 @@ const CollectRecipes = () => {
     const recipeDetailPagePath = `/recipe/detail/${userId}`;
     navigate(recipeDetailPagePath);
   };
-
-  if (status === 'loading') return <LoadingCycle />;
 
   useEffect(() => {
     if (inView) fetchNextPage();
@@ -68,7 +66,6 @@ const CollectRecipes = () => {
                   name={type}
                   onClick={() => {
                     setCategory(type);
-                    location.reload();
                   }}
                 >
                   {type}
@@ -87,7 +84,6 @@ const CollectRecipes = () => {
                   name={type}
                   onClick={() => {
                     setMethod(type);
-                    location.reload();
                   }}
                 >
                   {type}
