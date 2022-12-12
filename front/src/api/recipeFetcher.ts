@@ -7,7 +7,7 @@ export const createRecipeRequest = async (formData: FormData) => {
   const res = await customAxios.post('/recipes', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${JWT_TOKEN}`,
+      Authorization: `Bearer ${Storage.getToken()}`,
     },
   });
 
@@ -24,7 +24,7 @@ export async function getRandomRecipes() {
   const res = await customAxios.get(`/recipe/list/random`, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${JWT_TOKEN}`,
+      Authorization: `Bearer ${Storage.getToken()}`,
     },
   });
   return res.data.result;
@@ -34,7 +34,7 @@ export async function getRecipeRanking() {
   const res = await customAxios.get(`/recipe/list/week`, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${JWT_TOKEN}`,
+      Authorization: `Bearer ${Storage.getToken()}`,
     },
   });
   return res.data.result;
@@ -44,7 +44,7 @@ export async function getRecipeDetail(userId: string) {
   const res = await customAxios.get(`/recipes/${userId}`, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${JWT_TOKEN}`,
+      Authorization: `Bearer ${Storage.getToken()}`,
     },
   });
   return res.data.result;
@@ -63,7 +63,7 @@ export async function recipeCommentRequest({
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${JWT_TOKEN}`,
+        Authorization: `Bearer ${Storage.getToken()}`,
       },
     },
   );
@@ -83,7 +83,7 @@ export async function recipeCommentUpdate({
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${JWT_TOKEN}`,
+        Authorization: `Bearer ${Storage.getToken()}`,
       },
     },
   );
@@ -98,7 +98,7 @@ export async function recipeCommentDelete({
   const res = await customAxios.delete(`/recipes/comments/${commentId}`, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${JWT_TOKEN}`,
+      Authorization: `Bearer ${Storage.getToken()}`,
     },
   });
   return res.data;
@@ -117,9 +117,33 @@ export async function recipeRequestRating({
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${JWT_TOKEN}`,
+        Authorization: `Bearer ${Storage.getToken()}`,
       },
     },
   );
   return res.data;
 }
+
+export const recipeDeleteRequest = async (recipeId: number) => {
+  const res = await customAxios.delete(`/recipes/${recipeId}`, {
+    headers: {
+      Authorization: `Bearer ${Storage.getToken()}`,
+    },
+  });
+
+  return res.data;
+};
+
+export const recipeUpdateRequest = async (
+  recipeId: number,
+  formData: FormData,
+) => {
+  const res = await customAxios.patch(`/recipes/${recipeId}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${Storage.getToken()}`,
+    },
+  });
+
+  return res.data;
+};
