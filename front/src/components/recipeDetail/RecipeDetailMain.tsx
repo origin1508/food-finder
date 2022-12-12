@@ -14,8 +14,10 @@ import { useNavigate } from 'react-router-dom';
 
 const RecipeDetailMain = ({
   recipeDetail,
+  isWriter,
 }: {
   recipeDetail: RecipeDetailInitial;
+  isWriter: boolean;
 }) => {
   const {
     name,
@@ -66,6 +68,16 @@ const RecipeDetailMain = ({
 
           <Like recipeId={recipeId} liked={liked} />
         </BasicInformationContainer>
+        {isWriter && (
+          <RecipeInfoButtonContainer>
+            <RecipeInfoButton
+              onClick={() => navigate(`/recipe/edit/${recipeId}`)}
+            >
+              수정
+            </RecipeInfoButton>
+            <RecipeInfoRemoveButton>삭제</RecipeInfoRemoveButton>
+          </RecipeInfoButtonContainer>
+        )}
       </RecipeInfoContiner>
     </MainContainer>
   );
@@ -165,5 +177,19 @@ const Serving = styled.div`
 const CookingTime = styled.div`
   ${({ theme }) => theme.mixins.flexBox('row')}
   gap: ${({ theme }) => theme.spacingMedium};
+`;
+
+const RecipeInfoButtonContainer = styled.div`
+  ${({ theme }) => theme.mixins.flexBox()};
+  width: 100%;
+  gap: ${({ theme }) => theme.spacingLarge};
+`;
+
+const RecipeInfoButton = styled.button`
+  ${({ theme }) => theme.mixins.mediumButton()};
+`;
+
+const RecipeInfoRemoveButton = styled(RecipeInfoButton)`
+  background-color: ${({ theme }) => theme.errorColor};
 `;
 export default RecipeDetailMain;

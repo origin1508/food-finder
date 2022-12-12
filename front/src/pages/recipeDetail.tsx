@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
-import { isLoginSelector } from '../atom/auth';
+import { authState, isLoginSelector } from '../atom/auth';
 import { useRecipeDetail } from '../hooks/Recipe/useRecipes';
 import styled from 'styled-components';
 import BasePageComponent from '../hoc/BasePageComponent';
@@ -13,21 +13,26 @@ import { PATH } from '../customRouter';
 import RecipeRatingStar from '../components/recipeDetail/RecipeRatingStar';
 
 const RecipeDetail = () => {
+  const [isEditor, setIsEditor] = useState(false);
   const isLogin = useRecoilValue(isLoginSelector);
+  const user = useRecoilValue(authState);
   const navigate = useNavigate();
   const { recipeId } = useParams();
   const { data: recipeDetail } = useRecipeDetail(recipeId!);
   const { ingredient, Steps, RecipeComments } = recipeDetail!;
+  const recipeWriter = recipeDetail?.writer.userId;
+  const userId = user!.userId;
 
   useEffect(() => {
     if (!isLogin) {
       navigate(PATH.LOGIN);
     }
+    recipeWriter === userId ? setIsEditor(true) : setIsEditor(false);
   }, [isLogin, recipeDetail]);
   return (
     <BasePageComponent>
       <RecipeDetailContainer>
-        <RecipeDetailMain recipeDetail={recipeDetail!} />
+        <RecipeDetailMain recipeDetail={recipeDetail!} isEditor={isEditor} />
         <RecipeDetailIngredient ingredient={ingredient} />
         <RecipeSteps steps={Steps} />
         <RecipeRatingStar recipeId={recipeId!} />
