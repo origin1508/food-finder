@@ -7,36 +7,36 @@ import styled from 'styled-components';
 import BasePageComponent from '../hoc/BasePageComponent';
 import { MediumTitle, SmallTitle } from '../styles/commonStyle';
 import RecipeCard from '../components/recipe/RecipeCard';
-import mockData from '../util/mockData';
+import filterList from '../util/filterList';
 import CustomIcon from '../components/icons/CustomIcon';
 import { theme } from '../styles/theme';
 import { PATH } from '../customRouter';
 import { getPhotos } from '../api/authFetcher';
 import { categoryValue, methodValue } from '../atom/filter';
+import { RecipeCollectCard } from '../types/recipe/recipeCardType';
 import LoadingCycle from '../components/alert/Loader';
 
 const CollectRecipes = () => {
   const navigate = useNavigate();
   const [category, setCategory] = useRecoilState(categoryValue);
   const [method, setMethod] = useRecoilState(methodValue);
-  const { filterByType, filterByMethod } = mockData;
+  const { categoryList, methodList } = filterList;
   const { ref, inView } = useInView();
 
-  const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery(
-      ['photos'],
-      async ({ pageParam = '' }) => {
-        return await getPhotos({
-          pageParams: pageParam,
-          method: category === '전체' ? '' : category,
-          category: method === '전체' ? '' : method,
-        });
-      },
-      {
-        getNextPageParam: (lastPage) =>
-          !lastPage.isLast ? lastPage.nextPage : undefined,
-      },
-    );
+  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ['photos'],
+    async ({ pageParam = '' }) => {
+      return await getPhotos({
+        pageParams: pageParam,
+        method: category === '전체' ? '' : category,
+        category: method === '전체' ? '' : method,
+      });
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        !lastPage.isLast ? lastPage.nextPage : undefined,
+    },
+  );
 
   const handleClickDetail = (userId: number) => {
     const recipeDetailPagePath = `/recipe/detail/${userId}`;
@@ -46,6 +46,7 @@ const CollectRecipes = () => {
   if (status === 'loading') return <LoadingCycle />;
 
   useEffect(() => {
+    console.log(data);
     if (inView) fetchNextPage();
   }, [inView]);
 
@@ -60,7 +61,7 @@ const CollectRecipes = () => {
           <Filter>
             <FilterTitle>종류별</FilterTitle>
             <SelectContainer>
-              {filterByType.map((type, index) => (
+              {categoryList.map((type, index) => (
                 <SelectType
                   key={index}
                   itemProp={category}
@@ -79,7 +80,7 @@ const CollectRecipes = () => {
           <Filter>
             <FilterTitle>조리방법별</FilterTitle>
             <SelectContainer>
-              {filterByMethod.map((type, index) => (
+              {methodList.map((type, index) => (
                 <SelectMethod
                   key={index}
                   itemProp={method}
@@ -100,16 +101,16 @@ const CollectRecipes = () => {
           <Wrap>
             {data?.pages.map((page, index) => (
               <React.Fragment key={index}>
-                {page.recipes.map((recipe: any) => (
+                {page.recipes.map((recipe: RecipeCollectCard) => (
                   <RecipeCard
                     key={recipe.dishId}
-                    img={recipe.smallThumbnailUrl}
+                    img={recipe.smallThumbnailUrl!}
                     title={recipe.name}
                     channelUuid={recipe.dishId}
                     views={recipe.views}
                     likes={recipe.likes}
                     onClickDetailPage={() => handleClickDetail(recipe.dishId)}
-                    size="40"
+                    size="42"
                   ></RecipeCard>
                 ))}
               </React.Fragment>
@@ -117,7 +118,6 @@ const CollectRecipes = () => {
           </Wrap>
         </RecipeCards>
         {isFetchingNextPage ? <LoadingCycle /> : <div ref={ref}></div>}
-        {hasNextPage ? <div>다음페이지</div> : <div>마지막 페이지</div>}
       </CollectRecipesContainer>
     </BasePageComponent>
   );
