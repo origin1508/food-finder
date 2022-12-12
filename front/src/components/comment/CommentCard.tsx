@@ -21,7 +21,7 @@ const ContentCard = ({
   recipeId: string;
 }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const { mutate } = useDeleteComment();
+  const { mutate } = useDeleteComment(recipeId);
   const user = useRecoilValue(authState);
   const loginId = user?.userId;
   const commentId = comment.commentId;
@@ -36,6 +36,7 @@ const ContentCard = ({
 
   const handleClickDeleteButton = () => {
     mutate({ commentId });
+    handleModalCloseButtonClick();
   };
 
   return (
