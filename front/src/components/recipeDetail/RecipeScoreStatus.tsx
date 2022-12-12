@@ -23,7 +23,7 @@ const RecipeScoreStatus = ({ score }: { score: number }) => {
     if (score) {
       return ratingStatus(score - 1);
     }
-  }, []);
+  }, [score]);
 
   return (
     <RecipeRaitingContiner>
