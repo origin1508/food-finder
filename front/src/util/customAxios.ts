@@ -31,23 +31,7 @@ customAxios.interceptors.response.use(
       const { statusText, data } = error.response;
       const { message } = data;
       if (statusText === 'Unauthorized') {
-        if (message === '유효기간이 만료된 토큰입니다.') {
-          (async () => {
-            const res = await customAxios.put(
-              'auth/validation/refresh-token',
-              {},
-              {
-                headers: {
-                  Authorization: `Bearer ${Storage.getToken()}`,
-                  'refresh-token': CookieStorage.getToken(),
-                },
-              },
-            );
-            const { result } = res.data;
-            Storage.setToken(result.accessToken);
-            CookieStorage.setToken(result.refreshToken);
-          })();
-        } else if (
+        if (
           message ===
           '유효기간이 만료된 리프레시 토큰입니다. 유저를 로그인 화면으로 보내주세요'
         ) {
@@ -55,7 +39,24 @@ customAxios.interceptors.response.use(
           CookieStorage.clearToken();
           window.location.replace('/login');
         }
+        (async () => {
+          const res = await customAxios.put(
+            'auth/validation/refresh-token',
+            {},
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${Storage.getToken()}`,
+              },
+            },
+          );
+          const { result } = res.data;
+          console.log('재발급성공', result);
+          Storage.setToken(result.accessToken);
+          CookieStorage.setToken(result.refreshToken);
+        })();
       }
+
       return Promise.reject(error);
     } else if (error.response.status >= 500) {
       return AxiosError;
