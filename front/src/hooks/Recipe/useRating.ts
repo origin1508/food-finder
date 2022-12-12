@@ -11,7 +11,6 @@ export default function useRating(recipeId: string) {
     onSuccess: ({ message }) => {
       queryClient.invalidateQueries(['racipeDetail', recipeId]);
       setAlertSuccess({ success: message });
-      location.reload();
     },
     onError: (error: ErrorType) => {
       const errorMessage = error.response.data.message;
