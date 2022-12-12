@@ -197,7 +197,7 @@ export default {
       order: [
         [
           Sequelize.literal(
-            "((`RecipeInformation`.`views` * 1.5) + (COUNT(`RecipeLikes`.`dish_id`) * 1.5) + (IFNULL(AVG(`RecipeStars`.`score`),0) * 1.5)) / ((DATEDIFF(NOW(), `RecipeInformation`.`createdAt`)+1) * 1)"
+            "(`RecipeInformation`.`views` + COUNT(`RecipeLikes`.`dish_id`)) * (IFNULL(AVG(`RecipeStars`.`score`) + 0.5, 1)) / ((DATEDIFF(NOW(), `RecipeInformation`.`updatedAt`) * 0.2) + 1)"
           ),
           "DESC",
         ],
@@ -251,7 +251,7 @@ export default {
         [likes, "likes"],
         [nickname, "nickname"],
       ],
-      where: Sequelize.where(datediff, { [Op.lte]: 7 }),
+      // where: Sequelize.where(datediff, { [Op.lte]: 7 }),
       group: ["dish_id"],
       include: [
         {
@@ -271,11 +271,10 @@ export default {
           where: { user_id: "`User`.`user_id`" },
         },
       ],
-      // (조회수 * 가중치 + 좋아요 * 가중치 + 별점 * 가중치) / (지난날짜 * 가중치)
       order: [
         [
           Sequelize.literal(
-            "((`RecipeInformation`.`views` * 1.5) + (COUNT(`RecipeLikes`.`dish_id`) * 1.5) + (IFNULL(AVG(`RecipeStars`.`score`),0) * 1.5)) / ((DATEDIFF(NOW(), `RecipeInformation`.`createdAt`)+1) * 1)"
+            "(`RecipeInformation`.`views` + COUNT(`RecipeLikes`.`dish_id`)) * (IFNULL(AVG(`RecipeStars`.`score`) + 0.5, 1)) / ((DATEDIFF(NOW(), `RecipeInformation`.`updatedAt`) * 0.2) + 1)"
           ),
           "DESC",
         ],
