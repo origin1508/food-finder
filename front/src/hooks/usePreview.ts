@@ -8,7 +8,10 @@ const usePreview = () => {
     setIsLoading(true);
     if (e.target.files && e.target.files instanceof FileList) {
       const uploadImage = e.target.files[0];
-      if (['image/jpeg', 'image/png'].includes(uploadImage.type)) {
+      if (!uploadImage) {
+        setIsLoading(false);
+        return;
+      } else if (['image/jpeg', 'image/png'].includes(uploadImage.type)) {
         const compressedImage = await imageResize(uploadImage);
         const previewUrl = URL.createObjectURL(compressedImage);
         setIsLoading(false);
