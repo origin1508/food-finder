@@ -14,10 +14,6 @@ router.post("/", upload.single("image"), async (req, res, next) => {
       imageFileName
     );
 
-    fs.unlinkSync(`${uploadPath}/${imageFileName}`, (err) => {
-      next(err);
-    });
-
     res.status(200).json({
       success: true,
       message: "음식 추론",
@@ -25,6 +21,10 @@ router.post("/", upload.single("image"), async (req, res, next) => {
     });
   } catch (err) {
     next(err);
+  } finally {
+    fs.unlinkSync(`${uploadPath}/${imageFileName}`, (err) => {
+      throw err
+    });
   }
 });
 

@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
   "/login",
-  [body("email").exists().isEmail(), body("password").exists().isString().isLength({ min: 8 }],
+  [body("email").exists().isEmail(), body("password").exists().isString().isLength({ min: 8 })],
   async (req, res, next) => {
     const { email, password } = req.body;
     try {
@@ -34,8 +34,8 @@ router.post(
   "/register",
   [
     body("email").exists().isEmail(),
-    body("password").exists().isString().isLength({ min: 8 },
-    body("nickname").exists().isString().isLength({ min: 3 },
+    body("password").exists().isString().isLength({ min: 8 }),
+    body("nickname").exists().isString().isLength({ min: 3 }),
   ],
   async (req, res, next) => {
     const { email, password, nickname } = req.body;
