@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import useSetAlert from './useSetAlert';
 import { SearchValue } from '../types/search/searchType';
+import { LikedRestaurantQuery } from '../types/restaurant/restaurantType';
 import {
   MARKER_IMAGE_URL,
   IMAGE_SIZE_WIDTH,
@@ -23,8 +24,6 @@ const useKakaoMap = (searchResult?: string) => {
     useState<kakao.maps.services.PlacesSearchResult>();
   const [pagination, setPagination] = useState<kakao.maps.Pagination>();
   const [markers, setMakers] = useState<kakao.maps.Marker[]>([]);
-  const [RestaurntBounds, setRestaurntBounds] =
-    useState<kakao.maps.LatLngBounds>();
   const mapRef = useRef<HTMLDivElement>(null);
   const { setAlertError } = useSetAlert();
   const ps = new kakao.maps.services.Places();
@@ -116,28 +115,31 @@ const useKakaoMap = (searchResult?: string) => {
   }, [markers]);
 
   const addRestaurantMarker = useCallback(
-    (x: number, y: number) => {
+    (restaurants: LikedRestaurantQuery['result']) => {
       if (!kakaoMap) return;
-      if (!RestaurntBounds) return;
 
-      removeMarker();
-      const restaurantPosition = new kakao.maps.LatLng(y, x);
-      const markerImage = new kakao.maps.MarkerImage(
-        favoriteMarkerImage,
-        bigImageSize,
-      );
-      const marker = new kakao.maps.Marker({
-        position: restaurantPosition,
-        image: markerImage,
+      const bounds = new kakao.maps.LatLngBounds();
+      restaurants.forEach((restaurant) => {
+        const { map_x, map_y } = restaurant;
+        const restaurantPosition = new kakao.maps.LatLng(map_y, map_x);
+        const markerImage = new kakao.maps.MarkerImage(
+          favoriteMarkerImage,
+          bigImageSize,
+        );
+        const marker = new kakao.maps.Marker({
+          position: restaurantPosition,
+          image: markerImage,
+        });
+        bounds.extend(restaurantPosition);
+        marker.setMap(kakaoMap);
+        setMakers((prev) => {
+          return [...prev, marker];
+        });
+        // displayInfowindow(place, marker);
       });
-      RestaurntBounds.extend(restaurantPosition);
-      marker.setMap(kakaoMap);
-      setMakers((prev) => {
-        return [...prev, marker];
-      });
-      kakaoMap.setBounds(RestaurntBounds);
+      kakaoMap.setBounds(bounds);
     },
-    [kakaoMap, RestaurntBounds, setMakers],
+    [kakaoMap, markers, setMakers],
   );
 
   const displayInfowindow = (
@@ -187,7 +189,7 @@ const useKakaoMap = (searchResult?: string) => {
     placesResult,
     pages,
     currentPage,
-    setRestaurntBounds,
+    removeMarker,
     gotoPage,
     handlePlacesSearch,
     addRestaurantMarker,

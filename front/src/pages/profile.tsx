@@ -5,7 +5,6 @@ import { isLoginSelector, authState } from '../atom/auth';
 import styled from 'styled-components';
 import CurrentUserProfile from '../components/profile/CurrentUserProfile';
 import UserProfile from '../components/profile/UserProfile';
-import LikedRestaurant from '../components/profile/LikedRestaurant';
 import UserRecipe from '../components/profile/UserRecipe';
 import { PATH } from '../customRouter';
 
@@ -33,9 +32,7 @@ const Profile = () => {
         ) : (
           <UserProfile profileOwnerId={profileOwnerId!} />
         )}
-
         <UserRecipe profileOwnerId={profileOwnerId!} />
-        {/* <LikedRestaurant /> */}
       </ContentContainer>
     </Container>
   );
@@ -50,13 +47,12 @@ const Container = styled.article`
 const ContentContainer = styled.div`
   display: grid;
   grid-template-columns: 40% auto;
-  grid-template-rows: repeat(2, 1fr);
   align-items: center;
   justify-items: center;
   gap: ${({ theme }) => `0 ${theme.spacingLargest}`};
   padding: 0 10%;
   width: 100%;
-  height: 200%;
+  height: 100%;
 `;
 
 export default Profile;

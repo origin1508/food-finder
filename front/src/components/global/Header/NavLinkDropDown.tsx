@@ -41,6 +41,9 @@ const NavLinkDropDown = () => {
         <Profile onClick={() => navigate(`/profile/${user?.userId}`)}>
           Profile
         </Profile>
+        <LikedRestaurant onClick={() => navigate(PATH.RESTAURANT)}>
+          Liked Restaurant
+        </LikedRestaurant>
         <Logout onClick={hanldeClickLogout}>Logout</Logout>
       </DropDownContainer>
     </>
@@ -110,6 +113,19 @@ const Profile = styled.div`
   }
 `;
 const Logout = styled.div`
+  ${({ theme }) => theme.mixins.flexBox}
+  font-size: ${({ theme }) => theme.fontSmall};
+  line-height: 1.5;
+  cursor: pointer;
+  width: 100%;
+  height: 30%;
+  background-color: ${({ theme }) => theme.mainWhite};
+  &:hover {
+    color: ${({ theme }) => theme.mainBlack};
+    background-color: ${({ theme }) => theme.lightDarkGrey};
+  }
+`;
+const LikedRestaurant = styled.div`
   ${({ theme }) => theme.mixins.flexBox}
   font-size: ${({ theme }) => theme.fontSmall};
   line-height: 1.5;
