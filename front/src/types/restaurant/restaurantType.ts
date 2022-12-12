@@ -12,6 +12,7 @@ export interface RestaurantInfoCardProps {
   title: string;
   address: string;
   road_address: string;
+  onClick: () => void;
 }
 
 export interface LikedRestaurantQuery {
