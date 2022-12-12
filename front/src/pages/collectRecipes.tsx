@@ -11,7 +11,7 @@ import filterList from '../util/filterList';
 import CustomIcon from '../components/icons/CustomIcon';
 import { theme } from '../styles/theme';
 import { PATH } from '../customRouter';
-import { getPhotos } from '../api/authFetcher';
+import { getRecipesCardInfo } from '../api/recipeFetcher';
 import { categoryValue, methodValue } from '../atom/filter';
 import { RecipeCollectCard } from '../types/recipe/recipeCardType';
 import LoadingCycle from '../components/alert/Loader';
@@ -24,9 +24,9 @@ const CollectRecipes = () => {
   const { ref, inView } = useInView();
 
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-    ['photos'],
+    ['collectRecipesInfo'],
     async ({ pageParam = '' }) => {
-      return await getPhotos({
+      return await getRecipesCardInfo({
         pageParams: pageParam,
         method: category === '전체' ? '' : category,
         category: method === '전체' ? '' : method,
