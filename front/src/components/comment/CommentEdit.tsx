@@ -11,11 +11,12 @@ interface CommentEdit {
 
 const CommentEdit = ({ comment, setIsEdit, recipeId }: CommentEdit) => {
   const { register, handleSubmit } = useFormContext();
-  const { mutate } = useEditComment();
+  const { mutate } = useEditComment(recipeId);
   const { commentId } = comment;
 
   const onSubmit = handleSubmit(({ comment }) => {
     mutate({ commentId, comment });
+    setIsEdit(false);
   });
 
   return (

@@ -1,8 +1,6 @@
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-
 import Comments from './Comments';
-
 import useComment from '../../hooks/Comment/useComment';
 import { Comment } from '../recipeDetail/RecipeComment';
 
@@ -16,13 +14,14 @@ interface CommentFormInitial {
 }
 
 const CommentForm = ({ recipeId, comments }: CommentForm) => {
-  const { mutate: commentMutate, isLoading } = useComment();
-  const { register, handleSubmit } = useForm<CommentFormInitial>({
+  const { mutate: commentMutate } = useComment(recipeId);
+  const { register, handleSubmit, reset } = useForm<CommentFormInitial>({
     mode: 'onChange',
   });
 
   const onSubmit = handleSubmit(({ comment }) => {
     commentMutate({ recipeId: recipeId, comment });
+    reset();
   });
 
   return (
