@@ -4,44 +4,58 @@ import userService from "../services/user.service";
 import { userProfileImageUpload } from "../middlewares/multer";
 import ApiError from "../utils/ApiError";
 import authorizeAccessToken from "../middlewares/accessTokenAuthorization";
+import { body, param } from "express-validator";
 
 const router = express.Router();
 
-router.put("/nickname", authorizeAccessToken, async (req, res, next) => {
-  const userId = req.userId;
-  const { nickname } = req.body;
+router.put(
+  "/nickname",
+  authorizeAccessToken,
+  [body("nickname").exists().isLength({ min: 3 })],
+  async (req, res, next) => {
+    const userId = req.userId;
+    const { nickname } = req.body;
 
-  try {
-    await userService.checkDuplicatedNickname(nickname);
-    const user = await userService.modifyNickname(userId, nickname);
+    try {
+      await userService.checkDuplicatedNickname(nickname);
+      const user = await userService.modifyNickname(userId, nickname);
 
-    res.status(201).json({
-      success: true,
-      message: "닉네임 수정 성공",
-      result: user,
-    });
-  } catch (err) {
-    next(err);
+      res.status(201).json({
+        success: true,
+        message: "닉네임 수정 성공",
+        result: user,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
-router.put("/password", authorizeAccessToken, async (req, res, next) => {
-  const userId = req.userId;
-  const { password, newPassword } = req.body;
+router.put(
+  "/password",
+  authorizeAccessToken,
+  [
+    body("password").exists().isString().isLength({ min: 8 }),
+    body("newPassword").exists().isString().isLength({ min: 8 }),
+  ],
+  async (req, res, next) => {
+    const userId = req.userId;
+    const { password, newPassword } = req.body;
 
-  try {
-    await userService.checkCorrectPassword(userId, password);
-    const user = await userService.modifyPassword(userId, newPassword);
+    try {
+      await userService.checkCorrectPassword(userId, password);
+      const user = await userService.modifyPassword(userId, newPassword);
 
-    res.status(201).json({
-      success: true,
-      message: "비밀번호 수정 성공",
-      result: user,
-    });
-  } catch (err) {
-    next(err);
+      res.status(201).json({
+        success: true,
+        message: "비밀번호 수정 성공",
+        result: user,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.put(
   "/profileImage",
@@ -69,25 +83,31 @@ router.put(
   }
 );
 
-router.get("/:userId/recipes", authorizeAccessToken, async (req, res, next) => {
-  const { userId } = req.params;
+router.get(
+  "/:userId/recipes",
+  authorizeAccessToken,
+  [param("userId").exists()],
+  async (req, res, next) => {
+    const { userId } = req.params;
 
-  try {
-    const recipes = await userService.getRecipes(userId);
+    try {
+      const recipes = await userService.getRecipes(userId);
 
-    res.status(200).json({
-      success: true,
-      message: "내가 작성한 레시피 목록 조회 성공",
-      result: recipes,
-    });
-  } catch (err) {
-    next(err);
+      res.status(200).json({
+        success: true,
+        message: "내가 작성한 레시피 목록 조회 성공",
+        result: recipes,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.get(
   "/:userId/like/recipes",
   authorizeAccessToken,
+  [param("userId").exists()],
   async (req, res, next) => {
     const { userId } = req.params;
 
@@ -108,6 +128,7 @@ router.get(
 router.get(
   "/:userId/like/restaurant",
   authorizeAccessToken,
+  [param("userId").exists()],
   async (req, res, next) => {
     const { userId } = req.params;
 
@@ -125,20 +146,25 @@ router.get(
   }
 );
 
-router.get("/:userId/info", authorizeAccessToken, async (req, res, next) => {
-  const { userId } = req.params;
+router.get(
+  "/:userId/info",
+  authorizeAccessToken,
+  [param("userId").exists()],
+  async (req, res, next) => {
+    const { userId } = req.params;
 
-  try {
-    const userInfo = await userService.getUserInfo(userId);
+    try {
+      const userInfo = await userService.getUserInfo(userId);
 
-    res.status(200).json({
-      success: true,
-      message: "유저 정보 조회 성공",
-      result: userInfo,
-    });
-  } catch (err) {
-    next(err);
+      res.status(200).json({
+        success: true,
+        message: "유저 정보 조회 성공",
+        result: userInfo,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 export default router;

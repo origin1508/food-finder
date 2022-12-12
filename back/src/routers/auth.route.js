@@ -1,47 +1,61 @@
 import express from "express";
 import authService from "../services/auth.service";
 import authorizeRefreshToken from "../middlewares/refreshTokenAuthorization";
+import { body } from "express-validator";
 
 const router = express.Router();
 
-router.post("/login", async (req, res, next) => {
-  const { email, password } = req.body;
-  try {
-    const user = await authService.checkUser(email, password);
-    const accessToken = await authService.generateAccessToken(user.userId);
-    const refreshToken = await authService.generateRefreshToken(user.userId);
+router.post(
+  "/login",
+  [body("email").exists().isEmail(), body("password").exists().isString().isLength({ min: 8 }],
+  async (req, res, next) => {
+    const { email, password } = req.body;
+    try {
+      const user = await authService.checkUser(email, password);
+      const accessToken = await authService.generateAccessToken(user.userId);
+      const refreshToken = await authService.generateRefreshToken(user.userId);
 
-    res.status(200).json({
-      success: true,
-      message: "로그인 성공",
-      result: {
-        accessToken,
-        refreshToken,
-        ...user,
-      },
-    });
-  } catch (err) {
-    next(err);
+      res.status(200).json({
+        success: true,
+        message: "로그인 성공",
+        result: {
+          accessToken,
+          refreshToken,
+          ...user,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
-router.post("/register", async (req, res, next) => {
-  const { email, password, nickname } = req.body;
+router.post(
+  "/register",
+  [
+    body("email").exists().isEmail(),
+    body("password").exists().isString().isLength({ min: 8 },
+    body("nickname").exists().isString().isLength({ min: 3 },
+  ],
+  async (req, res, next) => {
+    const { email, password, nickname } = req.body;
 
-  try {
-    await authService.registerInfo(email, password, nickname);
+    try {
+      await authService.registerInfo(email, password, nickname);
 
-    res.status(201).json({
-      success: true,
-      message: "회원가입 성공",
-    });
-  } catch (err) {
-    next(err);
+      res.status(201).json({
+        success: true,
+        message: "회원가입 성공",
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.put(
   "/validation/refresh-token",
+  [body("userId").exists().isString()],
   authorizeRefreshToken,
   async (req, res, next) => {
     const { userId } = req.body;
