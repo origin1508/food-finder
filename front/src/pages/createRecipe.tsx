@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FormProvider, useForm } from 'react-hook-form';
 import useCreateRecipe from '../hooks/Recipe/useCreateRecipe';
+import Auth from '../hoc/Auth';
 import BasePageComponent from '../hoc/BasePageComponent';
 import RecipeForm from '../components/recipeForm/RecipeForm';
 import { RecipeFormDefaultValue } from '../types/recipe/recipeFormType';
@@ -26,13 +27,15 @@ const CreateRecipe = () => {
   const { mutate: createRecipe } = useCreateRecipe(formState);
 
   return (
-    <BasePageComponent>
-      <FormProvider {...methods}>
-        <RecipeFormContainer>
-          <RecipeForm onSubmit={createRecipe} />
-        </RecipeFormContainer>
-      </FormProvider>
-    </BasePageComponent>
+    <Auth>
+      <BasePageComponent>
+        <FormProvider {...methods}>
+          <RecipeFormContainer>
+            <RecipeForm onSubmit={createRecipe} />
+          </RecipeFormContainer>
+        </FormProvider>
+      </BasePageComponent>
+    </Auth>
   );
 };
 
