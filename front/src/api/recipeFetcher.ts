@@ -145,3 +145,19 @@ export const recipeUpdateRequest = async (
 
   return res.data;
 };
+
+export async function getRecipesCardInfo({
+  pageParams,
+  method,
+  category,
+}: {
+  pageParams: number;
+  method: string;
+  category: string;
+}) {
+  const { data } = await customAxios.get(
+    `/recipes?method=${method}&category=${category}&lastRecipeId=${pageParams}&limit=3`,
+  );
+  const { recipes, isLast, lastRecipeId } = data.result;
+  return { recipes, nextPage: lastRecipeId, isLast };
+}
