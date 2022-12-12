@@ -5,9 +5,8 @@ import CustomIcon from '../icons/CustomIcon';
 
 interface Modal extends BaseComponentType {
   isOpenModal: boolean;
-  onModalAcceptButtonClickEvent?: (commentId: number) => void;
+  onModalAcceptButtonClickEvent: () => void;
   onModalCancelButtonClickEvent: () => void;
-  commentId: number;
 }
 
 const ConfirmModal = ({
@@ -15,7 +14,6 @@ const ConfirmModal = ({
   onModalAcceptButtonClickEvent,
   onModalCancelButtonClickEvent,
   children,
-  commentId,
 }: Modal) => {
   return (
     <ModalBackDrop isOpenModal={isOpenModal}>
@@ -30,9 +28,7 @@ const ConfirmModal = ({
         <ModalTextContainer>{children}</ModalTextContainer>
 
         <ModalButtonContainer>
-          <ModalAcceptButton
-            onClick={() => onModalAcceptButtonClickEvent!(commentId)}
-          >
+          <ModalAcceptButton onClick={onModalAcceptButtonClickEvent}>
             ACCEPT
           </ModalAcceptButton>
           <ModalButton onClick={onModalCancelButtonClickEvent}>
