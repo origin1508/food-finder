@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
@@ -17,7 +17,6 @@ import LoadingCycle from '../components/alert/Loader';
 
 const CollectRecipes = () => {
   const navigate = useNavigate();
-
   const [category, setCategory] = useRecoilState(categoryValue);
   const [method, setMethod] = useRecoilState(methodValue);
   const { filterByType, filterByMethod } = mockData;
@@ -29,8 +28,8 @@ const CollectRecipes = () => {
       async ({ pageParam = '' }) => {
         return await getPhotos({
           pageParams: pageParam,
-          method: category,
-          category: method,
+          method: category === '전체' ? '' : category,
+          category: method === '전체' ? '' : method,
         });
       },
       {
@@ -38,6 +37,12 @@ const CollectRecipes = () => {
           !lastPage.isLast ? lastPage.nextPage : undefined,
       },
     );
+
+  const handleClickDetail = (userId: number) => {
+    const recipeDetailPagePath = `/recipe/detail/${userId}`;
+    navigate(recipeDetailPagePath);
+  };
+
   if (status === 'loading') return <LoadingCycle />;
 
   useEffect(() => {
@@ -48,7 +53,7 @@ const CollectRecipes = () => {
     <BasePageComponent>
       <CollectRecipesContainer>
         <Title>맛있고 다양한 레시피 !</Title>
-        <PrevButton onClick={() => navigate(PATH.MAIN)}>
+        <PrevButton onClick={() => navigate(PATH.RECIPE)}>
           <CustomIcon name="prev" size="50" color={theme.mainBlack} />
         </PrevButton>
         <FilterContainer>
@@ -62,7 +67,7 @@ const CollectRecipes = () => {
                   itemType={type}
                   name={type}
                   onClick={() => {
-                    setCategory(type === '전체' ? '' : type);
+                    setCategory(type);
                     location.reload();
                   }}
                 >
@@ -81,7 +86,7 @@ const CollectRecipes = () => {
                   itemType={type}
                   name={type}
                   onClick={() => {
-                    setMethod(type === '전체' ? '' : type);
+                    setMethod(type);
                     location.reload();
                   }}
                 >
@@ -103,7 +108,7 @@ const CollectRecipes = () => {
                     channelUuid={recipe.dishId}
                     views={recipe.views}
                     likes={recipe.likes}
-                    onClickDetailPage={() => console.log('click')}
+                    onClickDetailPage={() => handleClickDetail(recipe.dishId)}
                     size="40"
                   ></RecipeCard>
                 ))}
