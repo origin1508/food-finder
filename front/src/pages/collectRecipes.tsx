@@ -23,20 +23,21 @@ const CollectRecipes = () => {
   const { categoryList, methodList } = filterList;
   const { ref, inView } = useInView();
 
-  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-    ['photos'],
-    async ({ pageParam = '' }) => {
-      return await getPhotos({
-        pageParams: pageParam,
-        method: category === '전체' ? '' : category,
-        category: method === '전체' ? '' : method,
-      });
-    },
-    {
-      getNextPageParam: (lastPage) =>
-        !lastPage.isLast ? lastPage.nextPage : undefined,
-    },
-  );
+  const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery(
+      ['photos'],
+      async ({ pageParam = '' }) => {
+        return await getPhotos({
+          pageParams: pageParam,
+          method: category === '전체' ? '' : category,
+          category: method === '전체' ? '' : method,
+        });
+      },
+      {
+        getNextPageParam: (lastPage) =>
+          !lastPage.isLast ? lastPage.nextPage : undefined,
+      },
+    );
 
   const handleClickDetail = (userId: number) => {
     const recipeDetailPagePath = `/recipe/detail/${userId}`;
@@ -46,7 +47,6 @@ const CollectRecipes = () => {
   if (status === 'loading') return <LoadingCycle />;
 
   useEffect(() => {
-    console.log(data);
     if (inView) fetchNextPage();
   }, [inView]);
 
@@ -117,7 +117,7 @@ const CollectRecipes = () => {
             ))}
           </Wrap>
         </RecipeCards>
-        {isFetchingNextPage ? <LoadingCycle /> : <div ref={ref}></div>}
+        {isFetchingNextPage ? <LoadingCycle /> : <Div ref={ref}></Div>}
       </CollectRecipesContainer>
     </BasePageComponent>
   );
@@ -195,5 +195,9 @@ const PrevButton = styled.div`
   cursor: pointer;
   top: 3vh;
   left: 13%;
+`;
+
+const Div = styled.div`
+  height: 10rem;
 `;
 export default CollectRecipes;
