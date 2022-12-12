@@ -6,15 +6,15 @@ const RestaurantInfoCard = ({
   title,
   address,
   road_address,
+  onClick,
 }: RestaurantInfoCardProps) => {
   return (
-    <RestaurantInfoContainer>
+    <RestaurantInfoContainer onClick={onClick}>
       <Marker src={favoriteMarkerImage}></Marker>
       <RestaurantInfo>
         <RestaurntName>{title}</RestaurntName>
         <RestaurntAddress>{road_address}</RestaurntAddress>
         <RestaurntSubAddress>{address}</RestaurntSubAddress>
-        {/* <RestaurntTelNumber>02-473-7704</RestaurntTelNumber> */}
       </RestaurantInfo>
     </RestaurantInfoContainer>
   );
@@ -25,6 +25,7 @@ export default RestaurantInfoCard;
 const RestaurantInfoContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
+  cursor: pointer;
 `;
 
 const RestaurantInfo = styled.div`
@@ -46,8 +47,4 @@ const RestaurntAddress = styled.p``;
 
 const RestaurntSubAddress = styled.p`
   color: ${({ theme }) => theme.darkGrey};
-`;
-
-const RestaurntTelNumber = styled.p`
-  color: ${({ theme }) => theme.themeColor};
 `;
