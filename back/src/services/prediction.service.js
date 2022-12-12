@@ -14,7 +14,7 @@ export default {
             args: [imageFileName],
             encoding: "utf8",
           },
-          function (err, results) {
+          (err, results) => {
             if (err) throw err;
             const data = results[0].replace(`b\'`, "").replace(`\'`, "");
             const buffer = Buffer.from(data, "base64");
