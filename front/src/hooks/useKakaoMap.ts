@@ -79,7 +79,7 @@ const useKakaoMap = (searchResult?: string) => {
       removeMarker();
       const bounds = new kakao.maps.LatLngBounds();
       result.forEach((place, index) => {
-        const { x, y } = place;
+        const { x, y, place_name } = place;
         const placePosition = new kakao.maps.LatLng(Number(y), Number(x));
         const imgOptions = {
           spriteSize: spriteSize,
@@ -100,7 +100,7 @@ const useKakaoMap = (searchResult?: string) => {
         setMakers((prev) => {
           return [...prev, marker];
         });
-        displayInfowindow(place, marker);
+        displayInfowindow(place_name, marker);
       });
       kakaoMap.setBounds(bounds);
     },
@@ -120,7 +120,7 @@ const useKakaoMap = (searchResult?: string) => {
 
       const bounds = new kakao.maps.LatLngBounds();
       restaurants.forEach((restaurant) => {
-        const { map_x, map_y } = restaurant;
+        const { map_x, map_y, title } = restaurant;
         const restaurantPosition = new kakao.maps.LatLng(map_y, map_x);
         const markerImage = new kakao.maps.MarkerImage(
           favoriteMarkerImage,
@@ -135,20 +135,17 @@ const useKakaoMap = (searchResult?: string) => {
         setMakers((prev) => {
           return [...prev, marker];
         });
-        // displayInfowindow(place, marker);
+        displayInfowindow(title, marker);
       });
       kakaoMap.setBounds(bounds);
     },
     [kakaoMap, markers, setMakers],
   );
 
-  const displayInfowindow = (
-    place: kakao.maps.services.PlacesSearchResultItem,
-    marker: kakao.maps.Marker,
-  ) => {
+  const displayInfowindow = (title: string, marker: kakao.maps.Marker) => {
     if (!kakaoMap) return;
     const content =
-      '<div style="padding: 1rem;">' + `<p>${place.place_name}</p>` + '</div>';
+      '<div style="padding: 1rem;">' + `<p>${title}</p>` + '</div>';
 
     kakao.maps.event.addListener(marker, 'mouseover', () => {
       infowindow.setContent(content);
