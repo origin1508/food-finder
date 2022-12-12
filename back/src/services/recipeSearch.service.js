@@ -1,10 +1,15 @@
 import ApiError from "../utils/ApiError";
 import RecipeModel from "../db/model/recipe.model";
 
-const getMultipleRandom = (arr, num) => {
-  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+const getMultipleRandom = (arrayOfDishId, num) => {
+  const arr = [];
+  while (arr.length < num) {
+    let randInt = Math.floor(Math.random() * arrayOfDishId.length);
+    randInt = parseInt(arrayOfDishId[randInt]);
+    if (arr.indexOf(randInt) === -1) arr.push(randInt);
+  }
 
-  return shuffled.slice(0, num);
+  return arr;
 };
 
 export default {
