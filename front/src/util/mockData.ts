@@ -101,7 +101,7 @@ const mockData = {
       index: 10,
     },
   ],
-  filterByType: ['전체', '밥', '반찬', '후식', '국&찌개'],
+  filterByType: ['전체', '밥', '반찬', '후식', '국&찌개', '면', '탕'],
   filterByMethod: ['전체', '볶기', '찌기', '튀기기', '끓이기', '굽기', '기타'],
 
   auth: {
@@ -193,83 +193,63 @@ const mockData = {
 
   comments: [
     {
-      writerUser: {
-        imageUrl:
+      user: {
+        profileUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
-        name: '들자구',
-        id: 9,
+        nickname: '들자구',
+        userId: 9,
       },
-      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      content: '안녕하세요 ~ 정말 맛있네요 ',
       id: 12,
     },
     {
-      writerUser: {
-        imageUrl:
+      user: {
+        profileUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
-        name: '들자구',
-        id: 12,
+        nickname: '들자구',
+        userId: 9,
       },
-      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      content: '안녕하세요 ~ 정말 맛있네요 ',
       id: 12,
     },
     {
-      writerUser: {
-        imageUrl:
+      user: {
+        profileUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
-        name: '들자구',
-        id: 12,
+        nickname: '들자구',
+        userId: 9,
       },
-      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      content: '안녕하세요 ~ 정말 맛있네요 ',
       id: 12,
     },
     {
-      writerUser: {
-        imageUrl:
+      user: {
+        profileUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
-        name: '들자구',
-        id: 12,
+        nickname: '들자구',
+        userId: 9,
       },
-      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      content: '안녕하세요 ~ 정말 맛있네요 ',
       id: 12,
     },
     {
-      writerUser: {
-        imageUrl:
+      user: {
+        profileUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
-        name: '들자구',
-        id: 12,
+        nickname: '들자구',
+        userId: 9,
       },
-      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      content: '안녕하세요 ~ 정말 맛있네요 ',
       id: 12,
     },
     {
-      writerUser: {
-        imageUrl:
+      user: {
+        profileUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
-        name: '들자구',
-        id: 12,
+        nickname: '들자구',
+        userId: 9,
       },
-      comment: '안녕하세요 ~ 정말 맛있네요 ',
-      id: 12,
-    },
-    {
-      writerUser: {
-        imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
-        name: '들자구',
-        id: 12,
-      },
-      comment: '안녕하세요 ~ 정말 맛있네요 ',
-      id: 12,
-    },
-    {
-      writerUser: {
-        imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5wHDD6sXA3M1EhvtDL6MC38-6G27SiCg7g&usqp=CAU',
-        name: '들자구',
-        id: 12,
-      },
-      comment: '안녕하세요 ~ 정말 맛있네요 ',
+      content: '안녕하세요 ~ 정말 맛있네요 ',
       id: 12,
     },
   ],

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
+import { useRecoilState } from 'recoil';
 import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
 import BasePageComponent from '../hoc/BasePageComponent';
@@ -11,24 +12,30 @@ import CustomIcon from '../components/icons/CustomIcon';
 import { theme } from '../styles/theme';
 import { PATH } from '../customRouter';
 import { getPhotos } from '../api/authFetcher';
+import { categoryValue, methodValue } from '../atom/filter';
 import LoadingCycle from '../components/alert/Loader';
 
 const CollectRecipes = () => {
   const navigate = useNavigate();
-  const [selectKind, setSelectKind] = useState('전체');
-  const [selectMethod, setSelectMethod] = useState('전체');
+
+  const [category, setCategory] = useRecoilState(categoryValue);
+  const [method, setMethod] = useRecoilState(methodValue);
   const { filterByType, filterByMethod } = mockData;
   const { ref, inView } = useInView();
+
   const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery(
       ['photos'],
-      async ({ pageParam = 1 }) => {
-        return await getPhotos(pageParam);
+      async ({ pageParam = '' }) => {
+        return await getPhotos({
+          pageParams: pageParam,
+          method: category,
+          category: method,
+        });
       },
       {
-        getNextPageParam: (lastPage) => {
-          return lastPage.nextPage;
-        },
+        getNextPageParam: (lastPage) =>
+          !lastPage.isLast ? lastPage.nextPage : undefined,
       },
     );
   if (status === 'loading') return <LoadingCycle />;
@@ -51,10 +58,13 @@ const CollectRecipes = () => {
               {filterByType.map((type, index) => (
                 <SelectType
                   key={index}
-                  itemProp={selectKind}
+                  itemProp={category}
                   itemType={type}
                   name={type}
-                  onClick={() => setSelectKind(type)}
+                  onClick={() => {
+                    setCategory(type === '전체' ? '' : type);
+                    location.reload();
+                  }}
                 >
                   {type}
                 </SelectType>
@@ -67,10 +77,13 @@ const CollectRecipes = () => {
               {filterByMethod.map((type, index) => (
                 <SelectMethod
                   key={index}
-                  itemProp={selectMethod}
+                  itemProp={method}
                   itemType={type}
                   name={type}
-                  onClick={() => setSelectMethod(type)}
+                  onClick={() => {
+                    setMethod(type === '전체' ? '' : type);
+                    location.reload();
+                  }}
                 >
                   {type}
                 </SelectMethod>
@@ -82,16 +95,16 @@ const CollectRecipes = () => {
           <Wrap>
             {data?.pages.map((page, index) => (
               <React.Fragment key={index}>
-                {page.data.map((photo: any) => (
+                {page.recipes.map((recipe: any) => (
                   <RecipeCard
-                    key={photo.id}
-                    img={photo.urls.raw}
-                    title={photo.id}
-                    channelUuid={photo.id}
-                    views={photo.likes}
-                    likes={photo.likes}
-                    creator={photo.id}
+                    key={recipe.dishId}
+                    img={recipe.smallThumbnailUrl}
+                    title={recipe.name}
+                    channelUuid={recipe.dishId}
+                    views={recipe.views}
+                    likes={recipe.likes}
                     onClickDetailPage={() => console.log('click')}
+                    size="40"
                   ></RecipeCard>
                 ))}
               </React.Fragment>
