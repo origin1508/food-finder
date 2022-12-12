@@ -2,7 +2,6 @@ import customAxios from '../util/customAxios';
 import Storage from '../storage/storage';
 import CookieStorage from '../storage/cookie';
 import { AuthFormInitial, EditImageForm } from '../types/auth';
-import customAxios2 from '../util/customAixos2';
 
 export async function authRegisterRequest(registerForm: AuthFormInitial) {
   const res = await customAxios.post('/auth/register', registerForm, {

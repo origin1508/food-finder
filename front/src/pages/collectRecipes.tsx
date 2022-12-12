@@ -23,21 +23,20 @@ const CollectRecipes = () => {
   const { categoryList, methodList } = filterList;
   const { ref, inView } = useInView();
 
-  const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery(
-      ['photos'],
-      async ({ pageParam = '' }) => {
-        return await getPhotos({
-          pageParams: pageParam,
-          method: category === '전체' ? '' : category,
-          category: method === '전체' ? '' : method,
-        });
-      },
-      {
-        getNextPageParam: (lastPage) =>
-          !lastPage.isLast ? lastPage.nextPage : undefined,
-      },
-    );
+  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ['photos'],
+    async ({ pageParam = '' }) => {
+      return await getPhotos({
+        pageParams: pageParam,
+        method: category === '전체' ? '' : category,
+        category: method === '전체' ? '' : method,
+      });
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        !lastPage.isLast ? lastPage.nextPage : undefined,
+    },
+  );
 
   const handleClickDetail = (userId: number) => {
     const recipeDetailPagePath = `/recipe/detail/${userId}`;
