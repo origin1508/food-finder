@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { AxiosError } from 'axios';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { FormState } from 'react-hook-form';
 import useSetAlert from '../useSetAlert';
@@ -8,9 +8,11 @@ import imageResize from '../../util/imageResize';
 import { createRecipeRequest } from '../../api/recipeFetcher';
 import { RecipeFormDefaultValue } from '../../types/recipe/recipeFormType';
 import { FORM_FIELDS } from '../../constants/recipeForm';
+import { PATH } from '../../customRouter';
 
 const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { setAlertSuccess, setAlertError } = useSetAlert();
   const { errors, submitCount } = formState;
   useEffect(() => {
@@ -42,12 +44,12 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
     const stepImages = Array<File>();
     const recipeThumbnail = await imageResize(mainImage.files[0]);
     const steps = await instructions.reduce(async (acc, cur, idx) => {
+      const prevResult = await acc.then();
       const { description, image } = cur;
-      const compressedImage = await imageResize(image[0]);
+      const compressedImage = await imageResize(image[0]).then();
       compressedImage && stepImages.push(compressedImage);
-      stepImages.push(image[0]);
-      return { ...acc, [idx + 1]: description };
-    }, {});
+      return { ...prevResult, [idx + 1]: description };
+    }, Promise.resolve({}));
     const formData = new FormData();
     formData.append('name', name);
     formData.append('method', method);
@@ -68,7 +70,8 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
     onSuccess: (data) => {
       const { message } = data;
       setAlertSuccess({ success: message });
-      navigate('/collectRecipes');
+      queryClient.invalidateQueries('photos');
+      navigate(PATH.COLLECT_RECIPES);
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
