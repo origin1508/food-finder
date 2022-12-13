@@ -20,6 +20,7 @@ const RecipeDetail = () => {
   const { recipeId } = useParams();
   const { data: recipeDetail } = useRecipeDetail(recipeId!);
   const { ingredient, Steps, RecipeComments, myStar } = recipeDetail!;
+  const ingredients = JSON.parse(ingredient);
   const recipeWriter = recipeDetail?.writer.userId;
   const userId = user!.userId;
 
@@ -33,7 +34,7 @@ const RecipeDetail = () => {
     <BasePageComponent>
       <RecipeDetailContainer>
         <RecipeDetailMain recipeDetail={recipeDetail!} isEditor={isEditor} />
-        <RecipeDetailIngredient ingredient={ingredient} />
+        <RecipeDetailIngredient ingredients={ingredients} />
         <RecipeSteps steps={Steps} />
         <RecipeRatingStar recipeId={recipeId!} myStar={myStar} />
         <RecipeComment comments={RecipeComments} recipeId={recipeId!} />
