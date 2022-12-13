@@ -68,13 +68,13 @@ const CurrentUserProfile = () => {
   }, [profileImg]);
 
   return (
-    <>
-      <ProfileCardContainer>
-        <UserInfoContainer>
-          <UserInfoHeader>
-            <Title>User Info</Title>
-            <SubTitle>유저 정보</SubTitle>
-          </UserInfoHeader>
+    <ProfileCardContainer>
+      <UserInfoContainer>
+        <UserInfoHeader>
+          <Title>User Info</Title>
+          <SubTitle>유저 정보</SubTitle>
+        </UserInfoHeader>
+        <UserInfoMain>
           <UserImgContainer>
             <UserImg
               src={
@@ -90,32 +90,32 @@ const CurrentUserProfile = () => {
           </UserImgContainer>
           <Name>{user?.nickname}</Name>
           <Email>{user?.email}</Email>
-        </UserInfoContainer>
+        </UserInfoMain>
+      </UserInfoContainer>
 
-        {!isPasswordEditing ? (
-          <NicknameEditFrom
-            user={user!}
-            register={register}
-            errors={errors}
-            onSubmit={onSubmit}
-            setIsPasswordEditing={setIsPasswordEditing}
-            setAlertLoading={setAlertLoading}
-          />
-        ) : null}
-        {isPasswordEditing ? (
-          <PasswordEditForm
-            user={user!}
-            setIsPasswordEditing={setIsPasswordEditing}
-            setAlertLoading={setAlertLoading}
-          />
-        ) : null}
-      </ProfileCardContainer>
-    </>
+      {!isPasswordEditing ? (
+        <NicknameEditFrom
+          user={user!}
+          register={register}
+          errors={errors}
+          onSubmit={onSubmit}
+          setIsPasswordEditing={setIsPasswordEditing}
+          setAlertLoading={setAlertLoading}
+        />
+      ) : null}
+      {isPasswordEditing ? (
+        <PasswordEditForm
+          user={user!}
+          setIsPasswordEditing={setIsPasswordEditing}
+          setAlertLoading={setAlertLoading}
+        />
+      ) : null}
+    </ProfileCardContainer>
   );
 };
 
 const ProfileCardContainer = styled.section`
-  width: 100%;
+  width: 60vh;
   height: 80vh;
   background-color: ${({ theme }) => theme.mainWhite};
   border-radius: 1rem;
@@ -124,12 +124,15 @@ const ProfileCardContainer = styled.section`
 `;
 
 const UserInfoContainer = styled.div`
-  ${({ theme }) => theme.mixins.flexBox('column')}
-  padding: 2rem 0;
+  padding-top: 2rem;
 `;
 
 const UserInfoHeader = styled.div`
   ${RecipeDetailHeader}
+`;
+const UserInfoMain = styled.div`
+  padding-top: 2rem;
+  ${({ theme }) => theme.mixins.flexBox('column')}
 `;
 const Title = styled.h3`
   ${RecipeDetailTitleStyle}
@@ -144,7 +147,6 @@ const UserImgContainer = styled.div`
   overflow: hidden;
   border-radius: 50%;
   position: relative;
-  margin: 0 auto;
   margin-bottom: ${({ theme }) => theme.spacingSemiMedium};
   border: 1px solid #ddd;
   cursor: pointer;

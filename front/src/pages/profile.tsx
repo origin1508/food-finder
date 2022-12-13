@@ -39,20 +39,14 @@ const Profile = () => {
 };
 
 const Container = styled.article`
-  width: 100%;
+  ${({ theme }) => theme.mixins.flexBox()}
   height: 100vh;
-  padding-top: 8vh;
+  padding-top: 4vh;
 `;
 
 const ContentContainer = styled.div`
-  display: grid;
-  grid-template-columns: 40% auto;
-  align-items: center;
-  justify-items: center;
+  ${({ theme }) => theme.mixins.flexBox()}
   gap: ${({ theme }) => `0 ${theme.spacingLargest}`};
-  padding: 0 10%;
-  width: 100%;
-  height: 100%;
 `;
 
 export default Profile;

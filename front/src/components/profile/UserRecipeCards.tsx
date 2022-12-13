@@ -50,24 +50,26 @@ const UserRecipeCards = ({ recipes, children }: UserRecipeCards) => {
 };
 
 const UserRecipeCardsContainer = styled.div`
-  position: relative;
+  width: 100%;
   ${({ theme }) => theme.mixins.flexBox('column')};
   gap: 2rem;
+  padding 0 3vh;
 `;
 
 const RecipeCards = styled.div`
-  max-width: 68vh;
-  height: 21vh;
+  width: 100%;
+  height: 25vh;
   overflow: hidden;
 `;
 const Wrap = styled.div`
 display: flex;
 height: 100%;
 flex-flow: row wrap;
-padding:0 1rem;
-justify-content: space-between;
-gap: 2rem;
+gap: 2.5vh;
 overflow-y: scroll;
+&::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
 &:: {
   ::after {
     content: "";
@@ -76,6 +78,8 @@ overflow-y: scroll;
 `;
 
 const Text = styled.p`
+  ${({ theme }) => theme.mixins.flexBox()}
+  width: 100%;
   ${({ theme }) =>
     theme.mixins.title(
       theme.fontSemiMedium,

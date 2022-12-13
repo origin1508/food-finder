@@ -38,7 +38,7 @@ const UserRecipe = ({ profileOwnerId }: { profileOwnerId: string }) => {
 };
 
 const UserRecipeContainer = styled.section`
-  width: 100%;
+  width: 72vh;
   height: 80vh;
   background-color: ${({ theme }) => theme.mainWhite};
   border-radius: 1rem;
