@@ -17,7 +17,7 @@ const Profile = lazy(() => import('../pages/profile'));
 const SearchResult = lazy(() => import('../pages/searchResult'));
 const ReacipeDetail = lazy(() => import('../pages/recipeDetail'));
 const EditRecipe = lazy(() => import('../pages/editRecipe'));
-const Restaurant = lazy(() => import('../pages/restaurnt'));
+const LikedRestaurant = lazy(() => import('../pages/likedRestaurant'));
 
 export const PATH = {
   MAIN: '/',
@@ -49,7 +49,7 @@ const CustomRouter = () => {
             <Route path={PATH.CREATE_RECIPE} element={<CreateRecipe />} />
             <Route path={PATH.COLLECT_RECIPES} element={<CollectRecipes />} />
             <Route path={PATH.PROFILE} element={<Profile />} />
-            <Route path={PATH.RESTAURANT} element={<Restaurant />} />
+            <Route path={PATH.RESTAURANT} element={<LikedRestaurant />} />
             <Route path={PATH.SEARCH_RESULT} element={<SearchResult />} />
             <Route path={PATH.RECIPE_DETAIL} element={<ReacipeDetail />} />
             <Route path={PATH.EDIT_RECIPE} element={<EditRecipe />} />
