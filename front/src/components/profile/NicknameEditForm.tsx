@@ -1,13 +1,8 @@
-import { useForm } from 'react-hook-form';
-import { AuthFormInitial } from '../../types/auth';
-import useEditNickname from '../../hooks/Auth/useEditNickname';
 import styled from 'styled-components';
-import { theme } from '../../styles/theme';
 import { UserInfoEdit } from '../../types/user';
 
 const NicknameEditFrom = ({
   setIsPasswordEditing,
-  setAlertLoading,
   user,
   errors,
   register,
