@@ -18,11 +18,14 @@ const RecipeDetail = () => {
   const user = useRecoilValue(authState);
   const navigate = useNavigate();
   const { recipeId } = useParams();
-  const { data: recipeDetail } = useRecipeDetail(recipeId!);
+  if (recipeId === undefined) return null;
+  const { data: recipeDetail } = useRecipeDetail(recipeId);
   const { ingredient, Steps, RecipeComments, myStar } = recipeDetail!;
   const ingredients = JSON.parse(ingredient);
   const recipeWriter = recipeDetail?.writer.userId;
-  const userId = user!.userId;
+  const userId = user?.userId;
+
+  if (recipeDetail === undefined) return null;
 
   useEffect(() => {
     if (!isLogin) {
@@ -33,11 +36,11 @@ const RecipeDetail = () => {
   return (
     <BasePageComponent>
       <RecipeDetailContainer>
-        <RecipeDetailMain recipeDetail={recipeDetail!} isEditor={isEditor} />
+        <RecipeDetailMain recipeDetail={recipeDetail} isEditor={isEditor} />
         <RecipeDetailIngredient ingredients={ingredients} />
         <RecipeSteps steps={Steps} />
-        <RecipeRatingStar recipeId={recipeId!} myStar={myStar} />
-        <RecipeComment comments={RecipeComments} recipeId={recipeId!} />
+        <RecipeRatingStar recipeId={recipeId} myStar={myStar} />
+        <RecipeComment comments={RecipeComments} recipeId={recipeId} />
       </RecipeDetailContainer>
     </BasePageComponent>
   );

@@ -8,9 +8,10 @@ import { authState } from '../../atom/auth';
 
 const Like = ({ recipeId, liked }: { recipeId: number; liked: boolean }) => {
   const user = useRecoilValue(authState);
+  if (user?.userId === undefined) return null;
   const [isLiked, isSetLiked] = useState(false);
-  const { mutate: setLike } = useLike(user?.userId!, String(recipeId));
-  const { mutate: setUnLike } = useUnLike(user?.userId!, String(recipeId));
+  const { mutate: setLike } = useLike(user?.userId, String(recipeId));
+  const { mutate: setUnLike } = useUnLike(user?.userId, String(recipeId));
 
   const handleClickLike = async (e: React.FormEvent) => {
     e.preventDefault();

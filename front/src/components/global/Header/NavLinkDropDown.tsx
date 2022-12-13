@@ -30,7 +30,7 @@ const NavLinkDropDown = () => {
     if (
       isDropdownOpen &&
       navLinkDropdownRef.current &&
-      !navLinkDropdownRef.current.contains(event.target as any)
+      !navLinkDropdownRef.current.contains(event.target as Node)
     ) {
       setIsDropdownOpen(false);
     }

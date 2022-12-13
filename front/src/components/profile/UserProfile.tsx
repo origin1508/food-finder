@@ -31,7 +31,7 @@ const UserProfile = ({ profileOwnerId }: { profileOwnerId: string }) => {
       <UserInfoContainer>
         <Text>Welcome to my pfofile</Text>
         <UserImgContainer>
-          <UserImg src={user?.profileUrl!} alt="userImg" />
+          <UserImg src={user?.profileUrl} alt="userImg" />
         </UserImgContainer>
         <Name>{user?.nickname}</Name>
         <Email>{user?.email}</Email>
