@@ -160,19 +160,15 @@ export default {
     };
   },
   async addComment({ userId, content, dishId }) {
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    const createdComment = await recipeModel.createRecipeComment({
-      userId,
-      content,
-      dishId,
-    });
+    const createdComment = await recipeModel
+      .createRecipeComment({
+        userId,
+        content,
+        dishId,
+      })
+      .catch((error) => {
+        throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+      });
 
     return createdComment;
   },
