@@ -7,6 +7,7 @@ import CustomIcon from '../icons/CustomIcon';
 import { searchResultState } from '../../atom/searchResult';
 import { SearchValue } from '../../types/search/searchType';
 import { BigTitle, MediumTitle } from '../../styles/commonStyle';
+import backgroundImage from '../../assets/background.jpg';
 
 const RecipeResult = ({ keyword }: SearchValue) => {
   const searchResult = useRecoilValue(searchResultState);
@@ -104,11 +105,11 @@ const RecipeResultImg = styled.div<{ url: string }>`
   height: 40vh;
   width: 100vw;
   text-align: center;
-  ${({ url }) => `background-image: url('${url}')`};
+  background-image: ${({ url }) =>
+    url ? `url(${url});` : `url(${backgroundImage});`}
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-color: ${({ theme }) => theme.mainBlack};
   transition: background-image 1.5s;
 `;
 
