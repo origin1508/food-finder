@@ -15,18 +15,49 @@ export default {
       postsPerPage: +postsPerPage + 1,
     });
 
+    const refinedRecipes = recipes.map((recipe) => {
+      const {
+        dishId,
+        name,
+        method,
+        category,
+        smallThumbnailUrl,
+        largeThumbnailUrl,
+        views,
+        likes,
+        nickname,
+        userId,
+        profileUrl,
+      } = recipe;
+      return {
+        dishId,
+        name,
+        method,
+        category,
+        smallThumbnailUrl,
+        largeThumbnailUrl,
+        views,
+        likes,
+        writer: {
+          userId,
+          nickname,
+          profileUrl,
+        },
+      };
+    });
+
     let recipesObject;
     if (recipes.length > postsPerPage) {
       recipesObject = {
-        recipes: recipes.slice(undefined, postsPerPage),
+        recipes: refinedRecipes.slice(undefined, postsPerPage),
         isLast: false,
-        lastRecipeId: recipes[recipes.length - 2]?.dishId,
+        lastRecipeId: refinedRecipes[refinedRecipes.length - 2]?.dishId,
       };
     } else {
       recipesObject = {
-        recipes: recipes,
+        recipes: refinedRecipes,
         isLast: true,
-        lastRecipeId: recipes[recipes.length - 1]?.dishId,
+        lastRecipeId: refinedRecipes[refinedRecipes.length - 1]?.dishId,
       };
     }
 
