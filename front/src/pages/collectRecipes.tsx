@@ -28,8 +28,8 @@ const CollectRecipes = () => {
     async ({ pageParam = '' }) => {
       return await getRecipesCardInfo({
         pageParams: pageParam,
-        method: category === '전체' ? '' : category,
-        category: method === '전체' ? '' : method,
+        method: method === '전체' ? '' : method,
+        category: category === '전체' ? '' : category,
       });
     },
     {
