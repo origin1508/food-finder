@@ -134,21 +134,21 @@ export default {
       userId,
     });
 
-    const createdSteps = [];
+    const listForCreate = [];
     let stepImagesIndex = 0;
 
-    // FIXME: bulk insert 고려
     for (let stepObject of parsedSteps) {
-      const createdStep = await recipeModel.createStep({
+      listForCreate.push({
         content: stepObject.content,
-        imageUrl: stepImages[stepImagesIndex].location,
+        image_url: stepImages[stepImagesIndex].location,
         step: stepObject.step,
-        dishId: createdRecipeInformation.dish_id,
+        dish_id: createdRecipeInformation.dish_id,
       });
 
-      createdSteps.push(createdStep);
       stepImagesIndex += 1;
     }
+
+    const createdSteps = await recipeModel.createStepUsingBulk(listForCreate);
 
     return {
       recipeInformation: { ...createdRecipeInformation.dataValues },

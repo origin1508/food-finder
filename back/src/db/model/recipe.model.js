@@ -384,6 +384,12 @@ export default {
     return createdStep;
   },
 
+  async createStepUsingBulk(listForCreate) {
+    const createdStep = await Step.bulkCreate(listForCreate);
+
+    return createdStep;
+  },
+
   async createRecipeComment({ userId, dishId, content }) {
     const createdComment = await RecipeComment.create({
       content,
