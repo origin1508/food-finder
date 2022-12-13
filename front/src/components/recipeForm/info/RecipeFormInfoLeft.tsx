@@ -32,13 +32,14 @@ const RecipeFormInfoLeft = () => {
             </RecipeFormOption>
           ))}
         </RecipeFormSelect>
-        <RecipeFormInfoInput
+        <RecipeFormInfoTimeInput
           {...register('cookingTime')}
-          placeholder="조리시간"
+          placeholder="조리시간 "
           type="number"
           min="1"
           max="999"
         />
+        <RecipeFormText>분</RecipeFormText>
       </RecipeFormInfoInputContainer>
       <RecipeFormInfoSelectContainer>
         <RecipeFormInfoInputLabel>카테고리</RecipeFormInfoInputLabel>
@@ -73,11 +74,32 @@ const RecipeFormInfoInputContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
   margin-bottom: ${({ theme }) => theme.spacingMedium};
+  position: relative;
 `;
 
 const RecipeFormInfoInput = styled.input`
   ${RecipeFormInputStyle}
   margin: 0 ${({ theme }) => theme.spacingRegular};
+`;
+const RecipeFormText = styled.div`
+  visibility: visible;
+  position: absolute;
+  right: 2rem;
+  top: 1.75rem;
+  color: ${({ theme }) => theme.darkGrey};
+`;
+
+const RecipeFormInfoTimeInput = styled(RecipeFormInfoInput)`
+  flex-shrink: 0;
+  width: 20rem;
+  padding-right: 3rem;
+  box-sizing: border-box;
+  text-align: right;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const RecipeFormInfoInputLabel = styled.span`
@@ -96,5 +118,3 @@ const RecipeFormSelect = styled.select`
 `;
 
 const RecipeFormOption = styled.option``;
-
-const RecipeFormText = styled.p``;
