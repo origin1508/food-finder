@@ -105,7 +105,7 @@ const CollectRecipes = () => {
                     views={recipe.views}
                     likes={recipe.likes}
                     onClickDetailPage={() => handleClickDetail(recipe.dishId)}
-                    size="42"
+                    size="30"
                   ></RecipeCard>
                 ))}
               </React.Fragment>
@@ -134,9 +134,10 @@ const RecipeCards = styled.div`
   max-width: 134vh;
 `;
 const Wrap = styled.div`
+  width: 134vh;
   flex-wrap: wrap;
   ${({ theme }) => theme.mixins.flexBox('row', 'center', 'start')}
-  gap: 3rem;
+  gap: 4.3vh;
 `;
 
 const FilterContainer = styled.div`

@@ -19,7 +19,7 @@ const RecipeDetail = () => {
   const navigate = useNavigate();
   const { recipeId } = useParams();
   const { data: recipeDetail } = useRecipeDetail(recipeId!);
-  const { ingredient, Steps, RecipeComments } = recipeDetail!;
+  const { ingredient, Steps, RecipeComments, myStar } = recipeDetail!;
   const recipeWriter = recipeDetail?.writer.userId;
   const userId = user!.userId;
 
@@ -35,7 +35,7 @@ const RecipeDetail = () => {
         <RecipeDetailMain recipeDetail={recipeDetail!} isEditor={isEditor} />
         <RecipeDetailIngredient ingredient={ingredient} />
         <RecipeSteps steps={Steps} />
-        <RecipeRatingStar recipeId={recipeId!} />
+        <RecipeRatingStar recipeId={recipeId!} myStar={myStar} />
         <RecipeComment comments={RecipeComments} recipeId={recipeId!} />
       </RecipeDetailContainer>
     </BasePageComponent>

@@ -23,27 +23,25 @@ const UserProfile = ({ profileOwnerId }: { profileOwnerId: string }) => {
   }, [profileOwnerId]);
 
   return (
-    <>
-      <ProfileCardContainer>
-        <ProfileUserHeader>
-          <Title>User Info</Title>
-          <SubTitle>유저 정보</SubTitle>
-        </ProfileUserHeader>
-        <UserInfoContainer>
-          <Text>Welcome to my pfofile</Text>
-          <UserImgContainer>
-            <UserImg src={user?.profileUrl!} alt="userImg" />
-          </UserImgContainer>
-          <Name>{user?.nickname}</Name>
-          <Email>{user?.email}</Email>
-        </UserInfoContainer>
-      </ProfileCardContainer>
-    </>
+    <ProfileCardContainer>
+      <ProfileUserHeader>
+        <Title>User Info</Title>
+        <SubTitle>유저 정보</SubTitle>
+      </ProfileUserHeader>
+      <UserInfoContainer>
+        <Text>Welcome to my pfofile</Text>
+        <UserImgContainer>
+          <UserImg src={user?.profileUrl!} alt="userImg" />
+        </UserImgContainer>
+        <Name>{user?.nickname}</Name>
+        <Email>{user?.email}</Email>
+      </UserInfoContainer>
+    </ProfileCardContainer>
   );
 };
 
 const ProfileCardContainer = styled.section`
-  width: 100%;
+  width: 60vh;
   height: 80vh;
   background-color: ${({ theme }) => theme.mainWhite};
   border-radius: 1rem;
