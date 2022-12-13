@@ -18,6 +18,7 @@ import { FORM_FIELDS } from '../../constants/recipeForm';
 const useEditRecipe = (
   recipeId?: string,
   formState?: FormState<RecipeFormDefaultValue>,
+  prevInstructions?: { description?: string; preview?: string }[],
 ) => {
   const { setAlertSuccess, setAlertError } = useSetAlert();
   const queryClient = useQueryClient();
@@ -26,7 +27,6 @@ const useEditRecipe = (
   const submitCount = formState?.submitCount;
   useEffect(() => {
     if (errors) {
-      console.log(errors);
       const field = FORM_FIELDS.find((field) => errors[field]);
       if (field === 'ingredients') {
         setAlertError({ error: '재료를 입력해주세요.' });
@@ -46,8 +46,9 @@ const useEditRecipe = (
     onSuccess: (data) => {
       const { message } = data;
       queryClient.invalidateQueries('authRecips');
+      queryClient.invalidateQueries('collectRecipesInfo');
       setAlertSuccess({ success: message });
-      navigate(-1);
+      navigate('/collectRecipes');
     },
     onError: (error) => {
       if (error && error instanceof AxiosError) {
@@ -74,26 +75,36 @@ const useEditRecipe = (
     const formData = new FormData();
     const stepImages = Array<File>();
     const steps = Array<Step>();
-
     formData.append('name', name);
     if (mainImage.files[0]) {
       const recipeThumbnail = await imageResize(mainImage.files[0]);
       formData.append('recipeThumbnail', recipeThumbnail);
     }
-    instructions.forEach(async (instruction, index) => {
-      const { description, image, preview } = instruction;
-      const temp: Step = {};
-      temp.step = index + 1;
-      temp.content = description;
-      if (image && image.length > 0) {
-        const compressedImage = await imageResize(image[0]);
-        stepImages.push(compressedImage);
-      } else {
-        temp.imageUrl = preview;
-      }
-      steps.push(temp);
-    });
-    console.log(steps);
+    await Promise.all(
+      instructions.map(async (instruction, index) => {
+        if (!prevInstructions) return;
+        const { description, image, preview } = instruction;
+        if (
+          prevInstructions.length > index &&
+          prevInstructions[index].description === description &&
+          prevInstructions[index].preview === preview
+        )
+          return;
+        const temp: Step = {};
+        temp.step = index + 1;
+        temp.content = description;
+        if (image && image.length > 0) {
+          const compressedImage = await imageResize(image[0]);
+          stepImages.push(compressedImage);
+        } else {
+          temp.imageUrl = preview;
+        }
+        steps.push(temp);
+      }),
+    );
+    if (steps.length > 0) {
+      formData.append('steps', JSON.stringify(steps));
+    }
     formData.append('method', method);
     formData.append('category', category);
     formData.append('ingredient', JSON.stringify(ingredients));
@@ -102,17 +113,22 @@ const useEditRecipe = (
     stepImages.forEach((stepImage) => {
       formData.append('stepImages', stepImage);
     });
-    formData.append('steps', JSON.stringify(steps));
-
     return await recipeUpdateRequest(recipeId, formData);
   };
 
   const recipeUpdateMutation = useMutation(editRecipe, {
     onSuccess: (data) => {
-      console.log(data);
+      const { message } = data;
+      setAlertSuccess({ success: message });
+      queryClient.invalidateQueries(['racipeDetail', recipeId]);
+      navigate(`/recipe/detail/${recipeId}`, { replace: true });
     },
     onError: (error) => {
-      console.log(error);
+      if (error && error instanceof AxiosError) {
+        setAlertError({ error: error.message });
+      } else {
+        console.log(error);
+      }
     },
   });
 
