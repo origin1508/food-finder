@@ -79,9 +79,13 @@ export default {
       dishId,
     });
 
-    recipeObject.liked = await recipeModel.findExistenceOfLike({
-      userId,
-      dishId,
+    recipeObject.liked = false;
+    recipeObject.RecipeLikes.every((element) => {
+      if (element.dataValues.userId === userId) {
+        recipeObject.liked = true;
+        return false;
+      }
+      return true;
     });
 
     const stars = recipeObject.RecipeStars.map((data) => {
