@@ -5,9 +5,9 @@ import { SearchProps } from '../../types/search/searchType';
 
 const Search = ({
   display,
-  placeholder = '음식, 재료, 태그, 사진검색',
   register,
   onSubmit,
+  placeholder = '레시피를 검색해보세요',
 }: SearchProps) => {
   return (
     <SearchContainer itemProp={display} onSubmit={onSubmit}>
