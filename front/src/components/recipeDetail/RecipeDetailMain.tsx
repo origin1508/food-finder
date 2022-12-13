@@ -25,9 +25,6 @@ const RecipeDetailMain = ({
   const [isOpenModal, handleModalOpenButtonClick, handleModalCloseButtonClick] =
     useModal(false);
   const {
-    recipeDeleteMutation: { mutate: recipeDelete },
-  } = useEditRecipe();
-  const {
     name,
     views,
     RecipeLikes,
@@ -40,6 +37,9 @@ const RecipeDetailMain = ({
     dishId: recipeId,
   } = recipeDetail;
   const navigate = useNavigate();
+  const {
+    recipeDeleteMutation: { mutate: recipeDelete },
+  } = useEditRecipe();
 
   const handleClickImage = () => {
     const path = `/profile/${writer.userId}`;

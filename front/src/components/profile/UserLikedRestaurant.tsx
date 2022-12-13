@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import useKakaoMap from '../../hooks/useKakaoMap';
-import useRestaurant from '../../hooks/useRestaurant';
+import useLikedRestaurant from '../../hooks/useLikedRestaurant';
 import RestaurantInfoCard from './RestaurantInfoCard';
 import CustomIcon from '../icons/CustomIcon';
 import { MediumTitle } from '../../styles/commonStyle';
 
-const LikedRestaurant = () => {
+const UserLikedRestaurant = () => {
   const { kakaoMap, mapRef, removeMarker, addRestaurantMarker } = useKakaoMap();
-  const { likedRestaurantQuery, restaurantUnlikeMutation } = useRestaurant();
+  const { likedRestaurantQuery, restaurantUnlikeMutation } =
+    useLikedRestaurant();
   const restaurants = likedRestaurantQuery.data?.result;
 
   useEffect(() => {
@@ -18,11 +19,11 @@ const LikedRestaurant = () => {
   }, [kakaoMap, restaurants]);
 
   return (
-    <LikedRestaurantWrapper>
-      <LikedRestaurantContainer>
-        <LikedRestaurantHeader>
-          <LikedRestaurantTitle>Liked Restaurant</LikedRestaurantTitle>
-        </LikedRestaurantHeader>
+    <UserLikedRestaurantWrapper>
+      <UserLikedRestaurantContainer>
+        <UserLikedRestaurantHeader>
+          <UserLikedRestaurantTitle>Liked Restaurant</UserLikedRestaurantTitle>
+        </UserLikedRestaurantHeader>
         <ScrollWrapper>
           <Restaurants>
             {restaurants && restaurants.length > 0 ? (
@@ -54,15 +55,15 @@ const LikedRestaurant = () => {
             )}
           </Restaurants>
         </ScrollWrapper>
-      </LikedRestaurantContainer>
+      </UserLikedRestaurantContainer>
       <Map ref={mapRef} />
-    </LikedRestaurantWrapper>
+    </UserLikedRestaurantWrapper>
   );
 };
 
-export default LikedRestaurant;
+export default UserLikedRestaurant;
 
-const LikedRestaurantWrapper = styled.section`
+const UserLikedRestaurantWrapper = styled.section`
   ${({ theme }) => theme.mixins.flexBox()}
   flex-shrink: 0;
   width: 80%;
@@ -72,7 +73,7 @@ const LikedRestaurantWrapper = styled.section`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
-const LikedRestaurantContainer = styled.div`
+const UserLikedRestaurantContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'center', 'start')};
   width: 35%;
   height: 100%;
@@ -81,12 +82,12 @@ const LikedRestaurantContainer = styled.div`
   z-index: 2;
 `;
 
-const LikedRestaurantHeader = styled.header`
+const UserLikedRestaurantHeader = styled.header`
   ${({ theme }) => theme.mixins.flexBox()};
   height: 13%;
 `;
 
-const LikedRestaurantTitle = styled.h2`
+const UserLikedRestaurantTitle = styled.h2`
   ${MediumTitle}
   color: ${({ theme }) => theme.mainBlack};
 `;

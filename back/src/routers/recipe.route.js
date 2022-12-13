@@ -176,20 +176,25 @@ router.post(
 router.patch(
   "/:recipeId",
   authorizeAccessToken,
-  recipeImageUpload("recipeImages").single("recipeThumbnail"),
+  recipeImageUpload("recipeImages").fields([
+    { name: "recipeThumbnail", maxCount: 1 },
+    { name: "stepImages" },
+  ]),
   async (req, res, next) => {
     try {
       const { userId } = req;
       const { recipeId } = req.params;
-      const location = req?.file?.location;
+      const thumbnailUrl = req.files["recipeThumbnail"]
+        ? req.files["recipeThumbnail"][0].location
+        : req.body.thumbnailUrl;
 
-      const updatedRecipeInformation =
-        await recipeService.updateRecipeInformation({
-          userId,
-          dishId: recipeId,
-          recipeThumbnail: location,
-          ...req.body,
-        });
+      const updatedRecipeInformation = await recipeService.updateRecipe({
+        ...req.body,
+        userId,
+        dishId: recipeId,
+        thumbnailUrl: thumbnailUrl,
+        stepImages: req.files["stepImages"],
+      });
 
       res.status(200).json({
         success: true,

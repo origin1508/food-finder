@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
@@ -7,9 +7,12 @@ import CustomIcon from '../icons/CustomIcon';
 import { searchResultState } from '../../atom/searchResult';
 import { SearchValue } from '../../types/search/searchType';
 import { BigTitle, MediumTitle } from '../../styles/commonStyle';
+import backgroundImage from '../../assets/background.jpg';
 
 const RecipeResult = ({ keyword }: SearchValue) => {
   const searchResult = useRecoilValue(searchResultState);
+  const resultLength = useMemo(() => searchResult.length, [searchResult]);
+  const [slide, setSlide] = useState(0);
   const images = searchResult.reduce<string[]>((acc, cur) => {
     return [...acc, cur.image_url1];
   }, []);
@@ -24,6 +27,27 @@ const RecipeResult = ({ keyword }: SearchValue) => {
     };
   }, [searchResult, imageIndex, setImageIndex]);
 
+  const handleNextButton = useCallback(() => {
+    setSlide((prev) => {
+      const maxSlide = resultLength - 5;
+      if (prev + 1 > maxSlide) {
+        return 0;
+      }
+      return prev + 1;
+    });
+  }, [searchResult]);
+
+  const handlePrevButton = useCallback(() => {
+    setSlide((prev) => {
+      const maxSlide = resultLength - 5;
+      if (prev - 1 < 0) {
+        return maxSlide;
+      } else {
+        return prev - 1;
+      }
+    });
+  }, [searchResult]);
+
   return (
     <RecipeResultContainer>
       <RecipeResultImg url={images[imageIndex]} />
@@ -35,31 +59,34 @@ const RecipeResult = ({ keyword }: SearchValue) => {
       </RecipeResultTitle>
       <RecipeResultList>
         {searchResult.map((item) => {
-          const {
-            dish_id,
-            name,
-            views,
-            image_url1,
-            image_url2,
-            likes,
-            nickname,
-          } = item;
+          const { dish_id, name, views, image_url1, likes, nickname } = item;
           return (
-            <RecipeCard
-              key={dish_id}
-              img={image_url1}
-              title={name}
-              channelUuid={dish_id}
-              views={views}
-              likes={likes}
-              creator={nickname}
-              onClickDetailPage={() => {
-                navigate(`/recipe/detail/${dish_id}`);
-              }}
-            />
+            <RecipeCardContainer key={dish_id} slide={slide}>
+              <RecipeCard
+                img={image_url1}
+                title={name}
+                channelUuid={dish_id}
+                views={views}
+                likes={likes}
+                creator={nickname}
+                onClickDetailPage={() => {
+                  navigate(`/recipe/detail/${dish_id}`);
+                }}
+              />
+            </RecipeCardContainer>
           );
         })}
       </RecipeResultList>
+      {resultLength > 5 && (
+        <>
+          <PrevButton onClick={handlePrevButton}>
+            <CustomIcon name="prev" size="20" color="white" />
+          </PrevButton>
+          <NextButton onClick={handleNextButton}>
+            <CustomIcon name="next" size="20" />
+          </NextButton>
+        </>
+      )}
     </RecipeResultContainer>
   );
 };
@@ -78,12 +105,12 @@ const RecipeResultImg = styled.div<{ url: string }>`
   height: 40vh;
   width: 100vw;
   text-align: center;
-  ${({ url }) => `background-image: url('${url}')`};
+  background-image: ${({ url }) =>
+    url ? `url(${url});` : `url(${backgroundImage});`}
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-color: ${({ theme }) => theme.mainBlack};
-  transition: all 1.5s;
+  transition: background-image 1.5s;
 `;
 
 const RecipeResultImgTitle = styled.h2`
@@ -104,17 +131,42 @@ const RecipeResultTitle = styled.h2`
 `;
 
 const RecipeResultList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  place-items: center;
-  width: 100%;
+  white-space: nowrap;
   height: 26vh;
-  gap: ${({ theme }) => theme.spacingLarge};
+  width: 100%;
+  overflow: hidden;
 `;
 
-const Temp = styled.div<{ url: string }>`
-  ${({ url }) => `background-image: url('${url}')`};
-  width: 10rem;
-  height: 10rem;
-  background-color: black;
+const RecipeCardContainer = styled.div<{ slide: number }>`
+  display: inline-block;
+  width: calc(100% / 5);
+  padding: ${({ theme }) => theme.spacingRegular};
+  transform: ${({ slide }) => `translateX( ${-100 * slide}%)`};
+  transition: transform 0.5s ease;
+`;
+
+const PrevButton = styled.button`
+  ${({ theme }) => theme.mixins.flexBox}
+  position: absolute;
+  cursor: pointer;
+  bottom: 15%;
+  left: -0.8%;
+  background-color: ${({ theme }) => theme.mainWhite};
+  width: 4vh;
+  height: 4vh;
+  border-radius: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`;
+
+const NextButton = styled.button`
+  ${({ theme }) => theme.mixins.flexBox}
+  position: absolute;
+  cursor: pointer;
+  bottom: 15%;
+  right: 0.8%;
+  background-color: ${({ theme }) => theme.mainWhite};
+  width: 4vh;
+  height: 4vh;
+  border-radius: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;

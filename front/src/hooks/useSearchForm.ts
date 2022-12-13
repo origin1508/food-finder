@@ -33,6 +33,7 @@ const useSearchForm = () => {
   const recipeSearch = async (keyword: string) => {
     const res = await searchKeywordRequest(keyword);
     if (!res.success || res.result.length === 0) {
+      setSearchResult([]);
       setAlertError({ error: '검색 결과가 존재하지 않습니다.' });
     } else {
       const { result, message } = res;
