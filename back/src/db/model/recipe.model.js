@@ -13,10 +13,12 @@ export default {
   async findAll({ lastRecipeId, method, category, postsPerPage }) {
     const recipes = await sequelize.query(
       `
-    SELECT dish_id as dishId, name, method, category, image_url1 as smallThumbnailUrl, image_url2 as largeThumbnailUrl, views,COALESCE(likes, 0) as likes 
+    SELECT dish_id as dishId, name, method, category, image_url1 as smallThumbnailUrl, image_url2 as largeThumbnailUrl, views,COALESCE(likes, 0) as likes, nickname, u.user_id as userId, profile_url as profileUrl
     FROM recipe_informations as ri
     LEFT JOIN (SELECT dish_id as rl_di, COUNT(*) as likes FROM recipe_likes group by dish_id) as rl
     ON ri.dish_id = rl_di
+    JOIN users as u
+    ON u.user_id = ri.user_id
     WHERE
     ${lastRecipeId ? `ri.dish_id < ${lastRecipeId} AND ` : ""}
     ${method ? `method = '${method}' AND ` : "method = method AND"}
@@ -70,7 +72,6 @@ export default {
           model: User,
           attributes: [
             ["user_id", "userId"],
-            "email",
             "nickname",
             ["profile_url", "profileUrl"],
           ],
@@ -383,6 +384,12 @@ export default {
     return createdStep;
   },
 
+  async createStepUsingBulk(listForCreate) {
+    const createdStep = await Step.bulkCreate(listForCreate);
+
+    return createdStep;
+  },
+
   async createRecipeComment({ userId, dishId, content }) {
     const createdComment = await RecipeComment.create({
       content,
@@ -493,5 +500,15 @@ export default {
     });
 
     return deletedLike;
+  },
+
+  async deleteStepsByDishId({ dishId }) {
+    const deletedSteps = await Step.destroy({
+      where: {
+        dish_id: Number(dishId),
+      },
+    });
+
+    return deletedSteps;
   },
 };

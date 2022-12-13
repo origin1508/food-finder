@@ -15,18 +15,49 @@ export default {
       postsPerPage: +postsPerPage + 1,
     });
 
+    const refinedRecipes = recipes.map((recipe) => {
+      const {
+        dishId,
+        name,
+        method,
+        category,
+        smallThumbnailUrl,
+        largeThumbnailUrl,
+        views,
+        likes,
+        nickname,
+        userId,
+        profileUrl,
+      } = recipe;
+      return {
+        dishId,
+        name,
+        method,
+        category,
+        smallThumbnailUrl,
+        largeThumbnailUrl,
+        views,
+        likes,
+        writer: {
+          userId,
+          nickname,
+          profileUrl,
+        },
+      };
+    });
+
     let recipesObject;
     if (recipes.length > postsPerPage) {
       recipesObject = {
-        recipes: recipes.slice(undefined, postsPerPage),
+        recipes: refinedRecipes.slice(undefined, postsPerPage),
         isLast: false,
-        lastRecipeId: recipes[recipes.length - 2]?.dishId,
+        lastRecipeId: refinedRecipes[refinedRecipes.length - 2]?.dishId,
       };
     } else {
       recipesObject = {
-        recipes: recipes,
+        recipes: refinedRecipes,
         isLast: true,
-        lastRecipeId: recipes[recipes.length - 1]?.dishId,
+        lastRecipeId: refinedRecipes[refinedRecipes.length - 1]?.dishId,
       };
     }
 
@@ -48,9 +79,13 @@ export default {
       dishId,
     });
 
-    recipeObject.liked = await recipeModel.findExistenceOfLike({
-      userId,
-      dishId,
+    recipeObject.liked = false;
+    recipeObject.RecipeLikes.every((element) => {
+      if (element.dataValues.userId === userId) {
+        recipeObject.liked = true;
+        return false;
+      }
+      return true;
     });
 
     const stars = recipeObject.RecipeStars.map((data) => {
@@ -103,65 +138,42 @@ export default {
       userId,
     });
 
-    const createdSteps = [];
+    const listForCreate = [];
+    let stepImagesIndex = 0;
 
-    // FIXME: bulk insert 고려
-    for (let key in parsedSteps) {
-      const createdStep = await recipeModel.createStep({
-        content: parsedSteps[key],
-        imageUrl: stepImages[Number(key) - 1].location,
-        step: Number(key),
-        dishId: createdRecipeInformation.dish_id,
+    for (let stepObject of parsedSteps) {
+      listForCreate.push({
+        content: stepObject.content,
+        image_url: stepImages[stepImagesIndex].location,
+        step: stepObject.step,
+        dish_id: createdRecipeInformation.dish_id,
       });
 
-      createdSteps.push(createdStep);
+      stepImagesIndex += 1;
     }
+
+    const createdSteps = await recipeModel.createStepUsingBulk(listForCreate);
 
     return {
       recipeInformation: { ...createdRecipeInformation.dataValues },
       steps: createdSteps,
     };
   },
-  async addStep({ userId, dishId, content, imageUrl, step }) {
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    if (recipeInformation.dataValues.userId !== userId) {
-      throw ApiError.setUnauthorized("스텝 추가 권한이 없습니다.");
-    }
-
-    const createdStep = await recipeModel.createStep({
-      content,
-      imageUrl,
-      step,
-      dishId,
-    });
-
-    return createdStep;
-  },
   async addComment({ userId, content, dishId }) {
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    const createdComment = await recipeModel.createRecipeComment({
-      userId,
-      content,
-      dishId,
-    });
+    const createdComment = await recipeModel
+      .createRecipeComment({
+        userId,
+        content,
+        dishId,
+      })
+      .catch((error) => {
+        throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+      });
 
     return createdComment;
   },
   async addLike({ userId, dishId }) {
+    // TODO: 불필요한 DB콜 제거
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
@@ -184,6 +196,7 @@ export default {
     return createdLike;
   },
   async addStar({ userId, dishId, score }) {
+    // TODO: 불필요한 DB 콜 제거
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
@@ -209,21 +222,30 @@ export default {
 
     return createdStar;
   },
-  async updateRecipeInformation({
-    userId,
-    dishId,
+  async updateRecipe({
     name,
     method,
     category,
-    recipeThumbnail,
     ingredient,
     serving,
     cookingTime,
+    userId,
+    dishId,
+    thumbnailUrl,
+    stepImages,
+    steps,
   }) {
+    console.log(steps);
+    let parsedSteps;
+    if (steps) {
+      parsedSteps = JSON.parse(steps);
+    }
+
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
 
+    // TODO: 불필요한 DB콜 제거
     if (recipeInformation == null) {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
@@ -237,38 +259,44 @@ export default {
       name,
       method,
       category,
-      imageUrl1: recipeThumbnail,
-      imageUrl2: recipeThumbnail,
+      imageUrl1: thumbnailUrl,
+      imageUrl2: thumbnailUrl,
       ingredient,
       serving,
       cookingTime,
     });
 
+    if (steps) {
+      const deletedSteps = await recipeModel.deleteStepsByDishId({ dishId });
+
+      let stepImagesIndex = 0;
+      const listForCreate = [];
+
+      for (let stepObject of parsedSteps) {
+        let imageUrl;
+
+        if (stepObject.imageUrl) {
+          imageUrl = stepObject.imageUrl;
+        } else {
+          imageUrl = stepImages[stepImagesIndex].location;
+          stepImagesIndex += 1;
+        }
+
+        listForCreate.push({
+          content: stepObject.content,
+          image_url: imageUrl,
+          step: stepObject.step,
+          dish_id: dishId,
+        });
+      }
+
+      const createdSteps = await recipeModel.createStepUsingBulk(listForCreate);
+    }
+
     return updatedRecipeInformation;
   },
-  async updateStep({ dishId, userId, stepId, content, imageUrl }) {
-    // FIXME: 업데이트 로직 고려
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    if (recipeInformation.dataValues.userId !== userId) {
-      throw ApiError.setUnauthorized("수정 권한이 없습니다.");
-    }
-
-    const updatedStep = await recipeModel.updateStep({
-      stepId,
-      content,
-      imageUrl,
-    });
-
-    return updatedStep;
-  },
   async updateComment({ userId, commentId, content }) {
+    // TODO: 불필요한 DB콜 제거
     const comment = await recipeModel.findRecipeCommentByCommentId({
       commentId,
     });
@@ -289,6 +317,7 @@ export default {
     return updatedComment;
   },
   async deleteRecipe({ userId, dishId }) {
+    // TODO: 불필요한 DB콜 제거
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
@@ -306,6 +335,7 @@ export default {
     return deletedRecipe;
   },
   async deleteComment({ userId, commentId }) {
+    // TODO: 불필요한 DB콜 제거
     const comment = await recipeModel.findRecipeCommentByCommentId({
       commentId,
     });
@@ -323,6 +353,7 @@ export default {
     return deletedComment;
   },
   async deleteLike({ userId, dishId }) {
+    // TODO: 불필요한 DB콜 제거
     const existenceOfLike = await recipeModel.findExistenceOfLike({
       userId,
       dishId,
