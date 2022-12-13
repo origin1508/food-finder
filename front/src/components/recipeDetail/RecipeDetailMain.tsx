@@ -35,7 +35,7 @@ const RecipeDetailMain = ({
     cookingTime,
     writer,
     smallThumbnailUrl,
-    myStar,
+    starAverage,
     liked,
     dishId: recipeId,
   } = recipeDetail;
@@ -57,7 +57,7 @@ const RecipeDetailMain = ({
           <WriterNickname>{writer.nickname}</WriterNickname>
         </WriterInfoContainer>
       </RecipeImage>
-      <RecipeScoreStatus score={myStar} />
+      <RecipeScoreStatus score={starAverage} />
 
       <RecipeInfoContiner>
         <TitleContainer>
@@ -110,6 +110,7 @@ const MainContainer = styled.section`
 `;
 
 const RecipeImage = styled.div`
+  position: relative;
   width: 80rem;
   height: 60rem;
   background-image: ${({ itemProp }) => `url(${itemProp})`};
@@ -123,7 +124,7 @@ const WriterInfoContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
   gap : 1rem;
   position: absolute;
-  bottom: 0;
+  bottom: -12rem;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
