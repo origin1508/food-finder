@@ -211,17 +211,25 @@ export default {
 
     return createdStar;
   },
-  async updateRecipeInformation({
-    userId,
-    dishId,
+  async updateRecipe({
     name,
     method,
     category,
-    recipeThumbnail,
     ingredient,
     serving,
     cookingTime,
+    userId,
+    dishId,
+    thumbnailUrl,
+    stepImages,
+    steps,
   }) {
+    console.log(steps);
+    let parsedSteps;
+    if (steps) {
+      parsedSteps = JSON.parse(steps);
+    }
+
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
@@ -239,12 +247,37 @@ export default {
       name,
       method,
       category,
-      imageUrl1: recipeThumbnail,
-      imageUrl2: recipeThumbnail,
+      imageUrl1: thumbnailUrl,
+      imageUrl2: thumbnailUrl,
       ingredient,
       serving,
       cookingTime,
     });
+
+    if (steps) {
+      const deletedSteps = await recipeModel.deleteStepsByDishId({ dishId });
+
+      let stepImagesIndex = 0;
+
+      // FIXME: bulk insert 고려
+      for (let stepObject of parsedSteps) {
+        let imageUrl;
+
+        if (stepObject.imageUrl) {
+          imageUrl = stepObject.imageUrl;
+        } else {
+          imageUrl = stepImages[stepImagesIndex].location;
+          stepImagesIndex += 1;
+        }
+
+        const createdStep = await recipeModel.createStep({
+          content: stepObject.content,
+          imageUrl,
+          step: stepObject.step,
+          dishId,
+        });
+      }
+    }
 
     return updatedRecipeInformation;
   },

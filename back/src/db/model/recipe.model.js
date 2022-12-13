@@ -494,4 +494,14 @@ export default {
 
     return deletedLike;
   },
+
+  async deleteStepsByDishId({ dishId }) {
+    const deletedSteps = await Step.destroy({
+      where: {
+        dish_id: Number(dishId),
+      },
+    });
+
+    return deletedSteps;
+  },
 };
