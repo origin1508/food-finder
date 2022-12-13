@@ -27,7 +27,7 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue:
-        "https://m.nongmin.com/upload/news/202007/20200711032704602/20200711032704602.jpg",
+        "https://foodfinder-static-storage.s3.ap-northeast-2.amazonaws.com/%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84.jpg",
     },
   },
   {
