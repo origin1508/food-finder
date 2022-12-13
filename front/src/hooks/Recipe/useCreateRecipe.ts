@@ -23,7 +23,11 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
       } else if (field === 'ingredients') {
         setAlertError({ error: '재료를 입력해주세요.' });
       } else if (field === 'instructions') {
-        setAlertError({ error: '요리순서를 작성해주세요' });
+        if (errors && errors.instructions) {
+          setAlertError({
+            error: '요리순서를 사진과 함께 작성해주세요.',
+          });
+        }
       } else if (field) {
         setAlertError({ error: errors[field]?.message });
       }
