@@ -7,14 +7,11 @@ import {
   RecipeDetailSubTitleStyle,
 } from '../../styles/recipeDetailStyle';
 
-const RecipeDetailIngredient = ({ ingredient }: { ingredient: string }) => {
-  const [ingredients, setIngredient] = useState<string[]>([]);
-  useEffect(() => {
-    const list = ingredient.split(',');
-    setIngredient((prev) => {
-      return [...prev, ...list];
-    });
-  }, [ingredient]);
+const RecipeDetailIngredient = ({
+  ingredients,
+}: {
+  ingredients: { name: string; amount: string }[];
+}) => {
   return (
     <RecipeDetailIngredientContainer>
       <RecipeDetailIngredientHeader>
@@ -24,7 +21,8 @@ const RecipeDetailIngredient = ({ ingredient }: { ingredient: string }) => {
       <IngredientList>
         {ingredients.map((item, index) => (
           <Ingredient key={index}>
-            <IngredientName>{item}</IngredientName>
+            <IngredientName>{item.name}</IngredientName>
+            <IngredientAmount>{item.amount}</IngredientAmount>
           </Ingredient>
         ))}
       </IngredientList>
