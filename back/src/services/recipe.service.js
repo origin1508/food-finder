@@ -173,6 +173,7 @@ export default {
     return createdComment;
   },
   async addLike({ userId, dishId }) {
+    // TODO: 불필요한 DB콜 제거
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
@@ -195,6 +196,7 @@ export default {
     return createdLike;
   },
   async addStar({ userId, dishId, score }) {
+    // TODO: 불필요한 DB 콜 제거
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
@@ -243,6 +245,7 @@ export default {
       dishId,
     });
 
+    // TODO: 불필요한 DB콜 제거
     if (recipeInformation == null) {
       throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
     }
@@ -293,6 +296,7 @@ export default {
     return updatedRecipeInformation;
   },
   async updateComment({ userId, commentId, content }) {
+    // TODO: 불필요한 DB콜 제거
     const comment = await recipeModel.findRecipeCommentByCommentId({
       commentId,
     });
@@ -313,6 +317,7 @@ export default {
     return updatedComment;
   },
   async deleteRecipe({ userId, dishId }) {
+    // TODO: 불필요한 DB콜 제거
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
     });
@@ -330,6 +335,7 @@ export default {
     return deletedRecipe;
   },
   async deleteComment({ userId, commentId }) {
+    // TODO: 불필요한 DB콜 제거
     const comment = await recipeModel.findRecipeCommentByCommentId({
       commentId,
     });
@@ -347,6 +353,7 @@ export default {
     return deletedComment;
   },
   async deleteLike({ userId, dishId }) {
+    // TODO: 불필요한 DB콜 제거
     const existenceOfLike = await recipeModel.findExistenceOfLike({
       userId,
       dishId,
