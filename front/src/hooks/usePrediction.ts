@@ -7,7 +7,6 @@ import { AxiosError } from 'axios';
 
 const usePrediction = () => {
   const { setAlertError, setAlertSuccess } = useSetAlert();
-  const { recipeSearch } = useSearchForm();
   const imagePrediction = async (data: { imageSearchFile: File[] }) => {
     const { imageSearchFile } = data;
     const image = imageSearchFile[0];
@@ -23,7 +22,6 @@ const usePrediction = () => {
       const { success, result } = data;
       if (success) {
         setAlertSuccess({ success: `음식추론 완료: ${result}` });
-        await recipeSearch(result);
       } else {
         setAlertError({ error: '이미지 검색에 실패하였습니다.' });
       }
