@@ -1,36 +1,72 @@
-import { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useInfiniteQuery } from 'react-query';
+import { useRecoilState } from 'recoil';
+import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
 import BasePageComponent from '../hoc/BasePageComponent';
 import { MediumTitle, SmallTitle } from '../styles/commonStyle';
 import RecipeCard from '../components/recipe/RecipeCard';
-import mockData from '../util/mockData';
+import filterList from '../util/filterList';
 import CustomIcon from '../components/icons/CustomIcon';
 import { theme } from '../styles/theme';
 import { PATH } from '../customRouter';
+import { getRecipesCardInfo } from '../api/recipeFetcher';
+import { categoryValue, methodValue } from '../atom/filter';
+import { RecipeCollectCard } from '../types/recipe/recipeCardType';
+import LoadingCycle from '../components/alert/Loader';
 
 const CollectRecipes = () => {
   const navigate = useNavigate();
-  const [selectKind, setSelectKind] = useState('전체');
-  const [selectMethod, setSelectMethod] = useState('전체');
-  const { recipeDatas, filterByType, filterByMethod } = mockData;
+  const [category, setCategory] = useRecoilState(categoryValue);
+  const [method, setMethod] = useRecoilState(methodValue);
+  const { categoryList, methodList } = filterList;
+  const { ref, inView } = useInView();
+
+  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ['collectRecipesInfo', method, category],
+    async ({ pageParam = '' }) => {
+      return await getRecipesCardInfo({
+        pageParams: pageParam,
+        method: method === '전체' ? '' : method,
+        category: category === '전체' ? '' : category,
+      });
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        !lastPage.isLast ? lastPage.nextPage : undefined,
+    },
+  );
+
+  const handleClickDetail = (userId: number) => {
+    const recipeDetailPagePath = `/recipe/detail/${userId}`;
+    navigate(recipeDetailPagePath);
+  };
+
+  useEffect(() => {
+    if (inView) fetchNextPage();
+  }, [inView]);
+
   return (
     <BasePageComponent>
       <CollectRecipesContainer>
         <Title>맛있고 다양한 레시피 !</Title>
-        <PrevButton onClick={() => navigate(PATH.MAIN)}>
+        <PrevButton onClick={() => navigate(PATH.RECIPE)}>
           <CustomIcon name="prev" size="50" color={theme.mainBlack} />
         </PrevButton>
         <FilterContainer>
           <Filter>
             <FilterTitle>종류별</FilterTitle>
             <SelectContainer>
-              {filterByType.map((type) => (
+              {categoryList.map((type, index) => (
                 <SelectType
-                  itemProp={selectKind}
+                  key={index}
+                  itemProp={category}
                   itemType={type}
                   name={type}
-                  onClick={() => setSelectKind(type)}
+                  onClick={() => {
+                    setCategory(type);
+                  }}
                 >
                   {type}
                 </SelectType>
@@ -40,12 +76,15 @@ const CollectRecipes = () => {
           <Filter>
             <FilterTitle>조리방법별</FilterTitle>
             <SelectContainer>
-              {filterByMethod.map((type) => (
+              {methodList.map((type, index) => (
                 <SelectMethod
-                  itemProp={selectMethod}
+                  key={index}
+                  itemProp={method}
                   itemType={type}
                   name={type}
-                  onClick={() => setSelectMethod(type)}
+                  onClick={() => {
+                    setMethod(type);
+                  }}
                 >
                   {type}
                 </SelectMethod>
@@ -55,22 +94,25 @@ const CollectRecipes = () => {
         </FilterContainer>
         <RecipeCards>
           <Wrap>
-            {recipeDatas.map((recipe) => {
-              return (
-                <RecipeCard
-                  img={recipe.img}
-                  title={recipe.title}
-                  channelUuid={recipe.channelUuid}
-                  views={recipe.views}
-                  likes={recipe.likes}
-                  creator={recipe.creator}
-                  onMoreClick={recipe.onMoreClick}
-                  index={recipe.index}
-                ></RecipeCard>
-              );
-            })}
+            {data?.pages.map((page, index) => (
+              <React.Fragment key={index}>
+                {page.recipes.map((recipe: RecipeCollectCard) => (
+                  <RecipeCard
+                    key={recipe.dishId}
+                    img={recipe.smallThumbnailUrl!}
+                    title={recipe.name}
+                    channelUuid={recipe.dishId}
+                    views={recipe.views}
+                    likes={recipe.likes}
+                    onClickDetailPage={() => handleClickDetail(recipe.dishId)}
+                    size="30"
+                  ></RecipeCard>
+                ))}
+              </React.Fragment>
+            ))}
           </Wrap>
         </RecipeCards>
+        {isFetchingNextPage ? <LoadingCycle /> : <Div ref={ref}></Div>}
       </CollectRecipesContainer>
     </BasePageComponent>
   );
@@ -92,9 +134,10 @@ const RecipeCards = styled.div`
   max-width: 134vh;
 `;
 const Wrap = styled.div`
+  width: 134vh;
   flex-wrap: wrap;
   ${({ theme }) => theme.mixins.flexBox('row', 'center', 'start')}
-  gap: 3rem;
+  gap: 4.3vh;
 `;
 
 const FilterContainer = styled.div`
@@ -148,5 +191,9 @@ const PrevButton = styled.div`
   cursor: pointer;
   top: 3vh;
   left: 13%;
+`;
+
+const Div = styled.div`
+  height: 10rem;
 `;
 export default CollectRecipes;

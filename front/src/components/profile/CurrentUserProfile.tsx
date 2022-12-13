@@ -11,6 +11,11 @@ import { AuthFormInitial } from '../../types/auth';
 import useEditNickname from '../../hooks/Auth/useEditNickname';
 import useEditImg from '../../hooks/Auth/useEditImg';
 import useSetAlert from '../../hooks/useSetAlert';
+import {
+  RecipeDetailHeader,
+  RecipeDetailTitleStyle,
+  RecipeDetailSubTitleStyle,
+} from '../../styles/recipeDetailStyle';
 
 const CurrentUserProfile = () => {
   const user = useRecoilValue(authState);
@@ -63,9 +68,13 @@ const CurrentUserProfile = () => {
   }, [profileImg]);
 
   return (
-    <>
-      <ProfileCardContainer>
-        <UserInfoContainer>
+    <ProfileCardContainer>
+      <UserInfoContainer>
+        <UserInfoHeader>
+          <Title>User Info</Title>
+          <SubTitle>유저 정보</SubTitle>
+        </UserInfoHeader>
+        <UserInfoMain>
           <UserImgContainer>
             <UserImg
               src={
@@ -81,33 +90,32 @@ const CurrentUserProfile = () => {
           </UserImgContainer>
           <Name>{user?.nickname}</Name>
           <Email>{user?.email}</Email>
-        </UserInfoContainer>
-        <UserInfoUpdateContainer>
-          {!isPasswordEditing ? (
-            <NicknameEditFrom
-              user={user!}
-              register={register}
-              errors={errors}
-              onSubmit={onSubmit}
-              setIsPasswordEditing={setIsPasswordEditing}
-              setAlertLoading={setAlertLoading}
-            />
-          ) : null}
-          {isPasswordEditing ? (
-            <PasswordEditForm
-              user={user!}
-              setIsPasswordEditing={setIsPasswordEditing}
-              setAlertLoading={setAlertLoading}
-            />
-          ) : null}
-        </UserInfoUpdateContainer>
-      </ProfileCardContainer>
-    </>
+        </UserInfoMain>
+      </UserInfoContainer>
+
+      {!isPasswordEditing ? (
+        <NicknameEditFrom
+          user={user!}
+          register={register}
+          errors={errors}
+          onSubmit={onSubmit}
+          setIsPasswordEditing={setIsPasswordEditing}
+          setAlertLoading={setAlertLoading}
+        />
+      ) : null}
+      {isPasswordEditing ? (
+        <PasswordEditForm
+          user={user!}
+          setIsPasswordEditing={setIsPasswordEditing}
+          setAlertLoading={setAlertLoading}
+        />
+      ) : null}
+    </ProfileCardContainer>
   );
 };
 
 const ProfileCardContainer = styled.section`
-  width: 40%;
+  width: 60vh;
   height: 80vh;
   background-color: ${({ theme }) => theme.mainWhite};
   border-radius: 1rem;
@@ -116,18 +124,29 @@ const ProfileCardContainer = styled.section`
 `;
 
 const UserInfoContainer = styled.div`
-  ${({ theme }) => theme.mixins.flexBox('column')}
-  padding: 2rem 0;
-  border-bottom: 1px solid ${({ theme }) => theme.lightDarkGrey};
+  padding-top: 2rem;
 `;
 
+const UserInfoHeader = styled.div`
+  ${RecipeDetailHeader}
+`;
+const UserInfoMain = styled.div`
+  padding-top: 2rem;
+  ${({ theme }) => theme.mixins.flexBox('column')}
+`;
+const Title = styled.h3`
+  ${RecipeDetailTitleStyle}
+`;
+
+const SubTitle = styled.h5`
+  ${RecipeDetailSubTitleStyle}
+`;
 const UserImgContainer = styled.div`
   width: 10rem;
   height: 10rem;
   overflow: hidden;
   border-radius: 50%;
   position: relative;
-  margin: 0 auto;
   margin-bottom: ${({ theme }) => theme.spacingSemiMedium};
   border: 1px solid #ddd;
   cursor: pointer;
@@ -184,41 +203,4 @@ const Email = styled.span`
     )}
 `;
 
-const UserInfoUpdateContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 65%;
-  padding: 2rem 0;
-`;
-const InputContainer = styled.div`
-  position: relative;
-  ${({ theme }) => theme.mixins.flexBox}
-  width: 100%;
-`;
-
-const Label = styled.label`
-  ${({ theme }) =>
-    theme.mixins.title(
-      theme.fontRegular,
-      theme.weightSemiBold,
-      theme.mainBlack,
-    )}
-`;
-const Input = styled.input`
-  ${({ theme }) => theme.mixins.input}
-`;
-
-const Button = styled.button`
-  ${({ theme }) => theme.mixins.mediumButton()}
-  width: 60%;
-`;
-export const ErrorMessage = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  bottom: -1.5rem;
-  font-size: ${({ theme }) => theme.fontSmall};
-  color: ${({ theme }) => theme.lightRed};
-  height: 1.4rem;
-`;
 export default CurrentUserProfile;

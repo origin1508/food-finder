@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   RecipeDetailContainerStyle,
@@ -5,13 +6,15 @@ import {
   RecipeDetailTitleStyle,
   RecipeDetailSubTitleStyle,
 } from '../../styles/recipeDetailStyle';
-import { IngredientValue } from '../../types/recipe/recipeDetailType';
 
-const RecipeDetailIngredient = ({
-  ingredient,
-}: {
-  ingredient: IngredientValue[];
-}) => {
+const RecipeDetailIngredient = ({ ingredient }: { ingredient: string }) => {
+  const [ingredients, setIngredient] = useState<string[]>([]);
+  useEffect(() => {
+    const list = ingredient.split(',');
+    setIngredient((prev) => {
+      return [...prev, ...list];
+    });
+  }, [ingredient]);
   return (
     <RecipeDetailIngredientContainer>
       <RecipeDetailIngredientHeader>
@@ -19,10 +22,9 @@ const RecipeDetailIngredient = ({
         <SubTitle>Ingredients</SubTitle>
       </RecipeDetailIngredientHeader>
       <IngredientList>
-        {ingredient.map((item, index) => (
+        {ingredients.map((item, index) => (
           <Ingredient key={index}>
-            <IngredientName>{item?.name}</IngredientName>
-            <IngredientAmount>{item?.amount}</IngredientAmount>
+            <IngredientName>{item}</IngredientName>
           </Ingredient>
         ))}
       </IngredientList>
@@ -32,7 +34,6 @@ const RecipeDetailIngredient = ({
 
 const RecipeDetailIngredientContainer = styled.section`
   ${RecipeDetailContainerStyle}
-  margin-bottom: ${({ theme }) => theme.spacingMedium};
 `;
 
 const RecipeDetailIngredientHeader = styled.header`

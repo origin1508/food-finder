@@ -1,15 +1,32 @@
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import useSearchForm from '../hooks/useSearchForm';
 import styled from 'styled-components';
 import RecipeResult from '../components/searchResult/RecipeResult';
 import PlaceResult from '../components/searchResult/PlaceResult';
+import BasePageComponent from '../hoc/BasePageComponent';
 
 const SearchResult = () => {
+  const [searchParams] = useSearchParams();
+  const keyword = searchParams.get('keyword');
+  const { recipeSearch } = useSearchForm();
+  useEffect(() => {
+    if (keyword && keyword !== null) {
+      (async () => {
+        await recipeSearch(keyword);
+      })();
+    }
+  }, [keyword]);
+
   return (
-    <SearchResultWrapper>
-      <SearchResultContainer>
-        <RecipeResult />
-        <PlaceResult />
-      </SearchResultContainer>
-    </SearchResultWrapper>
+    <BasePageComponent>
+      <SearchResultWrapper>
+        <SearchResultContainer>
+          <RecipeResult keyword={keyword!} />
+          <PlaceResult keyword={keyword!} />
+        </SearchResultContainer>
+      </SearchResultWrapper>
+    </BasePageComponent>
   );
 };
 

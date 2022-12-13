@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import useSetAlert from './useSetAlert';
 import { SearchValue } from '../types/search/searchType';
+import { LikedRestaurantQuery } from '../types/restaurant/restaurantType';
 import {
   MARKER_IMAGE_URL,
   IMAGE_SIZE_WIDTH,
   IMAGE_SIZE_HEIGHT,
+  BIG_IMAGE_SIZE,
   SPRITE_SIZE_WIDTH,
   SPRITE_SIZE_HEIGHT,
   OFFSET_X,
@@ -11,18 +14,22 @@ import {
   DEFAULT_LAT,
   DEFAULT_LNG,
   DEFAULT_MAP_LEVEL,
+  COUNT_PER_PAGE,
 } from '../constants/kakaoMap';
+import favoriteMarkerImage from '../assets/favoriteMarker2.png';
 
-const useKakaoMap = (searchResult: string) => {
+const useKakaoMap = (searchResult?: string) => {
   const [kakaoMap, setkakaoMap] = useState<kakao.maps.Map>();
   const [placesResult, setPlacesResult] =
     useState<kakao.maps.services.PlacesSearchResult>();
   const [pagination, setPagination] = useState<kakao.maps.Pagination>();
   const [markers, setMakers] = useState<kakao.maps.Marker[]>([]);
   const mapRef = useRef<HTMLDivElement>(null);
+  const { setAlertError } = useSetAlert();
   const ps = new kakao.maps.services.Places();
   const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
   const imageSize = new kakao.maps.Size(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
+  const bigImageSize = new kakao.maps.Size(BIG_IMAGE_SIZE, BIG_IMAGE_SIZE);
   const spriteSize = new kakao.maps.Size(SPRITE_SIZE_WIDTH, SPRITE_SIZE_HEIGHT);
   const offset = new kakao.maps.Point(OFFSET_X, OFFSET_Y);
 
@@ -45,13 +52,22 @@ const useKakaoMap = (searchResult: string) => {
   const handlePlacesSearch = useCallback(
     (data: SearchValue) => {
       const { keyword } = data;
-      ps.keywordSearch(
-        searchResult + ' ' + keyword,
-        (result, status, pagination) => {
-          setPlacesResult(result);
-          setPagination(pagination);
-        },
-      );
+      searchResult &&
+        ps.keywordSearch(
+          searchResult + ' ' + keyword,
+          (result, status, pagination) => {
+            if (status === kakao.maps.services.Status.OK) {
+              setPlacesResult(result);
+              setPagination(pagination);
+            } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+              setAlertError({ error: '검색 결과가 존재하지 않습니다.' });
+              return;
+            } else if (status === kakao.maps.services.Status.ERROR) {
+              setAlertError({ error: '검색 결과 중 오류가 발생했습니다.' });
+              return;
+            }
+          },
+        );
     },
     [placesResult, pagination, setPlacesResult, setPagination],
   );
@@ -63,7 +79,7 @@ const useKakaoMap = (searchResult: string) => {
       removeMarker();
       const bounds = new kakao.maps.LatLngBounds();
       result.forEach((place, index) => {
-        const { x, y } = place;
+        const { x, y, place_name } = place;
         const placePosition = new kakao.maps.LatLng(Number(y), Number(x));
         const imgOptions = {
           spriteSize: spriteSize,
@@ -84,11 +100,11 @@ const useKakaoMap = (searchResult: string) => {
         setMakers((prev) => {
           return [...prev, marker];
         });
-        displayInfowindow(place, marker);
+        displayInfowindow(place_name, marker);
       });
       kakaoMap.setBounds(bounds);
     },
-    [placesResult, markers, setMakers, setPlacesResult],
+    [kakaoMap, placesResult, markers, setMakers, setPlacesResult],
   );
 
   const removeMarker = useCallback(() => {
@@ -98,14 +114,41 @@ const useKakaoMap = (searchResult: string) => {
     setMakers([]);
   }, [markers]);
 
-  const displayInfowindow = (
-    place: kakao.maps.services.PlacesSearchResultItem,
-    marker: kakao.maps.Marker,
-  ) => {
+  const addRestaurantMarker = useCallback(
+    (restaurants: LikedRestaurantQuery['result']) => {
+      if (!kakaoMap) return;
+
+      const bounds = new kakao.maps.LatLngBounds();
+      restaurants.forEach((restaurant) => {
+        const { map_x, map_y, title } = restaurant;
+        const restaurantPosition = new kakao.maps.LatLng(map_y, map_x);
+        const markerImage = new kakao.maps.MarkerImage(
+          favoriteMarkerImage,
+          bigImageSize,
+        );
+        const marker = new kakao.maps.Marker({
+          position: restaurantPosition,
+          image: markerImage,
+        });
+        bounds.extend(restaurantPosition);
+        marker.setMap(kakaoMap);
+        setMakers((prev) => {
+          return [...prev, marker];
+        });
+        displayInfowindow(title, marker);
+      });
+      kakaoMap.setBounds(bounds);
+    },
+    [kakaoMap, markers, setMakers],
+  );
+
+  const displayInfowindow = (title: string, marker: kakao.maps.Marker) => {
     if (!kakaoMap) return;
+    const content =
+      '<div style="padding: 1rem;">' + `<p>${title}</p>` + '</div>';
 
     kakao.maps.event.addListener(marker, 'mouseover', () => {
-      infowindow.setContent(`<div>${place.place_name}</div>`);
+      infowindow.setContent(content);
       infowindow.open(kakaoMap, marker);
     });
 
@@ -117,7 +160,7 @@ const useKakaoMap = (searchResult: string) => {
   const pages = useMemo(() => {
     if (pagination) {
       const { totalCount } = pagination;
-      const lastPage: number = Math.floor(totalCount / 15);
+      const lastPage: number = Math.floor(totalCount / COUNT_PER_PAGE);
       const temp: number[] = Array(lastPage)
         .fill(1)
         .map((item, index) => item + index);
@@ -143,8 +186,10 @@ const useKakaoMap = (searchResult: string) => {
     placesResult,
     pages,
     currentPage,
+    removeMarker,
     gotoPage,
     handlePlacesSearch,
+    addRestaurantMarker,
   };
 };
 

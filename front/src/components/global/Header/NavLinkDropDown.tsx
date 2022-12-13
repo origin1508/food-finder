@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { authState } from '../../../atom/auth';
@@ -9,13 +9,14 @@ import { PATH } from '../../../customRouter';
 import Storage from '../../../storage/storage';
 import CookieStorage from '../../../storage/cookie';
 import useSetAlert from '../../../hooks/useSetAlert';
+import useOnClickOutside from '../../../hooks/useOnclickOutside';
 
 const NavLinkDropDown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { setAlertSuccess } = useSetAlert();
   const [user, setUser] = useRecoilState(authState);
-
   const navigate = useNavigate();
+  const navLinkDropdownRef = useRef<HTMLDivElement>(null);
 
   const hanldeClickLogout = () => {
     Storage.clearToken();
@@ -24,6 +25,18 @@ const NavLinkDropDown = () => {
     setAlertSuccess({ success: '로그아웃 되었습니다.' });
     navigate(PATH.MAIN);
   };
+
+  const handleOutsideClicks = (event: MouseEvent) => {
+    if (
+      isDropdownOpen &&
+      navLinkDropdownRef.current &&
+      !navLinkDropdownRef.current.contains(event.target as any)
+    ) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useOnClickOutside(navLinkDropdownRef, handleOutsideClicks);
   return (
     <>
       <DropDownButton onClick={() => setIsDropdownOpen((prev) => !prev)}>
@@ -33,7 +46,7 @@ const NavLinkDropDown = () => {
         <Nickname>{user?.nickname}</Nickname>
         <CustomIcon name="toggleDown" size="17" color="inherit"></CustomIcon>
       </DropDownButton>
-      <DropDownContainer itemScope={isDropdownOpen}>
+      <DropDownContainer ref={navLinkDropdownRef} itemScope={isDropdownOpen}>
         <UserInfo>
           <UserInfoContent>{user?.nickname}</UserInfoContent>
           <UserInfoContent>{user?.email}</UserInfoContent>
@@ -41,6 +54,9 @@ const NavLinkDropDown = () => {
         <Profile onClick={() => navigate(`/profile/${user?.userId}`)}>
           Profile
         </Profile>
+        <LikedRestaurant onClick={() => navigate(PATH.RESTAURANT)}>
+          Liked Restaurant
+        </LikedRestaurant>
         <Logout onClick={hanldeClickLogout}>Logout</Logout>
       </DropDownContainer>
     </>
@@ -110,6 +126,19 @@ const Profile = styled.div`
   }
 `;
 const Logout = styled.div`
+  ${({ theme }) => theme.mixins.flexBox}
+  font-size: ${({ theme }) => theme.fontSmall};
+  line-height: 1.5;
+  cursor: pointer;
+  width: 100%;
+  height: 30%;
+  background-color: ${({ theme }) => theme.mainWhite};
+  &:hover {
+    color: ${({ theme }) => theme.mainBlack};
+    background-color: ${({ theme }) => theme.lightDarkGrey};
+  }
+`;
+const LikedRestaurant = styled.div`
   ${({ theme }) => theme.mixins.flexBox}
   font-size: ${({ theme }) => theme.fontSmall};
   line-height: 1.5;

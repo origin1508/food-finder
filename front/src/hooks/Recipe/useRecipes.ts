@@ -1,5 +1,10 @@
 import { useQuery } from 'react-query';
-import { getRandomRecipes, getRecipeRanking } from '../../api/recipeFetcher';
+import {
+  getRandomRecipes,
+  getRecipeRanking,
+  getRecipeDetail,
+} from '../../api/recipeFetcher';
+import { RecipeDetailInitial } from '../../types/recipe/recipeDetailType';
 
 export interface RandomRecipes {
   dish_id: number;
@@ -16,6 +21,12 @@ function useRandomRecipes() {
 }
 
 function useRecipeRanking() {
-  return useQuery<RandomRecipes[], Error>(['RacipeRanking'], getRecipeRanking);
+  return useQuery<RandomRecipes[], Error>(['racipeRanking'], getRecipeRanking);
 }
-export { useRandomRecipes, useRecipeRanking };
+
+function useRecipeDetail(userId: string) {
+  return useQuery<RecipeDetailInitial, Error>(['racipeDetail', userId], () =>
+    getRecipeDetail(userId),
+  );
+}
+export { useRandomRecipes, useRecipeRanking, useRecipeDetail };

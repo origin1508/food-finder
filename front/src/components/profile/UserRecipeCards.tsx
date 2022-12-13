@@ -1,105 +1,92 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import RecipeCard from '../recipe/RecipeCard';
-import { MediumTitle } from '../../styles/commonStyle';
-import CustomIcon from '../icons/CustomIcon';
-import { theme } from '../../styles/theme';
+import { AuthRecipe } from '../../hooks/Auth/useAuthRecipes';
 import { BaseComponentType } from '../../types/common/baseComponentType';
-import mockData from '../../util/mockData';
-const UserRecipeCards = ({ children }: BaseComponentType) => {
-  const { recipeDatas } = mockData;
-  const [slidePx, setSlidePx] = useState(0);
-  const CARD_WIDTH_SIZE = 23;
-  const CARDS_WIDTH_SIZE = 68;
-
-  const toPrev = () => {
-    slidePx < 0 && setSlidePx(slidePx + CARD_WIDTH_SIZE);
+interface UserRecipeCards extends BaseComponentType {
+  recipes: AuthRecipe[];
+}
+const UserRecipeCards = ({ recipes, children }: UserRecipeCards) => {
+  const [isRecipesLength, setIsRecipesLength] = useState(false);
+  const navigate = useNavigate();
+  const handleClickDetail = (userId: number) => {
+    const recipeDetailPagePath = `/recipe/detail/${userId}`;
+    navigate(recipeDetailPagePath);
   };
 
-  const toNext = () => {
-    slidePx > -CARDS_WIDTH_SIZE && setSlidePx(slidePx - CARD_WIDTH_SIZE);
-  };
+  useEffect(() => {
+    if (recipes.length > 0) {
+      return setIsRecipesLength(true);
+    }
+  }, [recipes]);
 
   return (
     <UserRecipeCardsContainer>
-      <Title>{children}</Title>
       <RecipeCards>
-        <Wrap results={slidePx}>
-          {recipeDatas.map((recipe) => {
-            return (
-              <RecipeCard
-                img={recipe.img}
-                title={recipe.title}
-                channelUuid={recipe.channelUuid}
-                views={recipe.views}
-                likes={recipe.likes}
-                creator={recipe.creator}
-                onMoreClick={recipe.onMoreClick}
-                index={recipe.index}
-                size="20"
-                key={recipe.index}
-              />
-            );
-          })}
-        </Wrap>
+        {isRecipesLength ? (
+          <Wrap>
+            {recipes.map((recipe) => {
+              return (
+                <RecipeCard
+                  img={recipe.image_url2}
+                  title={recipe.name}
+                  channelUuid={recipe.dish_id}
+                  views={recipe.views}
+                  likes={recipe.likes}
+                  onClickDetailPage={() => handleClickDetail(recipe.dish_id)}
+                  size="19"
+                  key={recipe.dish_id}
+                />
+              );
+            })}
+          </Wrap>
+        ) : (
+          <Text>{children}</Text>
+        )}
       </RecipeCards>
-      <PrevButton onClick={() => toPrev()}>
-        <CustomIcon name="prev" size="2.5vh" color={theme.mainBlack} />
-      </PrevButton>
-      <NextButton onClick={() => toNext()}>
-        <CustomIcon name="next" size="2.5vh" color={theme.mainBlack} />
-      </NextButton>
     </UserRecipeCardsContainer>
   );
 };
 
 const UserRecipeCardsContainer = styled.div`
-  position: relative;
+  width: 100%;
   ${({ theme }) => theme.mixins.flexBox('column')};
-  gap: 4vh;
-`;
-
-const Title = styled.h2`
-  ${MediumTitle}
-  color:${({ theme }) => theme.mainBlack}
+  gap: 2rem;
+  padding 0 3vh;
 `;
 
 const RecipeCards = styled.div`
-  max-width: 68vh;
-  height: 21vh;
+  width: 100%;
+  height: 25vh;
   overflow: hidden;
 `;
 const Wrap = styled.div`
-  ${({ theme }) => theme.mixins.flexBox('row', 'center', 'start')}
-  gap: 3rem;
-  transform: translateX(${({ results }) => `${results}vh`});
-  transition: all 0.3s;
+display: flex;
+height: 100%;
+flex-flow: row wrap;
+gap: 2.5vh;
+overflow-y: scroll;
+&::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+&:: {
+  ::after {
+    content: "";
+    flex: auto;
+  }
 `;
 
-const PrevButton = styled.div`
-  ${({ theme }) => theme.mixins.flexBox}
-  position: absolute;
-  cursor: pointer;
-  top: 50%;
-  left: -2.5%;
-  background-color: ${({ theme }) => theme.mainWhite};
-  width: 4vh;
-  height: 4vh;
-  border-radius: 2rem;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-`;
-
-const NextButton = styled.div`
-  ${({ theme }) => theme.mixins.flexBox}
-  position: absolute;
-  cursor: pointer;
-  top: 50%;
-  right: -2.5%;
-  background-color: ${({ theme }) => theme.mainWhite};
-  width: 4vh;
-  height: 4vh;
-  border-radius: 2rem;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+const Text = styled.p`
+  ${({ theme }) => theme.mixins.flexBox()}
+  width: 100%;
+  ${({ theme }) =>
+    theme.mixins.title(
+      theme.fontSemiMedium,
+      theme.weightRegular,
+      theme.mainBlack,
+    )}
+  line-height: 1.7;
 `;
 
 export default UserRecipeCards;

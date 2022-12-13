@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { MediumTitle, TextTwo } from '../../styles/commonStyle';
+import usePrediction from '../../hooks/usePrediction';
+import { TextTwo } from '../../styles/commonStyle';
 import CustomIcon from '../icons/CustomIcon';
 import { theme } from '../../styles/theme';
 import { imageResize } from '../../util/profileImageResizeUtil';
+import ImageSearchResult from './ImageSearchResult';
 
 interface ModalProps {
   onModalCancelButtonClickEvent: () => void;
@@ -21,7 +23,8 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
       imageSearchFile: [],
     },
   });
-
+  const { mutate: imagePrediction, isSuccess, data } = usePrediction();
+  const result: string = isSuccess && data.result;
   const searchImage = watch('imageSearchFile');
 
   useEffect(() => {
@@ -34,41 +37,60 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
     })();
   }, [searchImage]);
 
+  const handleImageSearch = handleSubmit((data) => imagePrediction(data));
+
   return (
     <ModalBackDrop>
-      <ModalContainer>
-        <ModalTitle>이미지 검색</ModalTitle>
-        <UploadCotainer>
-          <ImageUploadBox>
-            <SearchImg itemProp={searchImgPreview} />
-            <CustomIcon name="upload" size="60" color={theme.themeColor} />
-            <ImgUpload type="file" {...register('imageSearchFile')} />
-          </ImageUploadBox>
-          <NoticeContainer>
-            <NoticeTitle>검색 정확도를 위한 유의사항!</NoticeTitle>
-            <Text>
-              1. 업로드 하는 사진 속에 &nbsp;
-              <Highlight>검색하고자 하는 음식 외에</Highlight>
-              <br />
-              &nbsp;&nbsp;&nbsp;<Highlight>다른 음식이 보이면</Highlight>
-              &nbsp;정확도가 떨어질 수 있습니다!
-              <br />
-            </Text>
-            <Text>
-              2. 음식을 객체를{' '}
-              <Highlight>직각 (Top View) 또는 45도 가량의</Highlight>
-              <br />
-              &nbsp;&nbsp;&nbsp;<Highlight>측면에서 촬영</Highlight>한 사진을
-              올려주세요!
-            </Text>
-          </NoticeContainer>
-        </UploadCotainer>
-        <ButtonContainer>
-          <SearchButton>Search</SearchButton>
-          <CancelButton onClick={onModalCancelButtonClickEvent}>
-            Cancle
-          </CancelButton>
-        </ButtonContainer>
+      <ModalContainer onSubmit={handleImageSearch}>
+        {isSuccess ? (
+          <ImageSearchResult
+            searchImgPreview={searchImgPreview}
+            result={result}
+            onModalCancelButtonClickEvent={onModalCancelButtonClickEvent}
+          />
+        ) : (
+          <>
+            <ModalTitle>이미지 검색</ModalTitle>
+            <UploadCotainer>
+              <ImageUploadBox>
+                <SearchImg itemProp={searchImgPreview} />
+                <CustomIcon name="upload" size="60" color={theme.themeColor} />
+                <ImgUpload
+                  type="file"
+                  {...register('imageSearchFile', { required: true })}
+                  accept="image/jpeg, image/png"
+                />
+              </ImageUploadBox>
+              <NoticeContainer>
+                <NoticeTitle>검색 정확도를 위한 유의사항!</NoticeTitle>
+                <Text>
+                  1. 업로드 하는 사진 속에 &nbsp;
+                  <Highlight>검색하고자 하는 음식 외에</Highlight>
+                  <br />
+                  &nbsp;&nbsp;&nbsp;<Highlight>다른 음식이 보이면</Highlight>
+                  &nbsp;정확도가 떨어질 수 있습니다!
+                  <br />
+                </Text>
+                <Text>
+                  2. 음식을 객체를{' '}
+                  <Highlight>직각 (Top View) 또는 45도 가량의</Highlight>
+                  <br />
+                  &nbsp;&nbsp;&nbsp;<Highlight>측면에서 촬영</Highlight>한
+                  사진을 올려주세요!
+                </Text>
+              </NoticeContainer>
+            </UploadCotainer>
+            <ButtonContainer>
+              <SearchButton type="submit">Search</SearchButton>
+              <CancelButton
+                type="button"
+                onClick={onModalCancelButtonClickEvent}
+              >
+                Cancle
+              </CancelButton>
+            </ButtonContainer>
+          </>
+        )}
       </ModalContainer>
     </ModalBackDrop>
   );
@@ -82,11 +104,11 @@ const ModalBackDrop = styled.article`
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 99;
+  z-index: 2;
   background-color: rgba(0, 0, 0, 0.1);
 `;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.form`
   ${({ theme }) => theme.fixedCenter};
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 60%;

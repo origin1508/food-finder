@@ -8,7 +8,7 @@ const { VITE_SERVER_URL } = import.meta.env;
 const customAxios = axios.create({
   baseURL: VITE_SERVER_URL,
   headers: {
-    'Content-Type': 'Aplication/json',
+    'Content-Type': 'application/json',
   },
   timeout: 3000,
 });
@@ -31,23 +31,7 @@ customAxios.interceptors.response.use(
       const { statusText, data } = error.response;
       const { message } = data;
       if (statusText === 'Unauthorized') {
-        if (message === '유효기간이 만료된 토큰입니다.') {
-          (async () => {
-            const res = await customAxios.put(
-              'auth/validation/refresh-token',
-              {},
-              {
-                headers: {
-                  Authorization: `Bearer ${Storage.getToken()}`,
-                  'refresh-token': CookieStorage.getToken(),
-                },
-              },
-            );
-            const { result } = res.data;
-            Storage.setToken(result.accessToken);
-            CookieStorage.setToken(result.refreshToken);
-          })();
-        } else if (
+        if (
           message ===
           '유효기간이 만료된 리프레시 토큰입니다. 유저를 로그인 화면으로 보내주세요'
         ) {
@@ -55,7 +39,34 @@ customAxios.interceptors.response.use(
           CookieStorage.clearToken();
           window.location.replace('/login');
         }
+        (async () => {
+          const res = await customAxios.put(
+            'auth/validation/refresh-token',
+            { userId: Storage.getUserId() },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${CookieStorage.getToken()}`,
+              },
+            },
+          );
+          const { result } = res.data;
+
+          Storage.setToken(result.accessToken);
+          if (CookieStorage.getToken() !== null) {
+            CookieStorage.setToken(result.refreshToken);
+          }
+        })();
+      } else if (
+        message ===
+          '서버에 저장되지 않은 리프레시 토큰입니다. 로그인 화면으로' ||
+        message === '손상된 토큰입니다.'
+      ) {
+        Storage.clearToken();
+        CookieStorage.clearToken();
+        window.location.replace('/login');
       }
+
       return Promise.reject(error);
     } else if (error.response.status >= 500) {
       return AxiosError;

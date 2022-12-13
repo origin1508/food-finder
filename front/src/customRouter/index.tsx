@@ -14,9 +14,10 @@ const Recipe = lazy(() => import('../pages/recipe'));
 const CreateRecipe = lazy(() => import('../pages/createRecipe'));
 const CollectRecipes = lazy(() => import('../pages/collectRecipes'));
 const Profile = lazy(() => import('../pages/profile'));
-const Map = lazy(() => import('../components/map/LandingPage'));
 const SearchResult = lazy(() => import('../pages/searchResult'));
 const ReacipeDetail = lazy(() => import('../pages/recipeDetail'));
+const EditRecipe = lazy(() => import('../pages/editRecipe'));
+const LikedRestaurant = lazy(() => import('../pages/likedRestaurant'));
 
 export const PATH = {
   MAIN: '/',
@@ -25,10 +26,11 @@ export const PATH = {
   RECIPE: '/recipe',
   CREATE_RECIPE: '/recipe/create',
   COLLECT_RECIPES: '/collectRecipes',
-  SEARCH_RESULT: '/search',
   PROFILE: '/profile/:userId',
-  RECIPE_DETAIL: '/recipe/detail',
-  MAP: '/map',
+  RESTAURANT: '/restaurant',
+  SEARCH_RESULT: '/search',
+  RECIPE_DETAIL: '/recipe/detail/:recipeId',
+  EDIT_RECIPE: '/recipe/edit/:recipeId',
   NOT_FOUND: '/*',
 };
 
@@ -47,9 +49,10 @@ const CustomRouter = () => {
             <Route path={PATH.CREATE_RECIPE} element={<CreateRecipe />} />
             <Route path={PATH.COLLECT_RECIPES} element={<CollectRecipes />} />
             <Route path={PATH.PROFILE} element={<Profile />} />
-            <Route path={PATH.MAP} element={<Map />} />
+            <Route path={PATH.RESTAURANT} element={<LikedRestaurant />} />
             <Route path={PATH.SEARCH_RESULT} element={<SearchResult />} />
             <Route path={PATH.RECIPE_DETAIL} element={<ReacipeDetail />} />
+            <Route path={PATH.EDIT_RECIPE} element={<EditRecipe />} />
             <Route path={PATH.NOT_FOUND} element={<NotFound />} />
           </Routes>
         </Suspense>

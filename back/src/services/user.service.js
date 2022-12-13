@@ -78,4 +78,15 @@ export default {
 
     return restaurants;
   },
+
+  async getUserInfo(userId) {
+    const user = await userModel.findById(userId);
+
+    return {
+      userId: user.user_id,
+      email: user.email,
+      nickname: user.nickname,
+      profileUrl: user.profile_url,
+    };
+  },
 };

@@ -7,27 +7,26 @@ interface RecipeCardProps {
   channelUuid: number;
   views: number;
   likes: number;
-  creator: string;
-  onMoreClick: () => void;
+  creator?: string;
+  onClickDetailPage: () => void;
   size?: string;
 }
 
 const RecipeCard = ({
   img,
   title,
-  channelUuid,
   views,
   likes,
   creator,
-  onMoreClick,
+  onClickDetailPage,
   size,
 }: RecipeCardProps) => {
   return (
-    <CardContainer itemProp={size} onClick={onMoreClick}>
+    <CardContainer itemProp={size} onClick={onClickDetailPage}>
       <CardImg src={img} />
       <CardContent>
         <CardTitle>{title}</CardTitle>
-        <CardCreator>@ {creator}</CardCreator>
+        {creator ? <CardCreator>@ {creator}</CardCreator> : null}
         <CardInfoList>
           <List>
             <Veiws>조회수 {views} </Veiws>
@@ -68,6 +67,11 @@ const CardContent = styled.div`
 
 const CardTitle = styled.h2`
   ${SmallTitle}
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  letter-spacing: -0.05em;
 `;
 
 const CardCreator = styled.h4`
