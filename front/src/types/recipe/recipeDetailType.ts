@@ -14,6 +14,7 @@ export interface RecipeDetailInitial {
   Steps: RecipeStepsInitial[];
   RecipeComments: Comment[];
   myStar: number;
+  starAverage: number;
   liked: boolean;
   writer: {
     userId: number;
