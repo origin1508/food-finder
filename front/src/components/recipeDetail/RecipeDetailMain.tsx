@@ -66,7 +66,7 @@ const RecipeDetailMain = ({
             조회수 {views} / 좋아요 {RecipeLikes}
           </LikeCount>
         </TitleContainer>
-        <TextInfo>우리나라의 전통음식 비빔밥 레시피입니다!</TextInfo>
+
         <BasicInformationContainer>
           <Serving>
             <CustomIcon name="people" size="25" color={theme.darkGrey} />
