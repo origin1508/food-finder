@@ -133,7 +133,7 @@ export const recipeDeleteRequest = async (recipeId: number) => {
 };
 
 export const recipeUpdateRequest = async (
-  recipeId: number,
+  recipeId: string,
   formData: FormData,
 ) => {
   const res = await customAxios.patch(`/recipes/${recipeId}`, formData, {
