@@ -1,6 +1,7 @@
 import useSetAlert from '../../hooks/useSetAlert';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import CustomIcon from '../icons/CustomIcon';
+import { useEffect } from 'react';
 
 interface Toast {
   title: string;
@@ -14,6 +15,11 @@ const Toast = ({ title, body, bgColor }: Toast) => {
   const handleClose = () => {
     closeToast();
   };
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      handleClose();
+    }, 1500);
+  }, []);
 
   return (
     <ToastNotification itemProp={bgColor}>
