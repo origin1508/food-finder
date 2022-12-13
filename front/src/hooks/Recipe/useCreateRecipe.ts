@@ -8,7 +8,6 @@ import imageResize from '../../util/imageResize';
 import { createRecipeRequest } from '../../api/recipeFetcher';
 import { RecipeFormDefaultValue } from '../../types/recipe/recipeFormType';
 import { FORM_FIELDS } from '../../constants/recipeForm';
-import { PATH } from '../../customRouter';
 
 const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
   const navigate = useNavigate();
@@ -48,7 +47,7 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
     const stepImages = Array<File>();
     const recipeThumbnail = await imageResize(mainImage.files[0]);
     const steps = await instructions.reduce(async (acc, cur, idx) => {
-      const prevResult = await acc.then();
+      const prevResult: {} = await acc.then();
       const { description, image } = cur;
       const compressedImage = await imageResize(image[0]).then();
       compressedImage && stepImages.push(compressedImage);
@@ -72,16 +71,18 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
 
   const createRecipeMutation = useMutation(createRecipe, {
     onSuccess: (data) => {
-      const { message } = data;
+      const { message, result } = data;
+      const { dish_id } = result.recipeInformation;
       setAlertSuccess({ success: message });
       queryClient.invalidateQueries('photos');
-      navigate(PATH.COLLECT_RECIPES);
+      const recipeDetailPagePath = `/recipe/detail/${dish_id}`;
+      navigate(recipeDetailPagePath, { replace: true });
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
         setAlertError({ error: error.message });
       } else {
-        setAlertError({ error: 'request error' });
+        throw error;
       }
     },
   });
