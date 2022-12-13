@@ -267,8 +267,8 @@ export default {
       const deletedSteps = await recipeModel.deleteStepsByDishId({ dishId });
 
       let stepImagesIndex = 0;
+      const listForCreate = [];
 
-      // FIXME: bulk insert 고려
       for (let stepObject of parsedSteps) {
         let imageUrl;
 
@@ -279,13 +279,15 @@ export default {
           stepImagesIndex += 1;
         }
 
-        const createdStep = await recipeModel.createStep({
+        listForCreate.push({
           content: stepObject.content,
-          imageUrl,
+          image_url: imageUrl,
           step: stepObject.step,
-          dishId,
+          dish_id: dishId,
         });
       }
+
+      const createdSteps = await recipeModel.createStepUsingBulk(listForCreate);
     }
 
     return updatedRecipeInformation;
