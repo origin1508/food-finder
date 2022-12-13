@@ -124,28 +124,6 @@ export default {
       steps: createdSteps,
     };
   },
-  async addStep({ userId, dishId, content, imageUrl, step }) {
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    if (recipeInformation.dataValues.userId !== userId) {
-      throw ApiError.setUnauthorized("스텝 추가 권한이 없습니다.");
-    }
-
-    const createdStep = await recipeModel.createStep({
-      content,
-      imageUrl,
-      step,
-      dishId,
-    });
-
-    return createdStep;
-  },
   async addComment({ userId, content, dishId }) {
     const recipeInformation = await recipeModel.findRecipeInformationByDishId({
       dishId,
@@ -280,28 +258,6 @@ export default {
     }
 
     return updatedRecipeInformation;
-  },
-  async updateStep({ dishId, userId, stepId, content, imageUrl }) {
-    // FIXME: 업데이트 로직 고려
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    if (recipeInformation.dataValues.userId !== userId) {
-      throw ApiError.setUnauthorized("수정 권한이 없습니다.");
-    }
-
-    const updatedStep = await recipeModel.updateStep({
-      stepId,
-      content,
-      imageUrl,
-    });
-
-    return updatedStep;
   },
   async updateComment({ userId, commentId, content }) {
     const comment = await recipeModel.findRecipeCommentByCommentId({
