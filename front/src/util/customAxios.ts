@@ -58,7 +58,9 @@ customAxios.interceptors.response.use(
           }
         })();
       } else if (
-        message === '서버에 저장되지 않은 리프레시 토큰입니다. 로그인 화면으로'
+        message ===
+          '서버에 저장되지 않은 리프레시 토큰입니다. 로그인 화면으로' ||
+        message === '손상된 토큰입니다.'
       ) {
         Storage.clearToken();
         CookieStorage.clearToken();
