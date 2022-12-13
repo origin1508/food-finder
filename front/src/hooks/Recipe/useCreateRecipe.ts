@@ -6,7 +6,10 @@ import { FormState } from 'react-hook-form';
 import useSetAlert from '../useSetAlert';
 import imageResize from '../../util/imageResize';
 import { createRecipeRequest } from '../../api/recipeFetcher';
-import { RecipeFormDefaultValue } from '../../types/recipe/recipeFormType';
+import {
+  RecipeFormDefaultValue,
+  Step,
+} from '../../types/recipe/recipeFormType';
 import { FORM_FIELDS } from '../../constants/recipeForm';
 
 const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
@@ -45,14 +48,19 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
       instructions,
     } = data;
     const stepImages = Array<File>();
+    const steps = Array<Step>();
     const recipeThumbnail = await imageResize(mainImage.files[0]);
-    const steps = await instructions.reduce(async (acc, cur, idx) => {
-      const prevResult: {} = await acc.then();
-      const { description, image } = cur;
-      const compressedImage = await imageResize(image[0]).then();
-      compressedImage && stepImages.push(compressedImage);
-      return { ...prevResult, [idx + 1]: description };
-    }, Promise.resolve({}));
+    await Promise.all(
+      instructions.map(async (instruction, index) => {
+        const { description, image } = instruction;
+        const compressedImage = await imageResize(image[0]);
+        compressedImage && stepImages.push(compressedImage);
+        const step: Step = {};
+        step.step = index + 1;
+        step.content = description;
+        steps.push(step);
+      }),
+    );
     const formData = new FormData();
     formData.append('name', name);
     formData.append('method', method);
@@ -65,7 +73,6 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
       formData.append('stepImages', stepImage);
     });
     formData.append('steps', JSON.stringify(steps));
-
     return await createRecipeRequest(formData);
   };
 
