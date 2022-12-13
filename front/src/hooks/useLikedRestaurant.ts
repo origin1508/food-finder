@@ -11,7 +11,7 @@ import { likedRestaurantIdState } from '../atom/restaurant';
 import { authState } from '../atom/auth';
 import { LikedRestaurantQuery } from '../types/restaurant/restaurantType';
 
-const useRestaurant = () => {
+const useLikedRestaurant = () => {
   const queryClient = useQueryClient();
   const [, setLikedRestaurantId] = useRecoilState(likedRestaurantIdState);
   const user = useRecoilValue(authState);
@@ -93,4 +93,4 @@ const useRestaurant = () => {
   };
 };
 
-export default useRestaurant;
+export default useLikedRestaurant;

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import useRestaurant from '../../hooks/useRestaurant';
+import useLikedRestaurant from '../../hooks/useLikedRestaurant';
 import useSearchForm from '../../hooks/useSearchForm';
 import useKakaoMap from '../../hooks/useKakaoMap';
 import Search from '../common/Search';
@@ -13,7 +13,8 @@ const KakaoMap = ({ keyword }: SearchValue) => {
   const searchResult = keyword;
   const scrollRef = useRef<HTMLDivElement>(null);
   const likedRestaurantId = useRecoilValue(likedRestaurantIdState);
-  const { restaurantLikeMutation, restaurantUnlikeMutation } = useRestaurant();
+  const { restaurantLikeMutation, restaurantUnlikeMutation } =
+    useLikedRestaurant();
   const { register, handleSubmit } = useSearchForm();
   const {
     mapRef,

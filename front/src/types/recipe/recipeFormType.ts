@@ -33,3 +33,9 @@ export interface RecipeFormValue {
   stepImages: Blob[];
   steps: string;
 }
+
+export interface Step {
+  step?: number;
+  content?: string;
+  imageUrl?: string;
+}

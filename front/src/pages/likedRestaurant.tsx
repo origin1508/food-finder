@@ -1,15 +1,15 @@
 import styled from 'styled-components';
-import LikedRestaurant from '../components/profile/LikedRestaurant';
+import UserLikedRestaurant from '../components/profile/UserLikedRestaurant';
 
-const Restaurant = () => {
+const LikedRestaurant = () => {
   return (
     <RestaurantContainer>
-      <LikedRestaurant />
+      <UserLikedRestaurant />
     </RestaurantContainer>
   );
 };
 
-export default Restaurant;
+export default LikedRestaurant;
 
 const RestaurantContainer = styled.article`
   ${({ theme }) => theme.mixins.flexBox()}

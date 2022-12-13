@@ -25,15 +25,11 @@ const RecipeFormIngredient = () => {
         return (
           <RecipeFormIngredientInputContainer key={item.id}>
             <RecipeFormIngredientInput
-              {...register(`ingredients.${index}.name`, {
-                required: '재료명을 입력해주세요.',
-              })}
+              {...register(`ingredients.${index}.name`)}
               placeholder={INGREDIENT_PLACEHOLDERS[index % 3].name}
             />
             <RecipeFormIngredientInput
-              {...register(`ingredients.${index}.amount`, {
-                required: '재료양을 입력해주세요.',
-              })}
+              {...register(`ingredients.${index}.amount`)}
               placeholder={INGREDIENT_PLACEHOLDERS[index % 3].amount}
             />
             <IngredientRemoveButton
