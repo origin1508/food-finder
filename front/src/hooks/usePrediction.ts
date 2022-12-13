@@ -32,7 +32,7 @@ const usePrediction = () => {
       if (error instanceof AxiosError) {
         setAlertError({ error: error.message });
       } else {
-        setAlertError({ error: 'request error' });
+        console.log(error);
       }
     },
   });
