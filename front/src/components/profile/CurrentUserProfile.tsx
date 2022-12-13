@@ -24,7 +24,7 @@ const CurrentUserProfile = () => {
     useEditNickname();
   const { mutate: editImg, isLoading: ImgUpdateLoading } = useEditImg();
   const { setAlertLoading } = useSetAlert();
-
+  const [profileimgPreview, setProfileImgPreview] = useState('');
   const {
     register,
     handleSubmit,
@@ -36,16 +36,17 @@ const CurrentUserProfile = () => {
       updateImgFile: [],
     },
   });
-
-  const [profileimgPreview, setProfileImgPreview] = useState('');
   const profileImg = watch('updateImgFile');
 
+  if (user === null) return null;
+
   const onSubmit = handleSubmit(async ({ updateImgFile, nickname }) => {
-    if (updateImgFile!.length > 0) {
+    if (updateImgFile === undefined || nickname === undefined) return null;
+    if (updateImgFile.length > 0) {
       if (ImgUpdateLoading) {
         setAlertLoading({ loading: true });
       }
-      const file = updateImgFile![0];
+      const file = updateImgFile[0];
       const copress = await imageResize(file);
       editImg(copress);
     }
@@ -53,7 +54,7 @@ const CurrentUserProfile = () => {
       if (nicknameEditLoading) {
         setAlertLoading({ loading: true });
       }
-      editNickname(nickname!);
+      editNickname(nickname);
     }
   });
 
@@ -78,7 +79,7 @@ const CurrentUserProfile = () => {
           <UserImgContainer>
             <UserImg
               src={
-                profileimgPreview !== '' ? profileimgPreview : user?.profileUrl!
+                profileimgPreview !== '' ? profileimgPreview : user?.profileUrl
               }
               alt="userImg"
             />
@@ -95,7 +96,7 @@ const CurrentUserProfile = () => {
 
       {!isPasswordEditing ? (
         <NicknameEditFrom
-          user={user!}
+          user={user}
           register={register}
           errors={errors}
           onSubmit={onSubmit}
@@ -105,7 +106,7 @@ const CurrentUserProfile = () => {
       ) : null}
       {isPasswordEditing ? (
         <PasswordEditForm
-          user={user!}
+          user={user}
           setIsPasswordEditing={setIsPasswordEditing}
           setAlertLoading={setAlertLoading}
         />

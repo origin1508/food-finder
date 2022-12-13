@@ -16,6 +16,8 @@ const Recipe = () => {
   const { data: randomRecipe } = useRandomRecipes();
   const { data: recipeRanking } = useRecipeRanking();
 
+  if (randomRecipe === undefined || recipeRanking === undefined) return null;
+
   return (
     <Container>
       <HeaderContainer>
@@ -32,7 +34,7 @@ const Recipe = () => {
           <TitleContainer>
             <Title>금주의 추천 RECIPE!</Title>
           </TitleContainer>
-          <SuggestionRecipe recipes={recipeRanking!} />
+          <SuggestionRecipe recipes={recipeRanking} />
         </SuggestionRecipeContainer>
         <SuggestionRecipeContainer>
           <TitleContainer>
@@ -42,7 +44,7 @@ const Recipe = () => {
             </MoreRecipe>
           </TitleContainer>
 
-          <SuggestionRecipe recipes={randomRecipe!} />
+          <SuggestionRecipe recipes={randomRecipe} />
         </SuggestionRecipeContainer>
       </RecipeContainer>
     </Container>

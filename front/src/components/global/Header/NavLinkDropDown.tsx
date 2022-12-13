@@ -7,7 +7,6 @@ import CustomIcon from '../../icons/CustomIcon';
 import basicProfileImg from '../../../assets/basicProfileImg.png';
 import { PATH } from '../../../customRouter';
 import Storage from '../../../storage/storage';
-import CookieStorage from '../../../storage/cookie';
 import useSetAlert from '../../../hooks/useSetAlert';
 import useOnClickOutside from '../../../hooks/useOnclickOutside';
 
@@ -20,7 +19,6 @@ const NavLinkDropDown = () => {
 
   const hanldeClickLogout = () => {
     Storage.clearToken();
-    CookieStorage.clearToken();
     setUser(null);
     setAlertSuccess({ success: '로그아웃 되었습니다.' });
     navigate(PATH.MAIN);
@@ -30,7 +28,7 @@ const NavLinkDropDown = () => {
     if (
       isDropdownOpen &&
       navLinkDropdownRef.current &&
-      !navLinkDropdownRef.current.contains(event.target as any)
+      !navLinkDropdownRef.current.contains(event.target as Node)
     ) {
       setIsDropdownOpen(false);
     }

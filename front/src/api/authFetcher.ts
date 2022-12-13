@@ -1,7 +1,6 @@
 import customAxios from '../util/customAxios';
 import Storage from '../storage/storage';
-import CookieStorage from '../storage/cookie';
-import { AuthFormInitial, EditImageForm } from '../types/auth';
+import { AuthFormInitial } from '../types/auth';
 
 export async function authRegisterRequest(registerForm: AuthFormInitial) {
   const res = await customAxios.post('/auth/register', registerForm, {
@@ -21,7 +20,7 @@ export async function authLoginRequest(loginForm: AuthFormInitial) {
   });
   const { result } = res.data;
   Storage.setToken(result.accessToken);
-  CookieStorage.setToken(result.refreshToken);
+  Storage.setRefreshToken(result.refreshToken);
   return res.data;
 }
 

@@ -24,7 +24,7 @@ const CommentEdit = ({ comment, setIsEdit, recipeId }: CommentEdit) => {
       <Input
         defaultValue={comment.content}
         as="textarea"
-        {...register!('comment')}
+        {...register('comment')}
       />
 
       <ButtonContainer>

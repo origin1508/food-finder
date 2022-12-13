@@ -111,7 +111,7 @@ const ModalBackDrop = styled.article`
 const ModalContainer = styled.form`
   ${({ theme }) => theme.fixedCenter};
   ${({ theme }) => theme.mixins.flexBox('column')}
-  width: 60%;
+  width: 100rem;
   height: 70vh;
   background-image: url('https://cdn.pixabay.com/photo/2017/10/22/21/01/wood-2879254_1280.jpg');
   background-size: cover;

@@ -14,14 +14,14 @@ const Profile = () => {
   const navigate = useNavigate();
   const { userId: profileOwnerId } = useParams();
   const [isOwner, setIsOwner] = useState(false);
+  if (profileOwnerId === undefined) return null;
   useEffect(() => {
     if (!isLogin) {
       navigate(PATH.LOGIN);
     }
-    if (profileOwnerId == user?.userId) {
+    if (Number(profileOwnerId) === user?.userId) {
       setIsOwner(true);
     }
-    console.log(profileOwnerId);
   }, [isLogin, profileOwnerId]);
 
   return (
@@ -30,9 +30,9 @@ const Profile = () => {
         {isOwner ? (
           <CurrentUserProfile />
         ) : (
-          <UserProfile profileOwnerId={profileOwnerId!} />
+          <UserProfile profileOwnerId={profileOwnerId} />
         )}
-        <UserRecipe profileOwnerId={profileOwnerId!} />
+        <UserRecipe profileOwnerId={profileOwnerId} />
       </ContentContainer>
     </Container>
   );
