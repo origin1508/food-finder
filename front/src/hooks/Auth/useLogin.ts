@@ -6,6 +6,7 @@ import { PATH } from '../../customRouter';
 import useSetAlert from '../useSetAlert';
 import { authState } from '../../atom/auth';
 import { ErrorType } from '../../types/error';
+import Storage from '../../storage/storage';
 
 export default function useLogin() {
   const { setAlertSuccess, setAlertError } = useSetAlert();
@@ -14,6 +15,7 @@ export default function useLogin() {
 
   const mutation = useMutation(authLoginRequest, {
     onSuccess: (data) => {
+      Storage.setUserId(data.result.userId);
       setAuthState(data?.result);
       setAlertSuccess({ success: data?.message });
       navigate(PATH.MAIN);
