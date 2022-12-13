@@ -1,13 +1,13 @@
 import { useMutation } from 'react-query';
 import useSetAlert from './useSetAlert';
-import useSearchForm from './useSearchForm';
 import { getPrediction } from '../api/predictionFetcher';
 import imageResize from '../util/imageResize';
 import { AxiosError } from 'axios';
 
 const usePrediction = () => {
-  const { setAlertError, setAlertSuccess } = useSetAlert();
+  const { setAlertError, setAlertSuccess, setAlertLoading } = useSetAlert();
   const imagePrediction = async (data: { imageSearchFile: File[] }) => {
+    setAlertLoading({ loading: true });
     const { imageSearchFile } = data;
     const image = imageSearchFile[0];
     const compressedImage = await imageResize(image);
