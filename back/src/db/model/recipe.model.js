@@ -430,6 +430,7 @@ export default {
     views,
     cookingTime,
     dishId,
+    userId,
   }) {
     const updatedRecipeInformation = await Recipe.update(
       {
@@ -443,7 +444,7 @@ export default {
         views,
         cooking_time: cookingTime,
       },
-      { where: { dish_id: Number(dishId) } }
+      { where: { dish_id: Number(dishId), user_id: Number(userId) } }
     );
 
     return updatedRecipeInformation;

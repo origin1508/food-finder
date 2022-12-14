@@ -234,36 +234,41 @@ export default {
     stepImages,
     steps,
   }) {
-    console.log(steps);
     let parsedSteps;
     if (steps) {
       parsedSteps = JSON.parse(steps);
     }
 
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
+    const updatedRecipeInformation = await recipeModel
+      .updateRecipeInformation({
+        dishId,
+        name,
+        method,
+        category,
+        imageUrl1: thumbnailUrl,
+        imageUrl2: thumbnailUrl,
+        ingredient,
+        serving,
+        cookingTime,
+        userId,
+      })
+      .then((result) => {
+        if (result[0] === 0) {
+          const error = new Error();
+          error.name = "NotUpdated";
 
-    // TODO: 불필요한 DB콜 제거
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    if (recipeInformation.dataValues.userId !== userId) {
-      throw ApiError.setUnauthorized("수정 권한이 없습니다.");
-    }
-
-    const updatedRecipeInformation = await recipeModel.updateRecipeInformation({
-      dishId,
-      name,
-      method,
-      category,
-      imageUrl1: thumbnailUrl,
-      imageUrl2: thumbnailUrl,
-      ingredient,
-      serving,
-      cookingTime,
-    });
+          throw error;
+        }
+      })
+      .catch((error) => {
+        if (error.name === "NotUpdated") {
+          throw ApiError.setUnauthorized(
+            constant.unauthorizedErrorMessage("recipeId")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     if (steps) {
       const deletedSteps = await recipeModel.deleteStepsByDishId({ dishId });
