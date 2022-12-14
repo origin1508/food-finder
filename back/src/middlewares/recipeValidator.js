@@ -2,6 +2,7 @@ import { body, param, query } from "express-validator";
 import validate from "./commonValidator";
 import constant from "../constants/constant";
 import ApiError from "../utils/ApiError";
+import utils from "../utils/utils";
 
 export default {
   getRecipeInformationsValidator() {
@@ -180,6 +181,129 @@ export default {
     ];
   },
   updateRecipeValidator() {
-    return [body().custom((value, { req }) => {})];
+    return [
+      body().custom((value, { req }) => {
+        const { method, category, serving, cookingTime, ingredient, steps } =
+          req.body;
+
+        if (serving && !Number.isInteger(Number(serving))) {
+          throw ApiError.setBadRequest(
+            constant.invalidValueErrorMessage("serving")
+          );
+        }
+
+        if (cookingTime && !Number.isInteger(Number(cookingTime))) {
+          throw ApiError.setBadRequest(
+            constant.invalidValueErrorMessage("cookingTime")
+          );
+        }
+
+        if (method && !constant.methods.includes(method)) {
+          throw ApiError.setBadRequest(
+            constant.invalidValueErrorMessage("method")
+          );
+        }
+
+        if (category && !constant.categoriesForBody.includes(category)) {
+          throw ApiError.setBadRequest(
+            constant.invalidValueErrorMessage("category")
+          );
+        }
+
+        if (ingredient) {
+          if (!utils.isJson(ingredient)) {
+            throw ApiError.setBadRequest(
+              constant.invalidValueErrorMessage("ingredient")
+            );
+          }
+
+          const parsedIngredient = JSON.parse(ingredient);
+
+          if (!Array.isArray(parsedIngredient)) {
+            throw ApiError.setBadRequest(
+              constant.invalidValueErrorMessage("ingredient")
+            );
+          }
+
+          parsedIngredient.forEach((value) => {
+            if (
+              Object.keys(value).toString() !==
+              constant.ingredientKeys.toString()
+            ) {
+              throw ApiError.setBadRequest(
+                constant.invalidValueErrorMessage("ingredient")
+              );
+            }
+          });
+        }
+
+        if (steps) {
+          if (!utils.isJson(steps)) {
+            throw ApiError.setBadRequest(
+              constant.invalidValueErrorMessage("steps")
+            );
+          }
+
+          const parsedSteps = JSON.parse(steps);
+
+          if (!Array.isArray(parsedSteps)) {
+            throw ApiError.setBadRequest(
+              constant.invalidValueErrorMessage("step")
+            );
+          }
+
+          parsedSteps.forEach((value) => {
+            if (
+              Object.keys(value).toString() !== constant.stepKeys.toString() &&
+              Object.keys(value).toString() !==
+                constant.stepKeysForUpdate.toString()
+            ) {
+              throw ApiError.setBadRequest(
+                constant.invalidValueErrorMessage("step")
+              );
+            }
+          });
+        }
+
+        return true;
+      }),
+      validate,
+    ];
+  },
+  updateCommentValidator() {
+    return [
+      param("commentId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("commentId"))
+        .bail(),
+      body("content")
+        .notEmpty()
+        .withMessage(constant.invalidValueErrorMessage("content")),
+      validate,
+    ];
+  },
+  deleteRecipeValidator() {
+    return [
+      param("recipeId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("recipeId")),
+      validate,
+    ];
+  },
+  deleteCommentValidator() {
+    return [
+      param("commentId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("commentId")),
+      validate,
+    ];
+  },
+  deleteLikeValidator() {
+    return [
+      param("recipeId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("recipeId")),
+      validate,
+    ];
   },
 };
