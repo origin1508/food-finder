@@ -497,10 +497,11 @@ export default {
     return deletedRecipe;
   },
 
-  async deleteComment({ commentId }) {
+  async deleteComment({ commentId, userId }) {
     const deletedComment = await RecipeComment.destroy({
       where: {
         comment_id: Number(commentId),
+        user_id: Number(userId),
       },
     });
 

@@ -286,8 +286,15 @@ export default {
     return [
       param("recipeId")
         .isInt()
-        .withMessage(constant.invalidValueErrorMessage("recipeId"))
-        .bail(),
+        .withMessage(constant.invalidValueErrorMessage("recipeId")),
+      validate,
+    ];
+  },
+  deleteCommentValidator() {
+    return [
+      param("commentId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("commentId")),
       validate,
     ];
   },

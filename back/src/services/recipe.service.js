@@ -350,20 +350,25 @@ export default {
     return deletedRecipe;
   },
   async deleteComment({ userId, commentId }) {
-    // TODO: 불필요한 DB콜 제거
-    const comment = await recipeModel.findRecipeCommentByCommentId({
-      commentId,
-    });
+    const deletedComment = await recipeModel
+      .deleteComment({ commentId, userId })
+      .then((result) => {
+        if (result === 0) {
+          const error = new Error();
+          error.name = "NotDeleted";
 
-    if (comment == null) {
-      throw ApiError.setNotFound("존재하지 않는 댓글입니다.");
-    }
-
-    if (comment.dataValues.userId !== userId) {
-      throw ApiError.setUnauthorized("삭제 권한이 없습니다.");
-    }
-
-    const deletedComment = await recipeModel.deleteComment({ commentId });
+          throw error;
+        }
+      })
+      .catch((error) => {
+        if (error.name === "NotDeleted") {
+          throw ApiError.setUnauthorized(
+            constant.unauthorizedErrorMessage("commentId")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     return deletedComment;
   },

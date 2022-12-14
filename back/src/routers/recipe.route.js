@@ -244,6 +244,7 @@ router.delete(
 
 router.delete(
   "/comments/:commentId",
+  recipeValidator.deleteCommentValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
