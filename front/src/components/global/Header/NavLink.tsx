@@ -66,6 +66,9 @@ const NavContainer = styled.ul`
     padding: 3.5vw;
     display: ${({ itemScope }) => (itemScope ? '' : 'none')};
   }
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    top: 10rem;
+  }
 `;
 const Li = styled.li``;
 const Nav = styled.div`

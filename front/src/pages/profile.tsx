@@ -42,11 +42,20 @@ const Container = styled.article`
   ${({ theme }) => theme.mixins.flexBox()}
   height: 100vh;
   padding-top: 4vh;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    height: 100%;
+    padding: 10vh 0 4vh 0;
+  }
 `;
 
 const ContentContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox()}
   gap: ${({ theme }) => `0 ${theme.spacingLargest}`};
+
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    ${({ theme }) => theme.mixins.flexBox('column')}
+    gap: ${({ theme }) => `${theme.spacingLargest} 0`};
+  }
 `;
 
 export default Profile;

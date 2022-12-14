@@ -79,7 +79,7 @@ const RecipeCards = styled.div`
   @media (max-width: ${({ theme }) => theme.bpSmall}) {
     width: 70vh;
   }
-  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
     width: 50vh;
   }
 `;

@@ -122,6 +122,15 @@ const ProfileCardContainer = styled.section`
   border-radius: 1rem;
   border: 1px ${({ theme }) => theme.darkGrey};
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  @media (max-width: ${({ theme }) => theme.bpMedium}) {
+    height: 70vh;
+  }
+
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    width: 50vh;
+    height: 50vh;
+  }
 `;
 
 const UserInfoContainer = styled.div`

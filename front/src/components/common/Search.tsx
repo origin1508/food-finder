@@ -45,6 +45,9 @@ const SearchInput = styled.input`
   &::-webkit-search-results-decoration {
     display: none;
   }
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    height: 6rem;
+  }
 `;
 
 const SearchIcon = styled.button`
