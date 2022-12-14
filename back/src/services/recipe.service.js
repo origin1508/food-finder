@@ -4,6 +4,7 @@ import constant from "../constants/constant";
 
 export default {
   async findAllRecipeInformations({ method, category, lastRecipeId, limit }) {
+    // TODO: category '국&찌개' 처리
     const postsPerPage = limit ? limit : constant.postsPerPage;
     const verifiedLastRecipeId =
       lastRecipeId === "init" ? undefined : lastRecipeId;

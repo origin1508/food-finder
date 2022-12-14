@@ -2,47 +2,57 @@ import { Router } from "express";
 import recipeService from "../services/recipe.service";
 import authorizeAccessToken from "../middlewares/accessTokenAuthorization";
 import { recipeImageUpload } from "../middlewares/multer";
+import recipeValidator from "../middlewares/recipeValidator";
 
 const router = Router();
 
-router.get("/", async (req, res, next) => {
-  try {
-    const { method, category, lastRecipeId, limit } = req.query;
-    const recipes = await recipeService.findAllRecipeInformations({
-      method,
-      category,
-      lastRecipeId,
-      limit,
-    });
+router.get(
+  "/",
+  recipeValidator.getRecipeInformationsValidator(),
+  async (req, res, next) => {
+    try {
+      const { method, category, lastRecipeId, limit } = req.query;
+      const recipes = await recipeService.findAllRecipeInformations({
+        method,
+        category,
+        lastRecipeId,
+        limit,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "레시피 정보 리스트 불러오기 성공",
-      result: recipes,
-    });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        success: true,
+        message: "레시피 정보 리스트 불러오기 성공",
+        result: recipes,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.get("/:recipeId", authorizeAccessToken, async (req, res, next) => {
-  try {
-    const { recipeId } = req.params;
-    const { userId } = req;
-    const recipe = await recipeService.findRecipeDetail({
-      dishId: recipeId,
-      userId,
-    });
+router.get(
+  "/:recipeId",
+  recipeValidator.getRecipeDetailValidator(),
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { recipeId } = req.params;
+      const { userId } = req;
+      const recipe = await recipeService.findRecipeDetail({
+        dishId: recipeId,
+        userId,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "레시피 디테일 정보 불러오기 성공",
-      result: recipe,
-    });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        success: true,
+        message: "레시피 디테일 정보 불러오기 성공",
+        result: recipe,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.post(
   "/",
@@ -51,6 +61,7 @@ router.post(
     { name: "recipeThumbnail", maxCount: 1 },
     { name: "stepImages" },
   ]),
+  recipeValidator.addRecipeValidator(),
   async (req, res, next) => {
     try {
       const { userId } = req;
