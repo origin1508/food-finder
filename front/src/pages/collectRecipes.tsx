@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
@@ -12,14 +12,13 @@ import CustomIcon from '../components/icons/CustomIcon';
 import { theme } from '../styles/theme';
 import { PATH } from '../customRouter';
 import { getRecipesCardInfo } from '../api/recipeFetcher';
-import { categoryValue, methodValue } from '../atom/filter';
 import { RecipeCollectCard } from '../types/recipe/recipeCardType';
 import LoadingCycle from '../components/alert/Loader';
 
 const CollectRecipes = () => {
   const navigate = useNavigate();
-  const [category, setCategory] = useRecoilState(categoryValue);
-  const [method, setMethod] = useRecoilState(methodValue);
+  const [category, setCategory] = useState('전체');
+  const [method, setMethod] = useState('전체');
   const { categoryList, methodList } = filterList;
   const { ref, inView } = useInView();
 

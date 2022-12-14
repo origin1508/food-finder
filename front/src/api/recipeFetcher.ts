@@ -155,6 +155,10 @@ export async function getRecipesCardInfo({
   method: string;
   category: string;
 }) {
+  if (category === '국&찌개') {
+    category = '국찌개';
+  }
+
   const { data } = await customAxios.get(
     `/recipes?method=${method}&category=${category}&lastRecipeId=${pageParams}&limit=4`,
   );
