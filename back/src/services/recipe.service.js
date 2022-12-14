@@ -233,6 +233,7 @@ export default {
     stepImages,
     steps,
   }) {
+    // TODO: transaction
     let parsedSteps;
     if (steps) {
       parsedSteps = JSON.parse(steps);
@@ -299,23 +300,29 @@ export default {
     return updatedRecipeInformation;
   },
   async updateComment({ userId, commentId, content }) {
-    // TODO: 불필요한 DB콜 제거
-    const comment = await recipeModel.findRecipeCommentByCommentId({
-      commentId,
-    });
+    const updatedComment = await recipeModel
+      .updateRecipeComment({
+        commentId,
+        content,
+        userId,
+      })
+      .then((result) => {
+        if (result[0] === 0) {
+          const error = new Error();
+          error.name = "NotUpdated";
 
-    if (comment == null) {
-      throw ApiError.setNotFound("존재하지 않는 댓글입니다.");
-    }
-
-    if (comment.dataValues.userId !== userId) {
-      throw ApiError.setUnauthorized("수정 권한이 없습니다.");
-    }
-
-    const updatedComment = await recipeModel.updateRecipeComment({
-      commentId,
-      content,
-    });
+          throw error;
+        }
+      })
+      .catch((error) => {
+        if (error.name === "NotUpdated") {
+          throw ApiError.setUnauthorized(
+            constant.unauthorizedErrorMessage("recipeId")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     return updatedComment;
   },

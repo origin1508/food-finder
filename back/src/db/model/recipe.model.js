@@ -462,12 +462,12 @@ export default {
     return updatedStep;
   },
 
-  async updateRecipeComment({ commentId, content }) {
+  async updateRecipeComment({ commentId, content, userId }) {
     const updatedComment = await RecipeComment.update(
       {
         content,
       },
-      { where: { comment_id: Number(commentId) } }
+      { where: { comment_id: Number(commentId), user_id: Number(userId) } }
     );
     return updatedComment;
   },
