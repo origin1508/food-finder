@@ -3,7 +3,16 @@ import { DataTypes } from "sequelize";
 
 const RecipeLike = sequelize.define(
   "RecipeLike",
-  {},
+  {
+    dish_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
+  },
   {
     sequelize,
     timestamps: true,

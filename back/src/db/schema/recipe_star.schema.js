@@ -4,10 +4,13 @@ import { DataTypes } from "sequelize";
 const RecipeStar = sequelize.define(
   "RecipeStar",
   {
-    star_id: {
+    dish_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
     },
     score: {
       type: DataTypes.INTEGER,

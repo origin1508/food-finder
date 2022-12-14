@@ -72,6 +72,7 @@ export default {
 
     const recipeObject = { ...recipe[0].dataValues };
 
+    // FIXME: 조회 수 증가 따로 빼기
     const { views } = recipeObject;
     const increasedViews = views + 1;
     await recipeModel.updateRecipeInformation({
@@ -101,6 +102,7 @@ export default {
     );
 
     recipeObject.starAverage = starAverage ? starAverage : 0;
+    recipeObject.numberOfStar = stars.length;
     delete recipeObject.RecipeStars;
 
     recipeObject.views = increasedViews;
