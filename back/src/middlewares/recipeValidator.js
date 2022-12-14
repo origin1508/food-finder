@@ -145,4 +145,16 @@ export default {
       validate,
     ];
   },
+  addRecipeCommentValidator() {
+    return [
+      param("recipeId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("recipeId"))
+        .toInt(),
+      body("content")
+        .notEmpty()
+        .withMessage(constant.invalidValueErrorMessage("content")),
+      validate,
+    ];
+  },
 };

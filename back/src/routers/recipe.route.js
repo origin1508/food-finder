@@ -86,6 +86,7 @@ router.post(
 
 router.post(
   "/:recipeId/comments",
+  recipeValidator.addRecipeCommentValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
