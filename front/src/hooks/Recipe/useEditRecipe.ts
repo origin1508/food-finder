@@ -48,7 +48,7 @@ const useEditRecipe = (
       queryClient.invalidateQueries('authRecips');
       queryClient.invalidateQueries('collectRecipesInfo');
       setAlertSuccess({ success: message });
-      navigate('/collectRecipes');
+      navigate('/collectRecipes', { replace: true });
     },
     onError: (error) => {
       if (error && error instanceof AxiosError) {
