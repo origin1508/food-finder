@@ -71,15 +71,25 @@ const UserLikedRestaurantWrapper = styled.section`
   background-color: ${({ theme }) => theme.mainWhite};
   border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  position: relative;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    ${({ theme }) => theme.mixins.flexBox('column')}
+    width: 90%;
+  }
 `;
 
 const UserLikedRestaurantContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'center', 'start')};
-  width: 35%;
+  width: 60rem;
   height: 100%;
   padding: ${({ theme }) => theme.spacingSemiMedium};
   box-shadow: 10px 0 8px -5px rgba(0, 0, 0, 0.24);
   z-index: 2;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 100%;
+    height: 40%;
+    box-shadow: 0 10px 8px -5px rgba(0, 0, 0, 0.24);
+  }
 `;
 
 const UserLikedRestaurantHeader = styled.header`
@@ -105,12 +115,17 @@ const Restaurants = styled.ul`
   width: 100%;
   height: 100%;
   padding: ${({ theme }) => theme.spacingRegular};
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: ${({ theme }) => theme.spacingRegular};
+  }
 `;
 
 const Restaurant = styled.li`
   ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
-  height: 18%;
+  height: 12rem;
   padding: ${({ theme }) => theme.spacingRegular};
   margin-bottom: ${({ theme }) => theme.spacingSemiMedium};
   border-radius: 0.5rem;
@@ -120,7 +135,7 @@ const Restaurant = styled.li`
 const LikeButton = styled.button``;
 
 const Map = styled.div`
-  width: 65%;
+  width: 100%;
   height: 100%;
 `;
 
