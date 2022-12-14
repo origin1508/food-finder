@@ -85,7 +85,8 @@ const RecipeFormInstructionInput = styled.textarea`
 const RecipeFormImageUpload = styled.div<{ preview: string }>`
   ${RecipeFormImageUploadStyle};
   ${({ preview }) =>
-    preview && `background-image: url(${preview}); background-size: cover;`}
+    preview &&
+    `background-image: url(${preview}); background-size: cover; background-position: center;`}
 `;
 
 const InstructionRemoveButton = styled(RecipeFormRemoveButton)`
