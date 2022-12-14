@@ -298,4 +298,12 @@ export default {
       validate,
     ];
   },
+  deleteLikeValidator() {
+    return [
+      param("recipeId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("recipeId")),
+      validate,
+    ];
+  },
 };

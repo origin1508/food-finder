@@ -373,17 +373,25 @@ export default {
     return deletedComment;
   },
   async deleteLike({ userId, dishId }) {
-    // TODO: 불필요한 DB콜 제거
-    const existenceOfLike = await recipeModel.findExistenceOfLike({
-      userId,
-      dishId,
-    });
+    const deletedLike = await recipeModel
+      .deleteLike({ userId, dishId })
+      .then((result) => {
+        if (result === 0) {
+          const error = new Error();
+          error.name = "NotDeleted";
 
-    if (existenceOfLike == false) {
-      throw ApiError.setBadRequest("좋아요 상태가 아닙니다.");
-    }
-
-    const deletedLike = await recipeModel.deleteLike({ userId, dishId });
+          throw error;
+        }
+      })
+      .catch((error) => {
+        if (error.name === "NotDeleted") {
+          throw ApiError.setUnauthorized(
+            constant.unauthorizedErrorMessage("recipeId")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     return deletedLike;
   },

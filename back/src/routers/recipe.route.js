@@ -268,6 +268,7 @@ router.delete(
 
 router.delete(
   "/:recipeId/likes",
+  recipeValidator.deleteLikeValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
