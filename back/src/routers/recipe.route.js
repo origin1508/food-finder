@@ -43,6 +43,12 @@ router.get(
         userId,
       });
 
+      await recipeService.increaseRecipeViews({
+        dishId: recipeId,
+        views: recipe.views,
+        userId: recipe.writer.dataValues.userId,
+      });
+
       res.status(200).json({
         success: true,
         message: "레시피 디테일 정보 불러오기 성공",
@@ -166,6 +172,7 @@ router.patch(
     { name: "recipeThumbnail", maxCount: 1 },
     { name: "stepImages" },
   ]),
+  recipeValidator.updateRecipeValidator(),
   async (req, res, next) => {
     try {
       const { userId } = req;
@@ -193,35 +200,8 @@ router.patch(
 );
 
 router.patch(
-  "/:recipeId/steps/:stepId",
-  authorizeAccessToken,
-  recipeImageUpload("recipeImages").single("stepImage"),
-  async (req, res, next) => {
-    try {
-      const { userId } = req;
-      const { recipeId, stepId } = req.params;
-      const location = req?.file?.location;
-
-      const updatedStep = await recipeService.updateStep({
-        dishId: recipeId,
-        userId,
-        stepId,
-        imageUrl: location,
-        ...req.body,
-      });
-
-      res.status(200).json({
-        success: true,
-        message: "스텝 업데이트 성공",
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-router.patch(
   "/comments/:commentId",
+  recipeValidator.updateCommentValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
@@ -244,27 +224,33 @@ router.patch(
   }
 );
 
-router.delete("/:recipeId", authorizeAccessToken, async (req, res, next) => {
-  try {
-    const { recipeId } = req.params;
-    const { userId } = req;
+router.delete(
+  "/:recipeId",
+  recipeValidator.deleteRecipeValidator(),
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { recipeId } = req.params;
+      const { userId } = req;
 
-    const deletedRecipe = await recipeService.deleteRecipe({
-      userId,
-      dishId: recipeId,
-    });
+      const deletedRecipe = await recipeService.deleteRecipe({
+        userId,
+        dishId: recipeId,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "레시피 삭제 성공",
-    });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        success: true,
+        message: "레시피 삭제 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.delete(
   "/comments/:commentId",
+  recipeValidator.deleteCommentValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
@@ -288,6 +274,7 @@ router.delete(
 
 router.delete(
   "/:recipeId/likes",
+  recipeValidator.deleteLikeValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {

@@ -62,6 +62,12 @@ const HeaderContainer = styled.section`
   background-image: url(${searchImg});
   background-size: cover;
   background-position: center;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    height: 30vh;
+  }
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    height: 25vh;
+  }
 `;
 const SearchTitle = styled.h2`
   ${MediumTitle}

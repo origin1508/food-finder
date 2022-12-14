@@ -68,6 +68,20 @@ const RecipeCards = styled.div`
   max-width: 128vh;
   height: 25vh;
   overflow: hidden;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 110vh;
+    overflow-y: scroll;
+    height: 30vh;
+  }
+  @media (max-width: ${({ theme }) => theme.bpMedium}) {
+    width: 90vh;
+  }
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 70vh;
+  }
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 50vh;
+  }
 `;
 const Wrap = styled.div`
   width: 100%;
@@ -75,6 +89,10 @@ const Wrap = styled.div`
   gap: 2vh;
   transform: translateX(${({ results }) => `${results}vh`});
   transition: all 0.3s;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    flex-wrap: wrap;
+    ${({ theme }) => theme.mixins.flexBox()}
+  }
 `;
 
 const PrevButton = styled.div`
@@ -88,6 +106,9 @@ const PrevButton = styled.div`
   height: 4vh;
   border-radius: 2rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    display: none;
+  }
 `;
 
 const NextButton = styled.div`
@@ -101,6 +122,9 @@ const NextButton = styled.div`
   height: 4vh;
   border-radius: 2rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    display: none;
+  }
 `;
 
 export default SuggestionRecipe;

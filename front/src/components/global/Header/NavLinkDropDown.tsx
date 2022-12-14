@@ -62,15 +62,18 @@ const NavLinkDropDown = () => {
 };
 
 const DropDownButton = styled.button`
-  position: relative;
   ${({ theme }) => theme.mixins.flexBox}
   color:${({ theme }) => theme.mainWhite};
   gap: 1rem;
   &:hover {
     color: ${({ theme }) => theme.mainBlack};
   }
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    color: ${({ theme }) => theme.mainBlack};
+  }
 `;
 const Nickname = styled.div`
+  font-size: ${({ theme }) => theme.fontRegular};
   font-weight: ${({ theme }) => theme.weightSemiBold};
 `;
 const UserImg = styled.img`
@@ -89,16 +92,20 @@ const DropDownContainer = styled.div`
   width: 20rem;
   height: 20vh;
   background-color: ${({ theme }) => theme.lightDarkGrey};
-  ${(props) =>
-    props.itemScope
-      ? `visibility: visible;
-  `
-      : `visibility: hidden;
-  `}
+  display: ${({ itemScope }) => (itemScope ? 'block' : 'none')};
 
   border: ${({ theme }) => theme.lightDarkGrey} 1px solid;
   border-radius: 0.5rem;
-  overflow: hidden; ;
+  overflow: hidden;
+
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    color: ${({ theme }) => theme.mainBlack};
+
+    position: relative;
+    top: 0;
+    right: 0;
+    border: none;
+  }
 `;
 const UserInfo = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'center', 'center')}

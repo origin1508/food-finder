@@ -69,6 +69,9 @@ const HeaderContainer = styled.header`
     itemProp === 'change' ? theme.themeColor : 'none'};
   z-index: 10;
   transition: all 0.5s;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    padding: 0 3%;
+  }
 `;
 
 const ContentContainer = styled.nav`
