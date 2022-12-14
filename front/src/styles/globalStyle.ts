@@ -14,6 +14,17 @@ const GlobalStyles = createGlobalStyle`
     }
     html{
         font-size: 62.5%; 
+        @media only screen and (max-width: 75em) {
+          font-size: 50%;
+        }
+
+        @media only screen and (max-width: 50.25em) {
+          font-size: 40%;
+        }
+
+        @media only screen and (max-width: 31.5em) {
+          font-size: 30%;
+        }
     }
     body{
         font-family: 'Noto Sans KR', sans-serif;
