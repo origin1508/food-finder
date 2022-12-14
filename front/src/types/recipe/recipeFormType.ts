@@ -35,7 +35,7 @@ export interface RecipeFormValue {
 }
 
 export interface Step {
-  step?: number;
+  step: number;
   content?: string;
   imageUrl?: string;
 }
