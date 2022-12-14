@@ -22,8 +22,8 @@ const GlobalStyles = createGlobalStyle`
           font-size: 40%;
         }
 
-        @media only screen and (max-width: 31.5em) {
-          font-size: 30%;
+        @media only screen and (max-width: 30em) {
+          font-size: 27%;
         }
     }
     body{
