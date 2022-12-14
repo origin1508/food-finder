@@ -77,7 +77,7 @@ const EditRecipe = () => {
   const { formState } = methods;
   const {
     recipeUpdateMutation: { mutate: editRecipe },
-  } = useEditRecipe(recipeId!, formState);
+  } = useEditRecipe(recipeId!, formState, instructions);
 
   return (
     <Auth>

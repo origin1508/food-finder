@@ -50,5 +50,5 @@ const RecipeFormInfoImageUpload = styled.div<{
   ${RecipeFormImageUploadStyle}
   ${({ previewUrl }) =>
     previewUrl &&
-    `background-image: url(${previewUrl}); background-size: cover;`}
+    `background-image: url(${previewUrl}); background-size: cover; background-position: center;`}
 `;
