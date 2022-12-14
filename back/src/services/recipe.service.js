@@ -4,6 +4,7 @@ import constant from "../constants/constant";
 
 export default {
   async findAllRecipeInformations({ method, category, lastRecipeId, limit }) {
+    // TODO: category '국&찌개' 처리
     const postsPerPage = limit ? limit : constant.postsPerPage;
     const verifiedLastRecipeId =
       lastRecipeId === "init" ? undefined : lastRecipeId;
@@ -67,11 +68,14 @@ export default {
     const recipe = await recipeModel.findRecipeDetailByDishId({ dishId });
 
     if (recipe.length === 0) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+      throw ApiError.setNotFound(
+        constant.nonexistentValueErrorMessage("recipeId")
+      );
     }
 
     const recipeObject = { ...recipe[0].dataValues };
 
+    // FIXME: 조회 수 증가 따로 빼기
     const { views } = recipeObject;
     const increasedViews = views + 1;
     await recipeModel.updateRecipeInformation({
@@ -101,6 +105,7 @@ export default {
     );
 
     recipeObject.starAverage = starAverage ? starAverage : 0;
+    recipeObject.numberOfStar = stars.length;
     delete recipeObject.RecipeStars;
 
     recipeObject.views = increasedViews;
@@ -167,58 +172,52 @@ export default {
         dishId,
       })
       .catch((error) => {
-        throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+        throw ApiError.setNotFound(
+          constant.nonexistentValueErrorMessage("recipeId")
+        );
       });
 
     return createdComment;
   },
   async addLike({ userId, dishId }) {
-    // TODO: 불필요한 DB콜 제거
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    const existenceOfLike = await recipeModel.findExistenceOfLike({
-      userId,
-      dishId,
-    });
-
-    if (existenceOfLike == true) {
-      throw ApiError.setBadRequest("이미 좋아요를 한 상태입니다.");
-    }
-
-    const createdLike = await recipeModel.createRecipeLike({ userId, dishId });
+    const createdLike = await recipeModel
+      .createRecipeLike({ userId, dishId })
+      .catch((error) => {
+        if (error.name === "SequelizeForeignKeyConstraintError") {
+          throw ApiError.setNotFound(
+            constant.nonexistentValueErrorMessage("recipeId")
+          );
+        } else if (error.name === "SequelizeUniqueConstraintError") {
+          throw ApiError.setConflict(
+            constant.conflictValueErrorMessage("like")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     return createdLike;
   },
   async addStar({ userId, dishId, score }) {
-    // TODO: 불필요한 DB 콜 제거
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    const existenceOfStar = await recipeModel.findExistenceOfStar({
-      userId,
-      dishId,
-    });
-
-    if (existenceOfStar) {
-      throw ApiError.setBadRequest("이미 별점을 준 상태입니다.");
-    }
-
-    const createdStar = await recipeModel.createRecipeStar({
-      userId,
-      dishId,
-      score,
-    });
+    const createdStar = await recipeModel
+      .createRecipeStar({
+        userId,
+        dishId,
+        score,
+      })
+      .catch((error) => {
+        if (error.name === "SequelizeForeignKeyConstraintError") {
+          throw ApiError.setNotFound(
+            constant.nonexistentValueErrorMessage("recipeId")
+          );
+        } else if (error.name === "SequelizeUniqueConstraintError") {
+          throw ApiError.setConflict(
+            constant.conflictValueErrorMessage("star")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     return createdStar;
   },
@@ -235,36 +234,41 @@ export default {
     stepImages,
     steps,
   }) {
-    console.log(steps);
     let parsedSteps;
     if (steps) {
       parsedSteps = JSON.parse(steps);
     }
 
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
+    const updatedRecipeInformation = await recipeModel
+      .updateRecipeInformation({
+        dishId,
+        name,
+        method,
+        category,
+        imageUrl1: thumbnailUrl,
+        imageUrl2: thumbnailUrl,
+        ingredient,
+        serving,
+        cookingTime,
+        userId,
+      })
+      .then((result) => {
+        if (result[0] === 0) {
+          const error = new Error();
+          error.name = "NotUpdated";
 
-    // TODO: 불필요한 DB콜 제거
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    if (recipeInformation.dataValues.userId !== userId) {
-      throw ApiError.setUnauthorized("수정 권한이 없습니다.");
-    }
-
-    const updatedRecipeInformation = await recipeModel.updateRecipeInformation({
-      dishId,
-      name,
-      method,
-      category,
-      imageUrl1: thumbnailUrl,
-      imageUrl2: thumbnailUrl,
-      ingredient,
-      serving,
-      cookingTime,
-    });
+          throw error;
+        }
+      })
+      .catch((error) => {
+        if (error.name === "NotUpdated") {
+          throw ApiError.setUnauthorized(
+            constant.unauthorizedErrorMessage("recipeId")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     if (steps) {
       const deletedSteps = await recipeModel.deleteStepsByDishId({ dishId });
