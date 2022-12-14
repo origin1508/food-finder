@@ -68,7 +68,9 @@ export default {
     const recipe = await recipeModel.findRecipeDetailByDishId({ dishId });
 
     if (recipe.length === 0) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+      throw ApiError.setNotFound(
+        constant.nonexistentValueErrorMessage("recipe")
+      );
     }
 
     const recipeObject = { ...recipe[0].dataValues };
@@ -170,31 +172,29 @@ export default {
         dishId,
       })
       .catch((error) => {
-        throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
+        throw ApiError.setNotFound(
+          constant.nonexistentValueErrorMessage("recipe")
+        );
       });
 
     return createdComment;
   },
   async addLike({ userId, dishId }) {
-    // TODO: 불필요한 DB콜 제거
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    const existenceOfLike = await recipeModel.findExistenceOfLike({
-      userId,
-      dishId,
-    });
-
-    if (existenceOfLike == true) {
-      throw ApiError.setBadRequest("이미 좋아요를 한 상태입니다.");
-    }
-
-    const createdLike = await recipeModel.createRecipeLike({ userId, dishId });
+    const createdLike = await recipeModel
+      .createRecipeLike({ userId, dishId })
+      .catch((error) => {
+        if (error.name === "SequelizeForeignKeyConstraintError") {
+          throw ApiError.setNotFound(
+            constant.nonexistentValueErrorMessage("recipe")
+          );
+        } else if (error.name === "SequelizeUniqueConstraintError") {
+          throw ApiError.setConflict(
+            constant.conflictValueErrorMessage("like")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     return createdLike;
   },
