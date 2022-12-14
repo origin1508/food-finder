@@ -69,9 +69,6 @@ const HeaderContainer = styled.header`
     itemProp === 'change' ? theme.themeColor : 'none'};
   z-index: 10;
   transition: all 0.5s;
-  @media (max-width: ${({ theme }) => theme.bpLarge}) {
-    padding: 0 3%;
-  }
 `;
 
 const ContentContainer = styled.nav`
@@ -79,4 +76,7 @@ const ContentContainer = styled.nav`
   height: 7rem;
 
   ${({ theme }) => theme.mixins.flexBox('row', 'center', 'space-between')}
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    height: 10rem;
+  }
 `;

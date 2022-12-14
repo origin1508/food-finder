@@ -60,20 +60,27 @@ const RecipeCards = styled.div`
   width: 100%;
   height: 25vh;
   overflow: hidden;
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    height: 15vh;
+  }
 `;
 const Wrap = styled.div`
-display: flex;
-height: 100%;
-flex-flow: row wrap;
-gap: 2.5vh;
-overflow-y: scroll;
-&::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
-}
-&:: {
-  ::after {
-    content: "";
-    flex: auto;
+  display: flex;
+  height: 100%;
+  flex-flow: row wrap;
+  gap: 2.5vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+  &:: {
+    ::after {
+      content: '';
+      flex: auto;
+    }
+  }
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    ${({ theme }) => theme.mixins.flexBox()}
   }
 `;
 
