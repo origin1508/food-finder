@@ -114,20 +114,33 @@ const KakaoMapContainer = styled.article`
   height: 100%;
   border-radius: 0.5rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    ${({ theme }) => theme.mixins.flexBox('column')}
+  }
 `;
 
 const PlacesListContainer = styled.section`
   ${({ theme }) => theme.mixins.flexBox('column', 'center', 'start')};
-  width: 40%;
+  width: 45%;
   height: 100%;
   padding: ${({ theme }) => theme.spacingSemiMedium};
   flex-grow: 1;
   flex-shrink: 0;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 100%;
+    height: 40%;
+    box-shadow: 0 10px 8px -5px rgba(0, 0, 0, 0.24);
+  }
 `;
 
 const Map = styled.div`
   width: 60%;
   height: 100%;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 100%;
+    height: 60%;
+    box-shadow: 0 10px 8px -5px rgba(0, 0, 0, 0.24);
+  }
 `;
 
 const ScrollWrapper = styled.div`
@@ -143,12 +156,17 @@ const PlacesList = styled.ul`
   width: 100%;
   height: 100%;
   padding: ${({ theme }) => theme.spacingRegular};
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
+  }
 `;
 
 const PlaceItem = styled.li`
   ${({ theme }) => theme.mixins.flexBox()}
   width: 100%;
-  height: 18%;
+  height: 10rem;
   padding: ${({ theme }) => theme.spacingRegular};
   margin-bottom: ${({ theme }) => theme.spacingSemiMedium};
   border-radius: 0.5rem;
