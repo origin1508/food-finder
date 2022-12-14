@@ -119,7 +119,6 @@ export default {
     stepImages,
     steps,
   }) {
-    // TODO: transaction
     const parsedSteps = JSON.parse(steps);
 
     const createdRecipeInformation = await recipeModel.createRecipeInformation({
@@ -225,7 +224,6 @@ export default {
     stepImages,
     steps,
   }) {
-    // TODO: transaction
     let parsedSteps;
     if (steps) {
       parsedSteps = JSON.parse(steps);
