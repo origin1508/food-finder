@@ -118,6 +118,10 @@ const RecipeImage = styled.div`
   background-position: center;
   cursor: pointer;
   margin: 3rem 0 6rem 0;
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 50rem;
+    height: 30rem;
+  }
 `;
 
 const WriterInfoContainer = styled.div`
@@ -140,21 +144,14 @@ const WriterNickname = styled.h3`
   ${SmallTitle}
 `;
 
-const RecipeRaitingContiner = styled.div`
-  width: 100%;
-  ${({ theme }) => theme.mixins.flexBox}
-  gap : ${({ theme }) => theme.spacingMedium};
-  & svg {
-    color: #c4c4c4;
-  }
-  .black {
-    color: black;
-  }
-`;
 const RecipeInfoContiner = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'start')};
   width: 80rem;
   gap: ${({ theme }) => theme.spacingMedium};
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 100%;
+    padding: 0 2rem;
+  }
 `;
 
 const TitleContainer = styled.div`

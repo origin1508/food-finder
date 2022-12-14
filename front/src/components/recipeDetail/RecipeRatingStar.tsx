@@ -50,7 +50,7 @@ const RecipeRatingStar = ({
             key={el}
             onClick={() => handleStarClick(el)}
             className={clicked[el] ? 'black' : ''}
-            size="35"
+            size="25"
           />
         ))}
       </RatingBox>

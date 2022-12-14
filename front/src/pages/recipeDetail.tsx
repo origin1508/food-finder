@@ -49,6 +49,9 @@ const RecipeDetail = () => {
 const RecipeDetailContainer = styled.article`
   width: 110rem;
   margin: auto;
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 80rem;
+  }
 `;
 
 export default RecipeDetail;
