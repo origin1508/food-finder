@@ -29,6 +29,9 @@ const SearchContainer = styled.form`
   position: relative;
   display: ${({ itemProp }) => itemProp};
   width: 40rem;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 30rem;
+  }
 `;
 
 const SearchInput = styled.input`
