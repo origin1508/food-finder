@@ -74,14 +74,6 @@ export default {
 
     const recipeObject = { ...recipe[0].dataValues };
 
-    // FIXME: 조회 수 증가 따로 빼기
-    const { views } = recipeObject;
-    const increasedViews = views + 1;
-    await recipeModel.updateRecipeInformation({
-      views: increasedViews,
-      dishId,
-    });
-
     recipeObject.liked = false;
     recipeObject.RecipeLikes.every((element) => {
       if (element.dataValues.userId === userId) {
@@ -107,7 +99,7 @@ export default {
     recipeObject.numberOfStar = stars.length;
     delete recipeObject.RecipeStars;
 
-    recipeObject.views = increasedViews;
+    recipeObject.views = Number(recipeObject.views) + 1;
     recipeObject.RecipeLikes = recipeObject.RecipeLikes.length;
 
     recipeObject.writer = recipeObject.User;
@@ -394,5 +386,12 @@ export default {
       });
 
     return deletedLike;
+  },
+  async increaseRecipeViews({ dishId, views, userId }) {
+    await recipeModel.updateRecipeInformation({
+      views,
+      dishId,
+      userId,
+    });
   },
 };

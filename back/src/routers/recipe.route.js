@@ -43,6 +43,12 @@ router.get(
         userId,
       });
 
+      await recipeService.increaseRecipeViews({
+        dishId: recipeId,
+        views: recipe.views,
+        userId: recipe.writer.dataValues.userId,
+      });
+
       res.status(200).json({
         success: true,
         message: "레시피 디테일 정보 불러오기 성공",
