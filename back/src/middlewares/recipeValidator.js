@@ -270,4 +270,16 @@ export default {
       validate,
     ];
   },
+  updateCommentValidator() {
+    return [
+      param("commentId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("commentId"))
+        .bail(),
+      body("content")
+        .notEmpty()
+        .withMessage(constant.invalidValueErrorMessage("content")),
+      validate,
+    ];
+  },
 };

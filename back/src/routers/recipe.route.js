@@ -195,6 +195,7 @@ router.patch(
 
 router.patch(
   "/comments/:commentId",
+  recipeValidator.updateCommentValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
