@@ -18,7 +18,6 @@ import { FORM_FIELDS } from '../../constants/recipeForm';
 const useEditRecipe = (
   recipeId?: string,
   formState?: FormState<RecipeFormDefaultValue>,
-  prevInstructions?: { description?: string; preview?: string }[],
 ) => {
   const { setAlertSuccess, setAlertError } = useSetAlert();
   const queryClient = useQueryClient();
@@ -82,15 +81,8 @@ const useEditRecipe = (
     }
     await Promise.all(
       instructions.map(async (instruction, index) => {
-        if (!prevInstructions) return;
         const { description, image, preview } = instruction;
-        if (
-          prevInstructions.length > index &&
-          prevInstructions[index].description === description &&
-          prevInstructions[index].preview === preview
-        )
-          return;
-        const temp: Step = {};
+        const temp = <Step>{};
         temp.step = index + 1;
         temp.content = description;
         if (image && image.length > 0) {
@@ -102,7 +94,11 @@ const useEditRecipe = (
         steps.push(temp);
       }),
     );
+
     if (steps.length > 0) {
+      steps.sort((a, b) => {
+        return a.step - b.step;
+      });
       formData.append('steps', JSON.stringify(steps));
     }
     formData.append('method', method);
