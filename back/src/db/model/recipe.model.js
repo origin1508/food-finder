@@ -444,7 +444,12 @@ export default {
         views,
         cooking_time: cookingTime,
       },
-      { where: { dish_id: Number(dishId), user_id: Number(userId) } }
+      {
+        where: {
+          dish_id: Number(dishId),
+          user_id: Number(userId),
+        },
+      }
     );
 
     return updatedRecipeInformation;
@@ -456,7 +461,11 @@ export default {
         content,
         image_url: imageUrl,
       },
-      { where: { step_id: Number(stepId) } }
+      {
+        where: {
+          step_id: Number(stepId),
+        },
+      }
     );
 
     return updatedStep;
@@ -467,15 +476,21 @@ export default {
       {
         content,
       },
-      { where: { comment_id: Number(commentId), user_id: Number(userId) } }
+      {
+        where: {
+          comment_id: Number(commentId),
+          user_id: Number(userId),
+        },
+      }
     );
     return updatedComment;
   },
 
-  async deleteRecipeInformation({ dishId }) {
+  async deleteRecipeInformation({ dishId, userId }) {
     const deletedRecipe = await Recipe.destroy({
       where: {
         dish_id: Number(dishId),
+        user_id: Number(userId),
       },
     });
 

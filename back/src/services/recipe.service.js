@@ -327,20 +327,25 @@ export default {
     return updatedComment;
   },
   async deleteRecipe({ userId, dishId }) {
-    // TODO: 불필요한 DB콜 제거
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
+    const deletedRecipe = await recipeModel
+      .deleteRecipeInformation({ dishId, userId })
+      .then((result) => {
+        if (result === 0) {
+          const error = new Error();
+          error.name = "NotDeleted";
 
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    if (recipeInformation.dataValues.userId !== userId) {
-      throw ApiError.setUnauthorized("삭제 권한이 없습니다.");
-    }
-
-    const deletedRecipe = await recipeModel.deleteRecipeInformation({ dishId });
+          throw error;
+        }
+      })
+      .catch((error) => {
+        if (error.name === "NotDeleted") {
+          throw ApiError.setUnauthorized(
+            constant.unauthorizedErrorMessage("recipeId")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     return deletedRecipe;
   },
