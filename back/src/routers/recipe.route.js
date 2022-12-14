@@ -166,6 +166,7 @@ router.patch(
     { name: "recipeThumbnail", maxCount: 1 },
     { name: "stepImages" },
   ]),
+  recipeValidator.updateRecipeValidator(),
   async (req, res, next) => {
     try {
       const { userId } = req;
