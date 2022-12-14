@@ -55,7 +55,7 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
         const { description, image } = instruction;
         const compressedImage = await imageResize(image[0]);
         compressedImage && stepImages.push(compressedImage);
-        const step: Step = {};
+        const step = <Step>{};
         step.step = index + 1;
         step.content = description;
         steps.push(step);
