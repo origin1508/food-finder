@@ -69,7 +69,7 @@ export default {
 
     if (recipe.length === 0) {
       throw ApiError.setNotFound(
-        constant.nonexistentValueErrorMessage("recipe")
+        constant.nonexistentValueErrorMessage("recipeId")
       );
     }
 
@@ -173,7 +173,7 @@ export default {
       })
       .catch((error) => {
         throw ApiError.setNotFound(
-          constant.nonexistentValueErrorMessage("recipe")
+          constant.nonexistentValueErrorMessage("recipeId")
         );
       });
 
@@ -185,7 +185,7 @@ export default {
       .catch((error) => {
         if (error.name === "SequelizeForeignKeyConstraintError") {
           throw ApiError.setNotFound(
-            constant.nonexistentValueErrorMessage("recipe")
+            constant.nonexistentValueErrorMessage("recipeId")
           );
         } else if (error.name === "SequelizeUniqueConstraintError") {
           throw ApiError.setConflict(
@@ -199,29 +199,25 @@ export default {
     return createdLike;
   },
   async addStar({ userId, dishId, score }) {
-    // TODO: 불필요한 DB 콜 제거
-    const recipeInformation = await recipeModel.findRecipeInformationByDishId({
-      dishId,
-    });
-
-    if (recipeInformation == null) {
-      throw ApiError.setNotFound("존재하지 않는 레시피입니다.");
-    }
-
-    const existenceOfStar = await recipeModel.findExistenceOfStar({
-      userId,
-      dishId,
-    });
-
-    if (existenceOfStar) {
-      throw ApiError.setBadRequest("이미 별점을 준 상태입니다.");
-    }
-
-    const createdStar = await recipeModel.createRecipeStar({
-      userId,
-      dishId,
-      score,
-    });
+    const createdStar = await recipeModel
+      .createRecipeStar({
+        userId,
+        dishId,
+        score,
+      })
+      .catch((error) => {
+        if (error.name === "SequelizeForeignKeyConstraintError") {
+          throw ApiError.setNotFound(
+            constant.nonexistentValueErrorMessage("recipeId")
+          );
+        } else if (error.name === "SequelizeUniqueConstraintError") {
+          throw ApiError.setConflict(
+            constant.conflictValueErrorMessage("star")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
 
     return createdStar;
   },

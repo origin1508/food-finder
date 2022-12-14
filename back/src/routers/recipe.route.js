@@ -112,6 +112,7 @@ router.post(
 
 router.post(
   "/:recipeId/likes",
+  recipeValidator.addLikeValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
@@ -135,6 +136,7 @@ router.post(
 
 router.post(
   "/:recipeId/stars",
+  recipeValidator.addStarValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {

@@ -157,4 +157,26 @@ export default {
       validate,
     ];
   },
+  addLikeValidator() {
+    return [
+      param("recipeId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("recipeId"))
+        .toInt(),
+      validate,
+    ];
+  },
+  addStarValidator() {
+    return [
+      param("recipeId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("recipeId"))
+        .toInt(),
+      body("score")
+        .isInt({ min: 0, max: 5 })
+        .withMessage(constant.invalidValueErrorMessage("score"))
+        .toInt(),
+      validate,
+    ];
+  },
 };
