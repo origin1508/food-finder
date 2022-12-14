@@ -97,4 +97,7 @@ export default EditRecipe;
 const RecipeFormContainer = styled.article`
   width: 110rem;
   margin: auto;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 70rem;
+  }
 `;
