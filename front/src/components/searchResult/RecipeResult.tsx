@@ -58,35 +58,39 @@ const RecipeResult = ({ keyword }: SearchValue) => {
         <CustomIcon name="quoteRight" size="16" /> RECIPE
       </RecipeResultTitle>
       <RecipeResultList>
-        {searchResult.map((item) => {
-          const { dish_id, name, views, image_url1, likes, nickname } = item;
-          return (
-            <RecipeCardContainer key={dish_id} slide={slide}>
-              <RecipeCard
-                img={image_url1}
-                title={name}
-                channelUuid={dish_id}
-                views={views}
-                likes={likes}
-                creator={nickname}
-                onClickDetailPage={() => {
-                  navigate(`/recipe/detail/${dish_id}`);
-                }}
-              />
-            </RecipeCardContainer>
-          );
-        })}
+        {searchResult && searchResult.length > 0 ? (
+          searchResult.map((item) => {
+            const { dish_id, name, views, image_url1, likes, nickname } = item;
+            return (
+              <RecipeCardContainer key={dish_id} slide={slide}>
+                <RecipeCard
+                  img={image_url1}
+                  title={name}
+                  channelUuid={dish_id}
+                  views={views}
+                  likes={likes}
+                  creator={nickname}
+                  onClickDetailPage={() => {
+                    navigate(`/recipe/detail/${dish_id}`);
+                  }}
+                />
+              </RecipeCardContainer>
+            );
+          })
+        ) : (
+          <RecipeResultEmpty>등록된 레시피가 없습니다.</RecipeResultEmpty>
+        )}
+        {resultLength > 5 && (
+          <>
+            <PrevButton onClick={handlePrevButton}>
+              <CustomIcon name="prev" size="20" color="white" />
+            </PrevButton>
+            <NextButton onClick={handleNextButton}>
+              <CustomIcon name="next" size="20" />
+            </NextButton>
+          </>
+        )}
       </RecipeResultList>
-      {resultLength > 5 && (
-        <>
-          <PrevButton onClick={handlePrevButton}>
-            <CustomIcon name="prev" size="20" color="white" />
-          </PrevButton>
-          <NextButton onClick={handleNextButton}>
-            <CustomIcon name="next" size="20" />
-          </NextButton>
-        </>
-      )}
     </RecipeResultContainer>
   );
 };
@@ -102,9 +106,8 @@ const RecipeResultContainer = styled.section`
 `;
 
 const RecipeResultImg = styled.div<{ url: string }>`
-  height: 40vh;
+  height: 20vw;
   width: 100vw;
-  text-align: center;
   background-image: ${({ url }) =>
     url ? `url(${url});` : `url(${backgroundImage});`}
   background-repeat: no-repeat;
@@ -118,8 +121,8 @@ const RecipeResultImgTitle = styled.h2`
   position: absolute;
   top: 0;
   width: 100vw;
-  height: 40vh;
-  line-height: 40vh;
+  height: 20vw;
+  line-height: 20vw;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.4);
 `;
@@ -131,14 +134,17 @@ const RecipeResultTitle = styled.h2`
 `;
 
 const RecipeResultList = styled.div`
+  position: relative;
   white-space: nowrap;
-  height: 26vh;
+  height: 16vw;
   width: 100%;
   overflow: hidden;
 `;
 
 const RecipeCardContainer = styled.div<{ slide: number }>`
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   width: calc(100% / 5);
   padding: ${({ theme }) => theme.spacingRegular};
   transform: ${({ slide }) => `translateX( ${-100 * slide}%)`};
@@ -149,12 +155,12 @@ const PrevButton = styled.button`
   ${({ theme }) => theme.mixins.flexBox}
   position: absolute;
   cursor: pointer;
-  bottom: 15%;
-  left: -0.8%;
+  top: 35%;
+  left: 0.5%;
   background-color: ${({ theme }) => theme.mainWhite};
   width: 4vh;
   height: 4vh;
-  border-radius: 2rem;
+  border-radius: 50%;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
@@ -162,11 +168,17 @@ const NextButton = styled.button`
   ${({ theme }) => theme.mixins.flexBox}
   position: absolute;
   cursor: pointer;
-  bottom: 15%;
-  right: 0.8%;
+  top: 35%;
+  right: 0.5%;
   background-color: ${({ theme }) => theme.mainWhite};
   width: 4vh;
   height: 4vh;
-  border-radius: 2rem;
+  border-radius: 50%;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`;
+
+const RecipeResultEmpty = styled.div`
+  width: 100%;
+  padding: 5rem;
+  text-align: center;
 `;
