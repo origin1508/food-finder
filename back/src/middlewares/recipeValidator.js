@@ -15,7 +15,7 @@ export default {
         }
 
         if (category) {
-          if (!constant.categories.includes(category)) {
+          if (!constant.categoriesForParam.includes(category)) {
             throw ApiError.setBadRequest(
               constant.invalidValueErrorMessage("category")
             );
@@ -65,7 +65,7 @@ export default {
       body("category")
         .notEmpty()
         .withMessage(constant.invalidValueErrorMessage("category"))
-        .isIn(constant.categories)
+        .isIn(constant.categoriesForBody)
         .withMessage(constant.invalidValueErrorMessage("category"))
         .bail(),
       body("serving")
@@ -178,5 +178,8 @@ export default {
         .toInt(),
       validate,
     ];
+  },
+  updateRecipeValidator() {
+    return [body().custom((value, { req }) => {})];
   },
 };
