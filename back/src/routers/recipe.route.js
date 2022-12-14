@@ -218,24 +218,29 @@ router.patch(
   }
 );
 
-router.delete("/:recipeId", authorizeAccessToken, async (req, res, next) => {
-  try {
-    const { recipeId } = req.params;
-    const { userId } = req;
+router.delete(
+  "/:recipeId",
+  recipeValidator.deleteRecipeValidator(),
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { recipeId } = req.params;
+      const { userId } = req;
 
-    const deletedRecipe = await recipeService.deleteRecipe({
-      userId,
-      dishId: recipeId,
-    });
+      const deletedRecipe = await recipeService.deleteRecipe({
+        userId,
+        dishId: recipeId,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "레시피 삭제 성공",
-    });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        success: true,
+        message: "레시피 삭제 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.delete(
   "/comments/:commentId",

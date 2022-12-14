@@ -282,4 +282,13 @@ export default {
       validate,
     ];
   },
+  deleteRecipeValidator() {
+    return [
+      param("recipeId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("recipeId"))
+        .bail(),
+      validate,
+    ];
+  },
 };
