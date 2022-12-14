@@ -40,6 +40,12 @@ export const theme = {
   spacingSmall: '0.5rem',
   spacingSmallest: '0.3rem',
 
+  bpLargest: '75em', //1200px
+  bpLarge: '68.75em', //1000px
+  bpMedium: '50.25em', // 800px
+  bpSmall: '40.5em', // 640px
+  bpSmallest: '31.25em', // 500px
+
   absoluteCenter: css`
     position: absolute;
     top: 50%;

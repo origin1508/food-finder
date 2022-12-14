@@ -24,6 +24,7 @@ const Container = styled.article`
   padding: 0 8%;
   background-image: url(${({ itemProp }) => itemProp});
   background-size: cover;
+  background-position: center;
   letter-spacing: 0.2rem;
 `;
 
