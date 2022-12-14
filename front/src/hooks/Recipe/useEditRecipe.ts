@@ -94,13 +94,10 @@ const useEditRecipe = (
         steps.push(temp);
       }),
     );
-
-    if (steps.length > 0) {
-      steps.sort((a, b) => {
-        return a.step - b.step;
-      });
-      formData.append('steps', JSON.stringify(steps));
-    }
+    steps.sort((a, b) => {
+      return a.step - b.step;
+    });
+    formData.append('steps', JSON.stringify(steps));
     formData.append('method', method);
     formData.append('category', category);
     formData.append('ingredient', JSON.stringify(ingredients));
