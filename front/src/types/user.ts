@@ -7,8 +7,8 @@ export interface UserInfoEdit {
   setIsPasswordEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setAlertLoading: ({ loading }: Alert) => void;
   user: AuthInfo;
-  register: UseFormRegister<AuthFormInitial>;
-  errors: Partial<FieldErrorsImpl<AuthFormInitial>>;
+  register?: UseFormRegister<AuthFormInitial>;
+  errors?: Partial<FieldErrorsImpl<AuthFormInitial>>;
   onSubmit?: (
     e?: React.BaseSyntheticEvent<object, any, any> | undefined,
   ) => Promise<void>;

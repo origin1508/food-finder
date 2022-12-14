@@ -8,6 +8,7 @@ const NicknameEditFrom = ({
   register,
   onSubmit,
 }: UserInfoEdit) => {
+  if (register === undefined) return null;
   return (
     <UserInfoUpdateForm onSubmit={onSubmit}>
       <Label htmlFor="name">Name</Label>
@@ -23,7 +24,7 @@ const NicknameEditFrom = ({
             },
           })}
         />
-        <ErrorMessage>{errors.nickname?.message}</ErrorMessage>
+        <ErrorMessage>{errors?.nickname?.message}</ErrorMessage>
       </InputContainer>
       <Button type="submit">Update</Button>
       <Button
