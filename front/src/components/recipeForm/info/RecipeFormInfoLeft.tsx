@@ -68,6 +68,9 @@ export default RecipeFormInfoLeft;
 
 const RecipeFormInfoLeftContainer = styled.section`
   width: 60%;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 40%;
+  }
 `;
 
 const RecipeFormInfoInputContainer = styled.div`
@@ -99,6 +102,10 @@ const RecipeFormInfoTimeInput = styled(RecipeFormInfoInput)`
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 10rem;
   }
 `;
 
