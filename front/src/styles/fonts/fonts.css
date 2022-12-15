@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'NanumSquareNeo-Light';
+  src: url('./NanumSquareNeoOTF-aLt.otf') format('opentype');
+}
+@font-face {
+  font-family: 'NanumSquareNeo-Regular';
+  src: url('./NanumSquareNeoOTF-bRg.otf') format('opentype');
+}
+@font-face {
+  font-family: 'NanumSquareNeo-Bold';
+  src: url('./NanumSquareNeoOTF-cBd.otf') format('opentype');
+}

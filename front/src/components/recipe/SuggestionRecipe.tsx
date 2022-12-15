@@ -64,7 +64,7 @@ const SuggestionRecipeContainer = styled.div`
 
 const RecipeCards = styled.div`
   max-width: 128vh;
-  height: 25vh;
+  height: 27vh;
   overflow: hidden;
   @media (max-width: ${({ theme }) => theme.bpLarge}) {
     width: 110vh;

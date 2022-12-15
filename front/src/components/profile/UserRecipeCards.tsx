@@ -58,7 +58,7 @@ const UserRecipeCardsContainer = styled.div`
 
 const RecipeCards = styled.div`
   width: 100%;
-  height: 25vh;
+  height: 27vh;
   overflow: hidden;
   @media (max-width: ${({ theme }) => theme.bpSmallest}) {
     height: 15vh;

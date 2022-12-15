@@ -19,6 +19,7 @@ export const theme = {
   fontLarge: '4rem',
   fontMoreMeium: '3.5rem',
   fontMedium: '2.8rem',
+  fontMedium2: '2.4rem',
   fontSemiMedium: '2.0rem',
   fontRegular: '1.6rem',
   fontSemiRegular: '1.4rem',

@@ -91,10 +91,14 @@ const TitleContainer = styled.div`
   gap: ${({ theme }) => theme.spacingMedium};
   padding-left: ${({ theme }) => theme.spacingMedium};
   width: 100%;
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    padding: 0 8%;
+  }
 `;
 const Title = styled.h2`
   ${MediumTitle}
-  color:${({ theme }) => theme.mainBlack}
+  color:${({ theme }) => theme.mainBlack};
+  font-size: ${({ theme }) => theme.fontSemiMedium};
 `;
 
 const MoreRecipe = styled.div`

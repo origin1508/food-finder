@@ -11,14 +11,19 @@ import {
   BsSuitHeart,
 } from 'react-icons/bs';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
-import { FaCrown } from 'react-icons/fa';
+import { FaCrown, FaPeopleArrows } from 'react-icons/fa';
 import { FiSend } from 'react-icons/fi';
-import { BiCloudUpload, BiRefresh } from 'react-icons/bi';
+import { BiRefresh } from 'react-icons/bi';
 import { GrFormPrevious, GrFormNext, GrClose } from 'react-icons/gr';
 import { FcPlus } from 'react-icons/fc';
 import { AiOutlineUpload } from 'react-icons/ai';
 import { IoMdRemove } from 'react-icons/io';
 import { RiSingleQuotesL, RiSingleQuotesR } from 'react-icons/ri';
+import {
+  MdImageSearch,
+  MdOutlineDataUsage,
+  MdOutlineFoodBank,
+} from 'react-icons/md';
 
 interface CustomIconProps {
   name: string;
@@ -97,6 +102,18 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
 
       case 'liked':
         return <BsSuitHeartFill size={size} color={color} />;
+
+      case 'aiSearch':
+        return <MdImageSearch size={size} color={color} />;
+
+      case 'data':
+        return <MdOutlineDataUsage size={size} color={color} />;
+
+      case 'food':
+        return <MdOutlineFoodBank size={size} color={color} />;
+
+      case 'comunity':
+        return <FaPeopleArrows size={size} color={color} />;
 
       case 'quoteLeft':
         return (
