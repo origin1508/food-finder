@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useRating from '../../hooks/Recipe/useRating';
 import { BsFillStarFill } from 'react-icons/bs';
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import {
   RecipeDetailTitleStyle,
   RecipeDetailSubTitleStyle,
 } from '../../styles/recipeDetailStyle';
+import useRatingUpadate from '../../hooks/Recipe/useRatingUpdate';
 
 const RecipeRatingStar = ({
   recipeId,
@@ -16,7 +17,8 @@ const RecipeRatingStar = ({
   recipeId: string;
   myStar: number;
 }) => {
-  const { mutate } = useRating(recipeId);
+  const { mutate: requestRating } = useRating(recipeId);
+  const { mutate: updateRating } = useRatingUpadate(recipeId);
   const [clicked, setClicked] = useState([false, false, false, false, false]);
   const array = [0, 1, 2, 3, 4];
   let score = clicked.filter(Boolean).length;
@@ -30,12 +32,15 @@ const RecipeRatingStar = ({
   };
 
   const handleRatingButtonClick = () => {
-    mutate({ recipeId, score });
+    if (myStar) {
+      return updateRating({ recipeId, score });
+    }
+    requestRating({ recipeId, score });
   };
 
-  useState(() => {
+  useEffect(() => {
     handleStarClick(myStar - 1);
-  });
+  }, [myStar]);
 
   return (
     <RecipeRatingContainer>

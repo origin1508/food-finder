@@ -122,6 +122,26 @@ export async function recipeRequestRating({
   return res.data;
 }
 
+export async function recipeRequestUpdate({
+  recipeId,
+  score,
+}: {
+  recipeId: string;
+  score: number;
+}) {
+  const res = await customAxios.put(
+    `/recipes/${recipeId}/stars`,
+    { score },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Storage.getToken()}`,
+      },
+    },
+  );
+  return res.data;
+}
+
 export const recipeDeleteRequest = async (recipeId: number) => {
   const res = await customAxios.delete(`/recipes/${recipeId}`, {
     headers: {
