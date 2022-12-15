@@ -61,6 +61,9 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
         steps.push(step);
       }),
     );
+    steps.sort((a, b) => {
+      return a.step - b.step;
+    });
     const formData = new FormData();
     formData.append('name', name);
     formData.append('method', method);
@@ -70,7 +73,7 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
     formData.append('cookingTime', cookingTime);
     formData.append('recipeThumbnail', recipeThumbnail);
     stepImages.forEach((stepImage) => {
-      formData.append('stepImages', stepImage);
+      formData.append('stepImages', stepImage, stepImage.name);
     });
     formData.append('steps', JSON.stringify(steps));
     return await createRecipeRequest(formData);
