@@ -46,6 +46,9 @@ const useEditRecipe = (
       const { message } = data;
       queryClient.invalidateQueries('authRecips');
       queryClient.invalidateQueries('collectRecipesInfo');
+      queryClient.invalidateQueries('racipeRanking');
+      queryClient.invalidateQueries('randomRecips');
+      queryClient.invalidateQueries(['racipeDetail', recipeId]);
       setAlertSuccess({ success: message });
       navigate('/collectRecipes', { replace: true });
     },
