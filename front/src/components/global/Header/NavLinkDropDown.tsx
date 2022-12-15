@@ -121,6 +121,7 @@ const UserInfoContent = styled.div`
   white-space: nowrap;
   overflow: hidden;
   width: 100%;
+  text-align: center;
   letter-spacing: -0.05em;
 `;
 const Profile = styled.div`
