@@ -6,7 +6,7 @@ export interface RecipeDetailInitial {
   category: string;
   smallThumbnailUrl: string;
   largeThumbnailUrl: string;
-  ingredient: string;
+  ingredient: { name: string; amount: string }[];
   serving: number;
   cookingTime: number;
   views: number;
