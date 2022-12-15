@@ -59,6 +59,7 @@ const EditRecipe = () => {
       }),
     ),
   });
+  console.log(ingredient);
 
   const methods = useForm<RecipeFormDefaultValue>({
     mode: 'onChange',
@@ -69,7 +70,7 @@ const EditRecipe = () => {
       cookingTime: String(cookingTime),
       category: category,
       method: method,
-      ingredients: JSON.parse(ingredient),
+      ingredients: ingredient,
       instructions: instructions,
     },
     resolver: yupResolver(editRecipeSchema),
