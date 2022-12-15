@@ -282,6 +282,18 @@ export default {
       validate,
     ];
   },
+  updateStarValidator() {
+    return [
+      param("recipeId")
+        .isInt()
+        .withMessage(constant.invalidValueErrorMessage("recipeId"))
+        .bail(),
+      body("score")
+        .isInt({ min: 0, max: 5 })
+        .withMessage(constant.invalidValueErrorMessage("score")),
+      validate,
+    ];
+  },
   deleteRecipeValidator() {
     return [
       param("recipeId")

@@ -317,6 +317,29 @@ export default {
 
     return updatedComment;
   },
+  async updateStar({ userId, dishId, score }) {
+    const updatedStar = await recipeModel
+      .updateStar({ userId, dishId, score })
+      .then((result) => {
+        if (result[0] === 0) {
+          const error = new Error();
+          error.name = "NotUpdated";
+
+          throw error;
+        }
+      })
+      .catch((error) => {
+        if (error.name === "NotUpdated") {
+          throw ApiError.setUnauthorized(
+            constant.unauthorizedErrorMessage("recipeId")
+          );
+        } else {
+          throw ApiError.setInternalServerError("serverError");
+        }
+      });
+
+    return updatedStar;
+  },
   async deleteRecipe({ userId, dishId }) {
     const deletedRecipe = await recipeModel
       .deleteRecipeInformation({ dishId, userId })
