@@ -87,10 +87,9 @@ const DropDownContainer = styled.div`
   top:7rem;
   color: ${({ theme }) => theme.darkGrey};
   right: 7%;
-  font-weight: ${({ theme }) => theme.weightSemiBold};
   gap: 0.1rem;
   width: 20rem;
-  height: 20vh;
+
   background-color: ${({ theme }) => theme.lightDarkGrey};
   display: ${({ itemScope }) => (itemScope ? 'block' : 'none')};
 
@@ -98,9 +97,11 @@ const DropDownContainer = styled.div`
   border-radius: 0.5rem;
   overflow: hidden;
 
+  & > * {
+    padding: 1rem;
+  }
   @media (max-width: ${({ theme }) => theme.bpLarge}) {
     color: ${({ theme }) => theme.mainBlack};
-
     position: relative;
     top: 0;
     right: 0;
@@ -116,6 +117,11 @@ const UserInfo = styled.div`
 const UserInfoContent = styled.div`
   font-size: ${({ theme }) => theme.fontMicro};
   line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  letter-spacing: -0.05em;
 `;
 const Profile = styled.div`
   ${({ theme }) => theme.mixins.flexBox}

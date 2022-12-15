@@ -62,9 +62,18 @@ const NavContainer = styled.ul`
     top: 7rem;
     right: 0;
     border: ${({ theme }) => theme.lightDarkGrey} 1px solid;
-    border-radius: 0.5rem;
-    padding: 3.5vw;
+    border-radius: 2rem;
+    overflow: hidden;
     display: ${({ itemScope }) => (itemScope ? '' : 'none')};
+    z-index: 99;
+    gap: 0;
+
+    & > * {
+      padding: 3rem;
+      width: 100%;
+      border: ${({ theme }) => theme.lightDarkGrey} 1px solid;
+      text-align: center;
+    }
   }
   @media (max-width: ${({ theme }) => theme.bpSmallest}) {
     top: 10rem;
