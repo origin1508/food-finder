@@ -11,7 +11,11 @@ export const BigTitle = css`
 
 export const MediumTitle = css`
   ${({ theme }) =>
-    theme.mixins.title(theme.fontMedium, theme.weightSemiBold, theme.lightGrey)}
+    theme.mixins.title(
+      theme.fontMedium2,
+      theme.weightSemiBold,
+      theme.lightGrey,
+    )}
 `;
 
 export const MediumSubTitle = css`

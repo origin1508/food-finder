@@ -7,7 +7,7 @@ const Search = ({
   display,
   register,
   onSubmit,
-  placeholder = '레시피를 검색해보세요',
+  placeholder = '레시피 검색',
 }: SearchProps) => {
   return (
     <SearchContainer itemProp={display} onSubmit={onSubmit}>
