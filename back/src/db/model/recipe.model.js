@@ -486,6 +486,22 @@ export default {
     return updatedComment;
   },
 
+  async updateStar({ dishId, score, userId }) {
+    const updatedStar = await RecipeStar.update(
+      {
+        score,
+      },
+      {
+        where: {
+          dish_id: Number(dishId),
+          user_id: Number(userId),
+        },
+      }
+    );
+
+    return updatedStar;
+  },
+
   async deleteRecipeInformation({ dishId, userId }) {
     const deletedRecipe = await Recipe.destroy({
       where: {

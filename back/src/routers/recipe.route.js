@@ -224,6 +224,31 @@ router.patch(
   }
 );
 
+router.put(
+  "/:recipeId/stars",
+  recipeValidator.updateStarValidator(),
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { recipeId } = req.params;
+      const { userId } = req;
+
+      const updatedStar = await recipeService.updateStar({
+        dishId: recipeId,
+        userId,
+        ...req.body,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "별점 업데이트 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.delete(
   "/:recipeId",
   recipeValidator.deleteRecipeValidator(),
