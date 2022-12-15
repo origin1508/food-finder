@@ -11,6 +11,9 @@ const Logo = () => {
 const Img = styled.img`
   height: 2rem;
   cursor: pointer;
+  @media (max-width: ${({ theme }) => theme.bpMedium}) {
+    height: 3rem;
+  }
 `;
 
 export default Logo;
