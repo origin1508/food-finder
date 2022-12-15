@@ -42,17 +42,27 @@ const NavLinkDropDown = () => {
           src={user?.profileUrl !== null ? user?.profileUrl : basicProfileImg}
         />
         <Nickname>{user?.nickname}</Nickname>
-        <CustomIcon name="toggleDown" size="17" color="inherit"></CustomIcon>
+        <CustomIcon name="toggleDown" size="17" color="inherit" />
       </DropDownButton>
       <DropDownContainer ref={navLinkDropdownRef} itemScope={isDropdownOpen}>
         <UserInfo>
           <UserInfoContent>{user?.nickname}</UserInfoContent>
           <UserInfoContent>{user?.email}</UserInfoContent>
         </UserInfo>
-        <Profile onClick={() => navigate(`/profile/${user?.userId}`)}>
+        <Profile
+          onClick={() => {
+            navigate(`/profile/${user?.userId}`);
+            setIsDropdownOpen(false);
+          }}
+        >
           Profile
         </Profile>
-        <LikedRestaurant onClick={() => navigate(PATH.RESTAURANT)}>
+        <LikedRestaurant
+          onClick={() => {
+            navigate(PATH.RESTAURANT);
+            setIsDropdownOpen(false);
+          }}
+        >
           Liked Restaurant
         </LikedRestaurant>
         <Logout onClick={hanldeClickLogout}>Logout</Logout>
