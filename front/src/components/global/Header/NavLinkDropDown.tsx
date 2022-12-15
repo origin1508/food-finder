@@ -50,7 +50,7 @@ const NavLinkDropDown = () => {
         <Nickname>{user?.nickname}</Nickname>
         <CustomIcon name="toggleDown" size="17" color="inherit" />
       </DropDownButton>
-      <DropDownContainer itemScope={isDropdownOpen}>
+      <DropDownContainer itemScope={isDropdownOpen} ref={navLinkDropdownRef}>
         <UserInfo>
           <UserInfoContent>{user?.nickname}</UserInfoContent>
           <UserInfoContent>{user?.email}</UserInfoContent>
