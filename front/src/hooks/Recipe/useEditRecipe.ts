@@ -82,21 +82,21 @@ const useEditRecipe = (
       const recipeThumbnail = await imageResize(mainImage.files[0]);
       formData.append('recipeThumbnail', recipeThumbnail);
     }
-    await Promise.all(
-      instructions.map(async (instruction, index) => {
+    await (async () => {
+      for (const [index, instruction] of instructions.entries()) {
         const { description, image, preview } = instruction;
-        const temp = <Step>{};
-        temp.step = index + 1;
-        temp.content = description;
+        const step = <Step>{};
+        step.step = index + 1;
+        step.content = description;
         if (image && image.length > 0) {
           const compressedImage = await imageResize(image[0]);
           stepImages.push(compressedImage);
         } else {
-          temp.imageUrl = preview;
+          step.imageUrl = preview;
         }
-        steps.push(temp);
-      }),
-    );
+        steps.push(step);
+      }
+    })();
     steps.sort((a, b) => {
       return a.step - b.step;
     });

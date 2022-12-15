@@ -47,11 +47,13 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
       ingredients,
       instructions,
     } = data;
-    const stepImages = Array<File>();
+
     const steps = Array<Step>();
+    const stepImages = Array<File>();
+    const formData = new FormData();
     const recipeThumbnail = await imageResize(mainImage.files[0]);
-    await Promise.all(
-      instructions.map(async (instruction, index) => {
+    await (async () => {
+      for (const [index, instruction] of instructions.entries()) {
         const { description, image } = instruction;
         const compressedImage = await imageResize(image[0]);
         compressedImage && stepImages.push(compressedImage);
@@ -59,12 +61,11 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
         step.step = index + 1;
         step.content = description;
         steps.push(step);
-      }),
-    );
+      }
+    })();
     steps.sort((a, b) => {
       return a.step - b.step;
     });
-    const formData = new FormData();
     formData.append('name', name);
     formData.append('method', method);
     formData.append('category', category);
