@@ -117,6 +117,7 @@ const CommentContent = styled.p`
 `;
 
 const Edit = styled.div`
+  cursor: pointer;
   width: fit-content;
   color: #dee2e6;
   margin-right: 5px;
@@ -128,6 +129,7 @@ const Edit = styled.div`
 
 const Remove = styled.div`
   width: fit-content;
+  cursor: pointer;
   color: #dee2e6;
   font-size: 1.2rem;
   &:hover {
