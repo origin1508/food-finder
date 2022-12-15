@@ -44,19 +44,19 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: none;
-  width: ${({ itemProp }) => (itemProp ? `${itemProp}vh` : '24vh')};
-  height: ${({ itemProp }) => (itemProp ? `${itemProp}vh` : '24vh')};
+  width: ${({ itemProp }) => `${itemProp}vh`};
+  height: ${({ itemProp }) => `${Number(itemProp) * 1.1}vh`};
   border-radius: 0.7rem;
   overflow: hidden;
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   @media (max-width: ${({ theme }) => theme.bpLarge}) {
     width: ${({ itemProp }) => `${Number(itemProp) / 1.2}vh`};
-    height: ${({ itemProp }) => `${Number(itemProp) / 1.2}vh`};
+    height: ${({ itemProp }) => `${(Number(itemProp) * 1.1) / 1.2}vh`};
   }
   @media (max-width: ${({ theme }) => theme.bpMedium}) {
     width: ${({ itemProp }) => `${Number(itemProp) / 1.4}vh`};
-    height: ${({ itemProp }) => `${Number(itemProp) / 1.4}vh`};
+    height: ${({ itemProp }) => `${(Number(itemProp) * 1.1) / 1.4}vh`};
   }
 `;
 

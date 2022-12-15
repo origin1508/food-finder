@@ -65,9 +65,9 @@ const LikeRecipe = styled.div`
 const Title = styled.h3`
   ${RecipeDetailTitleStyle}
 `;
-
 const LikeRecipeHeader = styled.div`
   ${RecipeDetailHeader}
+  margin-bottom: ${({ theme }) => theme.spacingSemiMedium};
 `;
 const MyRecipe = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column')}
