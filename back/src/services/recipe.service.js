@@ -103,6 +103,7 @@ export default {
     recipeObject.RecipeLikes = recipeObject.RecipeLikes.length;
 
     recipeObject.writer = recipeObject.User;
+    recipeObject.ingredient = JSON.parse(recipeObject.ingredient);
     delete recipeObject.User;
 
     return recipeObject;
