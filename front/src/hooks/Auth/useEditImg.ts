@@ -11,7 +11,6 @@ export default function useEditImg() {
 
   const mutation = useMutation(authProfileImageUpdate, {
     onSuccess: (data) => {
-      console.log('성공', data);
       setAuthState((prev) => {
         return {
           ...prev!,

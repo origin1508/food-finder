@@ -17,12 +17,10 @@ const SuggestionRecipe = ({ recipes }: SuggestRecipe) => {
 
   const toPrev = () => {
     slidePx < 0 && setSlidePx(slidePx + CARD_WIDTH_SIZE);
-    console.log(slidePx);
   };
 
   const toNext = () => {
     slidePx > -CARDS_WIDTH_SIZE && setSlidePx(slidePx - CARD_WIDTH_SIZE);
-    console.log(slidePx);
   };
 
   const handleClickDetail = (userId: number) => {
