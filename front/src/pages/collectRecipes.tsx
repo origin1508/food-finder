@@ -103,6 +103,7 @@ const CollectRecipes = () => {
                     channelUuid={recipe.dishId}
                     views={recipe.views}
                     likes={recipe.likes}
+                    creator={recipe.writer.nickname}
                     onClickDetailPage={() => handleClickDetail(recipe.dishId)}
                     size="30"
                   ></RecipeCard>
@@ -137,6 +138,18 @@ const Wrap = styled.div`
   flex-wrap: wrap;
   ${({ theme }) => theme.mixins.flexBox('row', 'center', 'start')}
   gap: 4.3vh;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    ${({ theme }) => theme.mixins.flexBox()}
+    width: 100vh;
+  }
+
+  @media (max-width: ${({ theme }) => theme.bpMedium}) {
+    width: 90vh;
+  }
+
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    width: 70vh;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -146,6 +159,15 @@ const FilterContainer = styled.div`
   padding: 3rem 0;
   border-bottom: 1px solid ${({ theme }) => theme.darkGrey};
   gap: 2rem;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 100vh;
+  }
+  @media (max-width: ${({ theme }) => theme.bpMedium}) {
+    width: 70vh;
+  }
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    width: 50vh;
+  }
 `;
 const Filter = styled.div`
   ${({ theme }) => theme.mixins.flexBox}

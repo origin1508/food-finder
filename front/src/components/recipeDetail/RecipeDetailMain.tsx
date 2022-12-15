@@ -35,6 +35,7 @@ const RecipeDetailMain = ({
     starAverage,
     liked,
     dishId: recipeId,
+    numberOfStar,
   } = recipeDetail;
   const navigate = useNavigate();
   const {
@@ -57,7 +58,7 @@ const RecipeDetailMain = ({
           <WriterNickname>{writer.nickname}</WriterNickname>
         </WriterInfoContainer>
       </RecipeImage>
-      <RecipeScoreStatus score={starAverage} />
+      <RecipeScoreStatus score={starAverage} numberOfStar={numberOfStar} />
 
       <RecipeInfoContiner>
         <TitleContainer>

@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BsFillStarFill } from 'react-icons/bs';
+import { RecipeDetailSubTitleStyle } from '../../styles/recipeDetailStyle';
 
-const RecipeScoreStatus = ({ score }: { score: number }) => {
+const RecipeScoreStatus = ({
+  score,
+  numberOfStar,
+}: {
+  score: number;
+  numberOfStar: number;
+}) => {
   const array = [0, 1, 2, 3, 4];
   const [recipeScore, setRecipeScore] = useState([
     false,
@@ -34,13 +41,14 @@ const RecipeScoreStatus = ({ score }: { score: number }) => {
           size="25"
         />
       ))}
+      <Count>({numberOfStar})</Count>
     </RecipeRaitingContiner>
   );
 };
 
 const RecipeRaitingContiner = styled.div`
   width: 100%;
-  ${({ theme }) => theme.mixins.flexBox}
+  ${({ theme }) => theme.mixins.flexBox()}
   gap : ${({ theme }) => theme.spacingMedium};
   & svg {
     color: #c4c4c4;
@@ -49,5 +57,9 @@ const RecipeRaitingContiner = styled.div`
     color: black;
   }
 `;
-
+const Count = styled.div`
+  ${({ theme }) => theme.mixins.flexBox()}
+  ${RecipeDetailSubTitleStyle}
+  padding-top:1rem;
+`;
 export default RecipeScoreStatus;

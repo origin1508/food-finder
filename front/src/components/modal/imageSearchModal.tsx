@@ -119,6 +119,10 @@ const ModalContainer = styled.form`
   border-radius: 1rem;
   filter: brightness(110%);
   gap: ${({ theme }) => theme.spacingLargest};
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 80rem;
+    height: 50vh;
+  }
 `;
 
 const ModalTitle = styled.h2`
@@ -153,6 +157,9 @@ const NoticeContainer = styled.div`
   width: 35rem;
   height: 25rem;
   overflow: hidden;
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    height: 35rem;
+  }
 `;
 const NoticeTitle = styled.h3`
   ${({ theme }) =>

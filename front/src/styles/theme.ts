@@ -44,7 +44,7 @@ export const theme = {
   bpLarge: '68.75em', //1000px
   bpMedium: '50.25em', // 800px
   bpSmall: '40.5em', // 640px
-  bpSmallest: '30em', // 500px
+  bpSmallest: '31em', // 500px
 
   absoluteCenter: css`
     position: absolute;

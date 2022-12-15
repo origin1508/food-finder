@@ -6,4 +6,5 @@ export interface RecipeCollectCard {
   name: '쫄면';
   smallThumbnailUrl?: string;
   views: number;
+  writer: { nickname: string };
 }

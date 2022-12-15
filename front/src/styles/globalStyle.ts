@@ -22,7 +22,7 @@ const GlobalStyles = createGlobalStyle`
           font-size: 40%;
         }
 
-        @media only screen and (max-width: 30em) {
+        @media only screen and (max-width: 31em) {
           font-size: 27%;
         }
     }

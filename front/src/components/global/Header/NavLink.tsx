@@ -101,7 +101,7 @@ const Login = styled.div`
 `;
 
 const BurgerMenu = styled.div`
-  width: 2.8rem;
+  width: 3rem;
   height: 32px;
   cursor: pointer;
   position: relative;
@@ -175,6 +175,10 @@ const BurgerMenu = styled.div`
 
   &:focus {
     outline: none;
+  }
+
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 4rem;
   }
 `;
 export default NavLink;

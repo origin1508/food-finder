@@ -31,6 +31,7 @@ const RecipeDetail = () => {
 
   useEffect(() => {
     recipeWriter === userId ? setIsEditor(true) : setIsEditor(false);
+    console.log(recipeDetail);
   }, [recipeDetail]);
 
   return (

@@ -16,6 +16,7 @@ export interface RecipeDetailInitial {
   myStar: number;
   starAverage: number;
   liked: boolean;
+  numberOfStar: number;
   writer: {
     userId: number;
     email: string;
