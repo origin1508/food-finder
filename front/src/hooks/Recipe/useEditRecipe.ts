@@ -104,7 +104,7 @@ const useEditRecipe = (
     formData.append('serving', serving);
     formData.append('cookingTime', cookingTime);
     stepImages.forEach((stepImage) => {
-      formData.append('stepImages', stepImage);
+      formData.append('stepImages', stepImage, stepImage.name);
     });
     return await recipeUpdateRequest(recipeId, formData);
   };
