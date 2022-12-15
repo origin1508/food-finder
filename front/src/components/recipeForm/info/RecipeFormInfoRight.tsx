@@ -26,7 +26,7 @@ const RecipeFormInfoRight = () => {
           accept="image/jpeg, image/png"
           onChange={async (e) => {
             const previewUrl = await createPreview(e);
-            previewUrl && setValue('mainImage.preview', previewUrl);
+            setValue('mainImage.preview', previewUrl);
           }}
         />
         {!previewUrl && (

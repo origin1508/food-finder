@@ -40,7 +40,7 @@ const RecipeFormInstructionInputComponent = ({
           accept="image/*"
           onChange={async (e) => {
             const previewUrl = await createPreview(e);
-            previewUrl && setValue(registeredPreview, previewUrl);
+            setValue(registeredPreview, previewUrl);
           }}
         />
         {!preview && (
