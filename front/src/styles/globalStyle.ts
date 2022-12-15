@@ -11,7 +11,17 @@ const GlobalStyles = createGlobalStyle`
     *{
         box-sizing: border-box;
         
+        
     }
+    h1,h2,h3 {
+      font-family:'NanumSquareNeo-bold';
+    }
+
+    h4,h5{
+      font-family:'NanumSquareNeo-Regular';
+    }
+
+
     html{
         font-size: 62.5%; 
         @media only screen and (max-width: 75em) {
@@ -27,7 +37,7 @@ const GlobalStyles = createGlobalStyle`
         }
     }
     body{
-        font-family: 'Noto Sans KR', sans-serif;
+        font-family: 'NanumSquareNeo-Regular';
         background-color: #F7F7F7;
         font-size:1.6rem;
     }
