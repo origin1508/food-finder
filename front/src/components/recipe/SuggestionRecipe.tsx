@@ -70,6 +70,9 @@ const RecipeCards = styled.div`
     width: 110vh;
     overflow-y: scroll;
     height: 30vh;
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
   }
   @media (max-width: ${({ theme }) => theme.bpMedium}) {
     width: 90vh;

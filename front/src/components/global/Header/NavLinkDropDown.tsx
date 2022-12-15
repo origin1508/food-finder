@@ -9,6 +9,7 @@ import { PATH } from '../../../customRouter';
 import Storage from '../../../storage/storage';
 import useSetAlert from '../../../hooks/useSetAlert';
 import useOnClickOutside from '../../../hooks/useOnclickOutside';
+import { theme } from '../../../styles/theme';
 
 const NavLinkDropDown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -36,15 +37,20 @@ const NavLinkDropDown = () => {
 
   useOnClickOutside(navLinkDropdownRef, handleOutsideClicks);
   return (
-    <>
-      <DropDownButton onClick={() => setIsDropdownOpen((prev) => !prev)}>
+    <Container>
+      <DropDownButton
+        onClick={() => {
+          setIsDropdownOpen((prev) => !prev);
+        }}
+        ref={navLinkDropdownRef}
+      >
         <UserImg
           src={user?.profileUrl !== null ? user?.profileUrl : basicProfileImg}
         />
         <Nickname>{user?.nickname}</Nickname>
         <CustomIcon name="toggleDown" size="17" color="inherit" />
       </DropDownButton>
-      <DropDownContainer ref={navLinkDropdownRef} itemScope={isDropdownOpen}>
+      <DropDownContainer itemScope={isDropdownOpen}>
         <UserInfo>
           <UserInfoContent>{user?.nickname}</UserInfoContent>
           <UserInfoContent>{user?.email}</UserInfoContent>
@@ -67,13 +73,18 @@ const NavLinkDropDown = () => {
         </LikedRestaurant>
         <Logout onClick={hanldeClickLogout}>Logout</Logout>
       </DropDownContainer>
-    </>
+    </Container>
   );
 };
 
-const DropDownButton = styled.button`
+const Container = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('column')}
+`;
+
+const DropDownButton = styled.div`
   ${({ theme }) => theme.mixins.flexBox}
-  color:${({ theme }) => theme.mainWhite};
+  cursor:pointer;
+  color: ${({ theme }) => theme.mainWhite};
   gap: 1rem;
   &:hover {
     color: ${({ theme }) => theme.mainBlack};
@@ -113,7 +124,7 @@ const DropDownContainer = styled.div`
   @media (max-width: ${({ theme }) => theme.bpLarge}) {
     color: ${({ theme }) => theme.mainBlack};
     position: relative;
-    top: 0;
+    top: 1rem;
     right: 0;
     border: none;
   }
