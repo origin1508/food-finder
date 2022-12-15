@@ -21,9 +21,7 @@ const Recipe = () => {
   return (
     <Container>
       <HeaderContainer>
-        <SearchTitle>
-          400가지 이상의 다양한 한식레시피를 검색해보세요!
-        </SearchTitle>
+        <SearchTitle>다양한 레시피와 관련 맛집을 검색해보세요!</SearchTitle>
         <SearchContainer>
           <Search register={register} onSubmit={handleRecipeSearch} />
           <ImageSearch />
