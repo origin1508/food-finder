@@ -25,20 +25,19 @@ const RecipeDetail = () => {
     RecipeComments: recipeComments,
     myStar,
   } = recipeDetail!;
-  const ingredients = JSON.parse(ingredient);
+
   const recipeWriter = recipeDetail?.writer.userId;
   const userId = user?.userId;
 
   useEffect(() => {
     recipeWriter === userId ? setIsEditor(true) : setIsEditor(false);
-    console.log(recipeDetail);
   }, [recipeDetail]);
 
   return (
     <BasePageComponent>
       <RecipeDetailContainer>
         <RecipeDetailMain recipeDetail={recipeDetail} isEditor={isEditor} />
-        <RecipeDetailIngredient ingredients={ingredients} />
+        <RecipeDetailIngredient ingredients={ingredient} />
         <RecipeSteps steps={steps} />
         <RecipeRatingStar recipeId={recipeId} myStar={myStar} />
         <RecipeComment comments={recipeComments} recipeId={recipeId} />
