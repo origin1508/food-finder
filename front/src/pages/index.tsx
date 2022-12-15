@@ -65,7 +65,7 @@ const Home = () => {
                   <TextOne>
                     400가지 이상의 다양한 레시피를 제공합니다.
                     <br />
-                    레시피를 검색하면 관련 맛집 정보까지!
+                    레시피를 검색하면 <span>관련 맛집 정보까지!</span>
                   </TextOne>
                 </MainContent>
               </Container>
@@ -88,7 +88,7 @@ const Home = () => {
                   <TextOne>
                     사진 속 음식이 궁금할 때?
                     <br />
-                    AI 사진 검색기능으로 좀 더 편리하게!
+                    <span>AI 사진 검색기능</span>으로 좀 더 편리하게!
                   </TextOne>
                 </MainContent>
                 <MainImg src={mainRecipeImg} />
@@ -210,6 +210,10 @@ const TextOne = styled.p`
       '5vh',
     )}
   line-height:1.7;
+  & span {
+    color: ${({ theme }) => theme.mainBlack};
+    font-family: NanumSquareNeo-Bold;
+  }
 `;
 
 const ServiceButton = styled.button`
@@ -220,40 +224,4 @@ const ServiceButton = styled.button`
   }
 `;
 
-const ContentContainer = styled.div`
-  ${({ theme }) => theme.mixins.flexBox('row', 'center', 'space-around')}
-  gap:4rem;
-  width: 100%;
-  height: 80%;
-  padding: ${({ itemProp }) => itemProp};
-`;
-
-const TitleContainer = styled.section`
-  ${({ theme }) => theme.mixins.flexBox('column', 'start')}
-`;
-
-const ContentTitle = styled.h2`
-  ${({ theme }) =>
-    theme.mixins.title(
-      theme.fontMedium2,
-      theme.weightBold,
-      theme.mainWhite,
-      '3vh',
-    )}
-`;
-const ContentText = styled.p`
-  ${({ theme }) =>
-    theme.mixins.title(
-      theme.fontSemiMedium,
-      theme.weightRegular,
-      theme.lightGrey,
-    )}
-  line-height:1.7;
-`;
-
-const ContentImg = styled.img`
-  height: 60%;
-  object-fit: cover;
-  border-radius: 1rem;
-`;
 export default Home;
