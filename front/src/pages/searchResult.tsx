@@ -38,7 +38,10 @@ const SearchResultWrapper = styled.article`
 `;
 
 const SearchResultContainer = styled.section`
-  width: calc(24vh * 5 + 20rem);
+  width: 80%;
   height: 100%;
   margin: 0 auto;
+  @media (max-width: ${({ theme }) => theme.bpLargest}) {
+    width: 100%;
+  }
 `;

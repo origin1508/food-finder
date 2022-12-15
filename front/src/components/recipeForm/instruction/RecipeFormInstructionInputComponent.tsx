@@ -68,6 +68,9 @@ const RecipeFormInstructionInputContainer = styled.section`
   position: relative;
   width: 80rem;
   padding: 0 ${({ theme }) => theme.spacingLarge};
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 70rem;
+  }
 `;
 
 const RecipeFormInstructionInputLabel = styled.span`
