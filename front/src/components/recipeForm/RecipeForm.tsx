@@ -21,9 +21,9 @@ const RecipeForm = ({ onSubmit }: RecipeFormProps) => {
       <RecipeFormInstruction />
       <RecipeFormButtonContainer>
         <RecipeFormSubmitButton type="submit">저장</RecipeFormSubmitButton>
-        <RecipeFormCancleButton type="button" onClick={() => navigate(-1)}>
+        <RecipeFormCancelButton type="button" onClick={() => navigate(-1)}>
           취소
-        </RecipeFormCancleButton>
+        </RecipeFormCancelButton>
       </RecipeFormButtonContainer>
     </RecipeFormConatiner>
   );
@@ -49,6 +49,6 @@ const RecipeFormSubmitButton = styled.button`
   color: ${({ theme }) => theme.mainWhite};
 `;
 
-const RecipeFormCancleButton = styled.button`
+const RecipeFormCancelButton = styled.button`
   ${({ theme }) => theme.mixins.button()};
 `;

@@ -103,7 +103,7 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
                 type="button"
                 onClick={onModalCancelButtonClickEvent}
               >
-                Cancle
+                Cancel
               </CancelButton>
             </ButtonContainer>
           </>
