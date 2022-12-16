@@ -8,7 +8,7 @@ import BasePageComponent from '../hoc/BasePageComponent';
 
 const SearchResult = () => {
   const [searchParams] = useSearchParams();
-  const keyword = searchParams.get('keyword');
+  const keyword = searchParams.get('keyword') || '';
   const { recipeSearch } = useSearchForm();
   useEffect(() => {
     if (keyword && keyword !== null) {
@@ -22,8 +22,8 @@ const SearchResult = () => {
     <BasePageComponent>
       <SearchResultWrapper>
         <SearchResultContainer>
-          <RecipeResult keyword={keyword!} />
-          <PlaceResult keyword={keyword!} />
+          <RecipeResult keyword={keyword} />
+          <PlaceResult keyword={keyword} />
         </SearchResultContainer>
       </SearchResultWrapper>
     </BasePageComponent>

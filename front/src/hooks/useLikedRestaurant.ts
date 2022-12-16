@@ -16,6 +16,7 @@ const useLikedRestaurant = () => {
   const [, setLikedRestaurantId] = useRecoilState(likedRestaurantIdState);
   const user = useRecoilValue(authState);
   const userId = user?.userId;
+  if (userId === undefined) return null;
   const { setAlertError, setAlertSuccess } = useSetAlert();
 
   const restaurantLike = async (
@@ -44,7 +45,7 @@ const useLikedRestaurant = () => {
 
   const likedRestaurantQuery = useQuery<LikedRestaurantQuery>(
     'likedRestaurant',
-    () => getLikedRestaurant(userId as number),
+    () => getLikedRestaurant(userId),
     {
       onSuccess: (data) => {
         if (data) {
