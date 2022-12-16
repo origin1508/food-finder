@@ -112,7 +112,11 @@ const CollectRecipes = () => {
             ))}
           </Wrap>
         </RecipeCards>
-        {isFetchingNextPage ? <LoadingCycle /> : <Div ref={ref}></Div>}
+        {isFetchingNextPage ? (
+          <LoadingCycle position="absolute" />
+        ) : (
+          <Div ref={ref}></Div>
+        )}
       </CollectRecipesContainer>
     </BasePageComponent>
   );

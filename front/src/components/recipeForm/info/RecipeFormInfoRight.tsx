@@ -19,7 +19,7 @@ const RecipeFormInfoRight = () => {
   return (
     <RecipeFormInfoRightContainer>
       <RecipeFormInfoImageUpload previewUrl={previewUrl}>
-        {isLoading && <LoadingCycle />}
+        {isLoading && <LoadingCycle position="absolute" />}
         <RecipeFormImageInput
           {...register('mainImage.files')}
           type="file"

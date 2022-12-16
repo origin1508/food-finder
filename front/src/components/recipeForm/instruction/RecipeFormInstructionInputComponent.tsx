@@ -33,7 +33,7 @@ const RecipeFormInstructionInputComponent = ({
       </RecipeFormInstructionInputLabel>
       <RecipeFormInstructionInput {...register(registeredDesciption)} />
       <RecipeFormImageUpload preview={preview}>
-        {isLoading && <LoadingCycle />}
+        {isLoading && <LoadingCycle position="absolute" />}
         <RecipeFormImageInput
           {...register(registeredImage)}
           type="file"
