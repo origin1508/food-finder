@@ -111,16 +111,15 @@ const ModalBackDrop = styled.article`
 const ModalContainer = styled.form`
   ${({ theme }) => theme.fixedCenter};
   ${({ theme }) => theme.mixins.flexBox('column')}
-  width: 100rem;
-  height: 70vh;
-  background-image: url('https://cdn.pixabay.com/photo/2017/10/22/21/01/wood-2879254_1280.jpg');
+  width: 90rem;
+  height: 60vh;
+  background-image: url('https://images.unsplash.com/photo-1555243896-c709bfa0b564?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80');
   background-size: cover;
   background-position: center;
   border-radius: 1rem;
-  filter: brightness(110%);
+  filter: brightness(0.95);
   gap: ${({ theme }) => theme.spacingLargest};
   @media (max-width: ${({ theme }) => theme.bpSmall}) {
-    width: 80rem;
     height: 50vh;
   }
 `;
@@ -130,7 +129,7 @@ const ModalTitle = styled.h2`
     theme.mixins.title(theme.fontLarge, theme.weightSemiBold, theme.mainBlack)}
 `;
 const UploadCotainer = styled.div`
-  ${({ theme }) => theme.mixins.flexBox}
+  ${({ theme }) => theme.mixins.flexBox()}
   gap : ${({ theme }) => theme.spacingLarge};
 `;
 const ImageUploadBox = styled.div`
@@ -140,6 +139,7 @@ const ImageUploadBox = styled.div`
   height: 25rem;
   background-color: ${({ theme }) => theme.lightGrey};
   border: dashed 3px ${({ theme }) => theme.themeColor};
+  margin-right: ${({ theme }) => theme.spacingLarge};
 `;
 
 const ImgUpload = styled.input`
@@ -154,11 +154,12 @@ const ImgUpload = styled.input`
 
 const NoticeContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'start', 'space-between')}
-  width: 35rem;
+  width: 40rem;
   height: 25rem;
   overflow: hidden;
   @media (max-width: ${({ theme }) => theme.bpSmall}) {
     height: 35rem;
+    width: 38rem;
   }
 `;
 const NoticeTitle = styled.h3`

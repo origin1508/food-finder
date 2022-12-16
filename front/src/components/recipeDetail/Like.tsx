@@ -32,11 +32,7 @@ const Like = ({ recipeId, liked }: { recipeId: number; liked: boolean }) => {
   return (
     <LikeContainer>
       <LikeButtton onClick={handleClickLike}>
-        <CustomIcon
-          name={isLiked ? 'liked' : 'like'}
-          size="25"
-          color={theme.darkGrey}
-        />
+        <CustomIcon name={isLiked ? 'liked' : 'like'} size="25" />
       </LikeButtton>
       <SubTitle>Like</SubTitle>
     </LikeContainer>

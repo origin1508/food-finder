@@ -24,6 +24,7 @@ import {
   MdOutlineDataUsage,
   MdOutlineFoodBank,
 } from 'react-icons/md';
+import { theme } from '../../styles/theme';
 
 interface CustomIconProps {
   name: string;
@@ -98,10 +99,10 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
         return <BsFillClockFill size={size} color={color} />;
 
       case 'like':
-        return <BsSuitHeart size={size} color={color} />;
+        return <BsSuitHeart size={size} color={theme.darkGrey} />;
 
       case 'liked':
-        return <BsSuitHeartFill size={size} color={color} />;
+        return <BsSuitHeartFill size={size} color={theme.lightRed} />;
 
       case 'aiSearch':
         return <MdImageSearch size={size} color={color} />;
