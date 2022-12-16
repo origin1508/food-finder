@@ -129,12 +129,11 @@ const ModalContainer = styled.form`
   ${({ theme }) => theme.fixedCenter};
   ${({ theme }) => theme.mixins.flexBox('column')}
   width: 90rem;
-  height: 60vh;
+  height: 65vh;
   background-image: url('https://images.unsplash.com/photo-1555243896-c709bfa0b564?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80');
   background-size: cover;
   background-position: center;
   border-radius: 1rem;
-  filter: brightness(0.95);
   gap: ${({ theme }) => theme.spacingLargest};
   @media (max-width: ${({ theme }) => theme.bpSmall}) {
     height: 50vh;
@@ -143,7 +142,11 @@ const ModalContainer = styled.form`
 
 const ModalTitle = styled.h2`
   ${({ theme }) =>
-    theme.mixins.title(theme.fontLarge, theme.weightSemiBold, theme.mainBlack)}
+    theme.mixins.title(
+      theme.fontMedium,
+      theme.weightSemiBold,
+      theme.themeColor,
+    )}
 `;
 const UploadCotainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox()}
