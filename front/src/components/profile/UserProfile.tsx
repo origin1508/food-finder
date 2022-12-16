@@ -29,7 +29,7 @@ const UserProfile = ({ profileOwnerId }: { profileOwnerId: string }) => {
         <SubTitle>유저 정보</SubTitle>
       </ProfileUserHeader>
       <UserInfoContainer>
-        <Text>Welcome to my pfofile</Text>
+        <Text>Welcome to my profile</Text>
         <UserImgContainer>
           <UserImg src={user?.profileUrl} alt="userImg" />
         </UserImgContainer>
