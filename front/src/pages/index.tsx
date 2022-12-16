@@ -2,10 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactFullpage from '@fullpage/react-fullpage';
 import { PATH } from '../customRouter';
-import mainImg from '../assets/mainImg.png';
-import contentImg1 from '../assets/contentImg1.png';
-import contentBg from '../assets/contentBg.png';
-import contentBg2 from '../assets/contentBg2.png';
 import mainRecipeImg from '../assets/mainRecipeImg.jpg';
 import mainRecipeImg2 from '../assets/mainRecipeImg2.jpg';
 import mainRecipeImg3 from '../assets/mainRecipeImg3.jpg';
@@ -115,7 +111,7 @@ const Home = () => {
                     서로의 레시피에 댓글도 달고 하트도 달고!
                   </TextOne>
                   <ServiceButton onClick={() => navigate(PATH.RECIPE)}>
-                    서비스 이용하로 가기
+                    서비스 이용하기
                   </ServiceButton>
                 </MainContent>
               </Container>
