@@ -8,12 +8,12 @@ import { useState } from 'react';
 
 const NavLink = () => {
   const isLogin = useRecoilValue(isLoginSelector);
-  const [isOpne, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   return (
     <>
       {isLogin ? (
-        <NavContainer itemScope={isOpne}>
+        <NavContainer itemScope={isOpen}>
           <Li>
             <Nav onClick={() => navigate(PATH.RECIPE)}>Recipe</Nav>
           </Li>
@@ -32,7 +32,7 @@ const NavLink = () => {
           </Li>
         </NavContainer>
       ) : (
-        <NavContainer itemScope={isOpne}>
+        <NavContainer itemScope={isOpen}>
           <Li>
             <Nav onClick={() => navigate(PATH.RECIPE)}>Recipe</Nav>
           </Li>
@@ -42,7 +42,7 @@ const NavLink = () => {
         </NavContainer>
       )}
       <BurgerMenu
-        className={isOpne ? 'active' : ''}
+        className={isOpen ? 'active' : ''}
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <span></span>
