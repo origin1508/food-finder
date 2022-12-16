@@ -31,7 +31,7 @@ const ImageSearchResult = ({
           레시피 검색
         </SearchButton>
         <CancelButton type="button" onClick={onModalCancelButtonClickEvent}>
-          Cancle
+          Cancel
         </CancelButton>
       </ImageSearchResultButtonContainer>
     </ImageSearchResultContainer>
