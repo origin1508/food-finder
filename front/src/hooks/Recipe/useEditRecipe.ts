@@ -14,6 +14,7 @@ import {
   Step,
 } from '../../types/recipe/recipeFormType';
 import { FORM_FIELDS } from '../../constants/recipeForm';
+import { PATH } from '../../customRouter';
 
 const useEditRecipe = (
   recipeId?: string,
@@ -50,7 +51,7 @@ const useEditRecipe = (
       queryClient.invalidateQueries('randomRecips');
       queryClient.invalidateQueries(['racipeDetail', recipeId]);
       setAlertSuccess({ success: message });
-      navigate('/collectRecipes', { replace: true });
+      navigate(PATH.COLLECT_RECIPES, { replace: true });
     },
     onError: (error) => {
       if (error && error instanceof AxiosError) {
