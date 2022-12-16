@@ -7,7 +7,6 @@ import { ErrorType } from '../../types/error';
 
 export default function useEditPassword() {
   const { setAlertSuccess, setAlertError } = useSetAlert();
-  const navigate = useNavigate();
 
   const mutation = useMutation(authPasswordUpdate, {
     onSuccess: (data) => {
