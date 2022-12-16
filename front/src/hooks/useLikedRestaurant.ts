@@ -15,8 +15,7 @@ const useLikedRestaurant = () => {
   const queryClient = useQueryClient();
   const [, setLikedRestaurantId] = useRecoilState(likedRestaurantIdState);
   const user = useRecoilValue(authState);
-  const userId = user?.userId;
-  if (userId === undefined) return null;
+  const userId = user!.userId;
   const { setAlertError, setAlertSuccess } = useSetAlert();
 
   const restaurantLike = async (
