@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import usePrediction from '../../hooks/usePrediction';
+import useSetAlert from '../../hooks/useSetAlert';
 import { TextTwo } from '../../styles/commonStyle';
 import CustomIcon from '../icons/CustomIcon';
 import { theme } from '../../styles/theme';
 import { imageResize } from '../../util/profileImageResizeUtil';
 import ImageSearchResult from './ImageSearchResult';
+import { IMAGE_FORMAT } from '../../constants/recipeForm';
 
 interface ModalProps {
   onModalCancelButtonClickEvent: () => void;
@@ -17,6 +19,7 @@ interface ImageFile {
 
 const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
   const [searchImgPreview, setSearchImgPreview] = useState('');
+  const { setAlertError } = useSetAlert();
   const { register, handleSubmit, watch } = useForm<ImageFile>({
     mode: 'onChange',
     defaultValues: {
@@ -31,8 +34,15 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
     (async () => {
       if (searchImage && searchImage.length > 0) {
         const file = searchImage[0];
-        const copress = await imageResize(file);
-        setSearchImgPreview(URL.createObjectURL(copress));
+        if (IMAGE_FORMAT.includes(file.type)) {
+          const copress = await imageResize(file);
+          setSearchImgPreview(URL.createObjectURL(copress));
+        } else {
+          setAlertError({ error: 'JPEG, PNG 형식의 이미지를 등록해주세요.' });
+          setSearchImgPreview('');
+        }
+      } else {
+        setSearchImgPreview('');
       }
     })();
   }, [searchImage]);
@@ -57,8 +67,15 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
                 <CustomIcon name="upload" size="60" color={theme.themeColor} />
                 <ImgUpload
                   type="file"
-                  {...register('imageSearchFile', { required: true })}
                   accept="image/jpeg, image/png"
+                  {...register('imageSearchFile', {
+                    required: true,
+                    validate: {
+                      imageFormat: (file) =>
+                        IMAGE_FORMAT.includes(file[0].type) ||
+                        'JPEG, PNG 형식의 이미지를 등록해주세요.',
+                    },
+                  })}
                 />
               </ImageUploadBox>
               <NoticeContainer>
