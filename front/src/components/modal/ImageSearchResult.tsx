@@ -17,7 +17,9 @@ const ImageSearchResult = ({
     <ImageSearchResultContainer>
       <ImageSearchResultTitle>이미지 추론 결과</ImageSearchResultTitle>
       <ImagePreview imageUrl={searchImgPreview} />
-      <ImageSearchResultText>Result: {result}</ImageSearchResultText>
+      <ImageSearchResultText>
+        검색결과 : <span>{result}</span>
+      </ImageSearchResultText>
       <ImageSearchResultButtonContainer>
         <SearchButton
           type="button"
@@ -51,7 +53,11 @@ const ImageSearchResultContainer = styled.section`
 
 const ImageSearchResultTitle = styled.h2`
   ${({ theme }) =>
-    theme.mixins.title(theme.fontLarge, theme.weightSemiBold, theme.mainBlack)}
+    theme.mixins.title(
+      theme.fontMedium,
+      theme.weightSemiBold,
+      theme.themeColor,
+    )}
 `;
 
 const ImageSearchResultButtonContainer = styled.div`
@@ -59,10 +65,17 @@ const ImageSearchResultButtonContainer = styled.div`
   gap: ${({ theme }) => theme.spacingMedium};
 `;
 
-const ImageSearchResultText = styled.span`
+const ImageSearchResultText = styled.p`
   ${({ theme }) =>
-    theme.mixins.title(theme.fontMedium, theme.weightSemiBold, theme.mainBlack)}
+    theme.mixins.title(
+      theme.fontSemiMedium,
+      theme.weightSemiBold,
+      theme.mainBlack,
+    )}
   padding-left: ${({ theme }) => theme.spacingLarge};
+  span {
+    font-family: NanumSquareNeo-Bold;
+  }
 `;
 
 const ImagePreview = styled.div<{ imageUrl: string }>`
