@@ -52,8 +52,8 @@ const RecipeDetailMain = ({
 
   return (
     <MainContainer>
-      <RecipeImage itemProp={smallThumbnailUrl} onClick={handleClickImage}>
-        <WriterInfoContainer>
+      <RecipeImage itemProp={smallThumbnailUrl}>
+        <WriterInfoContainer onClick={handleClickImage}>
           <WriterImage src={writer.profileUrl} />
           <WriterNickname>{writer.nickname}</WriterNickname>
         </WriterInfoContainer>
@@ -117,7 +117,6 @@ const RecipeImage = styled.div`
   background-image: ${({ itemProp }) => `url(${itemProp})`};
   background-size: cover;
   background-position: center;
-  cursor: pointer;
   margin: 3rem 0 6rem 0;
   @media (max-width: ${({ theme }) => theme.bpSmall}) {
     width: 50rem;
