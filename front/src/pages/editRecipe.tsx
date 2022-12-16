@@ -59,7 +59,6 @@ const EditRecipe = () => {
       }),
     ),
   });
-  console.log(ingredient);
 
   const methods = useForm<RecipeFormDefaultValue>({
     mode: 'onChange',
