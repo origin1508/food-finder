@@ -192,7 +192,7 @@ const Text = styled.p`
   ${TextTwo}
 `;
 const Highlight = styled.span`
-  font-weight: ${({ theme }) => theme.weightSemiBold};
+  font-family: NanumSquareNeo-Bold;
 `;
 const SearchImg = styled.div`
   position: absolute;
