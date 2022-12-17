@@ -29,7 +29,7 @@
 **이재희**
 - Back-End
 - Gmail : jaeheelee169@gmail.com
-- Github : [@]()
+- Github : [@L-JaeHee](https://github.com/L-JaeHee)
 
 **지은혜**
 - Back-End
