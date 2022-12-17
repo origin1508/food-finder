@@ -1,4 +1,3 @@
-
 # 🍔 원하는 음식 정보를 찾고 레시피를 공유해요!
 
 <br />
@@ -34,8 +33,8 @@
 
 **지은혜**
 - Back-End
-- Gmail : 
-- Github : [@]()
+- Gmail :
+- Github : [@pado-c](https://github.com/pado-c)
 
 **황현성**
 - Back-End
