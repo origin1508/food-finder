@@ -11,7 +11,6 @@ export default function useEditNickname() {
 
   const mutation = useMutation(authProfileNickUpdate, {
     onSuccess: (data) => {
-      console.log('성공', data);
       setAuthState((prev) => {
         return {
           ...prev!,

@@ -6,7 +6,7 @@ export interface RecipeDetailInitial {
   category: string;
   smallThumbnailUrl: string;
   largeThumbnailUrl: string;
-  ingredient: string;
+  ingredient: { name: string; amount: string }[];
   serving: number;
   cookingTime: number;
   views: number;
@@ -16,6 +16,7 @@ export interface RecipeDetailInitial {
   myStar: number;
   starAverage: number;
   liked: boolean;
+  numberOfStar: number;
   writer: {
     userId: number;
     email: string;

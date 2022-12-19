@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useNavigate, useParams } from 'react-router-dom';
-import { authState, isLoginSelector } from '../atom/auth';
+import { useParams } from 'react-router-dom';
+import { authState } from '../atom/auth';
 import { useRecipeDetail } from '../hooks/Recipe/useRecipes';
 import styled from 'styled-components';
 import BasePageComponent from '../hoc/BasePageComponent';
@@ -9,34 +9,38 @@ import RecipeDetailMain from '../components/recipeDetail/RecipeDetailMain';
 import RecipeDetailIngredient from '../components/recipeDetail/RecipeDetaiIngredient';
 import RecipeSteps from '../components/recipeDetail/RecipeSteps';
 import RecipeComment from '../components/recipeDetail/RecipeComment';
-import { PATH } from '../customRouter';
 import RecipeRatingStar from '../components/recipeDetail/RecipeRatingStar';
 
 const RecipeDetail = () => {
   const [isEditor, setIsEditor] = useState(false);
-  const isLogin = useRecoilValue(isLoginSelector);
   const user = useRecoilValue(authState);
-  const navigate = useNavigate();
   const { recipeId } = useParams();
-  const { data: recipeDetail } = useRecipeDetail(recipeId!);
-  const { ingredient, Steps, RecipeComments, myStar } = recipeDetail!;
+  if (recipeId === undefined) return null;
+  const { data: recipeDetail } = useRecipeDetail(recipeId);
+  if (recipeDetail === undefined) return null;
+
+  const {
+    ingredient,
+    Steps: steps,
+    RecipeComments: recipeComments,
+    myStar,
+  } = recipeDetail!;
+
   const recipeWriter = recipeDetail?.writer.userId;
-  const userId = user!.userId;
+  const userId = user?.userId;
 
   useEffect(() => {
-    if (!isLogin) {
-      navigate(PATH.LOGIN);
-    }
     recipeWriter === userId ? setIsEditor(true) : setIsEditor(false);
-  }, [isLogin, recipeDetail]);
+  }, [recipeDetail]);
+
   return (
     <BasePageComponent>
       <RecipeDetailContainer>
-        <RecipeDetailMain recipeDetail={recipeDetail!} isEditor={isEditor} />
-        <RecipeDetailIngredient ingredient={ingredient} />
-        <RecipeSteps steps={Steps} />
-        <RecipeRatingStar recipeId={recipeId!} myStar={myStar} />
-        <RecipeComment comments={RecipeComments} recipeId={recipeId!} />
+        <RecipeDetailMain recipeDetail={recipeDetail} isEditor={isEditor} />
+        <RecipeDetailIngredient ingredients={ingredient} />
+        <RecipeSteps steps={steps} />
+        <RecipeRatingStar recipeId={recipeId} myStar={myStar} />
+        <RecipeComment comments={recipeComments} recipeId={recipeId} />
       </RecipeDetailContainer>
     </BasePageComponent>
   );
@@ -45,6 +49,9 @@ const RecipeDetail = () => {
 const RecipeDetailContainer = styled.article`
   width: 110rem;
   margin: auto;
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 80rem;
+  }
 `;
 
 export default RecipeDetail;

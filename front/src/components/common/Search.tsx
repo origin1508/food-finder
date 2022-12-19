@@ -7,7 +7,7 @@ const Search = ({
   display,
   register,
   onSubmit,
-  placeholder = '레시피를 검색해보세요',
+  placeholder = '레시피 검색',
 }: SearchProps) => {
   return (
     <SearchContainer itemProp={display} onSubmit={onSubmit}>
@@ -29,6 +29,9 @@ const SearchContainer = styled.form`
   position: relative;
   display: ${({ itemProp }) => itemProp};
   width: 40rem;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 30rem;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -44,6 +47,9 @@ const SearchInput = styled.input`
   &::-webkit-search-results-button,
   &::-webkit-search-results-decoration {
     display: none;
+  }
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    height: 6rem;
   }
 `;
 

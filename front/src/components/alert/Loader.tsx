@@ -1,8 +1,12 @@
 import styled, { keyframes } from 'styled-components';
 
-const LoadingCycle = () => {
+interface LoadingCycleProps {
+  position?: string;
+}
+
+const LoadingCycle = ({ position = 'fixed' }: LoadingCycleProps) => {
   return (
-    <LoadingBox>
+    <LoadingBox position={position}>
       <Circle></Circle>
       <Circle></Circle>
       <Circle></Circle>
@@ -25,8 +29,8 @@ to {
   
 `;
 
-const LoadingBox = styled.div`
-  position: absolute;
+const LoadingBox = styled.div<{ position: string }>`
+  position: ${({ position }) => position};
   ${({ theme }) => theme.mixins.flexBox()}
   gap: 1rem;
   z-index: 50;

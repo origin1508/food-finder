@@ -19,14 +19,14 @@ const RecipeFormInfoRight = () => {
   return (
     <RecipeFormInfoRightContainer>
       <RecipeFormInfoImageUpload previewUrl={previewUrl}>
-        {isLoading && <LoadingCycle />}
+        {isLoading && <LoadingCycle position="absolute" />}
         <RecipeFormImageInput
           {...register('mainImage.files')}
           type="file"
           accept="image/jpeg, image/png"
           onChange={async (e) => {
             const previewUrl = await createPreview(e);
-            previewUrl && setValue('mainImage.preview', previewUrl);
+            setValue('mainImage.preview', previewUrl);
           }}
         />
         {!previewUrl && (
@@ -50,5 +50,5 @@ const RecipeFormInfoImageUpload = styled.div<{
   ${RecipeFormImageUploadStyle}
   ${({ previewUrl }) =>
     previewUrl &&
-    `background-image: url(${previewUrl}); background-size: cover;`}
+    `background-image: url(${previewUrl}); background-size: cover; background-position: center;`}
 `;

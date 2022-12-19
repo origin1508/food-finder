@@ -30,7 +30,7 @@ const RecipeInformation = sequelize.define(
       allowNull: false,
     },
     ingredient: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
     views: {

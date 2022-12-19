@@ -27,6 +27,9 @@ const PlaceResultContainer = styled.section`
   height: 80rem;
   margin: ${({ theme }) => theme.spacingLarge} 0;
   gap: ${({ theme }) => theme.spacingLarge};
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    height: 100rem;
+  }
 `;
 
 const RecipeResultTitle = styled.h2`

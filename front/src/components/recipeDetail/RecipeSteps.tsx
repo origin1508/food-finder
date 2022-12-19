@@ -47,6 +47,10 @@ const Steps = styled.ul`
   flex-wrap:wrap;
   width: 80rem;
   gap: ${({ theme }) => theme.spacingLargest};
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 100%;
+    padding: 0 2rem;
+  }
 `;
 const Step = styled.li`
   ${({ theme }) => theme.mixins.flexBox('row', 'start', 'space-between')}
@@ -77,5 +81,9 @@ const StepImage = styled.div`
   background-image: ${({ itemProp }) => `url(${itemProp})`};
   background-size: cover;
   background-position: center;
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    width: 25rem;
+    height: 15rem;
+  }
 `;
 export default RecipeSteps;

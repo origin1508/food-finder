@@ -2,47 +2,63 @@ import { Router } from "express";
 import recipeService from "../services/recipe.service";
 import authorizeAccessToken from "../middlewares/accessTokenAuthorization";
 import { recipeImageUpload } from "../middlewares/multer";
+import recipeValidator from "../middlewares/recipeValidator";
 
 const router = Router();
 
-router.get("/", async (req, res, next) => {
-  try {
-    const { method, category, lastRecipeId, limit } = req.query;
-    const recipes = await recipeService.findAllRecipeInformations({
-      method,
-      category,
-      lastRecipeId,
-      limit,
-    });
+router.get(
+  "/",
+  recipeValidator.getRecipeInformationsValidator(),
+  async (req, res, next) => {
+    try {
+      const { method, category, lastRecipeId, limit } = req.query;
+      const recipes = await recipeService.findAllRecipeInformations({
+        method,
+        category,
+        lastRecipeId,
+        limit,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "레시피 정보 리스트 불러오기 성공",
-      result: recipes,
-    });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        success: true,
+        message: "레시피 정보 리스트 불러오기 성공",
+        result: recipes,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.get("/:recipeId", authorizeAccessToken, async (req, res, next) => {
-  try {
-    const { recipeId } = req.params;
-    const { userId } = req;
-    const recipe = await recipeService.findRecipeDetail({
-      dishId: recipeId,
-      userId,
-    });
+router.get(
+  "/:recipeId",
+  recipeValidator.getRecipeDetailValidator(),
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { recipeId } = req.params;
+      const { userId } = req;
+      const recipe = await recipeService.findRecipeDetail({
+        dishId: recipeId,
+        userId,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "레시피 디테일 정보 불러오기 성공",
-      result: recipe,
-    });
-  } catch (error) {
-    next(error);
+      await recipeService.increaseRecipeViews({
+        dishId: recipeId,
+        views: recipe.views,
+        userId: recipe.writer.dataValues.userId,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "레시피 디테일 정보 불러오기 성공",
+        result: recipe,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.post(
   "/",
@@ -51,6 +67,7 @@ router.post(
     { name: "recipeThumbnail", maxCount: 1 },
     { name: "stepImages" },
   ]),
+  recipeValidator.addRecipeValidator(),
   async (req, res, next) => {
     try {
       const { userId } = req;
@@ -74,35 +91,8 @@ router.post(
 );
 
 router.post(
-  "/:recipeId/steps",
-  authorizeAccessToken,
-  recipeImageUpload("recipeImages").single("stepImage"),
-  async (req, res, next) => {
-    try {
-      const { userId } = req;
-      const { recipeId } = req.params;
-      const location = req?.file?.location;
-
-      const createdStep = await recipeService.addStep({
-        ...req.body,
-        userId,
-        dishId: recipeId,
-        imageUrl: location,
-      });
-
-      res.status(201).json({
-        success: true,
-        message: "스텝 추가 성공",
-        result: createdStep,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-router.post(
   "/:recipeId/comments",
+  recipeValidator.addRecipeCommentValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
@@ -128,6 +118,7 @@ router.post(
 
 router.post(
   "/:recipeId/likes",
+  recipeValidator.addLikeValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
@@ -151,6 +142,7 @@ router.post(
 
 router.post(
   "/:recipeId/stars",
+  recipeValidator.addStarValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
@@ -180,6 +172,7 @@ router.patch(
     { name: "recipeThumbnail", maxCount: 1 },
     { name: "stepImages" },
   ]),
+  recipeValidator.updateRecipeValidator(),
   async (req, res, next) => {
     try {
       const { userId } = req;
@@ -207,35 +200,8 @@ router.patch(
 );
 
 router.patch(
-  "/:recipeId/steps/:stepId",
-  authorizeAccessToken,
-  recipeImageUpload("recipeImages").single("stepImage"),
-  async (req, res, next) => {
-    try {
-      const { userId } = req;
-      const { recipeId, stepId } = req.params;
-      const location = req?.file?.location;
-
-      const updatedStep = await recipeService.updateStep({
-        dishId: recipeId,
-        userId,
-        stepId,
-        imageUrl: location,
-        ...req.body,
-      });
-
-      res.status(200).json({
-        success: true,
-        message: "스텝 업데이트 성공",
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-router.patch(
   "/comments/:commentId",
+  recipeValidator.updateCommentValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
@@ -258,27 +224,58 @@ router.patch(
   }
 );
 
-router.delete("/:recipeId", authorizeAccessToken, async (req, res, next) => {
-  try {
-    const { recipeId } = req.params;
-    const { userId } = req;
+router.put(
+  "/:recipeId/stars",
+  recipeValidator.updateStarValidator(),
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { recipeId } = req.params;
+      const { userId } = req;
 
-    const deletedRecipe = await recipeService.deleteRecipe({
-      userId,
-      dishId: recipeId,
-    });
+      const updatedStar = await recipeService.updateStar({
+        dishId: recipeId,
+        userId,
+        ...req.body,
+      });
 
-    res.status(200).json({
-      success: true,
-      message: "레시피 삭제 성공",
-    });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        success: true,
+        message: "별점 업데이트 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
+
+router.delete(
+  "/:recipeId",
+  recipeValidator.deleteRecipeValidator(),
+  authorizeAccessToken,
+  async (req, res, next) => {
+    try {
+      const { recipeId } = req.params;
+      const { userId } = req;
+
+      const deletedRecipe = await recipeService.deleteRecipe({
+        userId,
+        dishId: recipeId,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "레시피 삭제 성공",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.delete(
   "/comments/:commentId",
+  recipeValidator.deleteCommentValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {
@@ -302,6 +299,7 @@ router.delete(
 
 router.delete(
   "/:recipeId/likes",
+  recipeValidator.deleteLikeValidator(),
   authorizeAccessToken,
   async (req, res, next) => {
     try {

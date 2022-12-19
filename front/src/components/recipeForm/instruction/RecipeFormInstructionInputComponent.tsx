@@ -33,14 +33,14 @@ const RecipeFormInstructionInputComponent = ({
       </RecipeFormInstructionInputLabel>
       <RecipeFormInstructionInput {...register(registeredDesciption)} />
       <RecipeFormImageUpload preview={preview}>
-        {isLoading && <LoadingCycle />}
+        {isLoading && <LoadingCycle position="absolute" />}
         <RecipeFormImageInput
           {...register(registeredImage)}
           type="file"
           accept="image/*"
           onChange={async (e) => {
             const previewUrl = await createPreview(e);
-            previewUrl && setValue(registeredPreview, previewUrl);
+            setValue(registeredPreview, previewUrl);
           }}
         />
         {!preview && (
@@ -68,6 +68,9 @@ const RecipeFormInstructionInputContainer = styled.section`
   position: relative;
   width: 80rem;
   padding: 0 ${({ theme }) => theme.spacingLarge};
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 70rem;
+  }
 `;
 
 const RecipeFormInstructionInputLabel = styled.span`
@@ -85,7 +88,8 @@ const RecipeFormInstructionInput = styled.textarea`
 const RecipeFormImageUpload = styled.div<{ preview: string }>`
   ${RecipeFormImageUploadStyle};
   ${({ preview }) =>
-    preview && `background-image: url(${preview}); background-size: cover;`}
+    preview &&
+    `background-image: url(${preview}); background-size: cover; background-position: center;`}
 `;
 
 const InstructionRemoveButton = styled(RecipeFormRemoveButton)`

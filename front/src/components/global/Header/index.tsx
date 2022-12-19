@@ -11,6 +11,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isBackground, setIsBackground] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
   const { register, handleRecipeSearch } = useSearchForm();
   const MIN_SCROLL_Y = 20;
 
@@ -21,6 +22,7 @@ const Header = () => {
   useEffect(() => {
     if (pathname === PATH.RECIPE) {
       setIsBackground(false);
+      setIsSearch(false);
       const timer = setInterval(() => {
         window.addEventListener('scroll', updateScroll);
       }, 50);
@@ -29,10 +31,13 @@ const Header = () => {
         window.removeEventListener('scroll', updateScroll);
       };
     } else if (pathname === PATH.MAIN) {
-      setIsBackground(false);
+      setIsBackground(true);
+      setIsSearch(false);
       setScrollPosition(0);
     } else {
+      setScrollPosition(0);
       setIsBackground(true);
+      setIsSearch(true);
     }
   }, [scrollPosition, pathname]);
 
@@ -45,9 +50,7 @@ const Header = () => {
       <ContentContainer>
         <Logo />
         <Search
-          display={
-            isBackground || scrollPosition > MIN_SCROLL_Y ? 'block' : 'none'
-          }
+          display={isSearch || scrollPosition > MIN_SCROLL_Y ? 'block' : 'none'}
           register={register}
           onSubmit={handleRecipeSearch}
         />
@@ -76,4 +79,7 @@ const ContentContainer = styled.nav`
   height: 7rem;
 
   ${({ theme }) => theme.mixins.flexBox('row', 'center', 'space-between')}
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    height: 10rem;
+  }
 `;

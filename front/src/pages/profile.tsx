@@ -14,14 +14,14 @@ const Profile = () => {
   const navigate = useNavigate();
   const { userId: profileOwnerId } = useParams();
   const [isOwner, setIsOwner] = useState(false);
+  if (profileOwnerId === undefined) return null;
   useEffect(() => {
     if (!isLogin) {
       navigate(PATH.LOGIN);
     }
-    if (profileOwnerId == user?.userId) {
+    if (Number(profileOwnerId) === user?.userId) {
       setIsOwner(true);
     }
-    console.log(profileOwnerId);
   }, [isLogin, profileOwnerId]);
 
   return (
@@ -30,9 +30,9 @@ const Profile = () => {
         {isOwner ? (
           <CurrentUserProfile />
         ) : (
-          <UserProfile profileOwnerId={profileOwnerId!} />
+          <UserProfile profileOwnerId={profileOwnerId} />
         )}
-        <UserRecipe profileOwnerId={profileOwnerId!} />
+        <UserRecipe profileOwnerId={profileOwnerId} />
       </ContentContainer>
     </Container>
   );
@@ -42,11 +42,20 @@ const Container = styled.article`
   ${({ theme }) => theme.mixins.flexBox()}
   height: 100vh;
   padding-top: 4vh;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    height: 100%;
+    padding: 10vh 0 4vh 0;
+  }
 `;
 
 const ContentContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox()}
   gap: ${({ theme }) => `0 ${theme.spacingLargest}`};
+
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    ${({ theme }) => theme.mixins.flexBox('column')}
+    gap: ${({ theme }) => `${theme.spacingLargest} 0`};
+  }
 `;
 
 export default Profile;

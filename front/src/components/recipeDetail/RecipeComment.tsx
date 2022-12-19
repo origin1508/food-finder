@@ -39,7 +39,7 @@ const RecipeComment = ({
         <SubTitle>{comments.length}</SubTitle>
       </RecipeCommentHeadr>
       <FormProvider {...methods}>
-        <CommentForm recipeId={recipeId!} comments={comments} />
+        <CommentForm recipeId={recipeId} comments={comments} />
       </FormProvider>
     </RecipeCommnetsContainer>
   );

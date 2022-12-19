@@ -7,9 +7,9 @@ import CustomIcon from '../../icons/CustomIcon';
 import basicProfileImg from '../../../assets/basicProfileImg.png';
 import { PATH } from '../../../customRouter';
 import Storage from '../../../storage/storage';
-import CookieStorage from '../../../storage/cookie';
 import useSetAlert from '../../../hooks/useSetAlert';
 import useOnClickOutside from '../../../hooks/useOnclickOutside';
+import { theme } from '../../../styles/theme';
 
 const NavLinkDropDown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -20,7 +20,6 @@ const NavLinkDropDown = () => {
 
   const hanldeClickLogout = () => {
     Storage.clearToken();
-    CookieStorage.clearToken();
     setUser(null);
     setAlertSuccess({ success: '로그아웃 되었습니다.' });
     navigate(PATH.MAIN);
@@ -30,7 +29,7 @@ const NavLinkDropDown = () => {
     if (
       isDropdownOpen &&
       navLinkDropdownRef.current &&
-      !navLinkDropdownRef.current.contains(event.target as any)
+      !navLinkDropdownRef.current.contains(event.target as Node)
     ) {
       setIsDropdownOpen(false);
     }
@@ -38,41 +37,64 @@ const NavLinkDropDown = () => {
 
   useOnClickOutside(navLinkDropdownRef, handleOutsideClicks);
   return (
-    <>
-      <DropDownButton onClick={() => setIsDropdownOpen((prev) => !prev)}>
+    <Container>
+      <DropDownButton
+        onClick={() => {
+          setIsDropdownOpen((prev) => !prev);
+        }}
+        ref={navLinkDropdownRef}
+      >
         <UserImg
           src={user?.profileUrl !== null ? user?.profileUrl : basicProfileImg}
         />
         <Nickname>{user?.nickname}</Nickname>
-        <CustomIcon name="toggleDown" size="17" color="inherit"></CustomIcon>
+        <CustomIcon name="toggleDown" size="17" color="inherit" />
       </DropDownButton>
-      <DropDownContainer ref={navLinkDropdownRef} itemScope={isDropdownOpen}>
+      <DropDownContainer itemScope={isDropdownOpen} ref={navLinkDropdownRef}>
         <UserInfo>
           <UserInfoContent>{user?.nickname}</UserInfoContent>
           <UserInfoContent>{user?.email}</UserInfoContent>
         </UserInfo>
-        <Profile onClick={() => navigate(`/profile/${user?.userId}`)}>
+        <Profile
+          onClick={() => {
+            navigate(`/profile/${user?.userId}`);
+            setIsDropdownOpen(false);
+          }}
+        >
           Profile
         </Profile>
-        <LikedRestaurant onClick={() => navigate(PATH.RESTAURANT)}>
+        <LikedRestaurant
+          onClick={() => {
+            navigate(PATH.RESTAURANT);
+            setIsDropdownOpen(false);
+          }}
+        >
           Liked Restaurant
         </LikedRestaurant>
         <Logout onClick={hanldeClickLogout}>Logout</Logout>
       </DropDownContainer>
-    </>
+    </Container>
   );
 };
 
-const DropDownButton = styled.button`
-  position: relative;
+const Container = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('column')}
+`;
+
+const DropDownButton = styled.div`
   ${({ theme }) => theme.mixins.flexBox}
-  color:${({ theme }) => theme.mainWhite};
+  cursor:pointer;
+  color: ${({ theme }) => theme.mainWhite};
   gap: 1rem;
   &:hover {
     color: ${({ theme }) => theme.mainBlack};
   }
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    color: ${({ theme }) => theme.mainBlack};
+  }
 `;
 const Nickname = styled.div`
+  font-size: ${({ theme }) => theme.fontRegular};
   font-weight: ${({ theme }) => theme.weightSemiBold};
 `;
 const UserImg = styled.img`
@@ -86,21 +108,26 @@ const DropDownContainer = styled.div`
   top:7rem;
   color: ${({ theme }) => theme.darkGrey};
   right: 7%;
-  font-weight: ${({ theme }) => theme.weightSemiBold};
   gap: 0.1rem;
   width: 20rem;
-  height: 20vh;
+
   background-color: ${({ theme }) => theme.lightDarkGrey};
-  ${(props) =>
-    props.itemScope
-      ? `visibility: visible;
-  `
-      : `visibility: hidden;
-  `}
+  display: ${({ itemScope }) => (itemScope ? 'block' : 'none')};
 
   border: ${({ theme }) => theme.lightDarkGrey} 1px solid;
   border-radius: 0.5rem;
-  overflow: hidden; ;
+  overflow: hidden;
+
+  & > * {
+    padding: 1rem;
+  }
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    color: ${({ theme }) => theme.mainBlack};
+    position: relative;
+    top: 1rem;
+    right: 0;
+    border: none;
+  }
 `;
 const UserInfo = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'center', 'center')}
@@ -111,6 +138,12 @@ const UserInfo = styled.div`
 const UserInfoContent = styled.div`
   font-size: ${({ theme }) => theme.fontMicro};
   line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+  letter-spacing: -0.05em;
 `;
 const Profile = styled.div`
   ${({ theme }) => theme.mixins.flexBox}

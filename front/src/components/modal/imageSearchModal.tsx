@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import usePrediction from '../../hooks/usePrediction';
+import useSetAlert from '../../hooks/useSetAlert';
 import { TextTwo } from '../../styles/commonStyle';
 import CustomIcon from '../icons/CustomIcon';
 import { theme } from '../../styles/theme';
 import { imageResize } from '../../util/profileImageResizeUtil';
 import ImageSearchResult from './ImageSearchResult';
+import { IMAGE_FORMAT } from '../../constants/recipeForm';
 
 interface ModalProps {
   onModalCancelButtonClickEvent: () => void;
@@ -17,6 +19,7 @@ interface ImageFile {
 
 const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
   const [searchImgPreview, setSearchImgPreview] = useState('');
+  const { setAlertError } = useSetAlert();
   const { register, handleSubmit, watch } = useForm<ImageFile>({
     mode: 'onChange',
     defaultValues: {
@@ -31,8 +34,15 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
     (async () => {
       if (searchImage && searchImage.length > 0) {
         const file = searchImage[0];
-        const copress = await imageResize(file);
-        setSearchImgPreview(URL.createObjectURL(copress));
+        if (IMAGE_FORMAT.includes(file.type)) {
+          const copress = await imageResize(file);
+          setSearchImgPreview(URL.createObjectURL(copress));
+        } else {
+          setAlertError({ error: 'JPEG, PNG 형식의 이미지를 등록해주세요.' });
+          setSearchImgPreview('');
+        }
+      } else {
+        setSearchImgPreview('');
       }
     })();
   }, [searchImage]);
@@ -57,8 +67,15 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
                 <CustomIcon name="upload" size="60" color={theme.themeColor} />
                 <ImgUpload
                   type="file"
-                  {...register('imageSearchFile', { required: true })}
                   accept="image/jpeg, image/png"
+                  {...register('imageSearchFile', {
+                    required: true,
+                    validate: {
+                      imageFormat: (file) =>
+                        IMAGE_FORMAT.includes(file[0].type) ||
+                        'JPEG, PNG 형식의 이미지를 등록해주세요.',
+                    },
+                  })}
                 />
               </ImageUploadBox>
               <NoticeContainer>
@@ -86,7 +103,7 @@ const ImageSearchModal = ({ onModalCancelButtonClickEvent }: ModalProps) => {
                 type="button"
                 onClick={onModalCancelButtonClickEvent}
               >
-                Cancle
+                Cancel
               </CancelButton>
             </ButtonContainer>
           </>
@@ -111,22 +128,28 @@ const ModalBackDrop = styled.article`
 const ModalContainer = styled.form`
   ${({ theme }) => theme.fixedCenter};
   ${({ theme }) => theme.mixins.flexBox('column')}
-  width: 60%;
-  height: 70vh;
-  background-image: url('https://cdn.pixabay.com/photo/2017/10/22/21/01/wood-2879254_1280.jpg');
+  width: 90rem;
+  height: 65vh;
+  background-image: url('https://images.unsplash.com/photo-1555243896-c709bfa0b564?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80');
   background-size: cover;
   background-position: center;
   border-radius: 1rem;
-  filter: brightness(110%);
   gap: ${({ theme }) => theme.spacingLargest};
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    height: 50vh;
+  }
 `;
 
 const ModalTitle = styled.h2`
   ${({ theme }) =>
-    theme.mixins.title(theme.fontLarge, theme.weightSemiBold, theme.mainBlack)}
+    theme.mixins.title(
+      theme.fontMedium,
+      theme.weightSemiBold,
+      theme.themeColor,
+    )}
 `;
 const UploadCotainer = styled.div`
-  ${({ theme }) => theme.mixins.flexBox}
+  ${({ theme }) => theme.mixins.flexBox()}
   gap : ${({ theme }) => theme.spacingLarge};
 `;
 const ImageUploadBox = styled.div`
@@ -136,6 +159,7 @@ const ImageUploadBox = styled.div`
   height: 25rem;
   background-color: ${({ theme }) => theme.lightGrey};
   border: dashed 3px ${({ theme }) => theme.themeColor};
+  margin-right: ${({ theme }) => theme.spacingLarge};
 `;
 
 const ImgUpload = styled.input`
@@ -150,9 +174,13 @@ const ImgUpload = styled.input`
 
 const NoticeContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox('column', 'start', 'space-between')}
-  width: 35rem;
+  width: 40rem;
   height: 25rem;
   overflow: hidden;
+  @media (max-width: ${({ theme }) => theme.bpSmall}) {
+    height: 35rem;
+    width: 38rem;
+  }
 `;
 const NoticeTitle = styled.h3`
   ${({ theme }) =>
@@ -164,7 +192,7 @@ const Text = styled.p`
   ${TextTwo}
 `;
 const Highlight = styled.span`
-  font-weight: ${({ theme }) => theme.weightSemiBold};
+  font-family: NanumSquareNeo-Bold;
 `;
 const SearchImg = styled.div`
   position: absolute;

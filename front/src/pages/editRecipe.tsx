@@ -12,7 +12,8 @@ import Auth from '../hoc/Auth';
 
 const EditRecipe = () => {
   const { recipeId } = useParams();
-  const { data: recipeDetail } = useRecipeDetail(recipeId!);
+  if (recipeId === undefined) return null;
+  const { data: recipeDetail } = useRecipeDetail(recipeId);
   const {
     name,
     serving,
@@ -69,7 +70,7 @@ const EditRecipe = () => {
       cookingTime: String(cookingTime),
       category: category,
       method: method,
-      ingredients: JSON.parse(ingredient),
+      ingredients: ingredient,
       instructions: instructions,
     },
     resolver: yupResolver(editRecipeSchema),
@@ -77,7 +78,7 @@ const EditRecipe = () => {
   const { formState } = methods;
   const {
     recipeUpdateMutation: { mutate: editRecipe },
-  } = useEditRecipe(recipeId!, formState);
+  } = useEditRecipe(recipeId, formState);
 
   return (
     <Auth>
@@ -97,4 +98,7 @@ export default EditRecipe;
 const RecipeFormContainer = styled.article`
   width: 110rem;
   margin: auto;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 70rem;
+  }
 `;

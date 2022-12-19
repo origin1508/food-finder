@@ -6,7 +6,10 @@ import { FormState } from 'react-hook-form';
 import useSetAlert from '../useSetAlert';
 import imageResize from '../../util/imageResize';
 import { createRecipeRequest } from '../../api/recipeFetcher';
-import { RecipeFormDefaultValue } from '../../types/recipe/recipeFormType';
+import {
+  RecipeFormDefaultValue,
+  Step,
+} from '../../types/recipe/recipeFormType';
 import { FORM_FIELDS } from '../../constants/recipeForm';
 
 const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
@@ -44,16 +47,25 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
       ingredients,
       instructions,
     } = data;
+
+    const steps = Array<Step>();
     const stepImages = Array<File>();
-    const recipeThumbnail = await imageResize(mainImage.files[0]);
-    const steps = await instructions.reduce(async (acc, cur, idx) => {
-      const prevResult: {} = await acc.then();
-      const { description, image } = cur;
-      const compressedImage = await imageResize(image[0]).then();
-      compressedImage && stepImages.push(compressedImage);
-      return { ...prevResult, [idx + 1]: description };
-    }, Promise.resolve({}));
     const formData = new FormData();
+    const recipeThumbnail = await imageResize(mainImage.files[0]);
+    await (async () => {
+      for (const [index, instruction] of instructions.entries()) {
+        const { description, image } = instruction;
+        const compressedImage = await imageResize(image[0]);
+        compressedImage && stepImages.push(compressedImage);
+        const step = <Step>{};
+        step.step = index + 1;
+        step.content = description;
+        steps.push(step);
+      }
+    })();
+    steps.sort((a, b) => {
+      return a.step - b.step;
+    });
     formData.append('name', name);
     formData.append('method', method);
     formData.append('category', category);
@@ -62,10 +74,9 @@ const useCreateRecipe = (formState: FormState<RecipeFormDefaultValue>) => {
     formData.append('cookingTime', cookingTime);
     formData.append('recipeThumbnail', recipeThumbnail);
     stepImages.forEach((stepImage) => {
-      formData.append('stepImages', stepImage);
+      formData.append('stepImages', stepImage, stepImage.name);
     });
     formData.append('steps', JSON.stringify(steps));
-
     return await createRecipeRequest(formData);
   };
 

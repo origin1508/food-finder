@@ -24,14 +24,14 @@ const CommentEdit = ({ comment, setIsEdit, recipeId }: CommentEdit) => {
       <Input
         defaultValue={comment.content}
         as="textarea"
-        {...register!('comment')}
+        {...register('comment')}
       />
 
       <ButtonContainer>
         <SubitButton type="submit">수정</SubitButton>
-        <CancleButton type="button" onClick={() => setIsEdit(false)}>
+        <CancelButton type="button" onClick={() => setIsEdit(false)}>
           취소
-        </CancleButton>
+        </CancelButton>
       </ButtonContainer>
     </InputForm>
   );
@@ -59,7 +59,7 @@ const SubitButton = styled.button`
   border-radius: 1rem;
   border: 1px solid ${({ theme }) => theme.darkGrey};
 `;
-const CancleButton = styled.button`
+const CancelButton = styled.button`
   ${({ theme }) => theme.mixins.flexBox()};
   width: 5rem;
   height: 5rem;

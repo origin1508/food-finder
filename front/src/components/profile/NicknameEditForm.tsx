@@ -8,6 +8,7 @@ const NicknameEditFrom = ({
   register,
   onSubmit,
 }: UserInfoEdit) => {
+  if (register === undefined) return null;
   return (
     <UserInfoUpdateForm onSubmit={onSubmit}>
       <Label htmlFor="name">Name</Label>
@@ -15,15 +16,15 @@ const NicknameEditFrom = ({
         <Input
           type="text"
           placeholder="Your Name"
-          defaultValue={user?.nickname!}
-          {...register!('nickname', {
+          defaultValue={user?.nickname}
+          {...register('nickname', {
             minLength: {
               value: 3,
               message: '닉네임을 세글자 이상 입력하세요!',
             },
           })}
         />
-        <ErrorMessage>{errors!.nickname?.message}</ErrorMessage>
+        <ErrorMessage>{errors?.nickname?.message}</ErrorMessage>
       </InputContainer>
       <Button type="submit">Update</Button>
       <Button

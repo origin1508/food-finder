@@ -19,6 +19,7 @@ export const theme = {
   fontLarge: '4rem',
   fontMoreMeium: '3.5rem',
   fontMedium: '2.8rem',
+  fontMedium2: '2.4rem',
   fontSemiMedium: '2.0rem',
   fontRegular: '1.6rem',
   fontSemiRegular: '1.4rem',
@@ -39,6 +40,12 @@ export const theme = {
   spacingRegular: '1rem',
   spacingSmall: '0.5rem',
   spacingSmallest: '0.3rem',
+
+  bpLargest: '75em', //1200px
+  bpLarge: '68.75em', //1000px
+  bpMedium: '50.25em', // 800px
+  bpSmall: '40.5em', // 640px
+  bpSmallest: '31em', // 500px
 
   absoluteCenter: css`
     position: absolute;

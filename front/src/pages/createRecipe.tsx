@@ -77,4 +77,7 @@ export default CreateRecipe;
 const RecipeFormContainer = styled.article`
   width: 110rem;
   margin: auto;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 70rem;
+  }
 `;

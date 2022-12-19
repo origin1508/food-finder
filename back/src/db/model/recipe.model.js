@@ -430,6 +430,7 @@ export default {
     views,
     cookingTime,
     dishId,
+    userId,
   }) {
     const updatedRecipeInformation = await Recipe.update(
       {
@@ -443,7 +444,12 @@ export default {
         views,
         cooking_time: cookingTime,
       },
-      { where: { dish_id: Number(dishId) } }
+      {
+        where: {
+          dish_id: Number(dishId),
+          user_id: Number(userId),
+        },
+      }
     );
 
     return updatedRecipeInformation;
@@ -455,36 +461,63 @@ export default {
         content,
         image_url: imageUrl,
       },
-      { where: { step_id: Number(stepId) } }
+      {
+        where: {
+          step_id: Number(stepId),
+        },
+      }
     );
 
     return updatedStep;
   },
 
-  async updateRecipeComment({ commentId, content }) {
+  async updateRecipeComment({ commentId, content, userId }) {
     const updatedComment = await RecipeComment.update(
       {
         content,
       },
-      { where: { comment_id: Number(commentId) } }
+      {
+        where: {
+          comment_id: Number(commentId),
+          user_id: Number(userId),
+        },
+      }
     );
     return updatedComment;
   },
 
-  async deleteRecipeInformation({ dishId }) {
+  async updateStar({ dishId, score, userId }) {
+    const updatedStar = await RecipeStar.update(
+      {
+        score,
+      },
+      {
+        where: {
+          dish_id: Number(dishId),
+          user_id: Number(userId),
+        },
+      }
+    );
+
+    return updatedStar;
+  },
+
+  async deleteRecipeInformation({ dishId, userId }) {
     const deletedRecipe = await Recipe.destroy({
       where: {
         dish_id: Number(dishId),
+        user_id: Number(userId),
       },
     });
 
     return deletedRecipe;
   },
 
-  async deleteComment({ commentId }) {
+  async deleteComment({ commentId, userId }) {
     const deletedComment = await RecipeComment.destroy({
       where: {
         comment_id: Number(commentId),
+        user_id: Number(userId),
       },
     });
 

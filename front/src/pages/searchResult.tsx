@@ -8,7 +8,7 @@ import BasePageComponent from '../hoc/BasePageComponent';
 
 const SearchResult = () => {
   const [searchParams] = useSearchParams();
-  const keyword = searchParams.get('keyword');
+  const keyword = searchParams.get('keyword') || '';
   const { recipeSearch } = useSearchForm();
   useEffect(() => {
     if (keyword && keyword !== null) {
@@ -22,8 +22,8 @@ const SearchResult = () => {
     <BasePageComponent>
       <SearchResultWrapper>
         <SearchResultContainer>
-          <RecipeResult keyword={keyword!} />
-          <PlaceResult keyword={keyword!} />
+          <RecipeResult keyword={keyword} />
+          <PlaceResult keyword={keyword} />
         </SearchResultContainer>
       </SearchResultWrapper>
     </BasePageComponent>
@@ -38,7 +38,10 @@ const SearchResultWrapper = styled.article`
 `;
 
 const SearchResultContainer = styled.section`
-  width: calc(24vh * 5 + 20rem);
+  width: 80%;
   height: 100%;
   margin: 0 auto;
+  @media (max-width: ${({ theme }) => theme.bpLargest}) {
+    width: 100%;
+  }
 `;

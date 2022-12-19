@@ -42,13 +42,20 @@ const SearchInput = styled.div`
   border: 1px solid ${({ theme }) => theme.lightDarkGrey};
   border-radius: 0.5rem;
   background-color: ${({ theme }) => theme.mainWhite};
+
+  @media (max-width: ${({ theme }) => theme.bpMedium}) {
+    width: 12rem;
+    padding: 1rem 5rem 1rem 1rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    height: 6rem;
+  }
 `;
 
 const SearchIcon = styled.div`
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${({ theme }) => theme.mixins.flexBox()}
   width: 3rem;
   height: 100%;
   top: 0;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
@@ -12,14 +12,13 @@ import CustomIcon from '../components/icons/CustomIcon';
 import { theme } from '../styles/theme';
 import { PATH } from '../customRouter';
 import { getRecipesCardInfo } from '../api/recipeFetcher';
-import { categoryValue, methodValue } from '../atom/filter';
 import { RecipeCollectCard } from '../types/recipe/recipeCardType';
 import LoadingCycle from '../components/alert/Loader';
 
 const CollectRecipes = () => {
   const navigate = useNavigate();
-  const [category, setCategory] = useRecoilState(categoryValue);
-  const [method, setMethod] = useRecoilState(methodValue);
+  const [category, setCategory] = useState('전체');
+  const [method, setMethod] = useState('전체');
   const { categoryList, methodList } = filterList;
   const { ref, inView } = useInView();
 
@@ -104,6 +103,7 @@ const CollectRecipes = () => {
                     channelUuid={recipe.dishId}
                     views={recipe.views}
                     likes={recipe.likes}
+                    creator={recipe.writer.nickname}
                     onClickDetailPage={() => handleClickDetail(recipe.dishId)}
                     size="30"
                   ></RecipeCard>
@@ -112,7 +112,11 @@ const CollectRecipes = () => {
             ))}
           </Wrap>
         </RecipeCards>
-        {isFetchingNextPage ? <LoadingCycle /> : <Div ref={ref}></Div>}
+        {isFetchingNextPage ? (
+          <LoadingCycle position="absolute" />
+        ) : (
+          <Div ref={ref}></Div>
+        )}
       </CollectRecipesContainer>
     </BasePageComponent>
   );
@@ -138,6 +142,18 @@ const Wrap = styled.div`
   flex-wrap: wrap;
   ${({ theme }) => theme.mixins.flexBox('row', 'center', 'start')}
   gap: 4.3vh;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    ${({ theme }) => theme.mixins.flexBox()}
+    width: 100vh;
+  }
+
+  @media (max-width: ${({ theme }) => theme.bpMedium}) {
+    width: 90vh;
+  }
+
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    width: 70vh;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -147,6 +163,15 @@ const FilterContainer = styled.div`
   padding: 3rem 0;
   border-bottom: 1px solid ${({ theme }) => theme.darkGrey};
   gap: 2rem;
+  @media (max-width: ${({ theme }) => theme.bpLarge}) {
+    width: 100vh;
+  }
+  @media (max-width: ${({ theme }) => theme.bpMedium}) {
+    width: 70vh;
+  }
+  @media (max-width: ${({ theme }) => theme.bpSmallest}) {
+    width: 50vh;
+  }
 `;
 const Filter = styled.div`
   ${({ theme }) => theme.mixins.flexBox}
